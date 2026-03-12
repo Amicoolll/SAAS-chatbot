@@ -3,21 +3,24 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
 
+from app.core.deps import get_tenant_user
 from app.db.session import get_db
 from app.db.models_chat import Conversation, Message
 
 router = APIRouter(tags=["Conversations"])
 
+
 class CreateConversationReq(BaseModel):
     title: str | None = None
+
 
 @router.post("/conversations")
 def create_conversation(
     req: CreateConversationReq,
-    tenant_id: str = "demo_tenant",
-    user_id: str = "demo_user",
+    tenant_user: tuple[str, str] = Depends(get_tenant_user),
     db: Session = Depends(get_db),
 ):
+    tenant_id, user_id = tenant_user
     conv = Conversation(
         tenant_id=tenant_id,
         user_id=user_id,
@@ -30,11 +33,11 @@ def create_conversation(
 
 @router.get("/conversations")
 def list_conversations(
-    tenant_id: str = "demo_tenant",
-    user_id: str = "demo_user",
+    tenant_user: tuple[str, str] = Depends(get_tenant_user),
     db: Session = Depends(get_db),
     limit: int = 30,
 ):
+    tenant_id, user_id = tenant_user
     rows = (
         db.query(Conversation)
         .filter(Conversation.tenant_id == tenant_id, Conversation.user_id == user_id)
@@ -47,11 +50,11 @@ def list_conversations(
 @router.get("/conversations/{conversation_id}/messages")
 def get_messages(
     conversation_id: str,
-    tenant_id: str = "demo_tenant",
-    user_id: str = "demo_user",
+    tenant_user: tuple[str, str] = Depends(get_tenant_user),
     db: Session = Depends(get_db),
     limit: int = 20,
 ):
+    tenant_id, user_id = tenant_user
     # ensure conversation belongs to user+tenant
     conv = db.query(Conversation).filter(
         Conversation.id == conversation_id,

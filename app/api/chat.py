@@ -1,7 +1,9 @@
 import os
 import json
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
+
+from app.core.deps import get_user_id
 from app.services.openai_client import chat_with_context
 from app.services.storage import list_files_recursive
 
@@ -10,11 +12,11 @@ router = APIRouter()
 
 class ChatRequest(BaseModel):
     question: str
-    doc_hint: str | None = None  # <-- NEW
+    doc_hint: str | None = None
 
 
 @router.post("/chat")
-def chat(req: ChatRequest, user_id: str = "demo_user"):
+def chat(req: ChatRequest, user_id: str = Depends(get_user_id)):
     base_dir = os.path.join("data", f"user_{user_id}")
     chunks_dir = os.path.join(base_dir, "chunks")
 

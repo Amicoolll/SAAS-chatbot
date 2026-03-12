@@ -13,8 +13,6 @@ from app.api.chat_pg import router as chat_pg_router
 from app.api.agents import router as agents_router
 from app.db import models_chat
 from app.api.conversations import router as conversations_router
-
-
 app = FastAPI(title="Enterprise Drive Chatbot")
 
 app.include_router(drive_oauth_router)
