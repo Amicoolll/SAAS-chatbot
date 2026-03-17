@@ -27,5 +27,8 @@ class Settings(BaseSettings):
     DEFAULT_TENANT_ID: str = "demo_tenant"
     DEFAULT_USER_ID: str = "demo_user"
 
+    # CORS: comma-separated origins, e.g. "http://localhost:3000,https://myapp.com" or "*" for all (dev)
+    CORS_ORIGINS: str = "*"
+
 
 settings = Settings()
