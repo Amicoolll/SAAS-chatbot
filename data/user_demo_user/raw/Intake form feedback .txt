@@ -1,0 +1,42 @@
+﻿[12:07 am, 23/4/2025] Dr. John: Hi Amit:  I am  testing the ARCS Forms, and I find the following functions needed.
+[12:07 am, 23/4/2025] Dr. John: ARC Forms
+•        Need to be able to divide by section 
+o        Restart the starting question #
+        i.e. the first question of the first section will be Question 1 for that section
+•        Need to be able to post a statement section without 
+o        Like a consent to treatment statement, then patient has to click Agree or Disagree button.
+[12:46 am, 23/4/2025] Dr. John: Also, Date format is still India format, not what we use here,
+we need DOB: 11/30/1968
+
+
+  
+
+
+
+
+
+
+
+
+
+[7:41 pm, 23/4/2025] Dr. John: when Other is chosen:  there needs to be field for patients to type in what "other" is?  And they typed in information is what needs to exported to Excel,
+[7:41 pm, 23/4/2025] Dr. John: I am making a Excel file to pull all the data into a format I can use and test forms at the same time.
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+ARCS Forms, when I upload a image, it's huge, not scaleable. I need to be able to make it the correct size

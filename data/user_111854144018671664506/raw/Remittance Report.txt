@@ -1,0 +1,433 @@
+﻿Outline:
+1. Executive Summary 
+2. Introduction: Background & context, objectives and scope [a]
+3. Trends in Labour Migration from India 
+[b][c]3.1 Global Demographic shifts and Labour force dynamics 
+3.2 Destination Countries & Emerging Markets 
+3.3 Profile of Indian Emigrants (Skill categories, destination countries, sectors, etc.) 
+3.4 Understanding the Migration & Recruitment Landscape in India 
+4. Remittance Profile 
+4.1 Top remittance-sending countries to India
+4.2 Sectors and job profiles driving remittances to India 
+4.3 Contribution to India’s Economy (States receiving the highest remittances, the contribution of remittances to socio-economic development, etc.) 
+5. Interconnections: Migration, Remittances and Recruitment 
+5.1 Regulatory Framework of Recruitment from India
+5.2 Skill Development Initiatives and Sustainable Recruitment Initiatives 
+5.3 Challenges in the Recruitment Industry 
+5.4 Regional & Global Comparisons (other source countries like the Philippines and how they deal with remittances and recruitment) 
+6. Way Forward [d]
+6.1 Strategies for Industry Stakeholders 
+6.2 Policy Recommendations for Government & Regulatory Bodies 
+6.3 FIMCA’s commitment to Sustainable Recruitment 
+
+
+Introduction: Background & context, objectives and scope
+
+
+Migration: A Lifeline to Opportunity
+
+
+Migration is an enduring, cross-species phenomenon deeply ingrained in life's survival strategy, from the flight of birds to the movement of animals and, of course, human mobility. For humans, migration holds profound significance as a livelihood strategy and an integral component of our production systems. According to the World Migration Report[e], there are a total of 281 million people living outside the country of their birth constituting 3.6 percent of the world population. India has the largest chunk among this with a total of 18 million migrants. 
+Understanding Migration Waves
+
+
+Post-independence, India's migration story can be divided into three distinct waves: the 1960s-70s, 1990s, and the period after 2010.[f] The early movement saw professionals relocating to the USA, UK, and Europe, followed by a wave of semi-skilled workers heading to Gulf countries in the late 1970s. The 1990s ushered in a new chapter, with a surge of Indian laborers fulfilling the demands of the construction boom, primarily in GCC nations like UAE, Kuwait, Qatar, Saudi Arabia. The ongoing third wave comprises a diverse mix of professionals, semi-skilled, and skilled labourers, along with students seeking education abroad. This evolving migration landscape reflects India's diverse workforce and their global aspirations.
+Labour Flows Post COVID-19 [g]
+The COVID-19 pandemic brought about a slowdown of global labour migration in 2020, impacting various regions worldwide. However, in 2022, India witnessed a substantial resurgence in labour migration, marking a significant departure from the subdued numbers during the pandemic. Deployments from India more than tripled in 2022, with a 181% [h]increase compared to the previous year. This surge in worker outflows amounted to 373,000 deployments, signifying a return to pre-COVID-19 levels. 
+The resurgence of labour migration from India can be attributed to several key factors. As the global economy gradually bounced back from the impact of the pandemic, there was an increase in demand for foreign labour in destination countries. This resurgence in demand became a significant driver of labour outflows from India. The improved economic conditions in destination countries, especially during the post-pandemic recovery phase, created favourable prospects for Indian migrants in terms of employment opportunities and wages. This economic recovery in host nations played a pivotal role in encouraging Indian workers to seek opportunities abroad.
+Furthermore, there was a shift in the preferences of Indian labour migrants[i] regarding their destination countries. While GCC countries continued to be important destinations, there was a notable increase in the number of Indian workers heading to other regions, including Europe, the United Kingdom, and various Asian countries. Bilateral agreements and improvements in labour policies also contributed significantly to the increased deployment of Indian workers to international destinations.
+ Destination Countries: A Global Indian Diaspora
+India's large diaspora is distributed across the world[j] with the largest being the United Arab Emirates (3.5 million), the United States of America (2.7 million) and Saudi Arabia (2.5 million). Other countries hosting large numbers of Indian migrants included Australia, Canada, Kuwait, Oman, Pakistan, Qatar and the United Kingdom, the report said. The UAE-India corridor is the third busiest migration corridor in the world. These countries have been the traditional destination for the movement of migrants since the start of the 1970s. However there has been a shift to newer destinations in the 2000s to countries such as Germany, New Zealand and Australia.
+The Indian diaspora, in that sense, primarily resides in countries such as the United States, Saudi Arabia, the United Arab Emirates, Oman, Kuwait, Qatar, the United Kingdom, Australia, and Canada. India's newer diaspora[k], consisting of skilled and educated migrants, is increasingly choosing to settle in major metropolitan areas in Europe, North America, and Oceania. Meanwhile, a significant portion of India's workforce migrates to West Asia and East Asia, with notable Indian migrant worker communities in places like Singapore, Malaysia, and Thailand. In recent times, Japan, Taiwan Province of the People's Republic of China, and the Republic of Korea have also become destinations for skilled Indian migrant workers. India also stands as the world's largest recipient of remittances, ranking as the number one country in terms of remittance inflows. [l]
+Who is Moving And Why: A Varied Profile of Indian Migrants [m] 
+There are a total of 18 million migrants , going to different regions of the world , the motivation varies from group to group and from destination to destination.The profile of these migrants from India varies and can be categorised into three major groups:
+Highly Skilled /Skilled Professionals - It largely consists of IT and other Tech professionals, doctors, academics, business Grads. Their destination is largely Western countries primarily USA, Canada, Uk and other European countries. The motivation of the migrants is better pay, better work exposure, better standard of living and they are motivated more to obtain a permanent residency in the host countries and eventually settle down  
+Skilled/semi skilled workers - It largely consists of semi skilled workers such as construction workers, technicians, house helps, automobile drivers, service sector workers etc . They primarily move to Gulf countries, Canada, Australia, but the largest bulk moves to Gulf countries; about 8 million migrants from India work in GCC countries. About 70 percent of these are involved in semi-skilled jobs whereas the other third is involved in skilled work such as IT professionals, hospitality sector workers .
+Migrating for education - The emerging trend in migration from India has been the growth of students seeking to get an education from abroad. A record 750,000 students moved to 240 countries from India for college education in 2022, a total of 13.2 lakh students are currently studying out of India, USA being the top destination attracting 460,000 students, followed by Canada where 183,000 students moved to pursue education followed by Gulf countries, UK, Australia. The bulk of students moving abroad to study are from Andhra Pradesh, Punjab and Maharashtra. 
+The largest source of migrant population in India comes from four states Kerala, Tamil Nadu, Uttar Pradesh, and Biha, out of which the former two is the source of skilled, semi skilled and highly skilled workers, while the latter two are the source of unskilled semi skilled workers primarily working blue collar jobs . 
+Destination side story: need for migrant labour due to demographic changes, in-demand sectors, etc. 
+The positive economic impact on immigrant sending countries is, with the exception of the possible impacts of phenomena like the ‘Brain Drain’ largely accepted. Remittances play a crucial role in sustaining the economies of many recipient countries. They provide foreign exchange, strengthen the financial sector, and attract further investment. Moreover, remittances directly benefit the recipients by diversifying household incomes, offering insurance against risk, enabling access to education and training, and providing capital for small businesses.
+The economic impact of immigration on receiving countries, however, remains a contentious topic. Dubbed, commonly, as the immigration debate, it often centres on culture, identity, and the economy. At the most basic level, opponents argue that immigrants take jobs, depress wages, and may lead to ethnic conflicts. Proponents, on the other hand, contend that immigrants often perform jobs that native-born individuals avoid, stimulate economic growth by being consumers, and contribute positively to fiscal balances. They also emphasise that immigration can facilitate skill transfer and cultural enrichment.
+A prominent point of discussion in this debate is also the demographic challenges faced by many developed nations, especially in the global North, where fertility rates have fallen below replacement levels. This has led to declining populations and an ageing citizenry. Population ageing poses significant challenges for developed countries, affecting labour markets and straining social security systems. A larger influx of immigrants, particularly young individuals, can mitigate population decline, maintain a viable labour force, improve age dependency ratios, and lead to positive fiscal outcomes. While immigration might not automatically resolve demographic challenges, proactive policies that encourage and manage immigration can play a crucial role in addressing these issues.
+  
+
+For instance, the United States has consistently been the leading sender of remittances globally since at least 1990, according to available statistics. It is also the country with the highest number of immigrants. In the year 2021, international migrants residing in the United States sent a total of $73 billion in remittances to recipients around the world[n]. In 2021, the United States also faced historic levels of inflation. Persistent worker shortages, especially in immigrant labour, were identified by economists as a significant contributor to inflation. This is because, like other countries of the Global North,[o] the US working-age population is growing only with immigration. This means that reduction in migration inflows, as was seen during the pandemic or due to restrictive immigration policies, led to an imbalance in the labour force not only in the short term but also in the mid to long term.
+Labour shortages are immediately felt in industries, both skilled and unskilled, that are predominantly populated by immigrants and in the long term could be felt systematically, in the functioning of the social security systems of the nations. While most migration is not solely driven by workforce needs, immigrants continue to play a substantial role in some of the most dynamic sectors of the receiving nations’ economy. 
+For instance, in 2014, they accounted for 22% of new entrants into rapidly growing occupations in the United States and 15% in Europe. These sectors included healthcare and STEM occupations, showcasing immigrants' contributions to crucial areas of expertise. Conversely, immigrants constituted a significant proportion of newcomers entering occupations on the decline, accounting for 24% in Europe and 28% in the United States. In Europe, these declining fields included craft and related trades workers, along with machine operators and assemblers. Meanwhile, in the United States, these roles were primarily found in production, installation, maintenance, and repair. In all these instances, immigrants played a crucial role in alleviating labour shortages by filling positions that domestic workers often deemed unattractive or offering limited long-term career prospects.
+Remittance profile: background of Remittances to India, please add the data sources and write on the remittance trends, from where remittances are being sent, high remittance receiving states in India
+Remittances
+https://www.pewresearch.org/short-reads/2022/12/16/key-facts-about-recent-trends-in-global-migration/ 
+In recent years, remittances have emerged as a critical component of India's economic landscape. The latest data from the Ministry of Finance reveals that India received an unprecedented amount of foreign inward remittances, reaching $89,127 million in the fiscal year 2021-22. This figure reflects a remarkable surge in remittances, underscoring their vital contribution to India's economy.
+Over the past half-decade, a clear and consistent upward trajectory in remittances to India has been observed. To put this into perspective, in the fiscal year 2017-18, India received $69,129 million in foreign inward remittances. This figure rose to $76,396 million in 2018-19. By 2019-20, remittances had surged to $83,195 million. Despite the challenges posed by the global pandemic in 2020-21, remittances still amounted to $80,185 million. This was followed by a jump to $89,127 million in the post-pandemic period. 
+Year
+	Inward Remittances
+(US $ million)
+	2017-18
+	69,129
+	2018-19
+	76,396
+	2019-20
+	83,195
+	2020-21
+	80,185
+	2021-22
+	89,127
+	
+
+According to the numbers published in the World Bank’s Migration and Development Brief, in 2022, India was the largest global recipient with inflows of $111 billion in 2022. Remittances to India accounted for 60% of the inflows to South Asia and 3.3% of the country’s GDP.  The report underscored that India's remittance levels in 2022 were driven by a combination of factors. These include the substantial contributions of high-skilled migrants in high-income nations (which account for approximately 36% of India’s remittances), the favourable economic conditions prevailing in these destination countries, the impact of elevated energy prices benefiting less-skilled Indian migrants in the GCC countries, and the proactive measures taken by GCC governments to address food price inflation. This surge in remittances not only underscores the critical role played by the Indian diaspora in supporting the country's economy but also highlights the adaptability and resilience of migrants in response to shifting global economic dynamics.
+The Reserve Bank of India also conducted its fifth Survey on Remittances for the year 2020-21, focusing mostly on the impact that the COVID-19 pandemic had had on remittance inflows. The survey revealed significant shifts in the geographical and socio-economic composition of remittances since the pandemic. Notably, the share of remittances from the GCC region, which has historically accounted for more than 50 percent of India's inward remittances, declined to around 30 percent in 2020-21. 
+Conversely, advanced economies, particularly the United States, the United Kingdom, and Singapore, emerged as vital sources of remittances, contributing to 36 percent of the total remittances in 2020-21. The United States surpassed the UAE as the top source country, accounting for 23 percent of total remittances. This is significant to consider as the labour profiles of migrants in these regions differ.
+Table A5: Country-wise Share in Inward Remittances, 2020-21
+	Source Country
+	Share in Total Remittances (Per cent)
+	United States
+	23.4
+	United Arab Emirates
+	18.0
+	United Kingdom
+	6.8
+	Singapore
+	5.7
+	Saudi Arabia
+	5.1
+	Kuwait
+	2.4
+	Oman
+	1.6
+	Qatar
+	1.5
+	Hong Kong
+	1.1
+	Australia
+	0.7
+	Malaysia
+	0.7
+	Canada
+	0.6
+	Germany
+	0.6
+	Italy
+	0.1
+	Philippines
+	0.0
+	Nepal
+	0.0
+	Others
+	31.6
+	Total
+	100.0
+	Source: RBI Remittances Survey, 2021.
+	
+
+In terms of the recipient states within India, the traditional hubs for remittances, such as Kerala, Tamil Nadu, and Karnataka, experienced a significant decline in their share of total remittances since 2016-17, accounting for only 25 percent of the total in 2020-21. During this period, Maharashtra emerged as the leading recipient state, surpassing Kerala in terms of remittance inflows. The report attributes this shift to several factors, including changes in wage differentials, shifts in occupational patterns, and the influx of low-wage semi-skilled workers from other Indian states and Asian countries. Furthermore, states like Uttar Pradesh, Bihar, Orissa, and West Bengal witnessed an increase in migration to Gulf countries, with a significant portion of approved emigration clearances in 2020 being allocated to these states.
+Table A6: State-wise Share in Inward Remittances, 2020-21
+	Destination State
+	Share in total remittances (Per cent)
+	Maharashtra
+	35.2
+	Kerala
+	10.2
+	Tamil Nadu
+	9.7
+	Delhi
+	9.3
+	Karnataka
+	5.2
+	Andhra Pradesh
+	4.4
+	Uttar Pradesh
+	3.7
+	Gujarat
+	3.2
+	Punjab
+	3.0
+	Jharkhand
+	1.9
+	Bihar
+	1.4
+	West Bengal
+	1.4
+	Rajasthan
+	1.2
+	Haryana
+	1.2
+	Goa
+	1.1
+	Tripura
+	1.1
+	Uttaranchal
+	0.7
+	Madhya Pradesh
+	0.5
+	Orissa
+	0.5
+	Chandigarh
+	0.4
+	Jammu and Kashmir
+	0.3
+	Chhattisgarh
+	0.3
+	Pondicherry
+	0.2
+	Assam
+	0.2
+	Himachal Pradesh
+	0.1
+	Diu
+	0.1
+	Arunachal Pradesh
+	0.1
+	Others
+	3.3
+	Total
+	100.0
+	Note: "Others" includes states with negligible shares including Daman, Sikkim, Manipur, Dadra Nagar Haveli, Nagaland, Meghalaya, Mizoram, Andaman and Nicobar, Lakshadweep and those remittances for which banks could not identify the specific destination.
+Source: RBI Remittances Survey, 2021
+	
+
+
+
+Through interviews with FIMCA members, we'll have additional insights on which sectors remittance sending migrants are concentrated in  
+
+
+Remittance and recruitment industry 
+
+
+________________
+
+
+
+
+Introduction: Background & context, objectives, and scope
+In India, the dynamics of remittances have evolved significantly over the years. The influx of financial resources from the Indian diaspora working abroad has become a cornerstone of the country's economic development. A crucial entity in this narrative is the recruitment industry, represented by organisations such as the Federation of Indian Recruiting Agency and Organization (FIMCA). These agencies serve as pivotal intermediaries in the migration journey of countless Indian workers, assisting them in navigating the complex processes of securing employment abroad, obtaining necessary visas, and matching their skills with job opportunities.
+This report, in that regard, aims to delve into India's remittance profile and highlight the substantial role that the recruitment industry plays within this context. In doing so, it also aims to highlight the challenges faced by this sector, characterised specifically by the presence of unlicensed agents and fraudulent recruitments. At the forefront, the report provides a comprehensive profile of migration and remittance flows in India, shedding light on the quantum of remittances, the regions from which migration predominantly originates, and the sectors in which Indian workers are primarily employed. This is followed by a brief account of the regulatory framework for emigration in the country and the challenges it faces and the role of recruiting agents in facilitating the process.
+By exploring India's remittance profile and the role of the recruitment industry within this context, this paper seeks to shed light on the profound implications of labour migration for India's economic growth and the significance of industry regulation. It underlines the transformative role played by remittances in the nation's development while emphasising the importance of the role of the recruitment industry in protecting the interests of Indian workers pursuing opportunities abroad.
+
+
+The positive economic impact on immigrant sending countries is, with the exception of the possible impacts of phenomena like the ‘Brain Drain’ largely accepted. Remittances play a crucial role in sustaining the economies of many recipient countries. They provide foreign exchange, strengthen the financial sector, and attract further investment. Moreover, remittances directly benefit the recipients by diversifying household incomes, offering insurance against risk, enabling access to education and training, and providing capital for small businesses.
+The economic impact of immigration on receiving countries, however, remains a contentious topic. Dubbed, commonly, as the immigration debate, it often centres on concerns about the loss of culture, identity, and the economy. At the most basic level, opponents argue that immigrants take jobs, depress wages, and may lead to ethnic conflicts. Proponents, on the other hand, contend that immigrants often perform jobs that native-born individuals avoid, stimulate economic growth by being consumers, and contribute positively to fiscal balances. They also emphasise that immigration can facilitate skill transfer and cultural enrichment.
+Proponents also often quote global demographic shifts to support their positions. These discussions are centred around falling fertility rates in the Global North and the asymmetric population growth worldwide, a phenomenon which poses significant challenges for these nations. Ageing populations in the Global North are affecting and have the potential to continue to strain labour markets and social security systems. 
+The argument made here is that a larger influx of immigrants, particularly young individuals, can mitigate population decline, maintain a viable labour force, improve age dependency ratios, and lead to positive fiscal outcomes. While immigration might not automatically resolve demographic challenges, proactive policies that encourage and manage immigration can play a crucial role in addressing these issues.
+One can observe this, for instance, in the case of the United States which has consistently been the leading sender of remittances globally since at least 1990. It is also the country with the highest number of immigrants. In the year 2021, international migrants residing in the United States sent a total of $73 billion in remittances to recipients around the world. In 2021, the United States also faced historic levels of inflation due to persistent worker shortages, especially in immigrant labour.
+This was the case because, like other countries of the Global North, the US working-age population is growing only through immigration. This means that reduction in migration inflows, as was seen during the pandemic or due to restrictive immigration policies, will lead to an imbalance in the labour force not only in the short term but also in the mid to long term.
+Labour shortages are immediately felt in industries, both skilled and unskilled, that are predominantly populated by immigrants. In the long term its effects could be felt systematically, in the functioning of the social security systems of the nations, as is the case with wealthy European nations. While most migration is not solely driven by workforce needs, immigrants continue to play a substantial role in some of the most dynamic sectors of the receiving nations’ economy and can help alleviate the impacts of these demographic shifts. 
+For instance, in 2014, immigrants accounted for 22% of new entrants into rapidly growing occupations in the United States and 15% in Europe. These sectors included healthcare and STEM occupations, showcasing immigrants' contributions to crucial areas of expertise. 
+Conversely, immigrants constituted a significant proportion of newcomers entering occupations on the decline, accounting for 24% in Europe and 28% in the United States. In Europe, these declining fields included craft and related trades workers, along with machine operators and assemblers. Meanwhile, in the United States, these roles were primarily found in production, installation, maintenance, and repair. In all these instances, immigrants played a crucial role in alleviating labour shortages by filling positions that domestic workers often deemed unattractive or offering limited long-term career prospects. 
+This is also the case for GCC countries, which are a major recipient region for migrant workers from South Asia and are largely dependent on this labour to bolster their economic growth. The oil price boom in 1973 triggered a surge in Middle East-bound migration, but factors like declining oil prices, the Gulf War, and project completion have led to a relative decreased demand since the mid-1980s. Even so, migrants currently make up an average of 70 percent of the workforce in the Gulf Cooperation Council (GCC), and they constitute more than 95 percent of employees in the private sector in Qatar and the United Arab Emirates.
+an outlet for surplus labour.
+The Indian diaspora now primarily resides in countries such as the United States, Saudi Arabia, the United Arab Emirates, Oman, Kuwait, Qatar, the United Kingdom, Australia, and Canada. The proportion of Indian migrants relative to the total migrant stock in the GCC region has exhibited an upward trajectory, rising from 23.9% in 1990 to 32% in 2015, before slightly decreasing to 31.1% in 2019. That being said, the Gulf continues to remain one of the primary receiving regions for Indian emigrants, with GCC countries making up 5 of the top 10 destination countries for Indian nationals in 2017. In 2019, GCC countries housed 9 million out of the total 30 million Indian diaspora population. 
+India's newer diaspora, consisting of skilled and educated migrants, is increasingly choosing to settle in major metropolitan areas in Europe, North America, and Oceania. In 2016, the United States received the highest number of Indian nationals among OECD countries, with over 64,000 individuals, followed by Canada and Australia.
+The slowdown of the IT industry has had an impact on skilled workers migrating to the United States. Thousands of Indian IT professionals in the United States are grappling with job losses due to recent layoffs at major tech companies such as Google, Microsoft, and Amazon. The situation is particularly dire for those on H-1B visas, as they must secure new employment within a short 60-day window to remain in the country. This has been further exacerbated by the challenging job market and recruiting process, and the pause in Green Card processing by companies like Google.
+Alternatively, more than 15000 Indian tech workers moved to Canada between April 2022 and March 2023. The rise of remote work, influenced by the COVID-19 pandemic, has been considered to have played a role in driving tech talent away from traditional tech hubs, leading them to seek opportunities in Canada. It is unclear how these numbers will continue to develop in the face of the ongoing diplomatic crisis between the two states. 
+During the COVID-19 pandemic, there was a shift in the preferences of Indian labour migrants regarding their destination countries. Bilateral agreements and improvements in labour policies also contributed significantly to the increased deployment of Indian workers to newer international destinations. While GCC countries continued to be important destinations, there was a notable increase in the number of Indian workers heading to other regions, including Europe, the United Kingdom, and various Asian countries. 
+Within the continent, a significant portion of India's workforce migrates to West Asia and East Asia, with notable Indian migrant worker communities in places like Singapore, Malaysia, and Thailand. In recent times, Japan, Taiwan Province of the People's Republic of China, and the Republic of Korea have also become destinations for skilled Indian migrant workers. 
+The COVID-19 pandemic brought about a slowdown of global labour migration in 2020, impacting various regions worldwide. However, in 2022, India witnessed a substantial resurgence in labour migration, marking a significant departure from the subdued numbers during the pandemic. Deployments from India more than tripled in 2022, with a 181% increase compared to the previous year. This surge in worker outflows amounted to 373,000 deployments, signifying a return to pre-COVID-19 levels. 
+The resurgence of labour migration from India has been attributed to several key factors. As the global economy gradually bounced back from the impact of the pandemic, there was an increase in demand for foreign labour in destination countries. This resurgence in demand became a significant driver of labour outflows from India. The improved economic conditions in destination countries, especially during the post-pandemic recovery phase, created favourable prospects for Indian migrants in terms of employment opportunities and wages. This economic recovery in host nations played a pivotal role in encouraging Indian workers to seek opportunities abroad. Even post-covid India continues to stand as the world's largest recipient of remittances, ranking as the number one country in terms of remittance inflows. 
+Emigrant source states within India have also undergone changes in the past few years. Region-wise data reveals that from 2000 to 2012, there has been a substantial decline in the relative share of emigrants from Southern and Western states, decreasing from 80.14 percent to 42.04 percent. In contrast, the Northern and Eastern states have seen a significant increase, rising from 19.86 percent to 57.96 percent during the same period. These shifts indicate a change in the composition of emigrants, with Uttar Pradesh overtaking Kerala as the leading source state of emigrants by 2012, and even Bihar surpassing Tamil Nadu. 
+Looking ahead, it's essential to consider also the potential long-term impact of demographic changes on emigration from India. Projections for the working-age population between 2011 and 2051 reveal that states like Kerala and Tamil Nadu are expected to experience a decline of around 36.78 percent and 35.95 percent, respectively. In contrast, Uttar Pradesh and Bihar are projected to see substantial growth, with increases of 156.21 percent and 151.95 percent, respectively. These projections suggest that the demographic "push" factor, driven by a rising working-age population, is likely to remain strong in Northern and Eastern states, necessitating continued emigration as an outlet for this surplus labour force.
+
+
+3.3 Profile of Indian Emigrants (Skill categories, destination countries, sectors, etc.)
+Two primary forms of labour migration have historically emerged from India. The first category involves the permanent migration of highly skilled professionals to developed nations like the United States, Canada, the United Kingdom, and Australia. This trend began in the 1950s but gained significant momentum in the 1990s, driven by technological advancements and a growing demand for skilled workers. 
+As of 2021, Indian immigrants exhibited substantially higher educational attainment, with 80% of those aged 25 and older reporting at least a bachelor's degree, compared to roughly one-third of the entire foreign-born and U.S.-born populations. Nearly half of Indian immigrant adults held graduate or professional degrees in 2021, while only 15% of foreign-born and 13% of native-born adults shared this distinction. 
+Additionally, Indian nationals dominated the H-1B visa program for highly skilled foreign workers, accounting for 74% of approvals in FY 2021, and were a significant presence among international students in the U.S., with 21% of enrolled students originating from India. Furthermore, Indian immigrants had a higher labour force participation rate (72%) compared to both all immigrants (66%) and native-born Americans (62%), and they were notably more likely to be employed in management, business, science, and arts occupations.
+The second type of migration revolves around low-skilled and semi-skilled labourers seeking temporary employment contracts, primarily in the Gulf countries, including Bahrain, Kuwait, Oman, Qatar, Saudi Arabia, and the UAE. This migration pattern became more prominent after the oil price booms of 1973/74 and 1979. The Gulf region's extensive infrastructural projects, fuelled by increased oil revenues, led to a rising demand for foreign labour, especially from countries like India and Nepal. Labour migration to the Gulf now encompasses three key skill levels: high-skilled professionals, semi-skilled workers, and low-skilled labourers, with professions ranging from doctors, engineers, and managers to craftsmen, artisans, and construction workers.
+The collection of data on emigrants across these levels presents certain limitations. Official data from regulatory agencies only accounts for emigrants who have interacted with these agencies, potentially leaving out educated and skilled individuals who are often directly employed by foreign companies. Even for those classified as a residuary category under the Act, the available data is restricted to emigration clearances, serving as a proxy for actual emigration. 
+Moreover, the official data lacks essential details, such as the gender and skill or education profiles of potential emigrants who receive clearance, although this information exists in records and files. Actual emigration is tracked by security agencies for their own purposes through embarkation cards filled out by departing passengers in India, but this data is not integrated with emigration clearance information. Consequently, there exists an information gap or imbalance regarding emigrants with varying educational and skill backgrounds.
+That being said, the data that exists about temporary, lower-skilled migration suggests that the recruitment industry has commercialised, and there has been a reduction in the role of public employment services combined with an emergence of intermediaries. These intermediaries have contributed to both opportunities for overseas employment and malpractices, as recognized by South Asian governments, which emphasise the significance of overseas employment promoters and recruitment agencies in facilitating labour migration. In India, one such agency is The Federation of Indian Emigration Management Councils and Associations – FIMCA, a non-profit organisation that represents the interests of government licensed Indian Recruitment Agencies and Emigrants who travel abroad for employment. 
+
+
+3.4 Understanding the Migration & Recruitment landscape in India
+Unskilled and low-skilled labour migration from India usually occurs through three primary avenues. These are: direct employment by foreign companies, engagement with licensed recruitment agencies, and hiring by Indian project employers. Currently, the most common route for low-skilled labour migration from India is through licensed private recruitment agents. 
+In 1983, a new Act, the Emigration Act, was introduced to facilitate and regulate migration from India, primarily targeting unskilled and low-skilled workers, and those classified under the Emigration Check Required (ECR) provision. This Act aimed to oversee overseas employment recruitment by registering and licensing recruiting agencies, imposing penalties for fraudulent recruitment, fixing recruitment fees, and specifying the role of the Protector of Emigrants, who verifies employment contracts and travel documents. Unskilled workers can migrate under this Act through sponsorship by an employer responsible for travel expenses, work permits, and an employment visa. 
+In addition to the Emigration Act of 1983, country-specific bilateral agreements have been established to outline the responsibilities and protections for migrant workers, bridging some regulatory gaps. For instance, the government has introduced executive orders, including the 'minimum referral wage' system since 2010, allowing Indian embassies in destination countries to set wage guidelines for engaging Indian workers, particularly in the ECR countries. 
+With the introduction of the e-migrate system, all emigration clearances are now granted online. e-Migrate integrates various stakeholders, including the Ministry of External Affairs, Ministry of Home Affairs, Indian Missions, foreign employers, and recruiting agents. This ensures efficient collaboration, enhances the ease of doing business, and validates emigrants' passport details at immigration checkpoints, allowing only those with Emigration Clearance to travel. Wage rates in employment contracts must also correspond at least to the minimum referral wages for the specific occupational category, enhancing wage protection and labour conditions. For instance, Saudi Arabia has established minimum referral wages for various skill levels, ensuring compliance with wage standards.
+Currently, licensed recruiting agencies come in two categories: private and a few state government agencies, with the latter mainly in Kerala, Andhra Pradesh, and Tamil Nadu. There were approximately 1,700 private recruiting agencies licensed for overseas employment recruitment in 2019. Of these, around 300-400 were particularly active, with the rest serving as smaller players or offering services to larger agencies. 
+Many agencies have evolved to specialise in labour supply for specific destinations and occupational categories. Additionally, there is a tendency toward concentration and cartelization among agencies, even though sub-agents, not legally permitted under the 1983 Act, are known to operate as part of a wider network. These sub-agents often connect prospective migrants to primary recruiting agents and assist with procedural tasks like obtaining passports and arranging medical tests.
+The government also makes provisions for sending remittances. Workers emigrating for work for more than six months are eligible to open NRI Savings Accounts to facilitate ease of transactions and easy repatriation. These include Non-Resident Ordinary accounts, for which the interest earned is tax deductible at source, and Non-resident External accounts, in which the interest income is exempt from taxes in India.
+Remittance Profile 
+Top remittance-sending countries to India
+In recent years, remittances have emerged as a critical component of India's economic landscape. The latest data from the Ministry of Finance reveals that India received an unprecedented amount of foreign inward remittances, reaching $89,127 million in the fiscal year 2021-22. This figure reflects a remarkable surge in remittances, underscoring their vital contribution to India's economy.
+Over the past half-decade, a clear and consistent upward trajectory in remittances to India has been observed. To put this into perspective, in the fiscal year 2017-18, India received $69,129 million in foreign inward remittances. This figure rose to $76,396 million in 2018-19. By 2019-20, remittances had surged to $83,195 million. Despite the challenges posed by the global pandemic in 2020-21, remittances still amounted to $80,185 million. This was followed by a jump to $89,127 million in the post-pandemic period. 
+Year
+	Inward Remittances
+(US $ million)
+	2017-18
+	69,129
+	2018-19
+	76,396
+	2019-20
+	83,195
+	2020-21
+	80,185
+	2021-22
+	89,127
+	
+According to the numbers published in the World Bank’s Migration and Development Brief, in 2022, India was the largest global recipient with inflows of $111 billion in 2022. Remittances to India accounted for 60% of the inflows to South Asia and 3.3% of the country’s GDP.  The report underscored that India's remittance levels in 2022 were driven by a combination of factors. These include the substantial contributions of high-skilled migrants in high-income nations (which account for approximately 36% of India’s remittances), the favourable economic conditions prevailing in these destination countries, the impact of elevated energy prices benefiting less-skilled Indian migrants in the GCC countries, and the proactive measures taken by GCC governments to address food price inflation. This surge in remittances not only underscores the critical role played by the Indian diaspora in supporting the country's economy but also highlights the adaptability and resilience of migrants in response to shifting global economic dynamics.
+The Reserve Bank of India also conducted its fifth Survey on Remittances for the year 2020-21, focusing mostly on the impact that the COVID-19 pandemic had had on remittance inflows. The survey revealed shifts in the geographical and socio-economic composition of remittances since the pandemic. Notably, the share of remittances from the GCC region, which has historically accounted for more than 50 percent of India's inward remittances, declined to around 30 percent in 2020-21.
+Conversely, advanced economies, particularly the United States, the United Kingdom, and Singapore, emerged as vital sources of remittances, contributing to 36 percent of the total remittances in 2020-21. The United States surpassed the UAE as the top source country, accounting for 23 percent of total remittances. The share of remittances from the US, however, is expected to drop in 2023 due to large scale tech layoffs earlier in the year.
+Country-wise Share in Inward Remittances, 2020-21
+	Source Country
+	Share in Total Remittances (Per cent)
+	United States
+	23.4
+	United Arab Emirates
+	18.0
+	United Kingdom
+	6.8
+	Singapore
+	5.7
+	Saudi Arabia
+	5.1
+	Kuwait
+	2.4
+	Oman
+	1.6
+	Qatar
+	1.5
+	Hong Kong
+	1.1
+	Australia
+	0.7
+	Malaysia
+	0.7
+	Canada
+	0.6
+	Germany
+	0.6
+	Italy
+	0.1
+	Philippines
+	0.0
+	Nepal
+	0.0
+	Others
+	31.6
+	Total
+	100.0
+	Source: RBI Remittances Survey, 2021.
+	
+
+Sectors and job profiles driving remittances to India
+Contribution to India’s Economy (States receiving highest remittances, contribution of remittances to socioeconomic development, etc.) 
+In terms of the recipient states within India, the traditional hubs for remittances, such as Kerala, Tamil Nadu, and Karnataka, experienced a significant decline in their share of total remittances since 2016-17, accounting for only 25 percent of the total in 2020-21. During this period, Maharashtra emerged as the leading recipient state, surpassing Kerala in terms of remittance inflows. This shift is attributed to several factors, including changes in wage differentials, shifts in occupational patterns, and the influx of low-wage semi-skilled workers from other Indian states and Asian countries. Furthermore, states like Uttar Pradesh, Bihar, Orissa, and West Bengal witnessed an increase in migration to Gulf countries, with a significant portion of approved emigration clearances in 2020 being allocated to these states.
+State-wise Share in Inward Remittances, 2020-21
+	Destination State
+	Share in total remittances (Per cent)
+	Maharashtra
+	35.2
+	Kerala
+	10.2
+	Tamil Nadu
+	9.7
+	Delhi
+	9.3
+	Karnataka
+	5.2
+	Andhra Pradesh
+	4.4
+	Uttar Pradesh
+	3.7
+	Gujarat
+	3.2
+	Punjab
+	3.0
+	Jharkhand
+	1.9
+	Bihar
+	1.4
+	West Bengal
+	1.4
+	Rajasthan
+	1.2
+	Haryana
+	1.2
+	Goa
+	1.1
+	Tripura
+	1.1
+	Uttaranchal
+	0.7
+	Madhya Pradesh
+	0.5
+	Orissa
+	0.5
+	Chandigarh
+	0.4
+	Jammu and Kashmir
+	0.3
+	Chhattisgarh
+	0.3
+	Pondicherry
+	0.2
+	Assam
+	0.2
+	Himachal Pradesh
+	0.1
+	Diu
+	0.1
+	Arunachal Pradesh
+	0.1
+	Others
+	3.3
+	Total
+	100.0
+	Note: "Others" includes states with negligible shares including Daman, Sikkim, Manipur, Dadra Nagar Haveli, Nagaland, Meghalaya, Mizoram, Andaman and Nicobar, Lakshadweep and those remittances for which banks could not identify the specific destination.
+Source: RBI Remittances Survey, 2021
+	
+
+The impact of remittances on the development of these states has not been insignificant. For instance, in Kerala, which had traditionally been the largest recipient of remittances, flows from the Gulf region have made a significant impact on its economy, resulting in improved per capita income, and transformed spending habits at the household level. Households receiving remittances were found to allocate a larger portion of their monthly income to non-food durable goods, while also saving and investing in assets, land, buildings, and human capital development, particularly in education and health. This shift in spending patterns was also found to have led to a transition from traditional low-skilled emigration to higher-skilled destinations in the Global North and Oceania resulting in the sustenance of remittance inflows over time. 
+Other studies conducted in Kerala have indicated that Gulf migration in Kerala has brought about significant changes in the labour market, consumption patterns, savings, investment, poverty levels, income distribution, and regional development. It has notably reduced unemployment, led to a shortage of construction workers, upgraded skills, increased wages, and attracted construction workers to the state. 
+This shift has resulted in higher income, improved consumption, and increased asset acquisition for migrant households compared to non-migrant ones, particularly benefiting the impoverished. On the other end, however, it has also driven up prices for land, construction materials, consumer goods, and essential services, affecting non-migrant households, particularly those from lower-income groups. Research on Punjab has shown that remittances have had positive effects on agricultural investment, human capital development, and overall living standards. 
+In a general sense, remittances are found to have a positive impact on the socioeconomic and financial development of developing nations. A study published in 2017 found a substantial long-term positive effect of growing remittance flows on the expansion and strengthening of the financial sector. In the short term, remittances had a favourable impact on financial development, except for low-income nations. 
+These long-term results were found to align with the hypothesis that households receiving international remittances are more inclined to engage with formal financial services for their financial transactions and payments, supporting the notion of "induced financial literacy." Other studies from various countries, including India, agree with these findings. They have consistently demonstrated that remittances have a positive impact on economic growth, poverty reduction, domestic savings, investment, and human capital development, which in turn enhances human development outcomes in recipient countries.
+Interconnections: Migration, Remittances and Recruitment 
+5.1 Regulatory Framework of Recruitment from India
+In India, labour recruitment agencies operate under the authority of the Protector General of Emigrants (PGE) as mandated by the Emigration Act of 1983. These agencies are legally authorised to recruit Indian citizens for overseas employment. These include State Manpower Export Corporations in various states and around 1800 private agencies. The Protector General of Emigrants’ office carefully screens and issues Registration Certificates, ensuring the legitimacy of RAs. Direct recruitment by foreign employers is permitted with a permit from the Protector General of Emigrants.
+However, a parallel network of non-registered agents known as "sub-agents" also facilitates recruitment, particularly in rural areas. Their activities are considered to be illegal under the Act. While regulatory actions have been taken against some recruitment agencies for fraudulent practices, sub-agents have largely operated outside of governance mechanisms. 
+While RAs can charge service fees, the government regulates these charges to prevent exploitation. RAs are required to include their Registration Certificate number when advertising overseas jobs and must obtain necessary employment documents from foreign employers. Emigrants can verify an RA's authenticity through the nearest Protector of Emigrant's office or the official website.
+The Emigrant Act of 1983 also requires emigrants to obtain migration clearance from the PGE. Passports are classified as Emigration Clearance Required (ECR) or Emigration Clearance Not Required (ECNR) based on the individual's level of education, their age, their occupation and other specifications. The PoE then reviews the application and accompanying documents for accuracy. Upon verification, emigration clearance is granted as per the prescribed procedure. If any deficiencies are found, the PoE communicates them in writing to the applicant, Recruiting Agent, or employer, depending on the source of the application. 
+Registered recruitment agents are tasked with managing the formal overseas migration process, but issues like inefficiency and the dominance of private agencies, both registered and non-registered, persist. The Ministry of Overseas Indian Affairs (MOIA) has aimed to reform the migration process through bilateral agreements and efforts to redefine regulation standards and stakeholder roles.
+5.3 Challenges in the Recruitment Industry 
+The growing number of labour migrants from India, coupled with the increasingly complex overseas recruitment processes, presents new challenges for the Government of India in monitoring and regulating various stakeholders involved, including employers, clearance and recruitment agents, and sub-agents. This complexity has given rise to various forms of exploitation in both origin and destination countries, such as travel delays, contract substitution, overcharging, illegal recruitment, and fraud. 
+Skilled workers face relatively lower risks of exploitation compared to semi-skilled and low-skilled workers, who often encounter incidents of fraud and harassment. Despite the high costs and risks, many low- and semi-skilled workers continue to be motivated to migrate for a better life, leading to the proliferation of recruitment businesses and increased migration costs. Consequently, migrant workers pay more money due to additional charges at different recruitment stages, all while accepting subpar working and living conditions in host countries.
+A paper published by the ILO in 2016 on the labour recruitment industry between UAE, Kerala and Nepal highlights this problem. In the study many Indian and Nepalese workers were found to face high recruitment fees, which they often financed through informal loans from family and friends. These workers lacked awareness of government-imposed fee caps and blacklisted agents. Sub-agents, despite being illegal in India, were found to be a trusted source of information and reference for workers in the UAE.
+These agents and sub-agents often charged workers higher fees, citing actual business costs and the risk of workers withdrawing from the process. Employers, on the other hand, lacked accountability in monitoring partner recruitment agencies for illegal or unethical practices, and contract substitution was found to be a common issue. The report attributed these issues in the recruitment process to the lack of coordination between countries of origin and destination.
+These findings corroborate with those of  surveys conducted among potential emigrants, return emigrants, and emigrant households in 2010, which found that the awareness level of migrants about different actors in the labour supply chain was very low. It also highlighted the significant role of social capital, primarily in the form of social networks through relatives and friends, in facilitating emigration from India. Of those surveyed, about 80% of intending emigrants planned to emigrate through social networks, while only 7% sought direct recruitment by foreign employers. Among those seeking emigration clearances directly from the PoE, only 13.5% were ultimately recruited by RAs. 
+Among emigrant households, 73.2% relied on social networks for emigration, and 21% arranged it through private RAs. A significant portion of return emigrants, 70%, used their social capital for emigration. When emigrating through private agents, only 8% did so through registered RAs, while 12.9% emigrated through illegal individual agents. Additionally, 46.7% of emigrant households were uncertain about the legal status of the RAs. 
+Addressing these challenges requires not only strengthening regulations and accountability but also enhancing the knowledge and protection of aspiring and returning emigrants. It is imperative for governments, both in the countries of origin and destination, to collaborate, raise awareness, and establish mechanisms that safeguard the rights and well-being of all labour migrants.
+5.2 Skill Development initiatives and Sustainable Recruitment Initiatives 
+The Indian government has implemented a range of sustainable recruitment initiatives to safeguard the interests of Indian emigrants seeking employment abroad. These initiatives include the e-Migrate system, which streamlines and regulates the recruitment process by integrating various stakeholders onto a common electronic platform. 
+This is supplemented by another online system called the MADAD Portal. Known also as Pravasi Bhartiya Sahayata Kendra (PBSK), it is a platform dedicated to addressing grievances related to Indian workers abroad. It covers issues such as abuse, recruiting agents, sponsorship, repatriation, tracing Indian nationals, compensation for death or injury, transporting mortal remains, and marital disputes. This platform allows the public to directly submit and monitor their grievances, with all Indian Missions/Posts abroad connected to ensure comprehensive support for overseas Indian citizens.
+The government also has a mandatory insurance scheme, Pravasi Bharatiya Bima Yojana (PBBY),  in place for ECR emigrant protection. Revised in 2017, the scheme offers insurance coverage of Rs. 10 lakhs for accidental death or permanent disability during employment abroad, and it now covers various professions under the Emigration Act, regardless of passport categories. PBBY also includes benefits like medical insurance, repatriation cover, maternity expenses, and legal expense coverage, making it more advantageous for emigrant workers while ensuring prompt claims settlement. 
+To ensure emigrant safety, improve their economic prospects, and enhance their overall well-being while working abroad, the government also has certain skill development programmes in place. These programmes help bridge the gap between the skills and qualifications of Indian emigrants and the demands of the global labour market, ultimately leading to more successful and fulfilling migration experiences.
+Pravasi Kaushal Vikas Yojana (PKVY) is one such initiative and it is a collaborative effort of the Ministry of External Affairs and the Ministry of Skill Development and Entrepreneurship. The program's objective is to provide training and certification to Indian workers aspiring to pursue overseas employment in specific sectors and job roles, aligning their skills with international standards to enhance their employability in foreign countries. The National Skill Development Corporation oversees the implementation of this scheme in partnership with Training Partners, with close consultation with the MEA and MSDE.
+One-day Pre-Departure Orientation Trainings (PDOT) are also conducted as part of the PKVY scheme. This training program, which lasts for 8 hours, is designed to enhance the soft skills of individuals planning to work abroad and equips them with knowledge about language, culture, the emigration process, welfare measures, and guidelines for their destination country. Upon successful completion, candidates receive a certificate. A total of 1,29,062 candidates have received PDOT training as of May 31, 2023.
+The government has also been working on establishing a supportive framework to ensure secure and legal migration for both professionals and labourers through bilateral agreements with destination nations. Labour Mobility Agreements  with Gulf countries are being revised, and Migration Mobility Partnership Agreements with developed countries in East Asia and Europe are being finalised. So far, 12 of these agreements have been successfully negotiated, and discussions are underway with several more.
+Regional & Global Comparisons (other source countries like the Philippines and how they deal with remittances and recruitment)
+Sri Lanka, like India, has a regulatory body to overlook overseas recruitment procedures and agencies in the country called Sri Lanka Bureau of Foreign Employment (SLBFE). The SLBFE exercises strict control over the recruitment process, including approval for advertisements, interviews, and deployment. Only licensed agencies are allowed to engage in foreign employment agency businesses, and they are required to enter into agreements with the SLBFE to ensure employment contract compliance by foreign employers. 
+These agencies are also required to provide cash bonds and bank guarantees as a form of financial security. The SLBFE has the authority to cancel licences in case of violations and can conduct inquiries and demand worker compensation if agencies breach their obligations. The country also necessitates a final exit clearance before deployment, as is the case for ERC emigrants in India. The process is supplemented by an airport surveillance desk to minimise malpractices.
+Sri Lanka's Act also establishes the Association of Licensed Foreign Employment Agencies (ALFEA), which every licensee is required to join. The ALFEA resolves disputes, makes recommendations for industry promotion and regulation, promotes job opportunities for Sri Lankans abroad, and enforces a code of good conduct among its members.
+In the Philippines, the Philippine Overseas Employment Administration (POEA) plays a pivotal role in regulating the recruitment of Filipino workers for overseas employment. Its functions are supplemented by two other bodies - The Overseas Workers Welfare Administration (OWWA) and The Commission on Filipino Overseas (CFO). OWWA is a Philippines government agency under the Department of Labour and Employment (DOLE) tasked with safeguarding the welfare of Overseas Filipino Workers (OFWs) and their dependents. The Commission on Filipino Overseas (CFO) manages emigrant affairs and caters to various groups of emigrants, including permanent residents, spouses of foreign nationals, former Filipino nationals who have become foreign citizens, descendants of Filipinos abroad, Filipino youths overseas, and exchange visitor program participants. 
+The Philippines has prioritised temporary labour migration, largely regulating access to overseas labour markets through licensed private recruitment agencies while maintaining a regulatory role. This approach aims to protect Filipino workers from exploitation and deter illegal recruitment. Migrant workers receive benefits like pre-migration training, (called the pre-employment orientation seminars) and information campaigns to ensure potential migrants receive sufficient information for informed decisions. They also receive life insurance, pensions, and loans. The government also promotes remittances and offers investment opportunities. Support for Filipinos abroad includes psychological counselling, the right to vote in national elections, and assistance for return migrants in the form of tax-free shopping, investment loans, and subsidised scholarships. 
+Bilateral labour agreements and regional cooperation are seen as effective tools for facilitating orderly labour migration to prevent indiscriminate international recruitment in sectors such as health. Alternatively, non-binding consultative mechanisms, like Joint Commissions on Labour and Regional Consultative Processes, are employed when focused bilateral agreements are challenging to achieve. 
+Despite these checks, both countries still face issues in international labour migration. In Sri Lanka these issues manifest in the form of human trafficking, especially to countries like Italy, Japan, South Korea, Singapore, and Cyprus. Sub-agents often play a role in these exploitations, working as intermediaries between migrant workers and recruitment agencies. Competition among agencies to secure job orders sometimes also leads to subpar industry practices. Complaints about high recruitment charges and inadequate grievance resolution are common in both countries, with prospective labour migrants having to incur significant debts to finance migration. While the Filipino government's efforts to completely eradicate these issues have not succeeded, outcomes of positive incentives within their model have been more favourable than coercive policies. 
+Way Forward 
+6.1 Strategies for Industry Stakeholders 
+6.2 Policy Recommendations for Government & Regulatory Bodies 
+6.3 FIMCA’s commitment to Sustainable Recruitment
+[a]can you take a shot at writing this section, mihika?
+[b]can you try and reorganise the sections, add more sec research and data, lit review etc based on these pointers from sections 3-5 @mihika
+[c]don't just stick to reports, look for recent academic papers and research pertaining to these pointers too
+[d]mihika, you don't need to need do this
+[e]hyperlink report
+[f]source?
+[g]we can sum this in one para under the understanding migration waves. twhat do you think?
+[h]source?
+[i]source?
+[j]source and year?
+[k]source and year
+[l]source and year
+[m]source for this section, year the data was collected
+[n]need india figures here too
+[o]Can we add a GCC and EU country's example too  to make it more detailed?

@@ -1,0 +1,89 @@
+﻿Multi Media Picker  Accelerator 
+Document - iOS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+This accelerator project for a Multi Image, Document, and Video Picker tool aims to streamline the process of selecting multiple images, documents, and videos from a phone gallery, catering to various use cases, ultimately saving up to 8 hours in development time.
+
+
+  
+
+Scope
+The scope of the project encompasses the following activities:
+* Develop a Multi Image Picker component that can be easily integrated into iOS applications.
+* Develop a Multi Document Picker component that can be easily integrated into iOS applications.
+* Provide an option to preview selected Images, Videos, and documents.
+* Provide an option to crop selected images with different aspect ratios like 1:1, 3:4, 16:9, etc.
+* Provide an option of circular cropper to crop images for profile pictures.
+* Provide customization options to tailor the image picker's appearance and behavior to different project requirements.
+* Optimize the performance of the image picker for handling large collections of images efficiently.
+* Integration with popular development frameworks and platforms to facilitate easy adoption by developers.
+* Implement features such as image preview, image cropper images as per requirements.
+* Implement features such as document pickers (pdf, docs, etc).
+* Logic for handling image selection, including sorting and retrieval from local storage.
+* Testing and validation to ensure reliability, performance, and security.
+Media Upload Options
+To provide developers with flexible and efficient ways to upload media, the tool will support integration with multiple cloud storage solutions. Developers can select from the following storage options and simply pass the preferred method (e.g., "Amazon S3" or "Azure") during the configuration:
+* Amazon S3: Enable uploading media files to Amazon Simple Storage Service (S3), which offers scalable storage in the cloud.
+* Microsoft Azure Blob Storage: Allow media uploads to Azure Blob Storage, optimized for storing large amounts of unstructured data.
+* Dropbox: Integrate with Dropbox to upload and manage media files directly in a Dropbox account.
+By incorporating these options, the tool enhances its versatility and adaptability to various developer needs and preferences.
+Deliverables
+The project deliverables will include:
+* Fully functional Multi Image Picker component.
+* Integration guides and documentation for developers.
+* Sample app: Demonstrating the usage of the image picker in different contexts.
+* Quality assurance reports detailing testing procedures and results.
+* Ongoing support and maintenance to address issues and incorporate enhancements post-release.
+Stakeholders
+The stakeholders involved in the project include:
+* Development Team: Responsible for the design, implementation, and testing of the Multi Image Picker.
+* End Users: Developers who will integrate the image picker into their applications.
+* Quality Assurance Team: Ensures the reliability, performance, and usability of the tool through rigorous testing
+Estimation and Timeline:
+The following is the estimated time required for each component of the project:
+* Photo Picker: 40 hours
+* Cropper: 20 hours
+* Upload (AWS): 16 hours
+* Document Picker: 16 hours
+* Unit Testing + Quality Assurance: 16 hours
+Total Hours: 108
+Conclusion
+The Multi Image Picker accelerator project aims to address the need for an efficient and customizable solution for selecting multiple images across various platforms. By leveraging modern development practices and prioritizing user feedback, we aim to deliver a high-quality tool that enhances the image selection experience for both developers and end users, saving up to 8 hours in development time. With the addition of multiple cloud storage options, the tool will offer unparalleled flexibility, ensuring seamless integration and enhanced user satisfaction.

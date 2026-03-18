@@ -1,0 +1,117 @@
+﻿Document Name 
+	Change Request Form
+	Document Number
+	GRP-CR4
+	Document Version
+	01
+	Effective Date 
+	05-09-22
+	
+
+
+
+Change Request No
+	7.0
+	Priority
+	High
+	
+
+Project Name
+	PUUR
+	Project ID
+	PUUR
+	Client Name
+	Richard Lee
+	
+
+
+
+
+
+
+
+Change Raised By
+	Arjun Singh
+	Change Raised on
+	05-09-22
+	Change Approved By
+	Amit Singh
+	Change Approved on
+	
+
+	
+
+Change Summary
+	
+
+Agora Implementation and Delete account
+	Reason for Change
+	Agora Implementation and Delete Account
+	Estimated Effort (Hrs.)
+	
+
+112
+	Impacted items
+	Many features will impact, Calling messaging etc
+	
+
+
+
+
+
+	
+
+
+
+
+
+
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+
+
+
+
+Task
+	Backend
+	iOS
+	QA
+	. remove all sinch code
+. add agora in PUUR
+. add VOIP for agora
+. creating agora token/ channel for Call with backend also
+. sending push for call
+. creating ASAP with agora
+. ASAP calls
+. slot calls
+. manages all call with Callkit and agora
+. manages call button with agora
+. background music
+. mange same time incoming calls
+. manage by default speaker mode
+. manage call decline window and call button till 14 minutes.
+. Background music level
+	-
+	96
+	16
+	Alarm Handling at the time of call
+	
+
+	0
+	
+
+	Total Hours
+	112

@@ -1,0 +1,6 @@
+{
+  "source_file": "data/user_demo_user/raw/Plan.csv",
+  "chunks": [
+    "Milestone 1(Complete prelogin),Date of delivery,\nUser,01/07/2021,\nServer setup,,Done\nAPI Project Setup,,Done\nDatabase setup,,Done\nLogin,,Done\nSignup,,Done\nforgot password ,,Done\nChange password,,Done\nAdmin/Delivery,,Done\nLogin,,Done\nMilestone 2(Order Booking without payment),,\nHome screen ,08/07/2021,Done\nBook soundbox and battery,,Done\nAdmin/Delivery,,Done\nAdd Soundbox and battery,,Done\nNew Orders,,Done\nOrder history,,Done\nOrder Detail at Admin side ,,Done\nMilestone 3(Tracking),,\nUser can see the tracking of the delivery person by tapping on the buttons,13/07/2021,\nTotal Earning Admin Side,,Done\nNotification ,,Done\nMilestone 4(Payment),,Done\nPayment Integration,19/07/2021,Done\nEpay payment gateway,,Done\nAdd card ,,Done\nRefund payment ,,Done\nNeim Verification,,\nPoint Management(clarification needed) (assumed 1 day of task) ,,Removed by client \nNote: Any Change in workflow or UI will affect the timeline as well as the costing.,,"
+  ]
+}

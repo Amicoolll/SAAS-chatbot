@@ -1,0 +1,82 @@
+﻿1. Competitive audit goal(s)
+Compare the user experience of each competitor’s website and app
+	 
+2. Who are your key competitors? (Description)
+Our key competitors are:
+ 
+-      Ecofin. They are a small business stationed in Hyderabad, Telangana. Ecofin is a fintech company facilitating personal loans through a mobile application to salaried employees pan-India, within 24 hours.
+-      Lazypay is India's new age digital credit provider. It truly is the fastest way to get credit in a single tap. LazyPay's One tap digital checkout process is available at over 250+ leading apps in India including the likes of Swiggy, Zomato, Book My Show, Make My Trip, Vodafone, TataSky and many more!
+-      MoneyTap is India’s 1st Credit Line App | Borrow up to ₹5 Lakh | Partnered with banks & NBFCs regulated by the RBI.
+-          Avant is a credit-first financial technology company* that provides access to innovative financial solutions, including personal loans and credit cards, that meet customers’ needs wherever they are on their financial journey.
+	 
+	 
+ 
+ 
+ 
+ 
+3. What are the type and quality of competitors’ products? (Description)
+Ecofin facilitates personal loans through a mobile application to salaried employees across India within 24 hours.
+MoneyTap provides a personal line of credit of up to 5 lakhs online.
+LazyPay provides merchant checkout, personal loans, and billpay.
+Avant facilitates personal loans and credit cards.
+ 
+	 
+4. How do competitors position themselves in the market?  (Description)
+Ecofin positions itself as a fintech tech company providing loans to millions of salaried employees.
+MoneyTap positions itself as India’s first personal line of credit.
+LazyPay positions itself as India’s credit super-app.
+Avant positions itself as a firm that helps personnel move financially forward.
+ 
+	 
+ 
+5. Competitors’ strengths (List)
+Ecofin’s strengths
+-      Loan plans are classified into three types based on the number of days
+-      Paperless Documentation
+MoneyTap’s strengths
+-          Credit Limit upto 5 laklhs online
+-      Repay in convenient EMI tenures of up to 36 months
+-      Partnered with reputed banks
+LazyPay’s strengths
+-      Checkout in 1-click pay 15 days later
+-      Zero physical paperwork
+-      Infinite options to shop
+-      Upto Rs. 5 lakh in your bank account instantly
+Avant’s strengths
+-          Provides Personal Loans
+-          Provides a Credit Card
+ 
+	 
+ 
+ 
+ 
+ 
+6. Competitors’ weaknesses (List)
+Ecofin’s weaknesses
+-      Another loan cannot be provided until the current one is completed
+-      Logo design does not communicate the company's ethos.
+-      Having a dedicated company app
+-       Users have to download a PDF of the menu to view it
+MoneyTap’s weaknesses
+-      For loan amounts less than Rs 10,000, the only EMI option available is for 2 months.
+-      Menu is overwhelming
+-      Inconsistent fonts
+LazyPay’s weaknesses
+-      The personal loan at LazyPay is available at an interest rate of 18%, which is at the higher end.
+-      Logo design does not communicate the company's ethos
+Avant’s weaknesses
+-      Feels dense and overwhelming in places
+-      A lot of text for basic issues
+	 
+7. Gaps (List)
+-           
+-           
+	 
+ 
+ 
+ 
+ 
+ 
+ 
+8. Opportunities (List)
+-

@@ -1,0 +1,352 @@
+﻿Air Aero Scope:
+
+
+Reward: Mobile app 
+Description: We have created a product that will provide the reward to customers and customers can use those rewards. Product will take the Customer info and that info will save in the Air Aero DB. 
+
+
+Solution: We will be developing 2 Platforms, App(iOS, Android) and Admin(Web Panel) panel. 
+
+
+Application: Used by customers.
+Admin: Used by the Air Aero Team.
+
+
+
+
+Application Features:
+
+
+* Signup: User will be giving his info
+   * Phone number
+   * Password
+   * Email
+   * Address 
+   * We’ll discuss more 
+
+
+* Login:
+   * Phone number 
+   * Password/OTP
+* Forgot password
+   * Verify phone number 
+   * Change password 
+
+
+* See your rewards:
+   * Rewards Listing:User will be seeing all the rewards that he has got.
+   * Rewards: Detail: User can see the details of rewards. 
+
+
+* Use your rewards:
+   * User will be seeing where he has used his rewards 
+   * Reward detail 
+
+
+
+
+* Invoice submission form:
+* User will be able to submit the invoice to the admin. That admin will see and approved and Admin will be able to add rewards point manually.
+
+
+* Profile: User will be able to see his saved info
+   * Email
+   * Mobile number 
+   * Profile picture 
+
+
+* Settings: 
+   * User will be seeing Term and condition 
+   * Privacy policy 
+
+
+* Notification
+   * User will be seeing the notification about the rewards 
+   * User will be seeing notification on the lock phone state.
+
+
+Inventory management Mobile app 
+
+
+User will be able to see the listing of the inventory
+In the card user will be seeing the following items
+* Name
+* Items count
+* Number of units
+
+
+Add Items
+* Users will be able to add the items from here. With below fields
+* Add photos: User will be able to add multiple photos
+* Mion level: User will be able to add min level
+* Quantity: User will be able to add quantities
+* Units: user will be able to add the units 
+* Price: user will be adding the price/unit
+* Total value: total value will be calculated.
+* QR/Barcode: user will be able to scan QR and barcode to add with the items.
+* Users will be able to add more fields: decimal, numbers etc.
+
+
+Add Items via QR code: 
+* By scanning the QR code item form will be filled 
+
+
+
+
+Add Folders:
+* Users will be able to add Folders by this feature.
+* Folder Name: User will enter the Folder name
+* Tags: A tags list will be open provided by client 
+* Notes: Users will be adding the notes.
+* QR/Barcodes:User will be able to add barcodes for the folders
+
+
+
+
+
+
+
+
+Folder listing: 
+* Users will be able to see the added folders or items in this listing.
+* Folder detail: Users will be able to add Items in the folder. 
+* Users will see the number of items, Quantity and pricing in the above item list.
+* Users will be able to search the items by name.
+* Folder options: 
+
+
+
+
+Option Folder/Item:
+* Delete: User will be able to delete the item/folder. App will ask the reason for deletion.
+* Move: Users will be able to move the item from one folder to other.
+* Detail: user will be able to see the detail of the item. Details will have.
+   * Item photo
+   * Item name
+   * Tags
+   * Barcode
+Reports:
+On the basis of Vehicle level, check the inventory.
+* Daily report
+* Monthly report 
+* Yearly report 
+
+
+Admin Panel: 
+* Login: Team will be able to do login in the panel 
+   * Email 
+   * Password
+* Forgot password: User will be able to do the forgot password.
+   * Verify email
+   * Set password
+* Admin Profile 
+   * User will be able to see profile 
+   * User will be able to see his info
+* Customer management
+   * Admin will be able to see the customers in the platform 
+   * Admin will be able to search user by name 
+   * Admin will be able to add filters by date. 
+   * Admin will be able to block the User 
+   * Admin will be able to see the user detail 
+   * Admin will be able to see the rewards provided to the user.,
+* Rewards Management: 
+* Admin will be able to see the listing of the rewards 
+* Admin will be able to see the details of the rewards 
+* Admin will be able to delete the reward 
+* Admin will be able to add the rewards point manually
+
+
+* Create rewards: Admin will be able to create rewards
+* Admin will be able to create rewards for the special user.
+
+
+Product 3:
+Email generation: 
+* AA team will be able to generate email from this module and send to users 
+* AA team will be able to select the issues for the email from a table 
+* Current status 
+* recommendation
+* Additional activity 
+* Preview of the email 
+* Sent button 
+* AA team will select all the above items in email and it will be reflected on email preview. 
+
+
+Job calculator:
+* Price calculation from price table.
+* Job table 
+* Flat table 
+* Custom job calculator
+* PDF will be created automatically, That will be attached to the Email
+* Custom table
+* Flat table standard 
+* Custom job calculator 
+* 
+
+
+
+Manage Notification: 
+User will be able to send Text notifications to the user 
+
+
+Maintenance WEB App
+
+
+New Customer: Commercial
+This form will be used to add new customer: 
+User will be entering the following information
+* Customer name: User will be giving his name 
+* Address: User will be giving his Address 
+* frequency type: Frequency of the Maintenance
+* Total visit: 
+* Full  Maintenance
+* Contract price
+* Billing Frequency
+* ESt. Duration: 
+* Est. Start Date.
+
+
+Commercial Maintenance - Current
+Maintenance list: 
+User will be be able to see the maintenance list 
+* Current: User will be able to see the current maintenance list: it will have 
+* Customer name
+* Address
+* frequency type: quarterly, Biannual
+* Maintenance type: Full, Fuel only , etc. 
+* ESt. Duration: 
+* Payment status 
+* Estimated next visit date  
+
+
+User Detail
+User will tap on any user and will be able to see the customer detail 
+* Name 
+* Year
+* Maintenance type
+* Payment due 
+* Payment amount 
+* Number of tech 
+* Est duration
+* Clean coil replace belt(if applicable)
+* Customer note(open textview)
+* Warning 
+
+
+Customer 1st visit date
+* EST start date 
+* Visit date: these fields will be filled by the admin
+Customer 2nd visit date
+* EST start date 
+* Visit date: these fields will be filled by the admin.
+
+
+Commercial Maintenance - Renewal
+User will be be able to see the maintenance list 
+* Current: User will be able to see the current maintenance list: it will have 
+* Customer name
+* Address
+* Contract price
+* # of Techs
+* ESt. Duration: 
+* Estimated next visit date  
+* User Detail
+User will tap on any user and will be able to see the customer detail 
+* Name 
+* Year
+* Frequency
+* Contract Price
+* Billing Frequency
+* # Full Maintenance
+* # Filter Only
+* Est. Renewal Date
+* Customer note(open textview)
+Contract Actions:
+Cancel Contract
+Create New Contract
+
+
+
+
+
+
+
+
+Aero Advantage Plan - 2nd Visit, No Charge
+* Name 
+* Address 
+* # of Techs
+* Est. Duration
+* Est. 2nd Visit Date
+* Notes
+User Detail
+User will tap on any user and will be able to see the customer detail 
+* Name 
+* Year
+* Contract Price
+* Est. Duration
+* Customer note(open textview)
+* Contract Actions:
+* Cancel Contract
+
+
+
+
+Aero Advantage Plan - Not Started, Payment Due
+* Name 
+* Address 
+* # of Techs
+* Est. Duration
+* Est. 2nd Visit Date
+* Notes
+
+
+Complimentary Maintenance - Renewal, Payment Due
+* Name 
+* Address 
+* # of Techs
+* Est. Duration
+* Est. 2nd Visit Date
+* Notes
+
+
+
+
+
+
+Annual Maintenance - Payment Due
+* Name 
+* Address 
+* Tune-Up Price
+* Est. Start Date
+* Est. Duration
+* Notes
+
+
+
+
+
+
+New Customer - Aero Advantage Plan
+
+
+    It will be a form where admin will be able toad the customer
+* Name 
+* Address 
+* # of Techs
+* Contract price
+* Est. Duration
+* Est. Start Date
+* Notes
+
+
+New Customer: Annual
+    It will be a form where admin will be able toad the customer
+
+
+* Name 
+* Address 
+* Tune-Up Price
+* Est. Start Date
+* Est. Duration
+* Notes

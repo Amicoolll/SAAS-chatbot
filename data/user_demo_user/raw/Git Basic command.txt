@@ -1,0 +1,239 @@
+﻿Open Command Palette cmd+shift+P
+Open user setting allow auto git.autofetch
+
+
+Getting & Creating Projects
+
+
+Command
+	Description
+	git init
+	initialize a local Git repository
+	git clone
+	Create a local copy of a remote repository 
+	
+
+
+
+Basic Snapshotting
+
+
+Command
+	Description
+	git status
+	Check status
+	git add [file-name.txt]
+	Add a file to the staging area
+	git add -A or git add *
+	Add all new and changed files to the staging area
+	git commit -m "[commit message]"
+	Commit changes
+	git rm -r [file-name.txt]
+	Remove a file (or folder)
+	
+
+
+
+Branching & Merging
+
+
+Command
+	Description
+	git branch
+	List branches (the asterisk denotes the current branch)
+	git branch -a
+	List all branches (local and remote)
+	git branch [branch name]
+	Create a new branch
+	git branch -d [branch name]
+	Delete a branch
+	git push origin --delete [branchName]
+	Delete a remote branch
+	git checkout -b [branch name]
+	Create a new branch and switch to it
+	git checkout -b [branch name] origin/[branch name]
+	Clone a remote branch and switch to it
+	git checkout [branch name]
+	Switch to a branch
+	git checkout -
+	Switch to the branch last checked out
+	git checkout -- [file-name.txt]
+	Discard changes to a file
+	git merge [branch name]
+	Merge a branch into the active branch
+	git merge [source branch] [target branch]
+	Merge a branch into a target branch
+	git stash
+	Stash changes in a dirty working directory
+	git stash clear
+	Remove all stashed entries
+	git branch -m new-name
+	If you are on the branch you want to rename
+	git branch -m old-name new-name
+	git branch -m old-name new-name
+	git push origin :old-name new-name
+	Delete the old-name remote branch and push the new-name local branch.
+	git push origin -u new-name
+	Reset the upstream branch for the new-name local branch
+	
+
+
+
+Sharing & Updating Projects
+
+
+Command
+	Description
+	git push origin [branch name]
+	Push a branch to your remote repository
+	git push -u origin [branch name]
+	Push changes to remote repository (and remember the branch)
+	git push
+	Push changes to remote repository (remembered branch)
+	git push origin --delete [branch name]
+	Delete a remote branch
+	git pull
+	Update local repository to the newest commit
+	git pull origin [branch name]
+	Pull changes from remote repository
+	git remote add origin ssh://git@github.com/[username]/[repository-name].git
+	Add a remote repository
+	git remote set-url origin ssh://git@github.com/[username]/[repository-name].git
+	Set a repository's origin branch to SSH
+	
+
+Inspection & Comparison
+
+
+Command
+	Description
+	git log
+	View changes
+	git log --summary
+	View changes (detailed)
+	git diff [source branch] [target branch}
+	Preview changes before merging
+	
+
+change your commit messages in Git
+
+
+Command
+	Description
+	git commit --amend
+
+
+	This will open your $EDITOR and let you change the message. Continue with your usual git push origin master
+	git commit --amend
+git push origin master --force
+
+
+	Already pushed + most recent commit
+We edit the message like just above. But need to --force the push to update the remote history.
+
+
+
+
+
+
+	git rebase -i HEAD~X
+# X is the number of commits to go back
+# Move to the line of your commit, change pick into edit,
+# then change your commit message:
+git commit --amend
+# Finish the rebase with:
+git rebase --continue
+
+
+	Not pushed + old commit:
+Rebase opened your history and let you pick what to change. With edit you tell you want to change the message. Git moves you to a new branch to let you --amend the message. git rebase --continue puts you back in your previous branch with the message changed
+	Same as above 
+git push origin master --force
+
+
+	But! Remember re-pushing your commit after changing it will very likely prevent others to sync with the repo, if they already pulled a copy. You should first check with them.
+	
+
+
+
+Undo a commit and redo
+
+
+git commit -m "Something terribly misguided"
+git reset HEAD~
+git add ...
+git commit -c ORIG_HEAD
+
+
+	
+
+	
+
+Tagging
+
+
+Command 
+	Description
+	git tag <tagname>
+	Lightweight tags
+	git tag -a v1.4
+	
+
+	git tag -a v1.4 -m "my version 1.4"
+	Annotated tags are stored as full objects in the Git database
+	git tag
+	To list stored tags in a repo
+	git push origin v1.4
+	Sharing tags is similar to pushing branches. By default, git pushwill not push tags. Tags have to be explicitly passed to git push
+	
+
+
+
+
+
+Q1.  What is difference between git fetch and git pull ?
+
+
+Ans-  git pull = git fetch + git merge.
+
+
+1. In the simplest terms, git pull does a git fetch followed by a git merge.
+2. You can do a git fetch at any time to update your remote-tracking branches under    refs/remotes    refs/remotes/<remote>/.
+3. This operation never changes any of your own local branches under refs/heads, and is safe to do without changing your working copy.
+
+
+Q2. Upstream vs Downstream?
+        
+1. Downstream - When you copy (clone, checkout, etc) from a repository. Information flowed "downstream" to you
+2. Upstream - When you make changes, you usually want to send them back "upstream" so they make it into that repository so that everyone pulling from the same source is working with all the same changes.
+
+
+Common error: No upstream branch found for
+Solution - git branch --set-upstream master origin/master
+
+
+This adds 2 parameters in .git/config :
+[branch "master"] 
+remote = origin 
+merge = refs/heads/master
+
+
+Q3. Merge up to a specific commit
+
+
+Ans-         git merge <commit-id>
+
+
+
+
+//Q4. cherry-pick
+
+
+Q4. src refspec master does not match any
+        Solution 
+git commit -m "commit message" 
+git push origin master
+
+
+Q5. List All git commit id 
+        git log --oneline | nl -v0 | sed 's/^ \+/&HEAD~/'

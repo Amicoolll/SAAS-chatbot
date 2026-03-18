@@ -1,0 +1,243 @@
+﻿PURCHASE ORDER SYSTEM DESIGN FOR REELTRAK
+1. What a PO Is in Film/TV Production
+A Purchase Order (PO) is the official authorization to spend money with a vendor.
+It represents the moment a production becomes financially obligated to pay for goods/services.
+Purpose of a PO
+* Establishes authorized spending before work begins.
+* Ensures the vendor knows they are cleared to start.
+* Creates a paper trail for budgeting, auditing, cost reporting, and invoicing.
+Where POs Originate From
+Productions may either:
+1. Generate POs inside ReelTrak (if ReelTrak is used as the purchasing system), or
+2. Reference a PO number created in a studio accounting system, such as:
+   * PSL (EP)
+   * Greenslate
+   * SmartAccounting
+   * SAP / Oracle / Netsuite / Workday
+Both models must be supported.
+________________
+
+
+2. Who Decides PO Issuance Method
+PO issuance mode is chosen once per project, not per vendor, not per department.
+Decision
+	Made By
+	Not Made By
+	Whether ReelTrak generates PO numbers or accepts external PO numbers
+	Production Accountant or UPM during project setup
+	Vendors, Department Heads, Individual Users
+	Setting Location (in-app)
+Production Project Settings → Purchasing: PO Number Source
+Options
+* System-Issued PO Numbers (ReelTrak Generates)
+* External PO Numbers (User Inputs PO from PSL/Greenslate/SAP)
+This is a project-wide purchasing workflow policy.
+3. Where POs Live Structurally (Data Model Placement)
+ReelTrak workflow:
+1. Checkout → ORDER Created (Status = Pending Vendor)
+2. Vendor Approval:
+       Accept → Next Step
+       Request Changes → Return to Production
+       Decline → Close Order
+3. [Optional] Approver Approval:
+       If ON → Approver approves → Next Step
+       If OFF → Skip to Step 4
+4. Order PO Issuance:
+       If System-Issued PO Mode → Auto-generate PO
+       If External PO Mode → Prompt “Enter PO Number”
+       (Order cannot move forward without PO number)
+5. Order Status → Work Authorized (In Progress)
+6. Change Orders → Generate PO Revisions as needed
+7. Vendor Invoice references PO / revision
+Why PO attaches to the Order
+* The Order is the object that defines:
+   * Vendor
+   * Scope
+   * Rates
+   * Quantity
+   * Delivery or work dates
+* Therefore, PO Number belongs on the Order, at the moment the commitment is authorized.
+PO does not attach to:
+Option
+	Reason It’s Incorrect
+	Project
+	Including Production, Set, Episode, Location, Department. Too broad; one production can have hundreds of POs and vendors.
+	Vendor
+	One vendor can have many separate orders/POs.
+	Line Items
+	POs authorize orders, not individual product or services.
+	Correct: One PO per Order (with multiple revisions allowed).
+
+
+________________
+
+
+4. Why PO Is Not Issued Earlier
+Stage
+	Why PO is Not Appropriate Yet
+	Checkout
+	The request is not confirmed; could be changed or canceled.
+	Vendor Approval Stage
+	Vendor may counter, request adjustments. No commitment yet.
+	PO is issued only at the moment of financial authorization.
+________________
+
+
+5. When PO is Issued
+PO issuance happens after the Vendor has accepted the order, and after Approval (if enabled).
+This ensures authorization occurs before work starts, not during negotiation.
+Configuration
+	What Happens After Vendor Accepts
+	Approval Required = OFF
+	System proceeds directly to PO issuance
+	Approval Required = ON
+	Assigned Approver must approve first
+	Two PO Modes
+PO Mode
+	PO Issuance Behavior
+	System-Issued PO Numbers
+	ReelTrak automatically generates PO # when authorization is reached.
+	External PO Numbers
+	Order moves to “Awaiting PO Number” state → user enters studio-issued PO → Order becomes Work Authorized.
+	Manual PO Entry UI Behavior
+When external mode is enabled, ReelTrak displays on the Order:
+PO Number Required to Authorize Work
+PO Number: [_________] [Save & Authorize Work]
+The Order cannot move into In Progress until this number is entered.
+________________
+
+
+6. PO Number Structure (System-Issued Mode)
+Format:
+{ORG}-{FY}-{PROJECT}-{SEQUENCE}
+
+
+Example:
+RT-25-HOMESTEAD-00428
+
+
+
+
+Component
+	Defined By
+	Purpose
+	ORG Code
+	Production Company / Studio
+	Identifies issuer
+	FY
+	Fiscal year of production
+	Aligns cost reporting
+	Project Code
+	Project setup
+	Identifies production
+	Sequence
+	Auto-increment per project per FY
+	Ensures uniqueness & order
+	Not dependent on:
+* Vendor
+* Department
+* Product type
+This ensures accountable, auditable PO logs.
+7. Change Orders
+When scope or amount changes after PO issuance:
+Base PO: RT-25-HOMESTEAD-00428
+Rev A:   RT-25-HOMESTEAD-00428-A
+Rev B:   RT-25-HOMESTEAD-00428-B
+
+
+* Each revision records a delta amount
+* Vendor receives a revision notification
+* Audit trail is preserved
+
+
+8. Approval Flow (Optional)
+If Approval Is Enabled
+Vendor Approval → Approver Approval → Issue PO → Vendor Authorized to Work
+If Approval Is Disabled
+Vendor Approval → Issue PO → Vendor Authorized to Work
+
+
+* Approver can be any assigned user, not limited to accounting.
+In either PO mode, the Vendor does not receive authorization to begin work until the PO is issued or entered.
+9. Permissions
+Action
+	Who Can Do It
+	Issue PO (system-issued)
+	Assigned Approver or UPM/Accountant Role
+	Enter External PO Number
+	Project Admin / Accountant / UPM
+	Create Change Order Draft
+	Department Lead / Line Producer
+	Approve Change Order
+	Assigned Approver / Accountant / UPM
+	Vendors
+	Never issue or edit POs
+	10. Invoice Rules
+* Vendor invoices must reference the current PO or PO revision
+* Invoice total must not exceed the current PO amount
+* If invoice exceeds PO → Change Order required before approval
+________________
+
+
+11. Export / Reporting / Searching
+ReelTrak can search and export PO data to:
+* Studio and production financial reports
+* Invoice reports
+* Vendor order reports for audit trails
+Formats: CSV, PDF, XML.
+________________
+
+
+12. Vendor Visibility
+Vendor only sees:
+* PO number
+* Amount authorized
+* Latest revision
+* Scope description
+* Downloadable PO PDF
+Vendor does not see budgeting notes or internal approval paths.
+13. Summary Diagram
+REQUEST (No $ commitment)
+ ↓ Vendor Accepts Scope
+AUTHORIZATION (optional approval control)
+ ↓
+PO ISSUED (Commitment created)
+ ↓
+ORDER (Vendor authorized to work)
+ ↓
+CHANGE ORDERS (as needed)
+ ↓
+INVOICE (Bills reference PO/Rev)
+
+
+ReelTrak ensures the PO is generated or collected at exactly the moment where obligation begins — no earlier, no later.
+
+
+14. Key Principles for Stakeholder Buy-In
+Stakeholder
+	Benefit
+	Developers
+	Clear single source-of-truth, simple relational structure, predictable workflow states
+	Accountants
+	Maintains audit integrity, prevents unauthorized spend, aligns with PSL/Greenslate workflows
+	Studio
+	Standardized PO logic across productions, compliant financial controls
+	Production (UPM/LP)
+	Flexible approval workflows, PO optionality by project type
+	Vendors
+	Receive PO at the right time to begin work; clear authorization & revision clarity
+	
+
+Notes:
+The money is not in the order. It is in the authorization.
+The PO is the economic choke point.
+If ReelTrak controls the PO issuance, ReelTrak controls:
+* Spend visibility
+* Vendor compliance
+* Cost reporting
+* Invoicing funnel
+→ Monetization is sustainable
+If the vendor controls the order, but production isn’t inside, then:
+   * You lose the spending decision point
+   * You lose the ability to charge per project
+   * ReelTrak becomes a free vendor ERP system

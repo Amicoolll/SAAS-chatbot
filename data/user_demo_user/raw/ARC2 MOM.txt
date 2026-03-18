@@ -1,0 +1,25 @@
+﻿*MOM*
+*Date: 14 Feb 2024*
+
+
+Pointer discussed 
+
+
+John and sandy accepted the login screen
+John and sandy accepted the Signup screen
+John and sandy accepted the Forgot password screen
+We need to add 1 more screen OTP screen 
+
+
+Patient intake form will be on the patient app 
+Patient intake form will be on the Web app 
+Patient Intake form Field will be managed from template creation. 
+
+
+Sandy will send up the schedule management logic 
+
+
+Sandy has sent a question that Anupam will answer.
+
+
+John approved the intake form cost will be $5000

@@ -1,0 +1,6 @@
+{
+  "source_file": "data/user_demo_user/raw/Scheduler CR Sheet.csv",
+  "chunks": [
+    "Tasks ,Scope\n,\nCR Scope provided by John,https://drive.google.com/drive/u/0/folders/1esIZ-Tw-0CcVxIzdUu9lstj9HI6xMyUX\nFinal  Scheduler Scope ,https://docs.google.com/spreadsheets/d/1lnLtlhbtYtYOrVTg8TM-qg3ooB0b0GNq/edit?gid=188851259#gid=188851259\nNote: ,This is the final scipe of the Scheduler if there will be any major change that would be treated as a CR \nCost ,\"$7,000\"\nPayment type  ,Upfront \nDiscount ,$700\ntotal cost ,\"$6,300\""
+  ]
+}

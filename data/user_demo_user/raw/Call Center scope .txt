@@ -1,0 +1,123 @@
+﻿📄 Scope Document
+Project Title:
+ARC VOIP-Based Call Center System
+________________
+
+
+Prepared For:
+John Wang
+Prepared By:
+Amit Singh
+Date:
+30 March 2025
+________________
+
+
+1. Project Overview
+The ARC Call Center System is a web-based VOIP-enabled platform designed to receive and manage calls from two key sources:
+* Patient Mobile App (Flutter)
+
+* Kiosk Web App
+
+Calls will be routed in real-time to available agents through dedicated queues — Patient Queue and Kiosk Queue — with detailed agent assignment logic and queue visibility. The goal is to streamline internal communication through efficient call routing, agent availability tracking, and performance insights.
+________________
+
+
+2. Objectives
+   * Enable internal VOIP calling from the patient app and kiosk app.
+
+   * Route calls to designated queues based on source (Patient / Kiosk).
+
+   * Ensure kiosk-specific call routing to pre-assigned agents.
+
+   * Display real-time queue status and agent availability on the web dashboard.
+
+   * Provide call controls, logs, and routing management features for agents and supervisors.
+
+________________
+
+
+3. Key Features
+🔹 Patient App (Flutter)
+      * VOIP calling via Agora SDK
+
+      * Calls enter Patient Queue
+
+      * Audio calling with in-call controls (mute, end, etc.)
+
+🔹 Kiosk Web App
+         * VOIP calling via Agora Web SDK
+
+         * Each kiosk is linked to one or more specific agents
+
+         * Calls enter Kiosk Queue, routed only to assigned agent(s)
+
+🔹 Web Dashboard – Agent Panel
+            * Real-time call popups with Accept / Reject
+
+            * Available agent listing and status updates
+
+            * Call controls: mute, end
+
+            * Active call window and interaction logs
+
+🔹 Web Dashboard – Admin Panel
+               * View and manage:
+
+                  * Patient Queue
+
+                  * Kiosk Queue
+
+                  * Available / Busy / Offline agents
+
+                     * Assign agents to specific kiosks
+
+                     * Monitor queue lengths and performance metrics
+
+                     * Manual call reassignments
+
+                     * Call logs, history, and optional recording access
+                     * Agent Login 
+
+🔹 Call Routing Server
+                        * Built with Node.js + Socket.io
+
+                        * Generates and manages Agora tokens
+
+                        * Handles queue logic, call assignments, and fallback behavior
+
+                        * Ensures kiosk-to-agent routing based on mapping
+
+                        * Tracks real-time agent availability using WebSockets
+
+________________
+
+
+4. Routing Logic
+✅ For Patient App Calls
+                           * Routed to Patient Queue
+
+                           * Assigned to first available agent
+
+✅ For Kiosk App Calls
+                              * Routed to Kiosk Queue
+
+                              * Assigned to designated agent(s) mapped to the kiosk
+
+                              * If agent is unavailable:
+
+                                 * Call can be queued or rerouted based on fallback logic (admin-controlled)
+
+
+
+
+
+                                    *  Chatting would be only for when Call center agent would cut the call so 1 message will go to patient that we will call you back or 
+
+
+
+
+                                    *  we will be having the chatting support as well means the Agent can do the chatting with the Patient as well?
+
+
+                                    *  chatting would be happening from Patient to Agents

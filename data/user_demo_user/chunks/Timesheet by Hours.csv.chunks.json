@@ -1,0 +1,6 @@
+{
+  "source_file": "data/user_demo_user/raw/Timesheet by Hours.csv",
+  "chunks": [
+    "Feature,days ,Assignee\n,,\nBonus Slab (Slab condition and reopen scenarios),3,Kamal & Tanmay\nUpdate Bonus (Currently blocked not working),1,Tanmay\n\"Copy Bonus (Prefill and all condition handling, Currently not working at all)\",3,Harsh & Tanmay\n,,\nContract Master bug fixes,1,Tanmay\n\"Payment Transaction download report iOS issue \nDownload Report overall issue\",0.5,Harsh\nDropdown check at several places remove selected value (bonus and contract master),0.5,Kamal\nSelected dropdown values to be shown on reopen (similar issue reported by LN for M1-M4 will be donw with that),0.5,Kamal\nTerritories 12 bugs on jira,0.5,Harsh (Rahul)\nRate Chart Completion,9,Harsh & Kamal\nRate Profile Completion,9,Harsh & Kamal\nError States all M5,4,All"
+  ]
+}

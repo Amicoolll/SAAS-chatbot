@@ -1,0 +1,116 @@
+Stuck on API,Stuck time,Working From appinventiv,Helping from loginext ,Impact of block,Structure verification history,API ststus
+Add order form API,"last week, few key lables are being vanished  after changing on the structure because of soem issues. ","zeeshan, Kundan",Vishwanath,"Add order. Order listing, Order search APIs are blocked","#########Date : 06th July 2023 , #################
+
+As suggested , we need to do changes in structure . We did those changes .
+
+Conclusion : it was working fine at that time
+ Verification : Data flushed automatically from Db .since structure modified for client id 0 , that is default client id. 
+
+#########Date : 07th July 2023 , #################
+
+As suggested , need to do changes in structure for the given client id(1957) in collection DynamicStructure according to your requirement 
+
+Conclusion : We did changes according to the given suggestion and it was working as expected 
+
+Verification : After some time changes was not reflected according to the requirement 
+ We tried the same on weekend , but some time it was working fine and again after some time redis api was not reflecting expected data
+
+#########Date : 11th July 2023 , @4:30PM###########
+1. Appinventiv team  discussed:  issue related to structure
+Loginext suggestions: Vishwanath explained to us about the label collection and how keys are working dynamically. He explained how the keys are identifying the labels based on the label-key field.   
+1st condition : if labelkey from dynamicStructure will be available as key in label collection.  then it will take value for that key in label Collection 
+2nd condition : labelkey in dynamicStructure will not be available as key in label collection then it will take label from dynamicStructure collection
+
+2. Appinventiv team  discussed:  discussed the issue of memory excess, 
+Loginext suggestions: Vishwnath suggested not to reload the redis, just flush the redis and then deploy the framework changes.
+Conclusion : we flushed and it’s working at this time (12:45PM)
+
+Verification : Did the same process as suggested in meeting 
+ 11th July 2023 , 11:30PM : Not working
+  12th July 2023, 11:00AM : working fine
+but again after some time we are unable to get correct data from radis api 
+
+#########Date : 12th July 2023 , @12:30PM###########
+As per discussion with LogiNext , They suggested only flush the redis for Dispatcher id(at this time 1957) , 
+Conclusion : we flushed and it’s working at this time (12:45PM)
+
+
+Verification : Did the same process as suggested in meeting but after some time we are unable to get correct data from redis api 
+
+#########Date : 12th July 2023 , @4:30PM##############
+
+For structure data , while caching in radis 
+ If structure is available for shipper client id(at this time for ex: 6056) then this data will cached in radis , if structure is not available for shipper client id then structure data for dispatcher client id(at this time 1957) will be cached in radis 
+
+Flush Radis for structure of shipper client id : (For Label)
+
+https://dev8.loginextsolutions.com/FrameworkService/cache/label/flush/6056
+HttpMethod : Delete 
+
+
+Flush Radis for structure of Dispatcher client id : (For Label)
+   https://dev8.loginextsolutions.com/FrameworkService/cache/label/flush/1957
+HttpMethod : Get
+
+Or better to flush  Label of all client’s ID 
+ https://dev8.loginextsolutions.com/FrameworkService/cache/label/flush        
+HttpMethod : Get
+
+Radis Structure Flush 
+
+https://dev8.loginextsolutions.com/FrameworkService/cache/structure/structure/6056  
+HttpMethod : Delete
+
+Conclusion :  Working fine at present time (05:00PM)
+
+
+MOMs #13th July 2023, @4:30
+
+ Zeeshan & Kundan Discussion with Loginext Team:
+ Although observation from the last discussion is fulfilling  our current requirement but Loginext team suggested getting logic from a block of code  written in (API FrameworkService -> class DynamicStructureService->method getDynamicStructure). 
+
+Also Loginext Team Accepted :
+  If a dispatcher will create a new shipper and any new structure and corresponding label is required to configure that is not available  for default client id (0) then we need to add/update label/structure manually for shipper client id.  
+
+@Paras Kholiya & @Kundan Kumar  Discussion with Loginext Team
+  Created a new API for all state names and cities names based on their countries name, found that there is an access related issue, so for time being I have used one of the existing endpoints to check my changes. In the meeting we shared the same with the Loginext team  and they informed us about the access master table where we can add our endpoint and request type for a particular environment so that it can get the access. 
+
+Verification & Observation : Will look forward to implementing as suggested and check if it works.
+
+
+
+
+
+",Working well till 13th July and appinventive team is able to do changes 
+Sign UP OTP API,Email trigger through kafak,Paras,Vishwanath,Shipper registration.,Date : 6th July Time : 3:20 PM,"Currently not working, first need to figure out the issue exactly"
+,,,,,Issue shared with Vishwanath : get template structure URL = http://FrameworkService/notification/templates?notificationType=ForgetPasswordAlertTemplate,
+,,,,,"2023-07-06 15:18:23.652 INFO [SecurityService] [92c8098344941939,ce961fc8c9a8a1cf,] [http-nio-auto-1-exec-5] c.l.ms.security.service.SendEmailService:245 : Body replacing for tag: [Password Related Email]",
+,,,,,"2023-07-06 15:18:24.182 ERROR [SecurityService] [92c8098344941939,ce961fc8c9a8a1cf,] [http-nio-auto-1-exec-5] c.l.commons.util.kafka.KafkaProducer:54 : There is an error while processing the request",
+,,,,,kafka.common.FailedToSendMessageException: Failed to send messages after 3 tries.,
+,,,,,Suggestion : Vishwanath arranged a meeting where he suggested to use Kafka in local machine.,
+,,,,,Date : 7th July Time : 12:33 PM,
+,,,,,"Requested Suraj to install Kafka in my local machine, got no response.",
+,,,,,Date : 7th July Time : 1:01 PM,
+,,,,,Suggestion : Vishwanath offered that he will share the basic steps to install Kafka locally.,
+,,,,,Date : 7th July Time : 2:19 PM,
+,,,,,Vishwanath created meeting invite but due to some work and break time it got delayed.,
+,,,,,Date : 7th July Time : 4:45 PM,
+,,,,,"We joined meeting with Vishwanath and discussed the same, we took help from Neer Chanchad to get the setup done for Kafka locally in my machine.",
+,,,,,Date : 7th July Time : 10:00 PM,
+,,,,,"Dev8, Redis etc stopped working",
+,,,,,Date : 8th July Time : 12:30 AM,
+,,,,,Rahul Mohandas connected with me for the confirmation that everything is up or not. Confirmed Rahul that everything is up with the help of Samir Ansari.,
+,,,,,Date : 10th July Time : 2:48 PM,
+,,,,,"There is an error while processing the request java.util.concurrent.CompletionException: software.amazon.awssdk.services.dynamodb.model.DynamoDbException: User: arn:aws:iam::510848192422:user/s3user is not authorized to perform: dynamodb:PutItem on resource: arn:aws:dynamodb:ap-southeast-1:510848192422:table/demo_sessiondata_v2 because no identity-based policy allows the dynamodb:PutItem action (Service: DynamoDb, Status Code: 400, Request ID: BKHRIHL538E6KNTGSABJVQMGJVVV4KQNSO5AEMVJF66Q9ASUAAJG, Extended Request ID: null) at software.amazon.awssdk.utils.CompletableFutureUtils.errorAsCompletionException(CompletableFutureUtils.java:60)",
+,,,,,Suggestion : Vishwanath suggested not to use Kafka locally because it internally calls some other services like Communication service etc.,
+,,,,,Date : 10th July Time : 3:09 PM,
+,,,,,"Also there is an issue with the S3config. Properties file, informed Vishwanath about this.",
+,,,,,c.l.ms.security.config.S3ConnectionDev:40 : /data/loginext/properties/us-east-1_chat_s3_demo.json,
+,,,,,java.nio.file.NoSuchFileException: /data/loginext/properties/us-east-1_chat_s3_demo.json,
+,,,,,Suggestion: Vishwanath suggested below changes in the file after that the code having multiple issues,
+,,,,,config_s3.properties,
+,,,,,aws.s3.configuration.buckets.chat=ap-southeast-1_chat_s3_demo.json,
+,,,,,Set this value in your local machine path,
+,,,,,Date : 12th July Time : 2:48 PM,
+,,,,,"Discussed the same with Vishwanath, he had some issue because the code was not cloned, directly downloaded from git, hence cloned it today.",
+,,,,,Suggestion: To clone the code so that we figure out how many files are getting changed and impacted.,

@@ -1,0 +1,6 @@
+{
+  "source_file": "data/user_demo_user/raw/Fever record.csv",
+  "chunks": [
+    "29 June 2025,\n,\n6:00 AM,101\n10:00,101.1\n2:00,98\n5:00,95\n9,94.5\n,\n,\n30 June 2025,\n,\n,\n,\n,\n3 July,\nTime,Temp\n8:50,99.4"
+  ]
+}

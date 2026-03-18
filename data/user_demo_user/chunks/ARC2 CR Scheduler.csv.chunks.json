@@ -1,0 +1,6 @@
+{
+  "source_file": "data/user_demo_user/raw/ARC2 CR Scheduler.csv",
+  "chunks": [
+    "CR in ARC 1,Items,Description,\n,POC DB maintinance change,\"Need to calculate total visit based on number of visit per weeek and total week, current one takes input of total visit only\n\nChanges arround FDS\", 1 week\n,,,\n,Authrization logic enhancement,\" FDS, Auth Tracker, Patient and Claims -> Claim Setup during addition of CT ID\",1 week\n,,,\n,Limitation,Need to add visit count in db maintinance,2 days\n,,,\n,Cancellation Fee Management in ARC1,As after after patient would not be able to see updated fees,3 days\n,,,\n,Push Notification of Authorization and POC expire,FDS,2 days"
+  ]
+}

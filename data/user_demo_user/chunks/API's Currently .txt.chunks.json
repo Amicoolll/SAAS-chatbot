@@ -1,0 +1,6 @@
+{
+  "source_file": "data/user_demo_user/raw/API's Currently .txt",
+  "chunks": [
+    "﻿Api\n\tEndpoint\n\tComment\n\tauthenticate\n\tLoginApp/login/auth\n\t\n\n\tOrderList\n\tShipmentApp/shipment/fmlm\n\t(Change status name for all tabs)\nNeed api for count of items in each tab of order list\nTo fetch the order list\n\tPicked Up\n\thttps://products.loginextsolutions.com/ShipmentApp/shipment/fmlm/status?status=PICKEDUP\n\tTo mark Picked up \n\tGet Languages\n\thttps://products.loginextsolutions.com/ClientApp/client/getByTypeAndId?type=BASELANGUAGE\n\tGet list of languages to change language\n\tSet language\n\t{{MAIN_API_URL}}LoginApp/login/setlanguage?locale=en-GB\n\tTo change language\n\tRaise Exception\n\t{{MAIN_API_URL}}ShipmentApp/exception/raise\n\tTo raise exception\n\tLogout\n\t{{MAIN_API_URL}}LoginApp/login/clear\n\t\n\n\t\n\n\n\n\n\n\n\n\n\n\n\nHelp Centre Web Url’s\n\n\nDeveloper Portal :- https://products.loginextsolutions.com/product/#/developersPortal\n\n\nAsk a question :- \nhttps://support.loginextsolutions.com/index.php/mile-homepage/#contact\n\n\nPrivacy Policy :- \nhttps://www.loginextsolutions.com/privacy-policy\n\n\n\n\nTerms & Conditions :- \nhttps://www.loginextsolutions.com/terms-and-conditions"
+  ]
+}

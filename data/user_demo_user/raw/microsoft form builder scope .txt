@@ -1,0 +1,101 @@
+﻿Scope 
+Sign up:
+User will be able to do sign up in the project 
+* Email ID 
+* Password 
+
+
+Login: 
+User will be able to do the login in the system in the project. 
+* Email ID 
+* Password 
+
+
+Forgot password:
+User will be able to do the forgot password by the link that will be sent on  email ID 
+
+
+
+
+Form List:
+* User will be able to see the form list that he has created till now
+* Name of the form 
+* Image of the form
+
+
+Edit form:
+* User will be able to edit the form
+
+
+Responses:
+User will be able to see the responses that he have received in the form.
+
+
+
+
+
+
+Create form 
+1. Select + New form  
+2. Enter a name for your form and an optional description.
+Note: form titles can contain up to 90 characters. Descriptions can have up to 1,000 characters.
+Note: To insert media, select   Add media .
+Note: Your form is saved automatically while you create it. 
+Add questions
+   1. Select + Add new to add a new question to your form.
+   2. Choose what kind of question you want to add, such as Choice, Text, Rating, or Date questions. Select More question types  Drop down list for more question types in Microsoft Forms  for Ranking, Likert, File upload, or Net Promoter Score® question types.
+To organize sections for your questions, select Section.
+You can also format your text. Highlight a word or words in your title or questions, and then choose any of the following: Bold, Italic Underline, Font color, Font size, Numbering, or Bullets.
+   3. Using the Choice question type as an example, add your question and answers. Select + Add option to add more answer options.
+   4. You can set up answer options for 
+      * Multiple answers
+      * Required
+      * (More options)   The More Options button consists of three dots, like an ellipsis symbol. 
+         5.  (More options)   The More Options button consists of three dots, like an ellipsis symbol.  offers these options
+            * Shuffle options
+            * Drop-down
+            * Math
+            * Subtitle
+            * Add branching
+            6. Select the Correct Answer check mark next to the correct answer or answers.
+            7. Note: You can select All of the above or None of the above as an option.
+            8. To remove an answer, select the trash can button next to it. You can also choose to make a question required or allow multiple choices for a question by changing the settings at the bottom of the question.
+            9. Add a number in the Points text box to assign a point value for a correct answer to the form question.
+            10. Select the Message icon next to any answer if you want to customize a message for it. Respondents will see the message when they've selected that answer.
+
+            11. To display math formulas, select More settings for question  More options button  > Math.
+            12. Select Enter an equation to trigger various math symbols and formula options to use in your form.
+
+Select the Copy question icon in the upper right corner of a question to duplicate it. To change the order of the questions, click or tap the Up or Down arrows on the right side of each question.
+               1. On a computer, select   Preview icon Preview to see how your form will look. On a mobiledevice, select  Preview icon to see how your form will look.
+               2. To test out your form, answer the questions in Preview mode, and the select Submit.
+               3. To keep editing your form, select Back.
+                  * Change your theme : user will be able to  theme  and also can add any color or image in the background: 
+                  * Customize your form settings: fonts 
+                  * Check the answers: check the answers given by the users. 
+                  * Send your form to the users: 
+                  * By QR code 
+                  * By Link
+                  * Add copy link option
+                  * Manage each step: if user wanted to cancel the form so form should save and if he wanted to come back the form should open from there only
+                  * The Form listing that you have created 
+                  * The form will be responsive.
+                  * No offloading will be done 
+                  * If user will be leaving the form until submit that cache will be deleted.
+
+
+
+
+
+
+Assumptions:
+                  * Creating a quiz product will not be responsive.
+                  * Analysis cannot be done in the phone, must be done by computer, current design, have data download so I can analyze with Excel
+                  * Output will be web responsive. 
+                  * Analysis cannot be done in the phone, must be done by computer, current design, have data download so I can analyze with Excel
+                  * Subscription will not be available for this phase 1
+                  * Means currently in phase 1 of form development,  we are not able to sell it as a subscription. Will have to develop the subscription software to manage subscription.
+                  * There will be no option for present 
+                  * There will be no option to import 
+                  * For now there will be no option for template.
+                  * Johns team can create the the template

@@ -1,0 +1,154 @@
+﻿MVVM:
+
+
+When to use MVVM : 
+
+
+Use this pattern when you need to transform models into another representation for a view. For example, you can use a view model to transform a Date into a date-formatted String, a Decimal into a currency-formatted String, or many other useful transformations.
+
+
+MVVM works well if your app requires many model-to-view transformations.
+* Models hold application data. They’re usually structs or simple classes.
+* Views display visual elements and controls on the screen. They’re typically subclasses of UIView.
+* View models transform model information into values that can be displayed on a view. They’re usually classes, so they can be passed around as references.
+
+
+  
+
+
+
+
+
+
+
+MVVM offers some advantages over Model-View-Controller, or MVC, which is the de facto approach in iOS:
+* Reduced complexity: MVVM makes the view controller simpler by moving a lot of business logic out of it.
+* Expressive: The view model better expresses the business logic for the view.
+* Testability: A view model is much easier to test than a view controller. You end up testing business logic without having to worry about view implementations.
+
+
+
+
+In contrast, the view model is responsible for the following:
+* Model inputs: Taking view inputs and updating the model.
+* Model outputs: Passing model outputs to the view controller.
+* Formatting: Formatting model data for display by the view controller.
+* 
+
+
+
+Way of MVVM Implementation 
+
+
+ MVVM, you need a way to bind view model outputs to the views.
+* Key-Value Observing or KVO: A mechanism for using key paths to observe a property and get notifications when that property changes.
+* Functional Reactive Programming or FRP: A paradigm for processing events and data as streams. Apple’s new Combine framework is its approach to FRP. RxSwift and ReactiveSwift are two popular frameworks for FRP.
+* Delegation: Using delegate methods to pass notifications when values change.
+* Boxing: Using property observers to notify observers that a value has changed.
+
+
+
+
+
+
+APP Link: https://drive.google.com/file/d/10p8sIi2l7A81uHLIE3eDZlgzb-zf5vwv/view?usp=sharing.
+
+
+
+
+
+
+
+
+Test Cases:
+
+
+
+
+
+
+
+
+ARC:
+
+
+
+
+
+
+However, it’s possible to write code in which an instance of a class never gets to a point where it has zero strong references. This can happen if two class instances hold a strong reference to each other, such that each instance keeps the other alive. This is known as a strong reference cycle.
+
+
+Example: strong reference cycle.
+
+
+class Person {
+*    let name: String
+*    init(name: String) { self.name = name }
+*    var apartment: Apartment?
+*    deinit { print("\(name) is being deinitialized") }
+* }
+* 
+
+* 
+
+
+
+class Apartment {
+*    let unit: String
+*    init(unit: String) { self.unit = unit }
+*    var tenant: Person?
+*    deinit { print("Apartment \(unit) is being deinitialized") }
+* * }
+
+
+var john: Person?
+var unit4A: Apartment?
+Memory to the objects
+john = Person(name: "John Appleseed")
+unit4A = Apartment(unit: "4A")
+  
+
+How the strong reference cycle occur.
+john!.apartment = unit4A
+unit4A!.tenant = john
+
+
+Now:
+  
+
+Solution
+Weak or unowned
+Weak: Use a weak reference when the other instance has a shorter lifetime
+Unowned: use an unowned reference when the other instance has the same lifetime or a longer lifetime.
+
+
+Weak:
+
+
+class Person {
+*    let name: String
+*    init(name: String) { self.name = name }
+*    var apartment: Apartment?
+*    deinit { print("\(name) is being deinitialized") }
+* }
+* 
+
+* class Apartment {
+*    let unit: String
+*    init(unit: String) { self.unit = unit }
+*    weak var tenant: Person?
+*    deinit { print("Apartment \(unit) is being deinitialized") }
+* * }
+  
+
+john = nil
+* * // Prints "John Appleseed is being deinitialized"
+  
+
+
+
+unit4A = nil
+* *   
+
+Unowned

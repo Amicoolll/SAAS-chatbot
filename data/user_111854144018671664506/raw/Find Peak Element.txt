@@ -1,0 +1,113 @@
+﻿Find Peak Element
+A peak element is an element that is strictly greater than its neighbors.
+
+
+Given a 0-indexed integer array nums, find a peak element, and return its index. If the array contains multiple peaks, return the index to any of the peaks.
+
+
+You may imagine that nums[-1] = nums[n] = -∞. In other words, an element is always considered to be strictly greater than a neighbor that is outside the array.
+
+
+You must write an algorithm that runs in O(log n) time.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Odd Even Linked List
+Given the head of a singly linked list, group all the nodes with odd indices together followed by the nodes with even indices, and return the reordered list.
+
+
+The first node is considered odd, and the second node is even, and so on.
+
+
+Note that the relative order inside both the even and odd groups should remain as it was in the input.
+
+
+
+
+public int exponentialFibonacci(int n) {
+if (n <= 1) return n;
+return exponentialFibonacci(n - 1) + exponentialFibonacci(n - 2) + exponentialFibonacci(n-3);
+}
+
+
+
+
+///////////
+public void factorialPermutations(String str, String ans) {
+if (str.length() == 0) {
+System.out.println(ans);
+return;
+}
+for (int i = 0; i < str.length(); i++) {
+char ch = str.charAt(i);
+String ros = str.substring(0, i) + str.substring(i + 1);
+factorialPermutations(ros, ans + ch);
+}
+}

@@ -1,0 +1,1838 @@
+﻿Received.io Application
+Project Description
+
+
+Recieved.io is a package and visitor tracking application for Messenger Centers.
+
+
+Skyscrapers are large are beautiful buildings that house some of the biggest companies in the world.  So it shouldn’t be a surprise that security is a major concern for the property managers that operate these buildings.  The managers implemented Messenger Centers to control the flow deliveries into the building.   Every courier that delivers a package must go through the messenger center.  The messenger center manager receives the package and the package and courier information.  After a package is received by the messenger center it’s delivered to the recipient by an employee that works for the messenger center.
+
+
+The purpose of received.io is to provide a digital log of packages and visitors that enter the building.
+
+
+Interactions
+Site Managers can do the following:
+
+
+1. Enter Packages
+2. Manage Tenants
+3. Manage Couriers
+4. Manage Floor Reps
+5. Run Reports
+6. Deliver a package
+7. Search for packages
+Floor Reps can do the following:
+
+
+1. Enter Packages
+2. Manage Tenants
+3. Manage Couriers
+4. Manage Floor Reps
+5. Run Reports
+6. Deliver a package
+7. Search for packages
+
+
+Roles
+
+
+Courier -  Outside delivery person that is delivering the package to the building. 
+
+
+Site Manager - Is the manager of the message center
+
+
+Floor Rep -  Is the internal messenger that will deliver the package to the tenant. 
+
+
+Tenant -  Is a business in the building 
+
+
+Tenant Contact - An employee of the tenant. 
+
+
+Package - Is the item be delivered. 
+
+
+Building -  A location with many tenants.  Each building has only one site manager.   A building can have multiple floor reps. 
+
+
+
+
+
+
+
+
+Type of App
+Native iOS app with custom Admin Panel
+
+
+App Monetization Strategy
+
+
+Sass Product.   Billing will done manually by accounting department. 
+
+
+
+
+******Sprint Roadmap & Important Dates
+Roadmap
+
+
+iOS Dev Complete -  March 1st, 2019
+Distribute to Beta Testers -  Feb 15th, 2019
+Launch Date - March 15th, 2019 
+
+
+
+
+Business Requirements
+
+
+* SSL Certificate
+* Apple Developer Account
+* SendGrid Account
+* Fort Rabbit Hosting - https://www.fortrabbit.com/
+
+
+Technical Requirements
+
+
+* iOS swift front end
+* iOS 12, 11, and 10
+* JSON API
+* PHP Backend
+* MySQL Database
+* Sendgrid for transactional emails
+
+
+Received.io API v1
+Server located: http://received-io.frb.io
+
+
+________________
+
+
+Authentication Resource
+
+
+Login credentials: email = mobileteam@gmail.com and password = mobileteam
+POST /api/v1/login.php
+
+
+options:
+* email (required)
+* password (required)
+Returns a success status and jwt (json web token) and updates last_login (timestamp)
+For example: email = mobileteam@gmail.com and password = mobileteam
+Response:
+{
+"message": "Successful login.",
+"user": {
+"id": "9",
+"firstname": "mobile",
+"lastname": "team",
+"email": "mobileteam@gmail.com"},
+"jwt": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9leGFtcGxlLm9yZyIsImF1ZCI6Imh0dHA6XC9cL2V4YW1wbGUuY29tIiwiaWF0IjoxMzU2OTk5NTI0LCJuYmYiOjEzNTcwMDAwMDAsImRhdGEiOnsiaWQiOiIxMiIsImZpcnN0bmFtZSI6Im1vYmlsZSIsImxhc3RuYW1lIjoidGVhbSIsImVtYWlsIjoibW9iaWxldGVhbUBnbWFpbC5jb20ifX0.k0ogU_Dd7_WIyOKCbLwSZTCh0V7Yx5YNjKPJjLBnbM"
+}
+POST /api/v1/logout.php
+options:
+* Jwt (json web token) (required)
+Returns a success status and updates last_logout timestamp
+Response:{"message": "Successful logout."}
+POST /api/v1/reset_password.php
+
+
+options:
+* email (required)
+Generates new password
+Response:
+{
+"message": "new password generated",
+"password": "jC8LyBGi"
+}
+Building Resource
+GET /api/v1/buildings.php
+
+
+Options:
+* Jwt (json web token) (required)
+* offset
+* limit
+Returns a list of Buildings 
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	full_address
+	Full Address returned by Google Maps API
+	String
+	street_number
+	Street Number returned by Google Maps API
+	String
+	street_name
+	Street Name returned by Google Maps API
+	String
+	city
+	City returned by Google Maps API
+	String
+	state
+	State returned by Google Maps API
+	String
+	zip
+	Zip  returned by Google Maps API
+	String
+	property_manager 
+	Use the property manager ID to query the db and display the Property Manager Object
+	User Object
+	site_manager
+	Use the site manager ID to query the DB and display the Site Manager Object
+	User Object
+	
+
+GET /api/v1/building.php 
+Options
+* Jwt (json web token) (required)
+id (required)
+Returns a Building
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	full_address
+	Full Address returned by Google Maps API
+	String
+	street_number
+	Street Number returned by Google Maps API
+	String
+	street_name
+	Street Name returned by Google Maps API
+	String
+	city
+	City returned by Google Maps API
+	String
+	state
+	State returned by Google Maps API
+	String
+	zip
+	Zip  returned by Google Maps API
+	String
+	property_manager 
+	Use the property manager ID to query the db and display the Property Manager Object
+	User Object
+	site_manager
+	Use the site manager ID to query the DB and display the Site Manager Object
+	User Object
+	
+
+POST /api/v1/create_building.php
+create building
+Options:
+* Jwt (json web token) (required)
+* full_address (required)
+* street_number (required)
+* street_name (required)
+* city (required)
+* state (required)
+* zip (required)
+* site_manager_id. (optional. But must be a valid user id and the user role must equal “site_manager")
+* property_manger_id (optional. But must be a valid user id and the user role must equal “property_manager”)
+
+
+Note: Site Manager and Property Manager can not have the same user ID. 
+
+
+
+
+POST /api/v1/update_building.php
+Update building.  Same as POST, except you should expect a 200 if everything is OK
+
+
+Options:
+* Jwt (json web token) (required)
+* id (required)
+* full_address (required)
+* street_number (required)
+* street_name (required)
+* city (required)
+* state (required)
+* zip (required)
+* site_manager_id. (optional. But must be a valid user id and the user role must equal “site_manager")
+* property_manger_id (optional. But must be a valid user id and the user role must equal “property_manager”)
+
+
+Note: Site Manager and Property Manager can not have the same user ID. 
+
+
+________________
+
+
+Tenant Resource
+
+
+GET /api/v1/tenants.php
+
+
+Options:
+* Jwt (json web token) (required)
+* offset
+* limit
+* building_id
+* sortby: floor_asc, floor_desc, most_recent, name_asc
+
+
+Returns a list of Tenants
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	company_name
+	Name of the Tenant
+	String
+	floor
+	Floor the tenant is located on
+	String
+	building_id
+	Use the Building ID to query the DB and display the Building Object
+	Object
+	
+
+
+
+GET /api/v1/tenant.php
+Options:
+* Jwt (json web token) (required)
+id (required)
+Returns a Tenant
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	company_name
+	Name of the Tenant
+	String
+	floor
+	Floor the tenant is located on
+	String
+	building_id
+	Use the Building ID to query the DB and display the Building Object
+	Object
+	
+
+
+
+
+
+POST /api/v1/create_tenant.php
+Create new tenant
+
+
+Options:
+* Jwt (json web token) (required)
+* Name (required)
+* company_name (required)
+* floor (required)
+* building_Id (required)
+
+
+POST /api/v1/update_tenant.php
+Update Tenant.  Same as POST, except you should expect a 200 if everything is OK
+
+
+Options:
+* Jwt (json web token) (required)
+* Id (required)
+* Name (required)
+* company_name (required)
+* floor (required)
+* building_id (required)
+
+
+________________
+
+
+Recipient Resource
+
+
+
+
+GET /api/v1/recipients.php
+
+
+Options:
+* Jwt (json web token) (required)
+* offset
+* limit
+* tenant_id
+
+
+Returns a list of Recipients 
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	firstname
+	First Name of the recipient
+	String
+	lastname
+	Last Name of the recipient
+	String
+	email
+	recipient email address
+	String
+	phone
+	recipient phone number
+	String
+	tenant_id
+	Use the Tenant ID to query the DB and display the Tenant Object
+	Object
+	
+
+GET /api/v1/recipient.php
+Options:
+* Jwt (json web token) (required)
+id (required)
+
+
+
+
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	firstname
+	First Name of the recipient
+	String
+	lastname
+	Last Name of the recipient
+	String
+	email
+	recipient email address
+	String
+	phone
+	recipient phone number
+	String
+	tenant_id
+	Use the Tenant ID to query the DB and display the Tenant Object
+	Object
+	
+
+
+
+POST /api/v1/create_recipient.php
+Create new recipients
+Options:
+* Jwt (json web token) (required)
+* firstname (required)
+* lastname (required)
+* email (optional)
+* phone (optional)
+* tenant_id (required)
+POST /api/v1/update_recipient.php
+Update recipient.  Same as POST, except you should expect a 200 if everything is OK
+
+
+Options:
+* Jwt (json web token) (required)
+* firstname (required)
+* lastname (required)
+* email (optional)
+* phone (optional)
+* tenant_id (required)
+
+
+
+
+________________
+
+
+Property Management Companies Resource
+
+
+
+
+GET /api/v1/property_management_companies.php
+
+
+Options:
+* Jwt (json web token) (required)
+* offset
+* limit
+Returns list of  Property Management Companies
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	name
+	Name of property management Company
+	String
+	logo_url
+	URL for property management company logo
+	String
+	
+
+
+
+GET /api/v1/property_management_company.php
+Options:
+* Jwt (json web token) (required)
+id (required)
+
+
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	name
+	Name of property management Company
+	String
+	logo_url
+	URL for property management company logo
+	String
+	
+
+
+
+POST /api/v1/create_property_management_company.php
+Create new property management company
+Options:
+* Jwt (json web token) (required)
+* name (required)
+* logo_url  (optional)
+PUT /api/v1/update_property_management_company.php
+Update property management company.  Same as POST, except you should expect a 200 if everything is OK
+
+
+Options:
+* Jwt (json web token) (required)
+* name (required)
+* logo_url  (optional)
+
+
+
+
+
+
+________________
+
+
+
+
+Courier Companies Resource
+
+
+GET /api/v1/courier_companies.php
+
+
+Options:
+* Jwt (json web token) (required)
+* offset
+* limit
+
+
+Returns list of Courier Companies
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	name
+	Name of property management Company
+	String
+	
+
+
+
+GET /api/v1/courier_company.php
+Options:
+* Jwt (json web token) (required)
+id (required)
+
+
+
+
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	name
+	Name of property management Company
+	String
+	
+
+
+
+POST /api/v1/create_courier_company.php
+Create new courier company
+
+
+Options:
+* Jwt (json web token) (required)
+* name (required)
+
+
+PUT /api/v1/update_courier_company.php
+Update courier company.  Same as POST, except you should expect a 200 if everything is OK
+
+
+Options:
+* Jwt (json web token) (required)
+* Id (required)
+* name (required)
+
+
+
+
+________________
+
+
+
+
+Couriers Resource
+GET /api/v1/couriers.php
+
+
+Options:
+* Jwt (json web token) (required)
+* offset
+* limit
+* Auth Token  (required)
+
+
+Returns list of Couriers
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	firstname
+	First Name of courier
+	String
+	lastname
+	Last Name of courier
+	String
+	photo_url
+	photo of courier
+	String
+
+
+	id_number
+	ID number from government issued ID card
+	String
+	
+
+GET /api/v1/courier.php
+
+
+Options:
+* Jwt (json web token) (required)
+* id (required)
+* Auth Token  (required)
+
+
+
+
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	firstname
+	First Name of courier
+	String
+	lastname
+	Last Name of courier
+	String
+	photo_url
+	photo of courier
+	String
+
+
+	id_number
+	ID number from government issued ID card
+	String
+	
+
+POST /api/v1/create_courier.php
+Create new courier
+
+
+Options:
+* Jwt (json web token) (required)
+* firstname (required)
+* lastname (required)
+* photo_url  (required)
+* id_number (required)
+* Auth Token  (required)
+
+
+POST /api/v1/update_courier.php
+Update courier.  Same as POST, except you should expect a 200 if everything is OK
+
+
+Options:
+* Jwt (json web token) (required)
+* Id (required)
+* firstname (required)
+* lastname (required)
+* photo_url  (required)
+* id_number (required)
+* Auth Token  (required)
+
+
+
+
+
+
+________________
+
+
+
+
+Packages Resource
+
+
+GET /api/v1/packages.php
+
+
+Options:
+* Jwt (json web token) (required)
+* Jwt (json web token) (required)
+* offset
+* limit
+
+
+Returns list of packages (incoming & outgoing)
+Response
+{
+   "records": [
+       {
+           "id": "9",
+           "ticket_id": "INC\/32511",
+           "courier_id": "1",
+           "package_photo_url": "https://received-io.objects.frb.io/uploads/1547570762-Chrysanthemum.jpg",
+           "status": "Completed",
+           "create_date": "2019-01-15 16:46:02",
+           "update_date": "2019-01-16 16:40:05",
+           "type": "incoming",
+           "tenant": {
+               "id": "1",
+               "company_name": "test 33",
+               "floor": "2",
+               "create_date": "2018-11-27 02:17:10",
+               "update_date": "2018-11-29 05:16:23"
+           }
+       }
+   ],
+   "paging": {
+       "first": "",
+       "pages": [
+           {
+               "page": 1,
+               "url": "https://received-io.frb.io/api/v1/packages.php?page=1",
+               "current_page": "yes"
+           }
+       ],
+       "last": ""
+   }
+}
+GET /api/v1/search_packages.php
+
+
+Options:
+* Jwt (json web token) (required)
+* type (incoming, outgoing)
+* status (In progress, Completed, Lost, Ready for delivery)
+* tenant_name (string)
+* company_name (string)
+* logged_by(user id for user who logged this incoming package)
+* logged_before (created before date Y-m-d H:i:s)
+* logged_after (created after date Y-m-d H:i:s)
+* sender_name (single or listing of sender names)
+
+
+Returns list of packages (incoming & outgoing)
+Response
+{
+   "records": [
+       {
+           "id": "9",
+           "ticket_id": "INC\/32511",
+           "courier_id": "1",
+           "package_photo_url": "https://received-io.objects.frb.io/uploads/1547570762-Chrysanthemum.jpg",
+           "status": "Completed",
+           "create_date": "2019-01-15 16:46:02",
+           "update_date": "2019-01-16 16:40:05",
+           "type": "incoming",
+           "tenant": {
+               "id": "1",
+               "company_name": "test 33",
+               "floor": "2",
+               "create_date": "2018-11-27 02:17:10",
+               "update_date": "2018-11-29 05:16:23"
+           },
+"user": {
+               "id": "1",
+               "firstname": "test",
+               "lastname": "test"
+           }
+       }
+   ],
+   "paging": {
+       "first": "",
+       "pages": [
+           {
+               "page": 1,
+               "url": "https://received-io.frb.io/api/v1/packages.php?page=1",
+               "current_page": "yes"
+           }
+       ],
+       "last": ""
+   }
+}
+
+
+Incoming Deliveries Resource
+
+
+GET /api/v1/incoming_deliveries.php
+
+
+Options:
+* Jwt (json web token) (required)
+* offset
+* limit
+* courier_company_id
+* building_id
+* ticket_id
+* tenant_id
+* recipent_id
+* floor_rep_id
+
+
+Returns list of incoming packages
+Response
+{
+   "records": [
+       {
+           "id": "5",
+           "ticket_id": null,
+           "courier_id": "321",
+           "courier_company_id": "13",
+           "building_id": "12",
+           "recipient_id": "2",
+           "tenant_id": "2",
+           "floor_rep_id": "1",
+           "package_photo_url": "google.com",
+           "create_date": "2019-01-10 07:31:21",
+           "update_date": "2019-01-10 07:31:22",
+           "package_type": "incoming",
+           "tenant_company_name": null,
+           "tenant_floor": null
+       }
+   ],
+   "paging": {
+       "first": "",
+       "pages": [
+           {
+               "page": 1,
+               "url": "https:\/\/received-io.frb.io\/api\/v1\/packages.php?page=1",
+               "current_page": "yes"
+           }
+       ],
+       "last": ""
+   }
+}
+GET /api/v1/incoming_delivery.php
+Options: 
+* Jwt (json web token) (required)
+id (required)
+
+
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	ticket_id
+	Ticket Number for the package.  All tickets start with a letter prefix and a six digit number.
+
+
+For Example:  A000001, A200430
+
+
+Ticket numbers are unique to a building.  This means that more than one delivery can have the same ticket number as long as the building ID for the delivery is not the same.   
+
+
+If we max out the ticket number the system should automatically had another character to the prefix. 
+
+
+For example.  
+
+
+The next ticket number after Z999999 should be AA000001
+	String
+	sender_name
+	Full Name of the person that send the package
+	String
+	courier_id
+	record ID of the courier that delivered the package to the messenger center
+	Integer (Should return the courier object)
+	courier_company_id
+	record ID of the company the courier works for.
+	Integer (Should return the courier company object)
+	tenant_id
+	record ID of the tenant associated with the recipient record
+	Integer (Return Object in response)
+	recipient_id
+	record ID of the recipient receiving the package
+	Integer (Return Object in response)
+	building_id
+	record ID of the building associated with the user creating the delivery.
+	Integer (Return Object in response)
+	floor_rep_id
+	record ID of the user delivering the package
+	Integer (Return Object in response)
+	package_photo_url
+	Image of the package being delivered
+	String
+	signature_image_url
+	Image containing the signature of the person that signed for the package
+	String
+	signature_text
+	Text version of the signature
+	String
+	
+
+
+
+POST /api/v1/create_incoming_delivery.php
+
+
+Create incoming delivery
+
+
+Content type : multipart-form data
+
+
+options:
+
+
+* Jwt (json web token) (required)
+* sender_name (optional)
+* courier_id (required)
+* courier_company_id  (optional)
+* tenant_id (required)
+* package_photo (required)
+* recipient_id (optional)
+* building_id (optional)
+
+
+POST /api/v1/incoming_delivery_assign.php
+Assign Floor rep to incoming delivery
+
+
+Options:
+* Jwt (json web token) (required)
+* id (required) - Incoming delivery ID
+* Floor_rep_id (required) - Floor Rep ID
+* Building_id (required) - Floor rep building ID
+
+
+
+
+POST /api/v1/incoming_delivery_signature.php
+Update incoming delivery with a signature
+
+
+Options:
+* Jwt (json web token) (required)
+* id (required) - Incoming delivery ID 
+* signature_image_url (required) - Signature Image 
+* signature_text (required) - Signature text 
+
+
+
+
+DELETE /api/v1/delete_incoming_delivery.php
+Options:
+id (required)
+Delete incoming delivery.  Same as POST, except you should expect a 200 if everything is OK
+
+
+Options:
+* Jwt (json web token) (required)
+* id (required) - Incoming delivery ID
+* user_id  (required) - User ID
+* auth_token  (required) - Auth Token
+
+
+
+
+
+
+
+
+
+
+________________
+
+
+
+
+
+
+Outgoing Deliveries Resource
+
+
+GET /api/v1/outgoing_deliveries.php
+
+
+Options:
+* Jwt (json web token) (required)
+* offset
+* limit
+* courier_company_id
+* building_id
+* ticket_id
+* tenant_id
+* recipent_id
+* floor_rep_id
+
+
+
+
+Get list of outgoing deliveries
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	ticket_id
+	Ticket Number for the package.  All tickets start with a letter prefix and a six digit number.
+
+
+For Example:  A000001, A200430
+
+
+Ticket numbers are unique to a building.  This means that more than one delivery can have the same ticket number as long as the building ID for the delivery is not the same.   
+
+
+If we max out the ticket number the system should automatically had another character to the prefix. 
+
+
+For example.  
+
+
+The next ticket number after Z999999 should be AA000001
+	String
+	courier_id
+	record ID of the courier that delivered the package to the messenger center
+	Integer (Should return the courier object)
+	courier_company_id
+	record ID of the company the courier works for.
+	Integer (Should return the courier company object)
+	tenant_id
+	record ID of the tenant associated with the recipient record
+	Integer (Return Object in response)
+	recipient_id
+	record ID of the recipient receiving the package
+	Integer (Return Object in response)
+	building_id
+	record ID of the building associated with the user creating the delivery.
+	Integer (Return Object in response)
+	floor_rep_id
+	record ID of the user delivering the package
+	Integer (Return Object in response)
+	package_photo_url
+	Image of the package being delivered
+	String
+	destination_full_address
+	Full address for the outgoing delivery
+	String
+	destination_street_number
+
+
+	Street Number for the outgoing delivery
+	String
+	destination_street_name
+	Street Name for the outgoing delivery
+	String
+
+
+	destination_city
+	City for the outgoing delivery
+	String
+	destination_state
+	State for the outgoing delivery 
+	String
+
+
+	destination_zip
+	Zip for the outgoing delivery
+	String
+	
+
+GET /api/v1/outgoing_delivery.php
+
+
+Options: 
+* Jwt (json web token) (required)
+id (required)
+
+
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	ticket_id
+	Ticket Number for the package.  All tickets start with a letter prefix and a six digit number.
+
+
+For Example:  A000001, A200430
+
+
+Ticket numbers are unique to a building.  This means that more than one delivery can have the same ticket number as long as the building ID for the delivery is not the same.   
+
+
+If we max out the ticket number the system should automatically had another character to the prefix. 
+
+
+For example.  
+
+
+The next ticket number after Z999999 should be AA000001
+	String
+	courier_id
+	record ID of the courier that delivered the package to the messenger center
+	Integer (Should return the courier object)
+	courier_company_id
+	record ID of the company the courier works for.
+	Integer (Should return the courier company object)
+	tenant_id
+	record ID of the tenant associated with the recipient record
+	Integer (Return Object in response)
+	recipient_id
+	record ID of the recipient receiving the package
+	Integer (Return Object in response)
+	building_id
+	record ID of the building associated with the user creating the delivery.
+	Integer (Return Object in response)
+	floor_rep_id
+	record ID of the user delivering the package
+	Integer (Return Object in response)
+	package_photo_url
+	Image of the package being delivered
+	String
+	destination_full_address
+	Full address for the outgoing delivery
+	String
+	destination_street_number
+
+
+	Street Number for the outgoing delivery
+	String
+	destination_street_name
+	Street Name for the outgoing delivery
+	String
+
+
+	destination_city
+	City for the outgoing delivery
+	String
+	destination_state
+	State for the outgoing delivery 
+	String
+
+
+	destination_zip
+	Zip for the outgoing delivery
+	String
+	
+
+
+
+POST /api/v1/create_outgoing_delivery.php
+
+
+Create outgoing delivery
+
+
+Content-type: multipart/form-data
+
+
+options:
+
+
+* Jwt (json web token) (required)
+* tenant_id (required)
+* recipient_id (required)
+* package_photo (required) (file input)
+* building_id (optional)
+* destination_full_address (optional)
+* destination_street_number (optional)
+* destination_street_name (optional)
+* destination_city (optional)
+* destination_state (optional)
+* destination_zip (optional)
+
+
+POST /api/v1/outgoing_delivery_assign.php
+Assign outgoing delivery to a floor rep
+
+
+Options:
+* Jwt (json web token) (required)
+* id (required) - outgoing ID 
+* floor_rep_id (required) - Floorep ID 
+* building_id (required) - Floor rep building ID
+POST /api/v1/outgoing_delivery_release.php
+Release outgoing package to a courier
+
+
+Options
+* Jwt (json web token) (required)
+* id (required) - outgoing ID
+* courier_id (required) - courier ID
+* courier_company_id (required) - courier company ID
+
+
+
+
+________________
+
+
+
+
+Visitors Resource
+
+
+GET /api/v1/visitors.php
+
+
+Options:
+* Jwt (json web token) (required)
+* offset
+* limit
+* courier_company_id
+* building_id
+* ticket_id
+* tenant_id
+* recipent_id
+
+
+
+
+
+
+Get list of visitors
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	ticket_id
+	Ticket Number for the package.  All tickets start with a letter prefix and a six digit number.
+
+
+For Example:  A000001, A200430
+
+
+Ticket numbers are unique to a building.  This means that more than one delivery can have the same ticket number as long as the building ID for the delivery is not the same.   
+
+
+If we max out the ticket number the system should automatically had another character to the prefix. 
+
+
+For example.  
+
+
+The next ticket number after Z999999 should be AA000001
+	String
+	courier_id
+	record ID of the courier that delivered the package to the messenger center
+	Integer (Should return the courier object)
+	courier_company_id
+	record ID of the company the courier works for.
+	Integer (Should return the courier company object)
+	tenant_id
+	record ID of the tenant associated with the recipient record
+	Integer (Return Object in response)
+	recipient_id
+	record ID of the recipient receiving the package
+	Integer (Return Object in response)
+	building_id
+	record ID of the building associated with the user creating the delivery.
+	Integer (Return Object in response)
+	
+
+GET /api/v1/visitor.php
+
+
+Options :
+* Jwt (json web token) (required)
+id (required)
+
+
+
+
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	ticket_id
+	Ticket Number for the package.  All tickets start with a letter prefix and a six digit number.
+
+
+For Example:  A000001, A200430
+
+
+Ticket numbers are unique to a building.  This means that more than one delivery can have the same ticket number as long as the building ID for the delivery is not the same.   
+
+
+If we max out the ticket number the system should automatically had another character to the prefix. 
+
+
+For example.  
+
+
+The next ticket number after Z999999 should be AA000001
+	String
+	courier_id
+	record ID of the courier that delivered the package to the messenger center
+	Integer (Should return the courier object)
+	courier_company_id
+	record ID of the company the courier works for.
+	Integer (Should return the courier company object)
+	tenant_id
+	record ID of the tenant associated with the recipient record
+	Integer (Return Object in response)
+	recipient_id
+	record ID of the recipient receiving the package
+	Integer (Return Object in response)
+	building_id
+	record ID of the building associated with the user creating the delivery.
+	Integer (Return Object in response)
+	
+
+POST /api/v1/create_visitor.php
+Create visitor record
+
+
+Options:
+* Jwt (json web token) (required)
+* tenant_id (required)
+* recipient_id (required)
+* building_id (required)
+* courier_id (required)
+* courier_company_id (required)
+
+
+
+
+________________
+
+
+
+
+
+
+Users Resource
+GET /api/v1/users.php
+options:
+     type (admin, property manager, floor rep, site manager, building manager)
+
+
+
+
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	firstname
+	User first name 
+	String
+	lastname
+	User last name 
+	String
+
+
+	email
+	User email address
+	String
+	user_type
+	User Type
+
+
+Admin
+Property Manager
+Floor Rep
+Site Manager
+Building Manager
+
+
+	String
+	office_id
+	Office id
+	integer
+	super_admin
+	Is user a super admin
+
+
+Super Admins can’t be delete
+	Boolean
+	office_number
+	User Office Number
+	String
+	cell_number
+	User Cell phone number
+	String
+	photo_url
+	User Photo
+	String
+	
+
+GET /api/v1/user.php
+Option: 
+* Jwt (json web token) (required)
+* id (required)
+Property
+	Description
+	Type
+	id
+	Record ID
+	Integer
+	created_date
+	Date/Time the record was created. 
+	Date/time (GMT)
+	updated_date
+	Date/Time the record was updated. 
+	Date/time (GMT)
+	firstname
+	User first name 
+	String
+	lastname
+	User last name 
+	String
+
+
+	email
+	User email address
+	String
+	user_type
+	User Type
+
+
+Admin
+Property Manager
+Floor Rep
+Site Manager
+Building Manager
+
+
+	String
+	office_id
+	Office id
+	integer
+	super_admin
+	Is user a super admin
+
+
+Super Admins can’t be delete
+	Boolean
+	office_number
+	User Office Number
+	String
+	cell_number
+	User Cell phone number
+	String
+	
+
+
+
+
+
+POST /api/v1/update_user.php
+
+
+Update user
+
+
+Content type multipart form data
+
+
+Options
+* Jwt (json web token) (required)
+* id (required)
+* firstname (optional)
+* lastname (optional)
+* email (optional)
+* password (optional)
+* user_type (optional)
+* photo_url (optional)
+POST /api/v1/create_user.php
+
+
+Create user  Same as POST, except you should expect a 200 if everything is OK
+
+
+Content type multipart form data
+
+
+Options
+* Jwt (json web token) (required)
+* firstname (required)
+* lastname (required)
+* email (required)
+* password (required)
+* user_type (required) (Admin, Manager etc)
+* photo (optional)
+
+
+Upload Resource
+POST /api/v1/upload.php
+Options:
+file (required) - multipart form data file
+jwt (required) - json web token
+
+
+Property
+	Description
+	Type
+	url
+	Amazon s3 url of the uploaded file
+	String
+	
+
+
+
+
+
+________________
+
+
+Data Relationships
+USER
+  .belongsTo(Buildings as Site Manager, Floor Rep, or Property Manager)
+
+
+
+
+Things to note:
+There can only be one property manager for a building 
+There can only be one site manager for a building 
+                
+        
+
+
+
+
+
+
+Other Considerations
+
+
+Not Applicable.
+*******User Stories*******
+
+
+
+
+
+
+
+
+*******Screen Flow Map*******
+
+
+
+
+Functional Spec
+
+
+Glossary
+
+
+
+
+1. Products - The Product resource lets you update and create products.  Clients can browse products and download product specifications.
+
+
+2. Classes - Valrhona host in-person tutorials throughout the year.  The Class resource lets you update and create classes.   Clients can RSVP for classes.
+
+
+3. Events - Valrhona host gatherings throughout the year.   The Event resource lets you update and create events.   Clients can RSVP for events.
+
+
+4. Pages - A page is an external URL that opens within an in-app browser window. 
+
+
+5. Distributors - A distributor is a 3rd party company that buys products from Valrhona at a bulk discount.  They sell the product at a profit to chefs in a specific region.  Clients can search for the closest distributor. 
+
+
+
+
+
+
+
+
+
+
+User Types
+
+
+1. Guest - people that have no yet registered
+2. Client - people that have registered and can RSVP for events and classes, download specs, and save to favorites.
+3. Cercle V - inherits the capabilities of a client. Can access exclusive, products, classes, and events 
+4. Admin -  Can access all screens in the Admin Panel
+5. Sales Team Member -  Has read-only access to the following screens in the admin panel.
+   1. Events
+   2. Classes
+SPRINTS
+
+
+Sprint 1 - 3
+
+
+https://bluelabellabs.atlassian.net/wiki/spaces/BL244VAL/pages/96043009/Sprint+1+-+3?atlOrigin=eyJpIjoiMGM4MzA0ZGNhNDRmNGY1Y2E0ZDY5MTE2ZWIyODIwZTMiLCJwIjoiYyJ9
+
+
+
+
+Tech Notes
+
+
+Models 
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+Competitors & Product Inspiration
+
+
+N/A
+
+
+
+
+
+
+Seeding Users & Content
+
+
+
+
+
+
+
+
+Steps to go to Market 
+
+
+
+
+1. TBD
+2. TBD
+3. TBD
+
+
+Post-Launch Marketing
+
+
+1. TBD
+
+
+
+
+Brainstormed Ideas
+
+
+1. Signature
+
+
+
+
+Future Features
+
+
+1. N/A
+
+
+
+
+------------------------------------------------------------------------------------------------------
+
+
+OLD STUFF BELOW (Archives)
+
+
+------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------

@@ -1,0 +1,21 @@
+﻿Issues:
+
+
+
+
+* In term and condition page, term and condition header should also scroll 
+* Manga screen please add images those I have send with cover image Link: https://drive.google.com/drive/folders/1zsyavtKE4jmHdNNwYU1zbMesKlI6VQC5.
+* * Manga screen first time opening has the glitch issue  link: https://drive.google.com/file/d/1hK4Al3ZKps-740i8pgtT1zX8x3qs_qml/view?usp=sharing.
+* Please remove the wooden background in manga 
+* Please let me know if we have changed the server because teams white screen issue is still there at time of hovering on the image 
+* See the link: https://drive.google.com/file/d/1ig_bHGdDIKvhc0TBF0wZ2hTFJzZ6NymZ/view?usp=sharing.
+* Add links on teams page 
+
+
+
+
+New Task: 
+
+
+Before opening the Managa first page it should be in the middle of the screen 
+We will send you cover image to add in place off passport Image

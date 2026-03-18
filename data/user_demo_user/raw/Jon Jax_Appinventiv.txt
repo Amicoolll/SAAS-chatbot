@@ -1,0 +1,931 @@
+﻿Scope Of Work
+This is the Empyrean EHR bible that we will follow to convert your idea into a functioning app ready to be introduced to the world.
+____________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Empyrean EHR
+
+
+
+
+
+
+
+
+
+
+Delivered to
+Jon Jax
+Date: 16th February 2023
+
+
+  
+
+
+
+  
+
+We work round the Technologies that make an app scalable and future-centric
+
+We Design using
+  
+                    
+
+
+We Code in
+Front-end Development
+  
+                    
+
+
+Back-end Development
+  
+            
+
+
+We’ll communicate with you through 
+  
+            
+  
+
+1. Functional Specifications
+   1. Links & Documents Received from Client: 
+Document: Empyrean Recovery SAAS EHR App Overview - App Developer (2).pdf
+
+
+   2. Project Summary
+The Proposed Platform will be a SAAS-based Multi-Tenant Electronic Health Record System. The system will be built for Recovery Residence Organizations(RRO), The Platform will have the ability for each RRO Tenant to allow Multiple Staff Logins, Portal (Client) logins, and User Access Control. The Platform will be HIPAA Compliant and will also have Tracking Capabilities for the Recovery Residence.
+Onboarding: The Platform(SaaS) Administrators will be able to Give Users Access to Login over the Platform by either Providing the Login Credentials or the Required Access
+Dashboard/Reporting: The Users will be able to view Numeral Stats for different Features over the Dashboard.
+Manage Clinical Client Data: The Users will be able to View Different Information about the Patients over the Platform including General Info, Clinical information, Activity, Medical Information, etc.
+Manage Organizational Data: The User will be able to View and Manage the Facility Data including the locations, beds, programs, Activities Calendar, etc.
+Manage Organization and Client Financial Data: The Users will have the ability to View and Manage the Different Financial Data of the Organization as well as the Client over the Platform Itself
+Data/File Export: The users will have the ability to Export and Transfer Documents and Files and Data outside the Platform
+Document Generation and E-Signature: The Users will have the ability to Generate Documents over the platform regarding different Documentation Processes and then will also have the ability to Provide E-Signature for Verification and Validation.
+Chat: The Platform will enable Different Stakeholders to chat within the Platform
+Customizations:  The Users will be able to customize the Application Interface which will include Custom Themes, Access Controls, and Also Data Export
+Lab Reports:  The Users will be able to View, Manage Lab Reports, Results over the Platform.
+
+
+
+
+   3. Stakeholders
+* General Staff-House Managers (Web, Android & iOS applications)
+* Users (Web, Android & iOS applications)
+* Instance Admin (Web)
+* SaaS Admin (Web)
+
+
+   4. Scope of Work
+Users (Web, Android & iOS applications)
+* Onboarding
+   * Splash:  Users will be able to View the Splash Screen having the branding of the Platform 
+      * The screen will display the Logo and the Timeline of the Platform
+      * The Screen will include a Welcome Message
+      * It will be displayed for 2-4 Sec, and then Redirected to the Next Screen Automatically
+   * Tutorials: The users can view the Static Tutorial Images and Videos of how to use the Platform or what Services the Platform Offers
+   * Login
+      * Users will be able to log in into the Platform by
+         * Unique Code specific to a Rehab
+         * Email
+         * Password
+Note: Every Organization will have a Unique Key/Code for the Login
+      * Forgot Password:
+         * Users can reset their account Passwords by clicking on this:
+            * Through the Reset Link on the Email
+         * Users can reset the Password by Entering the Following:
+            * Current Password
+            * New Password
+            * Confirm New Password
+* Dashboard
+   * Once the Patients complete the Onboarding process they will have the ability to see and view the following numeral stats on the Dashboard:
+      * Activity Tracking: The user will be able to view stats based on the following parameters:
+         * Total Activities Completed 
+         * Total On-Going Activities
+         * Ability to filter out the stats by:
+            * 1 week
+            * 1 month
+            * Overall
+      * Goal Tracking: The Users will be able to view certain numeral stats based upon the following parameters:
+         * Total goals completed
+         * Ability to filter out the stats by:
+            * 1 week
+            * 1 month
+            * Overall
+      * View the Scheduled Appointments: The Patient will have the ability to view numeral stats based upon the following parameters:
+         * Total Appointments attended
+         * Upcoming appointments 
+* Schedule Appointments
+   * The Patient will have the ability to Book Appointments with the Clinicians/House Managers by performing the following actions:
+      * Select Date and Time
+      * Enter Reason for the Meeting
+      * Select the Clinicians/House Manager
+      * The Patient will be able to view the Work Schedule of the Clinician/House Manager and accordingly can view the meeting slots
+   * My Appointments
+      * User will be able to view the following type of appointments:
+         * Completed Appointments
+         * Upcoming appointments
+            * The User will also have the following Abilities:
+               * Reschedule Appointments
+               * Cancel Appointments
+* Manage EHR data
+   * The user will have the ability to view the following details Regarding the EHR Data:
+      * General Information
+         * The User will be able to view the General Information: 
+            * Name
+            * Phone
+            * Email
+            * Gender
+            * Age
+            * Patient/Client ID
+            * Address
+            * Allotted Room 
+         * Clinical Information: The User will be able to view the Clinical Information 
+            * The user will be able to view the current Treatment Information
+            * The User will be able to View the Discharge Information:
+               * The User will be able to view the Discharge Status:
+                  * Completed 
+                  * Pending
+         * Medical Information
+            * The user will be able to upload the following Medical Information: 
+               * Diagnosed Illness/Addiction 
+               * Medical Records: Medical Reports, Diagnose Illness Reports (TBD)
+               * Previous Medical Prescriptions
+               * Suggested Treatment- Before Coming to the Facility
+               * On-Going Treatment Details
+               * Current Prescriptions 
+               * Current Medications
+         * Stay Tracking
+            * The User will be able to view the Following Information regarding the stay: 
+               * Admission Date
+               * Beds Allocated
+               * Tentative Discharge Date
+               * Services Included for the Room
+               * Stay and Bed Information
+               * Basic Patient Information
+                  * Name
+                  * Age
+                  * Patient/Client ID
+         * Applications[a] and Requests:
+            * The user will be able to Generate Requests and Applications by providing the Following details:
+               * Request/Application Information
+               * Reason for Request/Application
+            * The User will be able to see a list view of the Requests/Applications Generated
+            * The User will have the ability to Click on each Request/Application and check the Status of each
+         * Location Tracking
+            * The User will be able to Put and Enter the Location Pins Manually on Entering the Facility
+            * The User will be able to see the Locations Entered Manually with the Date and Time Stamps in a list View 
+            * They can also view the status of the client
+               * Check In
+               * Check Out
+         * E-Signature
+            * The User will have the ability to View and Provide the  E-Signatures on the following Existing Documents over the Platform: 
+               * Contracts
+               * Agreements
+               * Standard Procedural Documents
+               * Discharge Documents[b]
+            * The User will be able to see a list view of all the Signed Documents
+            * The User will be able to see a list View of all the Documents for which the Signature are Pending or Required
+            * Note: Third Party Integration to be considered for the same
+         * Manage Finances
+            * The user will have the ability to manage the finances over the Platform and have the following abilities:
+               * The User will have the ability to Make Payments over the Platform (Third Party Integration to be Considered)[c]
+               * The User will be able to see a list view of the Transactions/History of the Payments Made and also see the following:
+                  * Transaction Number
+                  * Date and Time
+                  * Receipts
+                  * Paid Amount
+               * The user will be able to see a list View of all the Due Payments:
+                  * On clicking on the Due Payments the user will be redirected to the Payment page for the specific Service/Facility
+               * The User will be able to View and Manage the Payment Methods: 
+                  * Users will be able to view the following Information for Each Payment Method: 
+                     * Name on Card
+                     * Card Number
+                     * Expiry of the Card
+                     * Security Code-CVV
+                     * Billing Zip Code
+                  * Users will have the ability to make a Payment Method as the Default Payment Method
+                  * Add New Payment Method
+                     * Users will have the ability to Add a New Payment Method by Providing the Following information:
+                        * Name on Card
+                        * Card Number
+                        * Expiry of the Card
+                        * Security Code-CVV
+                        * Billing Zip Code
+                  * Edit Payment Method
+                     * Users will have the ability to Edit the following Payment Method information: 
+                        * Name on Card
+                        * CVV
+                        * Expiry Date
+                  * Delete Payment Method
+                     * Users will have the ability to Delete an Existing Payment Method
+         * Activity Tracking[d]
+            * Ability to view the Activity Tracker
+            * Ability to view the list view of all the Completed Activities
+            * Ability to view the List view of the Ongoing or Incomplete Activities
+            * Ability to set new goals and View the Activity Tracker based on it
+         * Store Insurance Cards
+            * The Users will have the ability to store Insurance Cards and other Health related Cards over the Platform by Providing the following details: 
+               * Upload the Health Cards/Insurance Cards over the Platform
+         * Store Medication Information
+            * Ability to View the Medication Plans
+            * Ability to Upload the Prescriptions 
+            * Ability to View all the relevant details in a medication List:
+               * Name
+               * Total Dosage required
+               * Time for each dose
+               * Number of dose at a time
+            * Ability to Add new Medication list to the Plan
+               * Ability to send the medication to a selected General Staff-House Managers for Approval 
+* Chat
+   * View Active Chats & Details: Users will be able to View and Manage the Active Chats/ Messages by performing the Following Actions:
+      * View and Search the Chat Threads
+         * Users will be able to view the following Information in the Chat Thread: 
+            * Name
+            * Chat History
+            * Messages with Last Sent as well as Received time
+         * Patients will be able to Search the Chat Threads based on the Clinicians Name
+         * Upon Receiving any Reply from the Clinician, the Patient will receive an In-App Notification for the same
+      * View Details of an Individual Chat: 
+         * The User will be able to view the following Details in the Chat Thread:
+            * Sender Image/Profile Picture
+            * Messages/ Chat History
+            * Message Details-Date and Time
+         * Note: We assume the chat to be limited to textual & have not considered sharing of videos, images, location, number porting, documents, etc for now.
+      * View Details of a Group Chat: 
+         * The User will be able to view the following Details in the Chat Thread:
+            * Sender Images/Profile Pictures
+            * See different Patients and Clinicians Messages Received from
+            * Messages/ Chat History
+            * Message Details-Date and Time
+         * Note: We assume the chat to be limited to textual & have not considered sharing of videos, images, location, number porting, documents, etc for now.
+      * Initiate a New Message thread with a Clinician/House Manager 
+         * The User will be able to Initiate a New Chat Thread with a Registered user through 
+            * The Clinician Profile Section
+* My Profile
+   * View Profile Details
+      * First Name
+      * Last Name
+      * Phone Number
+      * Address
+      * Email Address
+      * Password
+   * Edit their Profile 
+   * Change Password
+* Notifications
+   * The user will be able to Receive Notifications for the following:
+      * Scheduled Meetings
+      * New Requests /Applications Status Prompts 
+      * Payment Reminders
+      * Pending Bills
+      * General Notifications from the system
+   * Push Notifications
+   * Mute Notifications
+* Settings
+   * About, Feedback & Contact
+      * Users will be able to view the Static Information:
+         * About 
+         * Terms and Conditions
+         * Privacy Policy
+         * Provide Feedback via Email
+         * Contact Email
+   * Notification Settings
+      * Users will have the ability to Edit/Customize the Notification Settings
+         * Users will be able to Select the Notifications they wish to Receive over Email and enable/disable Push notification
+   * Log Out
+
+
+General Staff- House Managers
+* Onboarding
+   * Splash:  Users will be able to View the Splash Screen having the branding of the Platform 
+      * The screen will display the Logo and the Timeline of the Platform
+      * The Screen will include a Welcome Message
+      * It will be displayed for 2-4 Sec, and then Redirected to the Next Screen Automatically
+   * Tutorials: The users can view the Static Tutorial Images and Videos of how to use the Platform or what Services the Platform Offers
+   * Login
+      * Users will be able to log in into the Platform by
+         * Email and Password( Which would already Exist)
+      * Note: Every Organization will be having a Unique Key/Code for the Login
+      * Forgot Password:
+         * Users can reset their account Passwords by clicking on this:
+            * Through the Reset Link on the Email
+         * Users can reset the Password by Entering the Following:
+            * Current Password
+            * New Password
+            * Confirm New Password
+* Dashboard
+   * Once Users Complete the Onboarding Process they will have the ability to view the Following Information: 
+      * The Numeral Stats of the Following:
+         * Number of Total Patients/Clients Currently in the Facility
+         * Number of Beds Allocated
+         * Number of Beds Available
+         * View the Calendar
+            * Scheduled Appointments/Meetings
+         * View the Messages in a List View
+         * View the Requests Received from the Clients
+         * View the Activity Track of the Patients/Clients 
+      * The User will have the ability and Manage the Client Data:
+         * General Information
+            * The User will be able to View the General Data of the Patient:
+               * Name
+               * Phone
+               * Email
+               * Gender
+               * Age
+               * Patient/Client ID
+               * See the following as Quick View : 
+                  * Call Patient (Redirection to Outside Platform-for Mobile App)
+                  * Send SMS (Redirection to Outside Platform for Mobile App)
+                  * Send Email (Redirection to Outside Platform for Mobile App)
+                  * Location Tracking
+                     * The User will be able to view the Location Pins of the Patient which they have Entered Manually 
+                     * The User will be able to See the Location Pins entered Manually by the Patients with the Date and Time Stamps 
+                     * They can also view the status of the client
+                        * Check In
+                        * Check out
+                  * Clinical Information: The User will be able to view the Clinical Information of the Patient:
+                     * The user will be able to view and manage the current Treatment Information
+                     * The User will be able to View and Manage the Discharge Information:
+                        * The User will have the ability to Manage and Initiate the Discharge Process by Changing the Status Manually over the Platform-Process Started, Verified, In Progress and Discharge Process Completed
+                     * Applications and Requests:[e] The User will be able to see a list view of the Requests/Applications Received from the Patient
+                        * The User will have the ability to Click on each Request/Application and Perform action on it
+                        * The user will be able to Mark the Application as Rejected, Accepted-Ongoing, Completed
+                     * The User will be able to view the Programs and Activities the Patient is enrolled in 
+                        * The User will be able to track the Progress and view the growth of the Patient
+                  * Client Journey
+                     * The user will have the ability to View and Manage the Journey of the Patients as a Milestone
+                     * The User will be able to Set Milestones for the Patients
+                     * The User will have the ability to Edit and Modify the Milestones
+                     * The User will have the ability to mark a certain Milestone as Completed and set new goals following to it
+                  * Goals Management[f]
+                     * Ability to view goals available over the platform
+                     * Ability to add/remove goals
+                     * Ability to map goal to a selected user
+                     * Ability to view goals for a selected user
+                     * Ability to delete a goal from a selected user
+                     * Ability to filter the goals by:
+                        * Sleep
+                        * Water 
+                        * Meal 
+                     * Ability to set a goal Active/Inactive
+                  * Medical Information
+                     * The user will be able to View and Manage the Medical Information of the Patient:
+                        * Diagnosed Illness/Addiction 
+                        * Medical Records: Medical Reports, Diagnose Illness Reports(TBD)
+                        * Previous Medical Prescriptions uploaded by the Patient/Client
+                        * Suggestive Treatment
+                        * On-Going Treatment Details
+                        * Current Prescriptions 
+                        * Current Medications
+                  * Stay Tracking
+                     * The User will be able to view the Following Information regarding the stay of the Patient: 
+                        * Admission Date
+                        * Room Allocated
+                        * Tentative Discharge Date
+                        * Services Included for the Room
+                        * Stay and Room Information
+                        * Basic Patient Information
+                  * Calendar[g] 
+                     * The user will have the ability to see the Calendar view of any Particular Patient and see the Following Information: 
+                        * Scheduled Meetings/Appointments
+                        * View Routine Meetings/ Appointments
+Note: We are assuming that there will be no Syncing in Google and Apple Calendar.
+         * Patient Management
+            * Ability to view the list of Patients present on the platform
+            * Ability to search for a Patient by Name/location/Room Number
+            * Filter: Ability to filter their search 
+               * Location 
+               * Room
+               * Floor
+               * Gender
+            * Ability to view the details of a selected Patient: 
+               * Basic Details
+               * Location
+               * Medication
+            * Ability to view Daily Schedules of a selected user
+            * Ability to maintain the medication record of each Patient/Client
+Note: We are assuming only Viewing of Document Uploaded by the Patients
+            * Ability to view the Medication history of Patients
+            * Ability to add a new Patient
+            * Ability to view the SOS from the patients
+            * Ability to block/ unblock a Patient
+            * Ability to remove a Patient from the platform
+               * Patient’s account will be deleted from the platform
+         * Manage Beds
+            * Ability to view all the beds available
+            * Ability to view the beds based upon the following:
+               * Vacant
+               * Occupied
+            * Ability to add/Delete/Edit the number of beds
+            * Ability to view details of a selected bed
+            * Ability to view details of a selected user associated with a selected bed
+         * Manage Medication
+            * Ability to create Medication Plans
+               * Daily Medication Plans
+            * Ability to view prescription uploaded by the Patient/Client
+            * Ability to Perform Action on a Medication Plan/ Prescription as Received from the Patient and add it to their Plan( As Uploaded by the User via Documents or Manually)
+               * Approve 
+               * Reject
+            * Ability to add all the relevant details in a medication List:
+               * Name
+               * Total Dosage required
+               * Time for each dose
+               * Number of doses at a time with the following status Updates:
+                  * Before Breakfast, After Breakfast
+                  * After Lunch
+                  * After Dinner
+                  * Number of Iterations in a day or Every Hour
+            * Ability to Edit/Remove/Add a medication plan
+         * Manage Activities[h]
+            * Ability to view the Activity of the Patients- Activity Tracker
+            * Ability to view the list view of all the Completed Activities
+            * Ability to view the List view of the Ongoing or Incomplete Activities
+            * Ability to allot new Activities to the Patients/Clients
+         * Manage Financial Data
+            * The user will have the ability to View the Financial data of the Patients
+            * The user will have the ability to view the Transactions of the Patients made on the Platform(TBD)
+         *   Document Generation and E-Signatures
+            * The User will have the ability to View the Patients Signed Documents and Provide the E-Signatures on the following documents:
+               * Contracts
+               * Agreements
+               * Standard Procedural Documents
+               * Reports
+               * Discharge Documents
+            * The User will be able to see a list view of all the Signed Documents
+            * The User will be able to see a list View of all the Documents for which the Signature are Pending or Required
+Note: Third Party Integration to be considered for the same
+* Schedule Appointments and Meetings
+   * The user will be able to Select a Patient and set a Meeting or Appointment with them mentioning the following details: 
+      * Date and Time
+      * Meeting Agenda
+   * The User will be able to view the Calendar of the Patient and Check his availability for the same
+   * On Scheduling of the Appointment the same will get Updated in the Calender of both the Patient and the Staff Member
+   * The user will have the Ability to also Perform the Following actions on the Platform:
+      * Cancel the Meeting
+      * Reschedule the Meeting
+* Chat
+   * View Active Chats & Details: Users will be able to View and Manage the Active Chats/ Messages by performing the Following Actions:
+      * View and Search the Chat Threads
+         * Users will be able to view the following Information in the Chat Thread: 
+            * Name
+            * Chat History
+            * Messages with Last Sent as well as Received time
+         * Users will be able to Search the Chat Threads based on the User’s Name
+         * Upon Receiving any Reply from the Patient, the Manager will receive an In-App Notification for the same
+         * Users will be able to Initiate a Group Chat by Creating a Group and Performing the following actions: 
+            * By Naming the Group Chat         
+            * By Selecting the Patients/Clients and adding them 
+            * Adding the Description to the Group
+      * View Details of an Individual Chat
+         * The User will be able to view the following Details in the Chat Thread:
+            * Sender Image/Profile Picture
+            * Messages/ Chat History
+         * Note: We assume the chat to be limited to textual & have not considered sharing of videos, location, number porting, documents, etc for now. Also, we have not considered message status(Seen, delivered, Read)
+      * View Details of a Group Chat
+         * The User will be able to view the following Details in the Chat Thread:
+            * Sender Image/Profile Picture
+            * Messages/ Chat History
+         * Note: We assume the chat to be limited to textual & have not considered sharing of videos, location, number porting, documents, etc for now. Also, we have not considered the message status(Read, Delivered, and Unread Status) 
+      * Initiate a New Message thread with a Patient
+         * The User will be able to Initiate a New Chat Thread with a Registered user through 
+            * The Patient's Profile Section
+* Notifications
+   * The user will be able to Receive Notifications for the following:
+      * Scheduled Meetings
+      * New Requests/Applications
+      * General Notifications from the system
+   * Push Notifications
+   * Mute Notifications
+* Profile
+   * View Profile Details
+      * First Name
+      * Last Name
+      * Phone Number
+      * Address
+      * Email Address
+      * Password
+   * Edit their Profile 
+   * Change Password
+* Settings
+   * About, Feedback & Contact
+      * Users will be able to view the Static Information:
+         * About 
+         * Terms and Conditions
+         * Privacy Policy
+         * Provide Feedback via Email
+         * Contact Email
+   * Notification & Reminder Settings
+      * Users will have the ability to Edit/Customize the Notification Settings
+         * Users will be able to Select the Notifications they wish to Receive over Email and enable/disable Push notification
+   * Log Out
+ 
+Instance Admin (Web)
+* Admin can log in inside the Portal. 
+* Admin can use the forgot passwords functionality to regain access
+* Dashboard
+   * Admin can view the numeral stats of 
+      * Patient Count in Total
+         * Active Patient Count In Total
+         * Blocked Patient Count In Total
+      * General Staff-House Managers Count in Total
+         * Active General Staff-House Managers Count In Total
+         * Blocked General Staff-House Managers Count In Total
+   * We have not assumed any graphs and other filter options as of now in scope.
+* Patient Management
+   * Ability to view the list of Patients present on the platform
+   * Ability to search for a Patient by Name/location/Room Number
+   * Filter: Ability to filter their search 
+      * Location 
+      * Room
+      * Floor
+      * Gender
+   * Ability to view the details of a selected Patient
+      * Basic Details
+      * Location
+      * Medication
+   * Ability to view Daily Schedules of a selected user
+   * Ability to maintain the medication record of each patient
+   * Ability to view the Medication history of Patients
+   * Ability to add a new Patient
+   * Ability to view the SOS from the patients
+   * Ability to block/ unblock a Patient
+   * Ability to remove a Patient from the platform
+      * Patient’s account will be deleted from the platform
+   * Blocked Patients
+      * Ability to view the list of blocked Patients on the platform
+      * Ability to view the details of a selected Patient
+      * Ability to unblock a selected Patient
+      * Ability to remove a Patient from the platform
+* Manage EHR data
+   * The Admin will have the ability to view all following details Regarding the EHR Data of the Patients: 
+      * General Information
+         * The Admin will be able to View and Manage the General information of the Patients:
+            * Name
+            * Phone
+            * Email
+            * Gender
+            * Age
+            * Patient/Client ID
+            * Address
+            * Allocated Bed
+      * Medical Information
+         * The Admin will be able to View and Update  the Medical Information: 
+            * Diagnosed Illness/Addiction 
+            * Medical Records: Medical Reports, Diagnosed Illness Reports(TBD)
+            * Previous Medical Prescriptions
+            * Suggestive Treatment- Before Coming to the Facility
+            * On-Going Treatment Details
+            * Current Prescriptions 
+            * Current Medications
+      * Stay Tracking
+         * The Admin will be able to view the Following Information regarding the stay of the Patient and Perform Actions on the following, if necessary : 
+            * Admission Date
+            * Beds Allocated
+            * Tentative Discharge Date
+            * Services Included for the Room
+            * Stay and Bed Information
+            * Basic Patient Information
+               * Name
+               * Age
+               * Patient/Client ID
+      * Location Tracking
+         * The Admin will be able to View the Location Pins Manually Entered by the Patients/ Clients 
+         * The Admin will be able to see the Locations Entered Manually with the Date and Time Stamps in a list View 
+* General Staff-House Managers Management
+   * Ability to view the list of General Staff-House Managers present on the platform
+   * Ability to Add General Staff-House Managers
+      * Ability to add a new member
+         * Add details
+         * Manage Access Role
+            * General Staff-House Managers
+            * Sub-Admin
+      * Once added, General Staff-House Managers will receive the login credentials
+      * Ability to edit/remove a General Staff-House Manager
+   * Ability to view the details of a selected General Staff-House Manager
+      * Personal details
+         * Name
+         * Contact details
+            * Phone number
+            * Email
+         * Home address
+         * Work address
+         * Staff ID
+      * Activities[i]
+         * Ability to view the list of activities the staff can offer
+         * Ability to view the details of staff members
+            * List of activities
+               * Details of a selected activity
+            * Skills
+            * Activity they have been allocated to
+         * Ability to add a new activity
+      * Payroll and Timesheet
+         * Ability to view contracted hours of work per week
+         * Location and Hours Spent in the Rehab Facility by the General Managers
+      * Documents
+         * Ability to view the list of documents uploaded against a staff
+         * Ability to view the following details
+            * Verification Proof
+            * Achievement Documents
+            * Letters of reference
+         * Ability to upload more documents
+         * Ability to edit/remove a document
+      * Manage and Allot Shifts
+         * Ability to view all the Shifts w.r.t a Selected Staff Member
+         * Ability to change the Shifts w.r.t a Selected Staff Member
+   * Ability to search for a General Staff-House Manager
+   * Ability to block/ unblock a General Staff-House Manager
+* Manage Beds
+   * Ability to view all the beds available
+   * Ability to view the beds based upon the following:
+      * Vacant
+      * Occupied
+   * Ability to add/Delete/Edit the number of beds
+   * Ability to view details of a selected bed
+   * Ability to view details of a selected user associated with a selected bed
+* Manage Locations
+   * Admin will be able to view a list of locations added to the platform
+   * Ability to view details of selected location
+   * Ability to search for a location by:
+      * Name
+      * Branch ID
+      * Location
+   * Filter: Ability to filter their search 
+      * Location 
+   * Admin will have the ability to add a Branch by adding the following details: 
+      * Basic Details
+      * Location
+      * Contact details
+   * Ability to remove a location
+* Transactions Management
+   * Quick Stats
+      * Total Payments done on the platform
+      * Total Amount of Payment Transaction as per current month
+   * Ability to view the list of payment transactions made on the platform
+   * Ability to filter their search as per
+      * Date
+      * Amount range of transaction
+      * Status of transaction
+   * Ability to download the CSV file for transactions
+* Earnings Management
+   * Ability to view a list of earnings made on a weekly/monthly basis
+   * Ability to view the following earning details:
+      * User details
+      * Amount Paid
+      * Date and time log
+   * Ability to view total earning made from the platform
+* Manage Medication
+   * Ability to create Medication Plans
+   * Ability to view prescription uploaded by the user
+   * Ability to add all the relevant details in a medication List:
+      * Name
+      * Total Dosage required
+      * Time for each dose
+      * Number of dose at a time
+   * Ability to send the medication to a selected General Staff-House Managers
+   * Ability to Edit/Remove/Add a medication plan
+* Manage Daily Schedule
+   * Admin will be able to view a list of patients and their schedule
+   * Admin will be able to view the General Staff-House Managers who assigned and created the schedules
+   * Admin will be able to create daily schedules 
+   * Admin will be able to search & select a patient and can assign the schedule 
+   * Admin will be able to create a task schedule by performing the following actions:
+      * Enter the name of the task
+      * Enter details of the task
+      * Assign a time slot of that task
+   * Admin will be able to create multiple tasks in a single Schedule
+   * Admin will be able to map a schedule to Selected/All patients
+   * Admin will also be able to view the current schedules assigned to a patient
+   * Admin will be able to perform the following actions:
+      * Edit Schedule
+      * Add a task
+      * Remove a task
+*  Document Upload and E-Signatures
+   * The Admin will have the ability to Upload all the Relevant documents in the system, View the Patients Signed Documents and Provide the E-Signatures on the following documents if required :
+      * Contracts
+      * Agreements
+      * Standard Procedural Documents
+      * Reports
+      * Discharge Documents
+   * The User will be able to see a list view of all the Signed Documents
+   * The User will be able to see a list View of all the Documents for which the Signature are Pending or Required
+Note: Third Party Integration to be considered for the same
+* Support Management
+   * Dashboard:
+      * Admin will be able to see a list view of all the Tickets Received and their Status 
+         * Admin will see the count of raised ticket raised so far
+      * Admin will be able to Perform actions on the Ticket Status:
+         * Resolved/Closed
+         * Edit
+         * Delete
+* Notification Management
+   * Admin will be able to send a notification to all Patients/selected Patients
+   * Ability to send notifications to all General Staff-House Managers/selected General Staff-House Managers.
+* Static Content Management
+   * Manage all the static content like
+      * Terms and conditions
+      * About Us
+      * FAQs
+   * Manage all the drop-down options
+   * Edit/Remove any option
+
+
+SaaS Admin (Web)
+* Admin can log in inside the Portal. 
+* Admin can use the forgot passwords functionality to regain access
+* Dashboard
+   * Admin can view the numeral stats of 
+      * Organizations Count in Total
+         * Active Organizations Count In Total
+         * Blocked Organizations Count In Total
+      * Total Earnings in a day/week/month
+* Organizations Management
+   * Ability to view the list of Organizations present on the platform
+   * Ability to search for a Organizations by Name/location
+   * Filter: Ability to filter their search 
+      * Location 
+   * Ability to view the details of a selected Organization
+      * Basic Details
+      * Location
+   * Ability to view Payments done by Organizations
+      * Ability to add the payments receipt and details manually
+   * Ability to block/ unblock an Organization
+   * Ability to remove an Organization from the platform
+      * Organization’s account will be deleted from the platform
+   * Ability to add a new Organization
+   * Blocked Organizations
+      * Ability to view the list of blocked Organizations on the platform
+      * Ability to view the details of a selected Organization
+      * Ability to unblock a selected Organization
+      * Ability to remove a Organization from the platform
+
+
+
+
+
+
+Future Phase Features:
+
+
+* Lab Reports/Results
+* On Platform Discharge Process Automation(Currently to be done Manually via Status Based)
+* Calendar Syncing with Google and Apple Calendar
+* Location Tracking- Location Pinning
+* Health Card Details- Currently only Documents are to be Uploaded and Stored over the Platform for Records
+* Buy Insurance over the Platform
+* Block/Restrict Patients over the Platform
+* Medication Plans- Monthly or Weekly ( Currently only Daily Medication plans are Considered)
+* Manage and Change Themes(Feature for Instance Admins)-Only some Pre Defined Themes to be there for this Phase
+* OCR for Document Uploads(TBD for this Phase)
+* Refunds, Credits for the stay
+* Schedule Appointments and allot other Clinicians/House Managers ( Only one to one Scheduling considered for now from both sides)
+* Image, Video, and Document sharing over Chat
+* Video and Audio Calling
+* Location-based Geofencing for Employees and Patients
+* Support Management- Ticketing Screen 
+* Third Party Integrations for Client and Organizational Data Import (To be done Manually in the First Phase)
+
+
+HIPAA Compliance Tier 1 Considerations
+
+
+Database encryption: 
+	TIER 1
+	All the information stored in App or on Server will be stored in encrypted format
+	Token based access
+	TIER 1
+	JWT token based authentication
+	Strong Password policy
+	TIER 1
+	Password policy, Tracking wrong password attempts to block accounts as per the access policy
+	PHI Information transfer
+	TIER 1
+	No data sharing outside the platform, neither the downloadable content, In case it has to be there the data formats must be
+compliant with Hipaa
+	Patient consent
+	TIER 1
+	Any PHI must only be accessible once a consent for the same has been provided.
+	Logs- Only basic level
+	TIER 1
+	Basic logs with no extensive record-keeping for the past operation done by Admin
+	Screenshot
+	TIER 1
+	Disallow taking application screenshots and recording video
+	Third party Exploration for BAA
+	TIER 1
+	All third party that has to deal with PHI must be HIPAA compliant and should sign BAA, Though Discussion with Third-party for BAA or healthcare packages will be done by Client.
+	Database backup
+	TIER 1
+	Periodically database backup from s3 bucket though we have already taken the enterprise edition for it and that is already ensure the compliance for the same.
+	Load testing tools and techniques to emulate production-like scenarios.
+
+
+	TIER 1
+
+
+	
+
+	AWS cloud watch for logs
+
+
+	TIER 1
+
+
+	
+
+	Implement SSL certificate
+
+
+	TIER 1
+
+
+	
+
+	
+
+
+
+
+
+Assumptions
+* Hybrid App & Web development 
+* Only Android and iOS apps & Web for users. No iPad, and tablet.
+* Admin & SaaS admin will be a web-based panel.
+* Only English as a language.
+* We're assuming that we'll have to start from scratch with the designs.
+* Designs, Wireframe, and the complete flow will remain the same for any new language added and we don’t assume to create a new wireframe for any new language added.
+* We assume that live chat support will be a basic text chat, We are not considering any video or audio chat.
+* Only one payment gateway integration (To be finalized during the discovery phase)
+* We are assuming that EHR will be HIPAA compliant. Tiers will be discussed and finalized during the discovery phase.
+* Desktop applications will not be a part of the scope.
+* NFA and SSO will not be part of the scope. We are considering that each organization will have its unique ID that will help the users to log in.
+* We are assuming that there will be certain predefined templates that will be utilized by the organizations for customization.
+* Integration with a third party for e-signatures.
+* We are assuming that live tracking of the users will not be a part of the scope. Only status-based tracking will be there.
+* Integration with labs will be out of scope.
+* We are assuming that the prescription aspect will be discussed and finalized during the discovery phase.
+* We are assuming that clinicians will not be able to provide prescriptions to the end users.
+* OCR aspect will be discussed and finalized during the discovery phase.
+* Integration with a third-party analytic tool, Initially custom-based standard reports will be there.
+* We are assuming that transactional capabilities will be discussed and finalized during the discovery phase.
+* We are assuming that clinical client data, Organizational data, and Client financial data will be uploaded manually and no integration will be for now (Will be discussed and finalized during the discovery phase)
+* Format of the supported documents will be pdf and png.
+* Buying insurance will be out of scope.
+
+
+
+
+
+
+
+
+2. Third-Party Tools and Overhead Costs
+Google charges a one-time $25 fee to get a developer account on Google Play, which lets you publish Android apps. Free apps are distributed at no cost, and Google takes 30% of the revenues of paid apps for "carriers and billing settlement fees".  
+Apple charges $99/year to join the iOS Developer Program which lets you publish apps for the iPhone, iPod Touch, and iPad. If you price your app for free there are no further charges. If you charge for your app, Apple takes 30%. 
+  
+With On-Demand instances you only pay for EC2 instances you use. The use of On-Demand instances frees you from the costs and complexities of planning, purchasing, and maintaining hardware and transforms what are commonly large fixed costs into much smaller variable costs.   
+
+
+  
+
+                Let’s work Together
+
+
+                        
+                https://appinventiv.com 
+                   nitin.soni@appinventiv.com 
+                   +91 84481 82018
+
+
+
+
+                Find us on: 
+                              
+
+
+  
+
+
+
+[a]TBD
+[b]TBD
+[c]TBD
+[d]TBD
+[e]TBD
+[f]TBD
+[g]Do we need to sync the events to the calendar?
+[h]TBD
+[i]TBD

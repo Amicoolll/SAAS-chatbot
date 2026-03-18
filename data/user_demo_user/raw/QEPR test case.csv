@@ -1,0 +1,346 @@
+Test Case ID,Test Case Objective,Pre-requisites,Test Steps,Test Data,Expected Result,Actual Result,Test Result,Defect No.,Comments
+Splash Screen,,,,,,,,,
+QEPR_1.1,UI- App Installation,App should be installed.,1. Install the App.,,App icon”QEPR” should be displayed to the user on successfully installation with proper alignment and colour as per provided PSD,,,,
+QEPR_1.2,Functionality - App launching,App should be installed.,1. Install the App. 2. Launch the App,,"On launching the Application,splash screen should always displayed to the User maximum for 3 - 4 seconds.",,,,
+QEPR_1.3,Functionality of Splash screen,App should be installed.,1. Install the App. 2. Launch the App. 3.Tap on App Icon - Splash screen is dispalyed,,Application should be launched successfully . - The logo over app screen should not zoomed in and then zoomed out to get adjusted. Also user should directly redirected to tutorial screen.,,,,
+QEPR_1.4,UI – Splash Screen,App should be installed.,1. Install the App. 2. Launch the App. 3. Tap on App Icon - Splash Screen is displayed and user is navigated to tutorial screen.,,Make sure screen should be displayed with QEPR logo with label as per psd.,,,,
+Tutorial screen,,,,,,,,,
+QEPR_2.1,Tutorial screen,App should be installed.,1. Install the App. 2. Launch the App. 3. Tap on App Icon - Splash Screen is displayed and user is navigated to tutorial screen.,,There should be four tutorial screens and user can easily slide them.,,,,
+QEPR_2.2,UI of Tutorial screen,App should be installed.,1. Install the App. 2. Launch the App. 3. Tap on App Icon - Splash Screen is displayed and user is navigated to tutorial screen.,,All four tutorial screens content and color should be same of psd.,,,,
+QEPR_2.3,Tutorial screen in background ,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Minimize the app",,When user open the app again from background mode he/she should be on same tutorial screen on which he has send the screen to background mode.,,,,
+QEPR_2.4,Tutorial screen: If user kills the app,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Kills the app.",,"If user is on tutorial screen and kill the app and then again open the app, then tutorial screen should not open and user should directly naviagte to Create profile screen.",,,,
+QEPR_2.5,Tutorial screen: Cyclic,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.",,If tutorial screen si cyclic then there should be time frame of minimum 2 seconds so that user can read the content of slides.,,,,
+QEPR_2.6,Tutorial screen: Cyclic and user abrupt the cycles manually,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.",,If user abrubt the cycles manually then time frame should disable and screen should be slide-able manually.,,,,
+Sign up screen,,,,,,,,,
+QEPR_3.1,Sign up screen,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button",,From selection screen user should be able to select sign in/sign up.,,,,
+QEPR_3.2,UI of Sign up screen,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button",,UI should be as per psd having all fields as input fields except drop-down for choosing country code.,,,,
+QEPR_3.3,Sign up screen (Email addess),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button",,"On taping email field ""Email keyboard"" should open and cursor should blink.",,,,
+QEPR_3.4,Sign up screen (Email addess),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button",,Email should be in format abc@abc.com.,,,,
+QEPR_3.5,Sign up screen (Email addess),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button",,"Email field should not be blank and for blank/invalid email show messages as ""Please enter email.""
+""Entered email should be valid"" respectively.
+Alert messages should show on top of screen.",,,,
+QEPR_3.6,Sign up screen (Country code),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button",,Country code should be set of USA automatically. And from drop-down user should be able to change country code.,,,,
+QEPR_3.7,Sign up screen (Phone number),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button",,Phone number should be valid and from 10-13 numbers without prefix of country code.,,,,
+QEPR_3.8,Sign up screen (Username),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button",,"-Username should be unique.
+-Username should have on alpha-numeric charaters.
+- Username should not accept special charters, space, emojis.",,,,
+QEPR_3.9,Sign up screen (Password),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button",,"- Password field should not be blank. If left blank then show alert as ""Please enter password"".
+- Password should not accept white space.
+- Password length must be of 6-12 chracters with one number and a special character.
+- Password should not accept emojis.
+- Password should be in masked form.
+- Hide/unhide functionality of passwor should show entered password respectively.",,,,
+QEPR_3.10,Sign up screen (Promo code),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button",,"-Promocode should be of one time use only. 
+-Promo code should not be mandatory.
+",,,,
+QEPR_3.11,"Sign up screen (T&C, Privacy policy)",App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button",,"- T&C/PP should have static content filled from admin panel.
+- Mandory to check.
+- If not check then show alert ""Please accept Terms & conditions.""
+- On taping show inapp screen with uploaded content from admin.",,,,
+OTP screen,,,,,,,,,
+QEPR_4.1,OTP screen,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button
+5. After entering phone number.",,User should navigate to OTP screen.,,,,
+QEPR_4.2,UI of OTP screen,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button
+5. After entering phone number.",,UI of screen should be same as per psd.,,,,
+QEPR_4.3,OTP screen functionality (Timer),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button
+5. After entering phone number.",,"There should be timer of 2 minute.
+Timer should not stop if app is in back ground mode.",,,,
+QEPR_4.4,OTP screen functionality (Did not receive),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button
+5. After entering phone number.",,"If user tap on ""Did not receive"" then user should gain receive OTP and previous should not be valid then. And this button should be enable after completion of timer.",,,,
+QEPR_4.5,OTP screen,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign up button
+5. After entering phone number.",,"- After entering 4 digits send button should enable.
+- For invalid OTP show alert as  ""Entered OTP is not valid"".
+- Numeric keyboard should open for OTP.
+- Back button should naviagte user to sign up screen.",,,,
+Sign in screen,,,,,,,,,
+QEPR_5.1,Sign in screen,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign in button.",,After fourth tutorial screen user should have two options i.e Sign in/Sign up.,,,,
+QEPR_5.2,UI of sign in screen,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign in button.",,UI should be as per psd.,,,,
+QEPR_5.3,Sign in (Email/Username/Phone number),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign in button.",,"-User should be able to sign in via email/Username/Phone number).
+- For empty field show alert ""Please enter email/username/phone no.""
+- For invalid entery show alert as ""Invalid credentials.""
+- White space should not accept.
+",,,,
+QEPR_5.4,Sign up (Password),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign in button.",,"- Password field should not be blank.
+- Password should be in masked form.
+- For invalid show alert as ""Invalid creadentials"".
+
+- For blank show alert ""Please enter password.""
+- Hide/unhide should show or hide password respectively.
+",,,,
+Forgot password screen,,,,,,,,,
+QEPR_6.1,Forgot password screen,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign in button.
+5. Tap on forgot password",,Forgot password screen should open.,,,,
+QEPR_6.2,UI of forgot password screen,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign in button.
+5. Tap on forgot password",,"-Back button should be on top left corner
+- Input field with place holder text.
+- Send button.",,,,
+QEPR_6.3,Forgot password screen (Email),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign in button.
+5. Tap on forgot password",,"- For empty field show alert as ""Please enter registered emil/phone no.""
+- Email should be in format ""abc@abc.com"".
+- Email should be registered.
+- For invalid email show alert as ""Please enter valid email.""
+- For non registered email show alert as ""Entered email is not registered with us.""",,,,
+QEPR_6.4,Forgot password screen (Phone no),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign in button.
+5. Tap on forgot password",,"- For empty field show alert as ""Please enter registered emil/phone no.""
+- Phone number should be 10-13 numbers without country prefix.
+- For invalid ph no show alert as ""Please enter valid phone no.""
+- For non registered num. show alert as ""Entered no. is not registered with us.""",,,,
+QEPR_6.5,Forgot password screen (Send button),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign in button.
+5. Tap on forgot password",,On taping send buton if creadentials are valid then user should navigate to sent link screen.,,,,
+Reset password screen,,,,,,,,,
+QEPR_7.1,Reset password screen,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign in button.
+5. Tap on forgot password
+6. Tap on send by entering valid OTP",,After getting valid otp when user tap on send button then he should navigate to reset password screen,,,,
+QEPR_7.2,UI of reset password screen,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign in button.
+5. Tap on forgot password
+6. Tap on send by entering valid OTP",,"- There should be two input password fields with place holder text.
+
+- There should be save button.",,,,
+QEPR_7.3,Reset password screen (Functionality),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. Tap on sign in button.
+5. Tap on forgot password
+6. Tap on send by entering valid OTP",,"- For blank show alert ""Please enter new password."" and ""Please enter confirm password."" 
+- For unmached password: Password and new password doesn't match. 
+- Password length must be of 6-12 chracters with one number and a special character.",,,,
+Home screen,,,,,,,,,
+QEPR_8.1,Home screen ,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.",,After entering valid credentials user should navigate to Home screen.,,,,
+QEPR_8.2,UI of home screen,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.",,"- Header should have Notification button and cart button on top right corner.
+- There shoule be two segments for keyfob and tag.
+- There should be image of product.
+- There should be Product cout manager to increase and decrease count.
+- There should be product description.
+- There should be two buttons for add to cart and Make payment.
+- There should be tab bar in footer.",,,,
+QEPR_8.3,Home screen (notifitcation),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.",,On taping bell user should navigate to notification screen.,,,,
+QEPR_8.4,Home screen (Cart),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.",,On taping cart user should navigate to cart screen where all the added products should show.,,,,
+QEPR_8.5,Home screen (Segment),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.",,"Segment switching should work.
+Both segments should show their own paryicular data.",,,,
+QEPR_8.6,Home screen (Image),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.",,Image shown should be dynamic and uplaod from admin.,,,,
+QEPR_8.7,Home screen (Description),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.",,Description should show for particular product and uploaded from admin.,,,,
+QEPR_8.8,Home screen (Product count),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.",,"User should be able to increase/decrease count of product.
+Minimum count should be 1 and max should be 10.",,,,
+QEPR_8.9,Home screen (Add to cart),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.",,On taping add to cart product should add to cart (with no. of products) and user should navigate to Cart screen.,,,,
+QEPR_8.10,Home screen (payment),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.",,On taping payment button user should navigate to Payment screen.,,,,
+QEPR_8.11,Home screen (Tag),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.
+5. Switch segments.",,On switching segment user should navigate to Tag srceen,,,,
+QEPR_8.12,Home screen (Original),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.
+5. Switch segments.",,"By selecting original tag, user should only need to enter vanity name.
+vanity name is not mandatory.
+",,,,
+QEPR_8.13,Home screen (custom),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.
+5. Switch segments.",,"By selecting customise tag, user should need to enter vanity name also user should be able to choose text color.
+vanity name is not mandatory.
+",,,,
+QEPR_8.14,Home custome (Color picker),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.
+5. Switch segments.",,On taping color picker> Color picker screen should open.,,,,
+Notifictations,,,,,,,,,
+QEPR_9.1,Notifictaion,,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.
+5. Home screen> Tap on notification bell.",,User should navigate to notifictaion screen.,,,,
+QEPR_9.2,UI of Notification screen,,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.
+5. Home screen> Tap on notification bell.",,"Back button should be on left corner of header.
+Notifitions should be in sort order on basis of time.
+Notiftciaons should be in list view.",,,,
+QEPR_9.3,,,,,,,,,
+QEPR_9.4,,,,,,,,,
+QEPR_9.5,,,,,,,,,
+QEPR_9.6,,,,,,,,,
+QEPR_9.7,,,,,,,,,
+QEPR_9.8,,,,,,,,,
+QEPR_9.9,,,,,,,,,
+QEPR_9.10,,,,,,,,,
+QEPR_9.11,,,,,,,,,
+My Cart screen,,,,,,,,,
+QEPR_10.1,Cart screen,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.
+5. Home screen> Tap on cart icon from header.",,Cart screen should open.,,,,
+QEPR_10.2,UI of Cart screen,App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.
+5. Home screen> Tap on cart icon from header.",,"Back button should be on top left corner
+There should be a label at top which indicates how many items are in cart.
+Items list with count and count manager.
+Total amount to be paid.
+Make payment button.
+No tab bar should be in footer.",,,,
+QEPR_10.3,Cart screen (Count),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.
+5. Home screen> Tap on cart icon from header.",,"Total item count should be shown with label on top.
+Count should be dynamic if user change any number of quantity of product.",,,,
+QEPR_10.4,Cart screen (free tag),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.
+5. Home screen> Tap on cart icon from header.",,First tag should be free for pro/platinum members. And free tag should be Original not custom.,,,,
+QEPR_10.5,Cart screen (Custom tag),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.
+5. Home screen> Tap on cart icon from header.",,"Only platinum members should be able to purchase custom tag else he should not be able to proceed for payment.
+Show alert ""Please activate platinum membership to purchase custom tag"".
+",,,,
+QEPR_10.6,Cart screen (Delete),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.
+5. Home screen> Tap on cart icon from header.
+6.  Slide right to left.",,"On sliding right to left delete option should appear.
+On taping delete button delete the item from list without asking confirmation alert.
+Deleted item should not show in list.",,,,
+QEPR_10.7,Chat screen (Make payment),App should be installed.,"1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.
+5. Home screen> Tap on cart icon from header.",,On taping payment button user should navigate to payment screen.,,,,
+Subscription screen,,,,,,,,,
+,Subscription plan ,,"""1. Install the app.
+2. Launch the app.
+3. Tutorial screen.
+4. After entering valid creadentials tap on sign in button.
+5. Select product and add to cart.
+6. Make payment.",,"Subscription screen should open.
+For purchasing of tag subscription screen should open",,,,
+,UI Subscription plan screen,,,,,,,,

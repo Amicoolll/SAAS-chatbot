@@ -1,0 +1,103 @@
+"Competitive audit
+",Goal: Compare the user experience of each competitor's website and app,,,,,,,,,,,,,,,,
+,General information,,,,,,,,"UX
+(rated: needs work, okay, good, or outstanding)",,,,,,,,
+,,,,,,,,,First impressions,,Interaction,,,,Visual design,Content,
+,"Competitor type
+(direct or indirect)","Location(s)
+","Product offering
+","Price
+($ - $$$$)","Website
+(URL)","Business size
+(small, medium, large)",Target audience ,Unique value proposition ,Desktop website experience,App or mobile website experience,Features,Accessibility,User flow ,Navigation,Brand identity,Tone,Descriptiveness
+Ecofin,Direct,"Hyderabad, Telangana","Facilitating personal loans through a mobile application to salaried employees pan-India, within 24 hours
+",2.5% - 3% p.m. on loan amount and processing fee of 2% on the loan amount,https://www.ecofinservices.com/,Medium,Salaried Employees,Provides loan within 24 hours.,"Outstanding
++ Clean design
++ Visually appealing imagery","Outstanding
++ Easy to navigate
++ Responsive mobile website","Good
++ Loan plans are classified into three types based on the number of days
++ Paperless Documentation
+- Another loan cannot be provided until the current one is completed","Outstanding
++ Website is compatible with screen readers
++ Keyboard interraction is supported
++ Website only available in multiple languages","Outstanding
++ Clear hierarchy
++ Easy to find key info
++ Offer a wide variety of short-term personal loans ranging from Rs 10,000 to Rs 50,000","Outstanding
++ Familiar way to navigate
++ Keyboard navigation is supported
++ Clickable items are clearly indicated","Okay
++ Cosistent font, and color
+- Logo design does not communicate the company's ethos.",Friendly and direct,"Outstanding
++ Easy to follow
+"
+MoneyTap,Indirect,"Bengaluru, Karnataka","Personal line of credit of upto 5 Lakhs online
+",One time processing fee - 200 Rs to 10000 Rs + GST on the same.,https://www.moneytap.com/,Large,Everyone ,Credit Limit is upto 5 lakhs ,"Good
++ Clean design
+- Feels dense and overwhelming in places
++ Interaction is smooth","Okay
++ Responsive mobile website","Outstanding
++ Credit Limit upto 5 laklhs online
++ Repay in convenient EMI tenures of up to 36 months
++ Partnered with reputed banks
+- For loan amounts less than Rs 10,000, the only EMI option available is for 2 months.","Outstanding
++ Website is compatible with screen readers
++ Website only available in multiple languages
++ Keyboard interraction is supported","Good
++ Easy to find key info
++ A great demo is provided for the user for easy understanding of the service.
+- Menu is overwhelming","Outstanding
++ Clear indication of clickable items
++ Familiar way to navigate
++ Keyboard navigation is supported
+","Okay
+- Inconsistent fonts
++ Clear color scheme and direction",Friendly and indirect,"Okay
++ All key info present
+- Too descriptive"
+Lazypay,Indirect,Various places in India,"Merchant Checkout, Personal loans and Billpay",There is a 2% processing fee on the amount withdrawn.,https://lazypay.in/,Large,Everyone ,Get Credit in 90 seconds. Shop at Millions of Merchants. Pay Later.,"Outstanding
++ Clean design
++ Visually appealing 
+","Outstanding
++ Visually appealing
++ Clean design","Outstanding
++ Checkout in 1-click pay 15 days later
++ Zero physical paperwork
++ Infinite options to shop
++ Upto Rs. 5 lakh in your bank account instantly","Outstanding
++ Supports keyboard interraction
++ Website is compatible with screen readers
++ Images of menu are clear and legible
+","Outstanding
++ Easy to find key info
++Menu images are clear and legible
++ Order and payment processes are simple, clear, and efficient","Outstanding
++ Easy to navigate
++ Clear indication of clickable items
++ Supports keyboard navigation","Outstanding
++ Cosistent font, and color
+- Logo design does not communicate the company's ethos.
+",Friendly and direct,"Good
++ All key info present
++ Easy to follow
+"
+Avant,Direct,"Chicago, Illinois","Personal Loan and a Credit card
+",9.95%-35.99% APR,https://www.avant.com/,Very Large,Everyone ,Avant Credit Cards,"Good
++ Visually appealing imagery
++ Clean design
+- Feels dense and overwhelming in places","Outstanding 
++ Fully responsive 
++ Menu is easy to read","Outstanding
++ Store locator feature
++ Website features a nutrition calculator
++  ""Trending"" menu","Outstanding
++ Supports keyboard interraction
++ Images of menu items are clear and legible","Good
++ Easy to find key info (menu, location, hours) 
++ Clear hierarchy","Outstanding
++ Easy to navigate
++ Easy to switch locations and languages","Outstanding
++ Strong brand identity, including colors, font, style, motion, imagery, and photography",Serious and direct,"Good 
++ Focused on info relevant to target audience
+- A lot of text for simple things"

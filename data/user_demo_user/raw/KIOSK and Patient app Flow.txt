@@ -1,0 +1,72 @@
+﻿KIOSK app: Will be set on the clinic in place of Front desk manager, it will be running on iPAD
+Support will also can use the KIOSK app on any device (mobile, iPAD, Web).  (NEW TASK, whole app will be impacted and need to give support for wen and Mobile )
+Clarification:  Kiosk in ARC’s point of view is a device that is stationary, in our situation; there will be one for Check In and one for Check Out
+Scope
+Patient Check in and out process:
+* Check In Kiosk
+* Patient will be reaching the office and Patient will enter his mobile number and give the signature in the Kiosk app. [Patient can also search for their name to sign in (search result will show first 3 characters of first name and last name for HIPPA and confirm with their DOB). After locate their name, they will press “Sign in” to finalize]
+* After sign, patient has to make a choice of service they need [Screen will show, PT, Acu & Chiro] Will need a way to add and remove additional services 
+* Once patient chooses service, the payment screen will show to collect patient’s copayment. Therefore, Kiosk must work with Credit Card machine to collect money.
+* After payment, the screen will show instruction telling patient to have a seat and someone will greet him/her soon 
+* Patient will go and sit in the waiting room 
+* Once a patient will sign in then a notification will be sent to the Monitor and Web app [iPad use by clinician & Staff]
+* Wall monitor & Patient greeter using Web App on iPad We need to create a new App, 
+* Amit’s comment:  What is a monitor, will it be working on the Web right?, I’m assuming wall monitor will running the Web ARC Panel.
+* [This monitor will be hung on the wall in staff area so every staff can see who are waiting.  The monitor will also show the status of patient, “Waiting room”, “in Treatment room # ?”, “in Exercise Gym” etc. so Staff will know how many patients are still inside the building and where. Patient will stay on the monitor till they check out using the “Sign out Kiosk”]
+* Clinicians Patient greeter (from the Web app) will assign the room to the patient. 
+* [Clinician will see who is in the treatment room by either from the wall monitor or the Web app on their iPad]
+* Check Out Kiosk
+Payment
+* Payment will be happening on the KIOSK [This is for purchase or extra service performed but not charged when patient signs in, like herbs, supplement sales, Ma-Roller, Moxa tx etc]
+* Patient will again sign in using their phone # or searching their name, then confirm by DOB, just like that in Check in Kiosk.
+* Once sign in, patient will two choice:  “Simple check out” or “Assisted check out”
+   * “Simple check out”, the screen will show the amount due today, patient will just use the credit card machine to pay.
+      * Therefore Simple check is for Credit Card payment only.
+      * After payment, screen will display their next appointment and ask patient to confirm.
+      * If patient needs to change their appointment, the screen will show message asking patient to modify their appointment using “Patient App” or call the office number.
+   * Assisted Check out: the Remote FDS that assigned to that office will come online [on one side of screen] to chat with and answer questions patient has [on the other side of the screen] it will show today’s charge. Then patient will have the ability to choose paying with Credit card, Check or Cash.
+    Amit’s comment : not getting the chat because chat is not in the current scope I need to discuss thio more.
+Confirm next appointment
+* Once payment is done, patient will be shown for their remaining appointments, but will be requested to “confirm” their next appointment [only the next appointment]. Patient can either confirm the appointment [this is will reduce our effort to call and confirm appointment which we are doing now by calling the patients directly] or if they needs to make adjustment to the appointment, the screen will display a message “If you need to make a change about your appointments, please use your Patient App on your phone or call 386-774-6333 for assistance!” [We do not want the patient trying to change the appointment on the kiosk, because that may take too long and stop the next patient from checking out.]
+   Amit’s comment : How Patient will be confirming the next appointment do we need to show the available slot screen or what will be available on thay screen date, time of the slot?
+Patient can call for assistance by pressing the “Press Here for Assistance” Button. 
+   Amit’s comment : Patient will be calling for assistance from KIOSK app or patient app. This will be the new efforts
+Video call:
+* Video Calling on Kiosk
+   * If patient needs assistance signing in, mostly the new patients, then they can press the “Press Here for Help” button to connect to the Staff that’s assigned for that office.
+   * Support staff will be using desktop or laptop computer only; they will not be using iPad to sign in the Kiosk app.  Therefore they will need to be able to pick up the call using web app.
+   * Since we will have only a few support staff, we plan on 4 right now [each handling 2 offices], but can and will adjust according to the need once ARCS is implemented. But since each office will have at least one sign and one sign out kiosk, there will be the possibility that more than one patient from that office will call at the same time. [Plus some patient might calling from Patient App out of the office], so we need a rolling feature that if one staff is busy the call can be roll down to the next one in the receiving call pool.  This should be easy to edit and add additional staff as needed and change the rotation as needed.
+* Patient app to Kiosk (App and Web App)
+* Support person can receive the call from anywhere. [yes, support staff can be in the Philippine or USA]
+* Call will be rounding first goto first person and if it is not received then it goto next support person who are aligned for the support. [Rolling function in the Call receiving pool]
+* From which place Video call will happen to KIOSK to KIOSK app. (New feature)???
+   Amit’s comment : We need to give the support to KIOSK mode in Web APP as well. This will be the new efforts 
+Schedule Slot: 
+Schedule Appointment function will not be on the Check in and Check out Kiosk. Patient can only change their appointments using Patient App.
+* ARCS will automatically generate a schedule for New Patient based on Clinician’s suggested POC [which will be made by clinician during initial evaluation, e.g. 3x/wk, 4wks, 2x/wk, 3wks, etc., ARCS will generate the schedule automatically as soon as clinician choose the POC]
+* And this Schedule will display for the patient on the Check Out Kiosk when they check out. And again patient will be informed to change them on Patient’s App.
+* QR code and/or hyperlink for Patient App will need to be displayed on our Website, Sign in and Sign out Kiosk, so patient can take a picture to download the app.    Hyper link can also be emailed or text to the patient 
+The following can happen in Patient App
+* Available slots will be coming from ARC1 for the clinician and visible to patient and patient will be able to select the slot and schedule it 
+* If a patient is not available to that slot he can go and edit the slot from the patient app. 
+* Patients can delete the slot as well from the patient app.
+Question: We are not taking the slots of the clinician from the ARC1 so how we will show the slots to the patient.
+Answer: Patient does not need to see who the clinician will be. They just need to sign in and wait. If the patient has a specific clinician they prefer to see, that will be noted by the clinician on the iPad web App. But not determined by the patient.  Appointments are scheduled by office location, not the provider in the office. [Need more discussion about the Scheduling and Schedule function at our next meeting.]
+
+
+Amit’s comment  Question: How the slot schedule will done from the patient app because the clinician is not adding the available slots he just giving the availability for the day.
+=> Slot will be visible as per the office opening and closing time on the 30 min time frame. If the office is closed no slots will be available. 
+=> Sandy will share the list of rules.
+Slots Rules: 
+1.       Visit Type allowed per hour – Defined by Visit Type- NP, NPOM, OPNC, OPSC
+2.      Days of the week  allowed to schedule appointments per office location or provider
+3.      Hours of the day allowed to schedule appointments
+4.      Number of pts allowed to schedule per 15 or 30 mins interval  ( This can be overridden by ARC Staff only not patients)
+5.      Pop up alerts when Staff schedule pts and reviews appts pts make.    These alerts to be added by  based on the ARCS ID- Alerts managed  in Maintenance
+6.      Maximum  number of patients limit per schedule-   ( this can be over-ridden by Management only)
+7.      When a patient schedules an appointment/ makes this a different color, until reviewed by staff.        Once approved by ARC staff then back to schedule color
+8.           If a patient tries to schedule an appointment and an Authorization is required per the insurance set up the patient should receive and  message/alert “  Please see your PCP we have no current Authorization on file”  The patient would not be able to schedule the appointment on the calendrer/schedule..>>>>>>     
+9.      IF a patient tries to schedule an appointment  and cannot complete the appointment, Their contact information  should go to a list to for ARC follow up ( Name, Phone Number, date they viewed the scheduler  (Potential patient list or separate follow up list for scheduler???)  
+10.  Create an “ Event” or “Blocked” Time frame by date and time with at least 300  character that can be manually entered by ARC staff
+          ex .  Every Monday 11am-12pm   This would Block appointment slot availability for patient to schedule it this was within allowed hours
+         ex   This would also be used to closed the entire schedule for Holidays or Hurricanes

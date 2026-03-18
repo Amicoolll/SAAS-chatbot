@@ -1,0 +1,375 @@
+﻿ARC1 CR Document
+
+
+Project Name
+	ARC
+	Client Name
+	Charng shen wang
+	Date of generation
+	15 Feb 2025
+	Document version
+	1
+	Product impact
+	New development 
+	Timeline
+	654 hours
+	
+
+
+
+Features
+	
+
+	
+
+	
+
+	
+
+	
+
+	FDS payment ARCs1
+	Question
+	
+
+	backend
+	Front end
+	QA
+	DB Maintinance for Disocunt Type (This is a flat discount like $10, $20....)
+	
+
+	
+
+	16
+	8
+	16
+	New Billing Calculation
+	
+
+	
+
+	8
+	8
+	membership type db (will work on other field) (% discount)
+	
+
+	
+
+	16
+	8
+	UnUsed credit balance logs
+	
+
+	
+
+	8
+	16
+	Co-insurance percentage will be applied to scale value, input is on insurance setup
+	
+
+	
+
+	
+
+	
+
+	Modify extsitng patient Claim detail page -
+One more are as "Membership Information" and take input of membership type and one more field with remaining credit balance of patient,
+
+
+Insuarence pdf part will already taken care
+	
+
+	
+
+	4
+	4
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	Insurance Verification:
+	
+
+	
+
+	
+
+	
+
+	
+
+	1. Insurance ID is manual input field on primary and secondary insurance.
+	
+
+	No cost
+	0
+	0
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	Potential PT change
+	
+
+	
+
+	
+
+	
+
+	
+
+	1. Insurance verification detail will need to show insurance info
+	
+
+	
+
+	2
+	2
+	
+
+	2. Only selected info will be visible in verification detail page
+	
+
+	No cost
+	
+
+	0
+	
+
+	3. Dashboard Potential PT list or any other option will retain the selected page number:
+	
+
+	
+
+	8
+	4
+	2
+	4. Time stamp needs to include time as well along with date
+	
+
+	No cost
+	0
+	0
+	
+
+	5. Insurance verification detail page need to show auth and referral info based on insurance: 4 days
+	
+
+	
+
+	40
+	16
+	12
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	DX Group feature (Impact: FDS, Insurance, Potential PT List, Claims, Auth, to be schedule etc..)
+	
+
+	
+
+	32
+	16
+	80
+	DX import feature
+	
+
+	
+
+	24
+	16
+	Dx Group in DB Maintinance
+	
+
+	
+
+	8
+	8
+	
+
+	
+
+	
+
+	
+
+	
+
+	Insurance Verification setup with new claim UI for pre creation of speciality
+	
+
+	
+
+	8
+	8
+	Potential Patient List detail page with dynamic generated claims and PDF
+	
+
+	
+
+	16
+	8
+	Patient Lising with Approved Insurance and All patient Listing
+	
+
+	
+
+	24
+	16
+	Claim Setup by the use of verified insurance claim and New Auth Rule setup, including CPTs in Auth tracker from insurance
+	
+
+	
+
+	40
+	24
+	FDS CPT consumption rule based on provided CPT from Auth tracker or Insurance
+	
+
+	
+
+	8
+	8
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	Supply Management
+	
+
+	
+
+	
+
+	
+
+	
+
+	Prescribing Clinicians will be fetched based on ACU CHIRO and PT speciality
+	
+
+	
+
+	6
+	4
+	40
+	No need of Acknowledge form now for any medicins orders
+	
+
+	
+
+	0
+	0
+	Usage Instruction DB Maintinance
+	
+
+	
+
+	16
+	8
+	
+
+	
+
+	
+
+	
+
+	
+
+	Performance
+	
+
+	
+
+	
+
+	
+
+	Create DB Maintenance for performance Entry Type
+	
+
+	
+
+	16
+	8
+	Diff-2 UI for logging events (Manager and Emp)
+	
+
+	No cost
+	0
+	0
+	A new Button for declining and Closing the Performance Report
+	
+
+	
+
+	4
+	2
+	Performance Summary will have 3 filters (Month to date, Year to date, and Custom dates) Custom dates are required to develop and the two are already there.
+	effort is only for custom date range
+	
+
+	4
+	4
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+
+
+Total hours
+	654
+	Cost per hours
+	$18
+	Cost
+	11772

@@ -1,0 +1,34 @@
+﻿What is admin support in security questions and where user will navigate on taping this?
+
+
+Home screen> Purchase tag> What will be the text in "i" i.e information icon.-PC will provide text from client.
+
+
+Is there any request pending system for tracking?- Provide new screen for pending request
+
+
+Track user screen> Role of exit tracking button. On taping it, will user navigate to all contact screen? Can user track that person again on taping same contact from contact list?
+
+
+My device setting screen> Do we need done/save button here ya fir direct action perform hote hi activate ho jaygi setting. : Yes We need a Save button
+
+
+Test range> Is there any min. Max limit set for key fob and device. : Let Key Fob come 
+
+
+My orders> can we add past orders again to our cart if we want to purchase same products with same number of quantity? YES 
+
+
+Please clear pin concept. User needs to enter pin every time whenever he lands on setting screen. Also clear about security question, where we need to answer them? (Bcoz in wireframe it is mentioned that they will be needed only at the time of changing/reset password).  Security question needs for setting the pins , and again in case of forgot pin 
+
+
+Chat delete ka bh option h kya? 
+Multiple image send ho sakti h?
+Chat room> On taping user’s name from header> then we should navigate to user’s/our profile??
+Chat> Hyperlinks bh send ho sakte h chat me?
+Chat> Video/gif send ho sakti h?
+
+
+Notification: 
+When we need to show battery notification? What extent.
+Need to understand complete notifications scenario.

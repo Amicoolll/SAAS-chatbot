@@ -1,0 +1,1002 @@
+Project Name,ReelTrak,,,,,,,,,
+Module Name,Order Management- Custom Order,,,,,,,,,
+Created By,Keshavanand,,,,,,,,,
+Date of Creation,,,,,,,,,,
+Date of Review,,,,,,,,,,
+,,,,,,,,,,
+Module,Test Case ID,Test Scenario,Pre-Conditions,Test Steps,Expected Results,Dev Status,Status,Dev Comments,Screenshot,Jira Link
+,TC_001,Verify that by clicking the create order button in the draft order details page user will redirects to orders tab of order management page,,"1. Login to vendor portal
+2. Goto Order Management tab
+3. Click on Create Order button
+4. Enter the Set Address/Personal address details then click SAVE button
+5. Now add product and services in the draft order
+6. Now click on the Create Order button",By clicking the create order button in the draft order details page user should redirects to orders tab of order management page,Pass,,,,
+Order Management ,TC_002,Verify that custom order will be listed in the orders listing page,,"1. Login to vendor portal
+2. Goto Order Management tab
+3. Click on Create Order button
+4. Enter the Set Address/Personal address details then click SAVE button
+5. Now add product and services in the draft order
+6. Now click on the Create Order button
+7. See the custom order in the orders listing page",Custom order will be listed in the orders listing page,Pass,,,,
+,TC_003,"Verify that whether following  attributes displayed on Order Management Screen
+1. Order Management  Page Heading
+2.  Filter button 
+3. Search bar
+4. Table header Columns ( Order Id, Order Date, Show Name, Delivery Location, Order by, Order Status, Action)
+5. No order received yet!” - Image Title
+6.  You have not received any order yet.” - Image Subtitle",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option "," Following attributes should be displayed on Order Management Screen
+1. Order Management  Page Heading
+2.  Filter button 
+3. Search bar
+4. Tabel header Columns ( Order Id, Order Date, Show Name, Delivery Location, Order by, Order Status, Action)
+5. No order received yet!” - Image Title
+6.  You have not received any order yet.” - Image Subtitle",Pass,,,,
+,TC_004,Verify that whether  user is able to enter text in search field,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is navigate to the Order Management  Screen
+5. ""Enter text into the search field ",User should be able to enter search parameters in search field,Pass,,,,
+,TC_005,"Verify that whether user is able to search by :
+1. Order iD
+2. Production Name",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is navigate to the Order Management  Screen
+5. ""Enter text into the search field ","User should be able to Search by 
+1. Order ID
+2. Production / Show Name",Pass,,,,
+,TC_006,Verify that whether search functionality  work with partial search keyword parameters eg: Production name or order id,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is navigate to the Order Management  Screen
+5. ""Enter text into the search field ",search functionality should work with partial search key parameters.,,,,,
+,TC_007,Verify that whether Search field gets clear when clicked on cross icon in search field,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is navigate to the Order Management  Screen
+5. ""Enter text into the search field ",Search field gets clear when clicked on cross icon in search field,Pass,,,,
+,TC_008,To  verify whether Filter drawer open when clicked on filter menu,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is navigate to the Order Management  Screen
+5. clicked on Filter  button",Filter by Side Drawer should be open,Pass,,,,
+,TC_009,Verify that whether default all filter fields  is blank,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is navigate to the Order Management  Screen
+5. clicked on Filter  button",Default all filter fields should be blank,Pass,,,,
+,TC_010,Verify that whether filter gets close when clicked on cross icon,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is navigate to the Order Management  Screen
+5. clicked on Filter  button",Filter Drawer Should gets closed when clicked on cross icon ,Pass,,,,
+,TC_011,"Verify that whether in filter by Drawer under order status drop down field
+below Status displayed.
+1. Completed
+2. Pending
+3. Canceled
+
+",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is navigate to the Order Management  Screen
+5. clicked on Filter  button
+6. clicked on Order status Drop Down Field"," Filter by Drawer under order status drop down field
+below Status should be displayed.
+1. Completed
+2. Pending
+3. Canceled
+
+",Pass,,,,
+,TC_012,Verify that whether user is able to select only one value under order status drop down field,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is navigate to the Order Management  Screen
+5. clicked on Filter  button
+6. clicked on Order status Drop Down Field",User should be able to select only one value from order status drop down field,To be Discussed,,We can selected multiple status at a time Keshavanand Upadhyay,,
+,TC_013,Verify that whether filter fields gets reset when clicked on reset button,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is navigate to the Order Management  Screen
+5. clicked on Filter  button
+6. clicked on Order status Drop Down Field
+7.  Choose any value from drop down field.
+8. Now clicked on Reset button",Filter fields should gets reset when clicked on  reset button,Pass,,,,
+Order Management -  Order Listing,TC_014,Verify that whether the order will be displayed in the order listing once it is placed through the draft order.,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User navigate on Order listing Screen
+",Order details should be displayed once placed through  application,Pass,,,,
+,TC_015,Verify that whether Order ID for each order line items  is Unique,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+",Order ID for each order line items should  be Unique.,Pass,,,,
+,TC_016,Verify that whether order date displayed under order management table is correct,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+",Order displayed under order management table should be correct,Pass,,,,
+,TC_017,Verify that whether delivery location under order management table is correct,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+",Delivery location  displayed under order management table should be correct,Pass,,,,
+,TC_018,Verify that whether correct name displayed under order by table ,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+",Correct name should be displayed under order by column name,Pass,,,,
+,TC_019,Verify that whether initial status of order is in Pending state,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+",Order status should be in Pending state,Pass,,,,
+,TC_020,Verify that whether Order Date” will encapsulate the date and time with the time zone on which the order was initially placed.,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+",Order Date” should  encapsulate the date and time with the time zone on which the order was initially placed.,To be Discussed,,,,
+,TC_021,Verify that  whether  user is able to search order by order id and production name,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+",User should be able to search  order by order id and production name,Pass,,,,
+,TC_022,Verify that whether user navigate to order details screen when clicked on Order ID,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5 Click on Order id 
+",User should be navigated to the Order details Screen,Pass,,,,
+,TC_023,Verify that whether cancel order Popup will display when click on cancel Order option,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5 Click on Order id 
+",User should be navigate on Cancel Order pop up ,Pass,,,,
+,TC_024,Verify that whether in 1 page maximum 10 items are displayed,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+",In 1 page max 10 records should be displayed,Pass,,,,
+,TC_025,Verify that whether pagination displayed after 10 Orders details,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+",After 1 Page 10 records should be displayed,Pass,,,,
+,TC_026,Verify that on 1 page previous button is in disabled state,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+",On 1st page previous button should be in disabled state,Pass,,,,
+,TC_027,Verify that whether user navigate to next page when clicked on Next Button,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. clicked on Next Button from paination",User should be navigated to the next screen,Pass,,,,
+,TC_028,Verify that whether multiple delivery location is displayed if Order have multiple delivery location,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+",Multiple delivery location should be displayed if  order have multiple delivery location,Pass,,,,
+,TC_029,Verify that whether Order count will display if single order id has multiple Orders,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+",Item counts should display if single order id has multiple items,Pass,,,,
+,TC_030,Verify that whether user navigate to the Order pop up when clicked on item count,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+",Order popup will be display when user clicks on the item count,Pass,,,,
+,TC_031,"Verify that details displayed under Order  pop up are
+1. Products/ Services
+2. Type
+3. Quantity
+4. Set
+5. Location
+6. Total Payment
+7. Payment Status
+",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Multiple  orders count
+6. Click on orders  Count","Orders Pop up Should display the Following details 
+1. Products/ Services
+2. Type
+3. Quantity
+4. Set
+5. Location
+6. Total Payment
+7. Payment Status",Pass,,,,
+,TC_032,"Verify that details displayed for Products / Services column
+",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Multiple  orders count",PRoducts and Services name should be displayed for  products and services column,Pass,,,,
+,TC_033,"Verify that that the two types of orders are displayed under the ""Type"" column.
+1. Buy
+2. Rent",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Multiple  orders count","Two types of orders  should  be displayed under the ""Type"" column.
+1. Buy 
+2. Rent",,,Need to check with Abhishek Gupta,,https://appinventivtech.atlassian.net/browse/REEL-1057
+,TC_034,"Verify that whether the correct product order quantities are displayed under the ""Quantity"" column.",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Multiple  orders count",Products Order Quantity should be correct,Pass,,,,
+,TC_035,Verify that  whether delivery location for each products and services are correct,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Multiple  orders count",Delivery location for each products and services should be correct,Pass,,,,
+,TC_036,Verify that prices for each products and services should be correct,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Multiple  orders count",Prices for each products and services should be correct,Pass,,,,
+,TC_037,Verify that payment status displayed for each row items,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Multiple  orders count",Payment status for each line items should be ,Pass,,,,
+,TC_038,"Verify that that the user navigates to the ""Edit Product Details"" screen when clicking on the Product ID.",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Multiple  orders count",User should be navigate on edit products  Details Screen,Pass,,,,
+Order Management- Order Details,TC_039,"Verify that whether user navigate to Order details Screen when click on
+1. Order Id
+2. Edit Icon",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon","User should be navigate on Order Details Screen when click on
+1. Order id
+2. Edit Icon",Pass,,,,
+Order Management- Order Details,TC_040,Verify that whether UI For Order Details Screen  match with Figam Design,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon",UI For Order Details Screen Should be match with Figam Design,Pass,,,,
+Order Management- Order Details,TC_041,"Verify that Ordered below attributes displayed on order details screen
+1. Order Management - Heading
+2. Order Management - Sub Heading
+3.  chat now button-disabled
+4.  view Transaction Button
+5.   Order Status
+6.  Order Summary section
+7.  Product/Services Overview section",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon","Order details Screen should have
+1. Order Management - Heading
+2. Order Management - Sub Heading
+3.  chat now button
+4.  view Transaction Button
+5.   Order Status
+6.   Order Summary section
+7.    Product/Services Overview section
+ 8.    Invoices section",Pass,,,,
+Order Management- Order Details,TC_042,"Verify that below fields displayed in non editable  mode in  Order Summary Section
+1. Order ID
+2. Order Date
+3. Order By
+4. Email Address
+5. Phone Number",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen","Details displayed under Order summary in Order section are
+1. Order ID
+2. Order Date
+3. Order By
+4. Email Address
+5. Phone Number
+",Pass,,,,
+Order Management- Order Details,TC_043,Verify that whether Correct Order ID displayed under Order iD Section,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen","For every order, the Order ID should be correct and unique.",Pass,,,,
+Order Management- Order Details,TC_044,Verify that whether Correct Order Date & Time  Displayed under Order Date Field,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen","The ""Order"" field should display the correct date and time when the order was placed.",Pass,,,,
+Order Management- Order Details,TC_045,"Verify that whether the correct name is displayed under the ""Order By"" field.",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen","""Order By"" field should display the correct username of the person who placed the order.",Pass,,,,
+Order Management- Order Details,TC_046,Verify that that the correct email address is displayed for the person who has placed the order.,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen",correct email address Should be displayed for the person who has placed the order.,Pass,,,,
+Order Management- Order Details,TC_047,Verify that that correct phone number is displayed for a person who has placed the Order,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen",correct phone no. Should be displayed for the person who has placed the order.,Pass,,,,
+Order Management- Order Details,TC_048,"Verify that Under products and services  section below details are displayed
+1. Rent tab with Add Product/Services button
+2. Sell tab with Add Products button",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen","Under products and services  section below details are displayed
+1. Rent tab with Add Product/Services button
+2. Sell tab with Add Products button",Pass,,,,
+Order Management- Order Details,TC_049,"Verify that on the order details page, the rent tab will be default selected tab",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen",Rent Should be the default selected tab,Pass,,,,
+Order Management- Order Details,TC_050,"Verify that  whether Rent table header has below attributes
+1. Image
+2. Products name
+3. Quantity
+4. Delivery Address
+5. Start Date & time
+6. End Date & Time
+7. Shift length
+8. Shift Coverage
+9. Note
+10. Order Date 
+11. Unit Price
+12. Sub total
+13. Order Status
+14. 3dot Action",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen","Rent table header should have below attributes
+1. Image
+2. Products name
+3. Quantity
+4. Delivery Address
+5. Start Date & time
+6. End Date & Time
+7. Shift length
+8. Shift Coverage
+9. Note
+10. Order Date 
+11. Unit Price
+12. Sub total
+13. Order Status
+14. 3dot Action",Pass,,,,
+Order Management- Order Details,TC_051,Verify that if the product image matches the ordered item.,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen",product image should be matches the ordered item.,Pass,,,,
+Order Management- Order Details,TC_052,Verify that if the product Name matches the ordered item.,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen",product name should be matches the ordered item.,Pass,,,,
+Order Management- Order Details,TC_053,Verify that if the Product quantity matches with the Order Item,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen",product quantity should be matches the ordered item.,Pass,,,,
+Order Management- Order Details,TC_054,Verify that whether the unit price of the products matches the actual price listed for each product.,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen",unit price of the products should  matches with  actual price listed for each product.,Pass,,,,
+Order Management- Order Details,TC_055,Verify that whether subtotal prices will increase when we increase the  products quantity,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen",subtotal prices should be increase when we increase the products quantity,Pass,,,,
+Order Management- Order Details,TC_056,"Verify that the delivery status is ""Order Placed"" after the user places an order.",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen","Delivery status  should be ""Order Placed"" after the user places an order.",Pass,,,,
+,TC_057,"Verify that below options will display when user clicked on 3 dots menu of items of sell tab 
+1. Approve
+2. Reject",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview","Below options should be display when user clicked on 3 dots menu of items of sell tab:
+1. Approve
+2. Reject",Pass,,,,
+,TC_058,"Verify that on selecting the reject option user will get rejection pou-up with below details:
+1. choose a reason for reject dropdown
+2. Notes
+3. Cancel button
+4. Save button",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8. clicked on 3 dots menu under products and Services overview
+9. Now select reject option","on selecting the reject option user will get rejection pou-up with below details:
+1. Rejection Reason
+2. Notes
+3. Cancel button
+4. Save button",Pass,,,,
+,TC_059,"Verify that following reasons will be listed in choose a reason for reject dropdown:
+
+1. Service is not available at the given date and time.
+2. Product is not available at the given date and time.
+3. Product is out of stock.
+4. Quantity of product requested is not available.
+5. Quantity of service requested is not available.
+6. Not operational at requested date.
+7. Not operational at requested time.",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8. clicked on 3 dots menu under products and Services overview
+9. Now select reject option","Following reasons will be listed in choose a reason for reject dropdown:
+
+1. Service is not available at the given date and time.
+2. Product is not available at the given date and time.
+3. Product is out of stock.
+4. Quantity of product requested is not available.
+5. Quantity of service requested is not available.
+6. Not operational at requested date.
+7. Not operational at requested time.",Pass,,,,
+,TC_060,Verify that after selecting one of the reason the save button gets enabled,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8. clicked on 3 dots menu under products and Services overview
+9. Now select reject option
+10. Now select one of the rejection reason from the choose a reason for reject dropdown",After selecting one of the reason the save button gets enabled,Pass,,,,
+,TC_061,Verify that notes field is an optional field,,"1. Login to vendor portal
+2. Goto Order Management
+3. Select a custom order with rent items
+4. Now scroll down to rent section
+5. Now click on 3dot action menu then select reject option
+6. Now see the notes field",Notes field should be an optional field in rejection popup,Pass,,,,
+,TC_062,Verify that maximum 500 chars are allowed in the notes field,,"1. Login to vendor portal
+2. Goto Order Management
+3. Select a custom order with rent items
+4. Now scroll down to rent section
+5. Now click on 3dot action menu then select reject option
+6. Now in the notes field try to enter more than 500 chars",Maximum 500 chars are allowed in the notes field,Pass,,,,
+,TC_063,Verify that user is not allowed to enter more than 500 chars in the notes field,,"1. Login to vendor portal
+2. Goto Order Management
+3. Select a custom order with rent items
+4. Now scroll down to rent section
+5. Now click on 3dot action menu then select reject option
+6. Now in the notes field try to enter more than 500 chars",User should not allowed to enter more than 500 chars in the notes field,Pass,,,,
+,TC_064,Verify that by clicking the save button in the rejection popup the item status will change to rejected ,,"1. Login to vendor portal
+2. Goto Order Management
+3. Select a custom order with rent items
+4. Now scroll down to rent section
+5. Now click on 3dot action menu then select reject option
+6. Now select a reason then click on SAVE button",By clicking the save button in the rejection popup the item status will change to rejected ,Pass,,,,
+,TC_065,"Verify that by clicking the approve option from the action menu, the item status will change to Accepted",,"1. Login to vendor portal
+2. Goto Order Management
+3. Select a custom order with rent items
+4. Now scroll down to rent section
+5. Now click on 3dot action menu then select approved option
+6. Now again click on 3dot action menu","by clicking the approve option from the action menu, the item status will change to Accepted",Pass,,,,
+,TC_066,"Verify that once the order status changes to accepted then user will get following option in 3dot action menu:
+1. Edit Quantity
+2. Edit Delivery Status",,"1. Login to vendor portal
+2. Goto Order Management
+3. Select a custom order with rent items
+4. Now scroll down to rent section
+5. Now click on 3dot action menu then select approved option
+6. Now again click on 3dot action menu","once the order status changes to accepted then user will get following option in 3dot action menu:
+1. Edit Quantity
+2. Edit Delivery Status",Pass,,,,
+,TC_067,Verify that whether quantity field gets enabled when click on  Edit Quantity  menu,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter  required products quantity ",Quantity field  should gets enabled when click on Edit Quantity option,Pass,,,,
+,TC_068,Verify that whether minimum value in quantity field is 1,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter  required products quantity ",Minimum quantity should not be less than 1,Pass,,,,
+,TC_069,Verify that whether products quantity will save when click on tick mark,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter  required products quantity ",Updated quantity value should be saved when click on  tick mark,Pass,,,,
+,TC_070,Verify that user will get validation error if user inputs more than the available quantity of the product/services,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter more than the avaiable quantity of the products/services then click tick mark ",User should get validation error if user inputs more than the available quantity of the product/services,Pass,,,,
+,TC_071,"Verify that below options will display when user clicked on 3 dot action menu and select edit delivert status option:
+1. Service Started
+2. Service Ended
+3. Completed",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter more than the avaiable quantity of the products/services then click tick mark ","Below options will display when user clicked on 3 dot action menu and select edit delivert status option:
+1. Service Started
+2. Service Ended
+3. Completed",Pass,,,,
+,TC_072,Verify that user will allowed to changes the status from accepted to Service started only,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter more than the avaiable quantity of the products/services then click tick mark ",User should allowed to changes the status from accepted to Service started only,Pass,,,,
+,TC_073,Verify that user will not allowed to revert the status from service started to accepted,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter more than the avaiable quantity of the products/services then click tick mark ",User should not allowed to revert the status from service started to accepted,Pass,,,,
+,TC_074,Verify that once the order status is updated to service started user is not allowed to update the quantity,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter more than the avaiable quantity of the products/services then click tick mark ",Once the order status is updated to service started user should not allowed to update the quantity,Pass,,,,
+,TC_075,Verify that once the service started then the next delivery status service ended will get enabled ,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter more than the avaiable quantity of the products/services then click tick mark ",Once the service started then the next delivery status service ended should get enabled ,Pass,,,,
+,TC_076,Verify that user is allowed to select only service ended status and compelted status is appear in disabled mode,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter more than the avaiable quantity of the products/services then click tick mark ",User should allowed to select only service ended status and compelted status is appear in disabled mode,Pass,,,,
+,TC_077,Verify that user will not allowed to revert the status from service ended to service started,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter more than the avaiable quantity of the products/services then click tick mark ",User should not allowed to revert the status from service ended to service started,Pass,,,,
+,TC_078,Verify that once the service ended then the next delivery status completed will get enabled ,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter more than the avaiable quantity of the products/services then click tick mark ",Once the service started then the next delivery status service ended should get enabled ,Pass,,,,
+,TC_079,Verify that once the user selected completed status then the final status will be shown as complete,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter more than the avaiable quantity of the products/services then click tick mark ",User should allowed to select only service ended status and compelted status is appear in disabled mode,Pass,,,,
+,TC_080,Verify that user will not allowed to revert the status from completed to service started or service ended,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter more than the avaiable quantity of the products/services then click tick mark ",User should not allowed to revert the status from service ended to service started,Pass,,,,
+Order Management- Order Details,TC_081,"Verify that below options will display when user clicked on 3 dots menu of items of sell tab 
+1. Edit Quantity
+2. Edit Delivery Status
+3. Cancel order",,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview",Below features should be display when user clicked on 3 dots menu,Pass,,,,
+Order Management- Order Details,TC_082,Verify that whether quantity field gets enabled when click on  Edit Quantity  menu,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter  required products quantity ",Quantity field  should gets enabled when click on Edit Quantity option,Pass,,,,
+Order Management- Order Details,TC_083,Verify that whether minimum value in quantity field is 1,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter  required products quantity ",Minimum quantity should not be less than 1,Pass,,,,
+Order Management- Order Details,TC_084,Verify that whether products quantity will save when click on tick mark,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter  required products quantity ",Updated quantity value should be saved when click on  tick mark,Pass,,,,
+Order Management- Order Details,TC_085,Verify that whether user is able to edit delivery status when clicked on  edit delivery status option,,"1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Enter  required products quantity ",User should be able to edit delivery status when clicked on edit delivery status drop down,Pass,,,,
+Order Management- Order Details,TC_086,"Verify that whether below details  displayed under  delivery status drop down 
+1. Order placed.
+2. Shipped
+3. In transit
+4. Delivered",,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Click on edit delivery status 
+10.  Click on delivery status drop down","Delivery status drop down field should have 
+1. Order placed.
+2. Shipped
+3. In transit
+4. Delivered",Pass,,,,
+Order Management- Order Details,TC_087,"Verify that initially, when the order was placed, the status of the order was ""Order Placed.""",,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Click on edit delivery status 
+10.  Click on delivery status drop down",Initially when order was placed the delivery status should be Order placed,Pass,,,,
+Order Management- Order Details,TC_088,"Verify that if the user is able to change the order status from ""Order Placed"" to ""Shipped.""",,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Click on edit delivery status 
+10.  Click on delivery status drop down
+11. Choose shipped status from the drop down field
+12. Click on tick option under from under action ",,Pass,,,,
+Order Management- Order Details,TC_089,"Verify that that the user is unable to change the order status from ""Order Shipped"" to ""Order Placed.""",,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Click on edit delivery status 
+10.  Click on delivery status drop down
+11. Choose shipped status from the drop down field
+12. Click on tick option under from under action ","user should be unable to change the order status from ""Order Shipped"" to ""Order Placed.""",Pass,,,,
+Order Management- Order Details,TC_090,"Verify that that users can't change product quantities after transitioning from ""Order Placed"" to ""Order Shipped.""",,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Click on edit delivery status 
+10.  Click on delivery status drop down
+11. Choose shipped status from the drop down field
+12. Click on tick option under from under action ","users should not be able to  change product quantities after transitioning from ""Order Placed"" to ""Order Shipped.""",Pass,,,,
+Order Management- Order Details,TC_091,"Verify that users cannot revert the order status from ""Shipped"" to ""Order Placed.""",,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Click on edit delivery status 
+10.  Click on delivery status drop down
+11. Choose shipped status from the drop down field
+12. Click on tick option under from under action ","users should not be able revert the order status from ""Shipped"" to ""Order Placed.""",Pass,,,,
+Order Management- Order Details,TC_092,,,,,,,,,
+Order Management- Order Details,TC_093,"Verify that that the user cannot directly change the order status from ""Order Placed"" to ""Order Delivered.""",,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Click on edit delivery status 
+10.  Click on delivery status drop down
+11. Choose shipped status from the drop down field
+12. Click on tick option under from under action ","user should not be able to choose directly change the order status from ""Order Placed"" to ""Order Delivered.""",Pass,,,,
+Order Management- Order Details,TC_094,"Verify that that once the order is delivered, the user cannot change the order status.",,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Click on edit delivery status 
+10.  Click on delivery status drop down
+11. Choose shipped status from the drop down field
+12. Click on tick option under from under action ","once the order is delivered, the user should not change the order status.",Pass,,,,
+Order Management- Order Details,TC_095,"Verify that once the order is delivered, the user cannot cancel the Order",,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Click on edit delivery status 
+10.  Click on delivery status drop down
+11. Choose shipped status from the drop down field
+12. Click on tick option under from under action ","once the order is delivered, the user should not  the Order",Pass,,,,
+Order Management- Order Details,TC_096,"Verify that that once the order is transit state, the user cannot change the delivery address",,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8.  clicked on 3 dots menu under products and Services overview
+9. Click on edit delivery status 
+10.  Click on delivery status drop down
+11. Choose shipped status from the drop down field
+12. Click on tick option under from under action ","once the order is transit state, the user should not change the delivery address",Pass,,,,
+Order Management- Order Details,TC_097,"Verify that if clicking the ""Add Products"" button leads the user to the ""Add to Order"" screen.",,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8. Click on Add Products Button ","Add Products"" button  should leads the user to the ""Add to Order"" screen.",,,,,
+Order Management- Order Details,TC_098,"Verify that whether below details displayed on Add Order Screen
+Products  heading
+Search Field
+Add to Order Button
+Products Table header
+ i  checkbox
+ ii Image
+ iii Products ID
+ iv Products name 
+v Category
+vi Type 
+Vii SKU Code
+Viii Price",,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8. Click on Add Products Button ","Details Should be displayed on Add Order Screen
+Products  heading
+Search Field
+Add to Order Button
+Products Table header
+ i  checkbox
+ ii Image
+ iii Products ID
+ iv Products name 
+v Category
+vi Type 
+Vii SKU Code
+Viii Price",,,,,
+Order Management- Order Details,TC_099,Verify that if the user can search for products using either Product ID or SKU Code.,,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8. Click on Add Products Button 
+9. clicked on Search  field",user Should be able to  search for products using either Product ID or SKU Code.,,,,,
+Order Management- Order Details,TC_100,"Verify that if the ""No products found"" message is displayed when no search results are found.",,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8. Click on Add Products Button 
+9. clicked on Search  field","""No products found"" message should be displayed when no search results are found.",,,,,
+Order Management- Order Details,TC_101,Verify that whether add to order button gets active when click on checkbox field,,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8. Click on Add Products Button 
+9. clicked on checkbox  field",add to order button should  gets active when click on checkbox field,,,,,
+Order Management- Order Details,TC_102,Verify that whether order is added in list when  click on add to order button,,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8. Click on Add Products Button 
+9. clicked on checkbox  field
+10. Click on add to order button",order should added in list when click on add to order button,,,,,
+Order Management- Order Details,TC_103,Verify that user is navigated to edit product screen when click on products id,,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8. Click on Add Products Button 
+9. clicked on products ID",User should be navigated to the edit products page,,,,,
+Order Management- Order Details,TC_104,Verify that whether user is able to add products in a list when add to order  button,,"""1. Open Browser and enter correct URL
+2. Enter registered email and Password
+3. Click on Order management option 
+4. User is on Order listing screen
+5. Click on Order id 
+or
+6. Click on  Edit icon
+7. User navigates on Order details screen
+8. Click on Add Products Button 
+9 User navigated to the products Listing
+10. Clicks on checkbox and clicks on Add to Order  button",user should be able to add products in a list when add to order button,,,,,

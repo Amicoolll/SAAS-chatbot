@@ -1,0 +1,146 @@
+﻿Resume 
+
+
+Gennem en App skal man både kunne booke og leje en højttaler/sound boks når man har brug for det. Det er vigtigt at appen er simpel og brugervenlig således at brugeren får en god oplevelse. Visionen er at blive Danmarks førende højtaler udlejningsforretning.
+
+
+Hvilke systemer skal der bruges?
+* Adminpanel/Dashboard
+* Appen
+Funktionsleiste 
+* Login og brugersystem
+   * Ved oprettelse skal følgende informationer opgives 
+      * Navn 
+      * Tlf. Nr
+      * Adresse
+      * By
+      * Postnummer
+      * Email 
+      * Adgangskode
+      * Gentag adgangskode
+      * Acceptere handelsbetingelser
+* Bookingsystem 
+Flower skal helst ligne “ Viggotaxa ”
+24 timer før Priser 349 for 48 timer, 599.- 
+50.- for et extra batteri gns 6 timer ( Billede icon/stock til batteriet ) 
+
+* Location/tracking (vha. Mobiltelefonen) 
+- Live tracker med kunden kan følge orderen via profil/nonkatioen ( Kan spor transporter til kunden kan følge hvor deres højtaler befinder sig 
+* Produkter 
+Mulighed for kunden kan forlænge lejen
+Hver soundboks har unik stel nr 
+
+* Betalingssystem 
+   * Pengene skal trækkes ved afhentning/modtagelse
+   * Reserver pengene via epay ( Dashboard ) 
+   * NemId-validering
+   * Nemid-valdering skal KUN bruges første gang en bruger lejer/booker en/flere soundboks/soundbokse.
+   * Adminpanel/Dashboard
+   * menu
+   * Ændre priser (lave tilbud)
+   * Ordre Historik
+   * Booket ordre 
+   * Alle kommende bookinger (opgaver) samt dato og tid på leveringsdato
+   * Registrering af soundbokse
+   * Tilføje kredit til en bruger, samt kunne overføre penge tilbage.
+   * Tjent i alt.
+   * Skal kunne sende en notifikation ud.
+   * Tilføj produkter til appen
+   * Skal kunne skrive til kunden hvori beskeden får besked via deres telefon at højtaleren 
+   * Komfortabel med Ios og android 
+   * Notifikationer
+   * Modtage et tilbud
+   * Modtag besked når de har booket ( Påmindes ) 
+   * Soundboks er på vej ( Spor din pakke live ) 
+   * Besked når den er udleveret 
+   * Kredit ( saldo ) egen profil
+   * Kunde profil 
+Ændre informationen 
+Se ordre bestilling 
+Se ordre historik 
+Personligdata 
+Betingelser 
+Design
+      * Simpelt og brugervenligt 
+      * Farver osv.. Snakker vi om mandag
+      * Nyt icon logo 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+English:
+Through an App, you must be able to both book and rent a speaker / sound box when you need it. It is important that the app is simple and user-friendly so that the user has a good experience. The vision is to become Denmark's leading speaker rental business.
+Which systems should be used?
+Adminpanel / Dashboard
+The app
+Function bar
+Login and user system
+When creating, the following information must be provided
+Name
+Tel. Nr
+Address
+Town
+Zip code
+Email
+Password
+Repeat password
+Accept trading terms
+Booking system
+Flower should preferably look like “Viggotaxa”
+24 hours before Prices 349 for 48 hours, 599.-
+50.- for an extra battery averaged 6 hours (Picture icon / stock for the battery)
+Location / tracking (using the mobile phone)
+- Live tracker with the customer can follow the order via profile / nonkation (Can track transports to the customer can follow where their speaker is located
+Products
+Opportunity for the customer can extend the rent
+Each soundbox has a unique frame no
+Payment system
+The money must be deducted upon collection / receipt
+Reserve the money via epay (Dashboard)
+NemId validation
+Nemid validation must ONLY be used the first time a user rents / books one / several soundboxes / soundboxes.
+Adminpanel / Dashboard
+menu
+Change prices (low offers)
+Order History
+Booked order
+All upcoming bookings (assignments) as well as date and time on delivery date
+Registration of soundboxes
+Add credit to a user, as well as be able to transfer money back.
+Earned in total.
+Must be able to send out a notification.
+Add products to the app
+Must be able to write to the customer in which the message is notified via their phone to the speaker
+Comfortable with Ios and android
+Notifications
+Receive an offer
+Receive notification when they have booked (Reminder)
+Soundbox is on its way (Track your package live)
+Notice when it is handed out
+Credit (balance) own profile
+Customer profile
+Change the information
+See order order
+See order history
+Personal data
+Conditions
+Design
+Simple and user-friendly
+Colors etc .. We'm talking about Monday
+New icon logo

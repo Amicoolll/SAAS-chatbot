@@ -1,0 +1,844 @@
+depart,Module,Feature,User Story,Pre-Condition,Acceptance Criteria,Validations,Error cases,Note,Client Comments
+US_01,User Onboarding,Splash Screen,"As a user, I want the splash screen and application to show the logo and name, so I can see the application opening.","1. User should have downloaded the application from Playstore/App store.
+2. User should have launched the application by clicking on the App icon.","1. The user will be displayed with the Project name App logo and App name in English.
+
+2. The splash screen will be visible for maximum of 2-3 seconds(depending on the appearance).
+
+3. The user will be redirected to 'Intro' screens after viewing the splash screen.
+
+4. Existing users of the App who are already logged in will be displayed with the splash screen and will then be taken to Home Screen of the App. 
+
+Business Rules:
+1. Branding Consistency - The splash screen should adhere to the application's branding guidelines, ensuring consistency in terms of logo usage, colors, typography, and overall visual identity.
+
+2. Duration Limitation - The splash screen should have a limited display duration to provide a smooth and efficient user experience. It should load quickly and transition to the main screen promptly to avoid unnecessary delays.
+
+3.  Loading Indicators - The splash screen may incorporate loading indicators or animations to provide visual feedback to the user, indicating that the application is being prepared for use. These indicators should be informative, visually appealing, and appropriately timed.
+
+4. Seamless Transition - The transition from the splash screen to the main screen should be seamless, without any abrupt or jarring visual or functional disruptions. The user should feel a smooth progression from the loading phase to the application's primary interface.
+
+5.  Consistent Brand Messaging - The splash screen can be utilized to convey a concise brand message or tagline that aligns with the application's value proposition or mission. This messaging should be consistent with the overall branding and should be easily comprehensible to the user.
+
+6. Device Orientation Support - The splash screen should adapt to the device's orientation (portrait or landscape) to ensure a visually appealing presentation regardless of how the user holds their device.
+
+7. Responsive Design - The splash screen should be designed responsively to fit different screen sizes and resolutions, providing an optimal visual experience across various devices.
+
+8. Compliance with Platform Guidelines - The design and behavior of the splash screen should adhere to the guidelines and requirements set by the target platform (e.g., iOS Human Interface Guidelines, Android Material Design), ensuring a consistent user experience within the platform's ecosystem.","1. The splash screen should load quickly to ensure a smooth transition.
+2. Any necessary data or resources required for the main screen should be preloaded during the splash screen display.","1. Network Connection Issues:
+a. The app may encounter a problem connecting to the internet, resulting in a failure to load data or resources needed for the splash screen.
+b. This can be due to a weak or unavailable network connection, server issues, or firewall restrictions.
+c. Error message : ""Unable to connect to the internet. Please check your network connection and try again.""
+
+2. Backend or Server Errors:
+a. This can occur if there are issues with the backend servers, database connectivity, or API integration.
+b. Error message ::""Oops! Something went wrong on our servers. Please try again later.""
+
+3. Timeouts or Delays:
+a. In some cases, the splash screen may take an extended period to load, or the loading process may time out.
+b. This can happen if the app is processing a large amount of data during startup or if there are delays in resource loading.
+c. Error message : ""Oops! The app took too long to load. Please try relaunching or contact support for help.""",,
+US_02,User Onboarding (New User),Tutorial Screen,"As a user, I want the new user to view the Intro screens with an image and further information about the application in a dynamic form.","1. User should have downloaded the application from Playstore/App store
+2. User should have launched the application by clicking on the App icon
+3. User should have viewed the splash screen of the application.
+","1. The user will see the 3 carousels having images along with the application specific text on the same. 
+2. The Images will be dynamic and will change automatically.
+3. Once the user has reached the third screen, they will will automatically be redirected to the Login screen
+4. These Intro screens will appear for 4-5 seconds 
+
+Business Rules:
+1. Only first-time users and users who have reinstalled the application will view this screen.
+2. These screens will be dynamic and will keep on changing if updated from the admin panel.
+3. The Intro screens content and Image will be configured and managed from the Admin panel.
+4. If in a event the server is not responding then in that case defailt ""Intro screen"" will be shown.","1. Tutorial Screen Display:
+The tutorial screen should be displayed only for new users or those who have not completed it before.
+Users who have previously completed the tutorial should not see it again when they open the app.
+
+2. Swipe Navigation:
+Users should be able to swipe left or right on the tutorial screen to navigate between the three images.
+The app should smoothly transition between images with a swipe gesture.
+
+3. Skip Functionality:
+The tutorial screen should include a prominent ""Skip"" button in a visible location.
+When users click on the ""Skip"" button, they should be directed to the app's main interface or home screen.
+
+4. Completing the Tutorial:
+Once the user completes the tutorial by swiping through all three images or clicking the ""Skip"" button, the app should mark the tutorial as completed for that user.
+
+5. Caption Content:
+Each image in the tutorial should have a concise and informative caption describing the app's features or functionalities.
+The captions should be easy to read and understand, providing a clear overview of what the app offers.
+
+6. Tutorial Accessibility:
+The tutorial screen should be responsive and accessible on various screen sizes and orientations to accommodate different devices.","1.  Tutorial Unavailable
+Description: This error occurs when the tutorial screen is not accessible to the user.
+Message:
+ ""Oops! The tutorial is currently unavailable. Please try again later.""
+
+2.   Swipe Navigation Error
+Description: This error indicates an issue with swiping to navigate between tutorial images.
+Message: 
+""Oops! There was a problem navigating the tutorial. Please try again.""
+
+3. Unable to Skip Tutorial
+Description: This error occurs if the ""Skip"" button fails to function correctly.
+Message: 
+""Sorry, we couldn't skip the tutorial. Please try again later.""
+
+4. Missing Caption
+Description: This error indicates that a caption is missing for one of the tutorial images.
+Message:
+ ""Oops! A caption is missing for this image. Please check back later.""
+
+5.  Network Connection Issue
+Description: This error occurs if there's a problem with the user's network connection while accessing the tutorial.
+Message: 
+""Please check your internet connection and try again to access the tutorial.""",,
+US_03,Onboarding,Sign in ," As a user, I want to Sign In to the application so that I can get myself authenticated and navigate inside the app.","1. The existing user should have the viewed the Splash screen then they will get auto-redirected to the Login screen.
+2. The new users must first view the splash screen, then the intro screen, after which they will be automatically redirected to the Login screen.
+","On the Login screen the user will view the following details:
+1. The user will view the Reel logo along with heading with the specific text on the screen.
+
+2. The user will view the following input fields:
+
+2.1 Enter Phone
+- The user can enter their verified email here.
+- By default, this field will be empty and will dipslay the text ""Enter your Phone"" in light colour which will be removed once the user starts writing their preference.
+ -- The user by clicking on the Country code dropdown will be able to view the Bottom sheet with Select a country heading:
+   -- The user will view the Search box clicking on which they will be able to Search for a country by typing
+  -- The user will view the list with Country name and code
+  
+- This field will be the Mandatory field.
+
+
+3. The user will view the ""Next"" button which will get enabled once the mandatory field is correctly entered.
+
+3.1 By default, the ""Next"" button will be disabled.
+
+3.2 By clicking on ""Next""button the user will get redirected to the ""Verify through OTP screen"".
+
+3.3 On this screen the user the will view following details:
+
+- Enter 4 digit OTP boxes
+- The user will view 60 seconds timer
+- Once the timer ends the user will view Resend OTP link clicking on which they will be able to view the bottom sheet confirming the user has received the OTP again or not.
+- On successfully entering the OTP the user will be able to click on the Submit button which will redirect user to the Homescreen.
+
+
+Business Rules:
+1. If the user is not linked with Reel then in that case while entering the phone and clicking on send OTP the user will view the error message stating ""The user is not linked with exisitng Reel portal.
+
+2. User can request for consecutive 3 code after which they have to wait for 15 minutes to request new code.
+
+Note:
+- If user enters wrong OTP, error message will be shown stating ""Invalid OTP""
+- I can generate max of 3 OTPs continuously, after 3 attempts I need to wait for a pre-defined time of 15 minutes to get the forgot password and resend buttons to be enabled. ","Phone number
+Minimum number of digits for a mobile number is 5 [Country:Saint Helena]
+&
+Max digits for a mobile number is 13 [Country: Austria ]
+
+Usually country code is 1–3 digits",,,
+US_04,Onboarding,OTP Verification,"As a user, I want to verify my OTP so that I can login into the application",The user should be on the login screen and have clicked on send OTP button ,"On this screen the user the will view following details:
+
+- Enter 4 digit OTP boxes
+- The user will view 60 seconds timer
+- Once the timer ends the user will view Resend OTP link clicking on which they will be able to view the bottom sheet confirming the user has received the OTP again or not.
+- On successfully entering the OTP the user will be able to click on the Submit button which will redirect user to the Homescreen.
+
+Note:
+- If user enters wrong OTP, error message will be shown stating ""Invalid OTP""
+- I can generate max of 3 OTPs continuously, after 3 attempts I need to wait for a pre-defined time of 15 minutes to get the forgot password and resend buttons to be enabled. ","1. OTP Input field will allow Numeric value only.
+2. OTP will be of 4 digits.","1. OTP Input field will allow Numeric value only.
+2. OTP will be of 4 digits.",,
+US_05,Onboarding,Signup,"As a user, I want to signup so that I can access the functionalities as a registered user.","1. The user should have viewed the Splash screen.
+2. The user should be on the Login screen then by clicking on the ""Sign Up"" link the user will get redirected to the ""Sign up"" screen.","On the Sign up screen the user will view the following details:
+1.  The user will view the ""Welcome"" heading with the specific text on the screen.
+
+2. The user will view the following input fields:
+
+2.1 Enter Full name
+
+2.2 Enter EMAIL
+
+2.3 Enter Phone number
+- The user can enter Phone number whichever they want to verify.
+
+2.3.1 If the user starts entering the number then:
+ -- By default, +1 country code will be shown.
+ -- By tapping on this (+1) the user will view the list of countries with name and country code.
+ -- The user will also be able to search by typing the country name/code.
+ -- There will be a vertical scroll on the country code popup. 
+
+- By default, this field will be empty and will display the text ""Enter your Phone number "" in light colour which will be removed once the user starts writing their preference.
+
+- This field will be the Mandatory field.
+
+3. The user will also  view the Chechbox for Agreeing to the the application terms on checking the terms and all the mandatory fields the user will be able to view the highlighted Signup button.
+
+4. Once all the above mandatory fields are filled the user will view the ""Signup"" button.
+
+4.1 By default, the Sign up button will be disabled.
+
+5. For an existing user who Already Have An Account, can click on the ""Sign-in"" link by clicking on which they will get redirected to the Login screen.
+
+6. The user after clicking on the Signup button will get reditected to the ""Verify your account"" screen where they will be able to enter the 4 digit OTP receive on their Phone.
+
+Note:
+1. As a new user, when I open the application for the first time, I should be presented with a signup screen where I can create a new account. The signup screen should have clear and user-friendly input fields to collect necessary information, such as my name, email address, and a password.
+
+2. The signup screen should also include a checkbox or option to agree to the application's terms and conditions and privacy policy. By checking this option, I understand and accept the terms and conditions set forth by the application.
+
+5. Once the user have successfully completed the signup process, the application should create a new user account associated with the provided Phone no. and securely store my information. I should then be redirected to the application's main screen or guided through an initial onboarding process to personalize my experience and explore its features.
+
+6. By providing a seamless and intuitive signup screen, the application enables me, as a new user, to easily create an account and begin utilizing the application's functionalities, enhancing my overall user experience.
+
+Note:
+OTP
+- If user enters wrong OTP, error message will be shown stating ""Invalid OTP""
+- I can generate max of 3 OTPs continuously, after 3 attempts I need to wait for a pre-defined time of 15 minutes to get the forgot password and resend buttons to be enabled. ","1. First name
+- Special characters not allowed
+-  Space not allowed
+
+2. Last name
+- Space not allowed
+- Special characters not  allowed
+
+
+2. Email ID:
+2.1. It should contain “@” and “sub-domain_ name. Domain_name”
+2.2. Input allowed: Alphanumeric with special character allowed. No space allowed
+
+
+3. Phone number
+3.1. minimum number of digits for a mobile number is 5 [Country:Saint Helena]
+&
+Max digits for a mobile number is 13 [Country: Austria ]
+Note: Currently only UK and US contries are focused on so the mobile no. digits will be validated accordingly.
+
+3.2 Usually country code is 1–3 digits
+
+","1 If entered Email id/ Phone number is already associated with the platform, the user will be able to view the error message stating "" ""Email/Mobile is already associated with us, please signup using another email/phone."" 
+-  Validation: Check if the entered phone or email address is unique and not already associated with an existing account.
+
+2. If entered Email or Mobile is not in a valid format, show error ""Please enter valid email/mobile.""
+
+
+
+ ",,
+US_06,Onboarding,Verify my account,"As a user, I want to authenticate Mobile Number Via OTP.","1. The user should be on the Signup screen then by clicking on the ""Signup button"" which will redirect them to the Verify your account"" screen","On the verify your account screen the user will view the following details:
+1. The user will view the ""Verify your account"" heading with specified text 
+
+2. On this screen user will see the Timer of 120 seconds.
+
+2.1 Upon expiration of the 120secs  timer, the user will see a Resend code text, clicking on the Resend Code to receive another OTP on mobile.
+2.2 By default, OTP input field will be empty
+ 
+3. The user will be able to enter the 4 digit OTP which they have received on their Mobile.
+
+3.1 The user will be able to view the ""Resend"" text link after the expiration of 120secs  timer.
+
+3.2 Each time the user enters the OTP incorrectly, a toast message will appear.
+
+4. After entering the OTP, the user will view the enabled ""Verify OTP"" button clicking on which they will be navigated to the ""Help us to know you more"" screen.
+
+
+Brief:
+1. The application should verify the authenticity of the verification OTP and mark my account as verified upon successful validation. If the verification OTP is invalid or has expired, an appropriate error message should be displayed, guiding me to request a new verification link.
+
+2. Once my account is successfully verified, the user should be able to log in and access the application's features and functionalities without any restrictions. The application should provide a clear confirmation message indicating that my account has been verified and is ready for use.
+
+Note:
+- If user enters wrong OTP, error message will be shown stating ""Invalid OTP""
+- I can generate max of 3 OTPs continuously, after 3 attempts I need to wait for a pre-defined time of 15 minutes to get the forgot password and resend buttons to be enabled. 
+","1. OTP Input field will allow Numeric value only.
+2. OTP will be of 4 digits.
+3. The verification OTP should be valid for a specified period to ensure timely verification and account activation.
+4. Only unique and valid email addresses should be allowed during the signup process to prevent potential issues with account verification
+
+OTP
+- If user enters wrong OTP, error message will be shown stating ""Invalid OTP""
+- I can generate max of 3 OTPs continuously, after 3 attempts I need to wait for a pre-defined time of 15 minutes to get the forgot password and resend buttons to be enabled.","1. If user enters wrong OTP, error message will be shown stating ""Invalid OTP
+
+2. ""Error: OTP Delivery Failed
+- This error message indicates that there was a problem delivering the OTP to your phone number",,
+US_07,Onboarding,Select Department ,"As a user, I want to see a list of available departments so I can choose them and proceed with my selected vendor based on my department choice.",The user should have successfully verified their phone number then they will be redirected to Select Department screen ,"The user will view the following options:
+1. Studio
+2. Production co.
+3. Freelance
+
+- On selecting any of the above the user can click on the continue button clicking on which they can view the list of options.
+ex. Lets say if the user has selected the Studio then the user will view the list of Studio.
+-- On clicking Continue the user will get redirected to the select Department screen.
+
+- The user will then view the list of Departments with Image and name
+- Production Management
+- Casting
+- Locations
+- Art Department/Props
+- Costume Department
+- Makeup and Hair
+- Cinematography
+- Sound Departmen
+- Special Effects/Visual Effects
+- Camera Department
+- Grip and Electric
+- Sound Crew
+- Costume and Makeup
+- Editing
+- Sound Post-Production
+- Visual Effects (VFX) - Post
+- Music and Score
+- Color Grading
+- Distribution and Marketing
+- Legal and Finance
+- Animal trainers
+- Stunt coordinators
+- Health & Safety
+- Sustainability
+
+2. The user will be able to view the Image with all the above mentioned departments
+3. The user will be able to tap on the departments to select them an the selected departments will be shown with Right tick over it.
+4. The user will be able to select the multiple Departments and on the basis of selected departments the user can view the Vendors onn the homescreen
+
+5. By default no departments will be selected
+
+
+Business Rules:
+1. The user can select Minimum 2 or Maximum of 7 departments to proceed.
+
+Note:
+Need to show functionality in the App to ask for permission to access gallery, camera, and location. These permissions ensure that only trusted applications can access sensitive information on the device, protecting your privacy and security. When granting permissions, it's a good practice to review why an app needs access to these features before allowing it. That way, you can be sure that your personal data is used appropriately.",,,,
+US_08,Onboarding,Select Positions,"As a user, I want to select the Positions so that i can get the suggestions on the basis of it",The user must have selected the Department and by clicking on which they get redirected to the Select Positions screen,"1. The user will view the list of Positions with a checkbox 
+2. The user will be able to select the multiple positions
+- By default, there will be no selected Positions
+
+3. The user will be able to click on the Continue button by clicking on which the user gets redirected to the Profile Setup screen.
+
+Note: Min. 1 and Max. 10 postion can be selected.",,,,
+US_09,Profile Setup,Profile Setup,"As a user, I want to set up my Profile picture so that it may help production  team to recognise",The new user must have selected the Departments from the  list and on cicking the continue button the user wil get redirected to the Profile setup screen,"The user will view the following details :'
+
+1. The user will view the Profile Image placeholder clicking on which they will be able to upload the image.
+
+- The image once uploaded the user will be able to view the edit icon clicking on which they will be able to update the image.
+2.The user will view the Continue button clicking on which they will be able to upload the Profile picture.
+- On clicking Continue the user have to give the Gallery Permissions
+2.1 The user can also click on the Skip link by clicking on which the user will view the successfull message.
+
+
+Note:
+Need to show functionality in the App to ask for permission to access gallery, camera, and location. These permissions ensure that only trusted applications can access sensitive information on the device, protecting your privacy and security. When granting permissions, it's a good practice to review why an app needs access to these features before allowing it. That way, you can be sure that your personal data is used appropriately.","- Profile Image: 
+* Size:  Max 3 MB
+** Following error message should be prompted if the uploaded image is more than 3 MB , ""Max. 3 MB file size allowed"".
+
+* Type:  png/jpg/jpeg
+** Following error message should be prompted if the uploaded image type is not supported  , ""Only png/jpg/jpeg file type allowed"".
+
+Need to show functionality in the App to ask for permission to access gallery, camera, and location. These permissions ensure that only trusted applications can access sensitive information on the device, protecting your privacy and security. When granting permissions, it's a good practice to review why an app needs access to these features before allowing it. That way, you can be sure that your personal data is used appropriately.",,,
+US_10,Homescreen,Homescreen,"As a user, I want to access the Home section so that I can see all the Vendors  details and Send Quote","1. The exiting user must have tapped on the icon from their phone which will redirect them to the Homescreen.
+
+2. The new user have to register themsleves on the application to get redirected to the homescreen,    ","- Verify that after sucecssfull on-boarding and before landing on the Home Screen, user will be prompted to allow current location access and deny which will lead to closure of the application. User can only access application after allowing the current location access. 
+
+On the Homescreen the user will view the following details:
+1. Hamburger Menu
+2. Notifications Icon
+3. Cart 
+4. Current Address (with an ability to change it if the addresses already exist. Ref US_19)
+Note: User will have the ability to select any one address from the below list:
+* Current address
+* Manually added address
+* Production set location.
+User wiill have an ability to add new address or mark any one location as Primary location which can't be deleted. For the first time, user current location will work as Primary location. 
+5. The user will be able to view the Search box clicking on which they will get redircted to the Search screen (Ref. US_10)
+
+6. The user will then view the My Departments section where they will be able to view the list of departmens that they have selected while registering for the application
+6.1 The user will also view the count of the Departments that they have chosen while regstering
+6.2 The user by clicking on the Department count will get redirected to the Select Department screen where they will view the list of all the departments with selected ones with a Right tick
+6.2.1 The user will be able to update the Selected departments followed by confirming the positions list as well.
+
+6.2.2 The user will be able to update their preferences of Department here.
+
+6.3 The user will also view the list of categories list w.r.t. selected Departments on horizontal scroll. Based on Department updates the categories will get updated accordingly.
+6.4 When user will click on any specific category, accordingly the products and services list will get updated. 
+7. The user will view the preferred vendors with following details:
+7.1 The user will view the Vendor name , Location (In form City, State)
+7.2 There will be a horizontal view
+7.3 The user will view the preferred vendors on the basis of Departments they have selected and near-by location. 
+-If the vendor is related to a selected department but not available in near-by location of the user then vendor will not be displayed.
+- The following message will be displayed if no vendor is available within the selected location: No preferred vendor available in your area. Please come back soon to try again.
+7.4 On clicking the vendor Card the user will get redirected to the Vendor details screen (US_11)
+7.5 The user will also have the View all link clicking on which they will get redirected to the Preferred Vendor listing screen.
+
+8. The user will be able to view the all the Product card with following options:
+8.1 Image of the product
+8.2 Product name 
+8.3 Product type tag > ( Rent, Buy, Rent/Buy) 
+8.4 Product price (Will be shown with discounted price if applied). 
+Note: Two different prices will be displayed if product is available for both buy and rent.
+ At vendor end, the vendor will provide only original price, % off value and accoridingly the final price will be reflected on the app end.
+
+8.5 The user will also view the discount % on the card
+8.6  The user by clicking on the Product card will get redirected to the Product detail screen where they can view all the details related to the product
+8.7 The user will also have the View all link clicking on which they will get redirected to the Product listing screen.
+Note: The Products list will be displayed on the basis of its availability of vendor w.r.t. near-by location of the user. If a product is not available in near-by location of the user then it will not be displayed.
+- The following message will be displayed if no product is available within the selected location: No product available in your area. Please come back soon to try again.
+
+
+9. The user will then view the Banner Image with title and short description
+9.1 The Banner image will be managed from the Admi panel
+9.2 There will be a Single Banner Image with no redirection to any other screen by any click.
+
+
+10. The user will be able to view all the Service card with following options:
+10.1 Image of the Service 
+10.2 Service name with short description
+10.3 Service price (Will be show with original and discounted prices if applied)
+10.4  The user by clicking on the Service card will get redirected to the Service detail screen where they can view all the details related to the product
+10.5 The user will also have the View all link clicking on which they will get redirected to the Service listing screen.
+Note: The Services list will be displayed on the basis of its availability w.r.t. near-by location of the user. If a service is not available in near-by location of the user then it will not be displayed.
+
+Business Rules
+1. The user will view the departments count on the My Department by clicking on which they get redirected to Select department screen
+1.1 The user will view the Preferred Vendors on the basis of Selected Departments and his current location
+2. The user will be able to view the Products and Services on the basis of Location selected.
+
+3. My Preferred Vendor: Based on Department selected in on-boarding process and vendor lying near-by user location, accordingly the vendors will be displayed.If the vendor is related to a selected department but not available in near-by location of the user then the vendor will not be displayed.
+3.2 Products display: All products available to the near-by location of the user will be displayed.
+3.3 Services: Only services which are available near-by user location.",,,,
+US_11,Homescreen,Search,"As a user, I want to perform search so that I can search for the specific preference",The user should be on the Home screen and have clicked on Search box ,"The user by clicking on Search box will get redirected to the search screen where they will view the following options:
+
+- The user will view the ""Search for Products"" ,  ""Search for Services"" ,  ""Search for Vendors""  
+- By default, they will view ""Search for Products"" and the text on search screen will dynamically changed to above mentioned options
+
+1.  The user by tapping on search bar will activate cursor with the help of which user would be able to perform the search operation.
+2. As soon as user start typing in (one character is typed into the ""Search"" field) a cross button will be activated and result will start to display according to keyin words.
+2.11 Tapping on the cross button will clear the search bar and results. 
+2.2 The searching will be case insensitive.
+2.3 The searching will be from DB
+2.3 By default, the search box will be unfilled.
+
+3. The user will view the Recent Searches on the basis of their previous search history.
+- By clicking on Clear all the user will be able to clear their recent search
+- The user while searching will view the list of items
+- The user can view the Products, Services, Vendors list 
+. The user will be able to filter by tapping on the filter Icon
+- Note : The searching result of Products/Services/Vendors will be based on the logic using which the modules are displayed on the Home Screen. (Ref. Business Logic under US_!0)
+
+Search results will be categories w.r.t. Vendor, Services and Products. By default the Vendor tab will be selected.
+Search result filters will include following:
+- For Products: Sort By, Order Type (Rent, Purchase, Service (with checkbox for multiple selection), Departments with ability to select multiple departments and view the result accordingly.
+- For Services: Sort By, Departments( as above) only
+- For Vendor: Departments ( only the on-boarding time selected departments will be displayed and user can filter the result based on made selection of the available departments).
+** Vendor will be searched on Business Name throughout the application.
+
+N ote: when user refresh search/vendor/product/service sort and filter should not be removed by pull to refresh",,,Filters under Search need to be discussed with the Client.,
+US_12,Vendor,Vendor Detail,"As a user, I want to access the Vendor detail screen so that I can have the required details, helping me in placing the order/request.","1. The exiting user must have tapped on the icon from their phone which will redirect them to the Homescreen.
+2. The new user have to register themsleves on the application to get redirected to the homescreen,    
+3. From the Home screen, User needs to click on any vendor to visit his/her Profile screen.","- Verify that under Vendor profile/detail screen, I will be able to view following details:
+
+* Background image
+* Vendor company logo
+* Vendor Company Name
+* Departments names with which Vendor deals
+* Ability to add the Vendor under My Favourite section, Once done, the heart icon will be in filled state and clicking on the same will perform the unfavourite action.
+* Ability to view below complete vendor company detail by clicking on the available 'i' info icon:
+* *Brief description about the company
+** Establishment Year as Established
+** Location
+** Email Id
+** Website link
+The above details will be displayed in a pop-up, usr can click on the (x) icon in order to close the same.
+
+- Verify that I will be able to search a particular product or service by its name.
+
+- Verify that I will be able to see list of Categories with their name and image under which the Vendor's products & services lies. I will be able to scroll from Right-Left to view all categories available. Clicking on any specific categories will update the product and service list accordingly.
+
+- Verify that I will be able to view list of all products that are available for buying or renting or both with each product having following details:
+* Product Image
+* Name
+* Discounted Price with indication of percent value OFF.
+*Product type tag > ( Rent, Buy, Rent/Buy) 
+Note: Product price (Will be show with discounted price if applied). Note: Two different prices will be displayed if product is available for both buy and rent.
+* Ability to view complete list of available products by clicking on 'View All' option.
+* Abolity to view the detail screen of the product by clicking on the card.
+* Ability to mark the product as Favourite/Unfavourite them
+
+- Verify that I will be able to view the banner image uploaded by Vendor with no redirection and for advertisement purpose only.
+
+- Any product mrked as featured product from the Vendor panel by the vendor while creating product; will reflect on the top under product cards (Swipe right-left) and tapping to the view all, all the products whether marked as featured or not will display in listing on new screen. (5 to 8 cards)
+
+- Verify that I will be able to view list of all services that are available for availing with following details:
+* Service Image
+* Name Service name with short description
+* Original Price/Hr
+* Discounted Price/Hr 
+* Ability to view complete list of available service by clicking on 'View All' option.
+* Ability to view the detail screen of the service by clicking on the card.
+* Ability to mark the service as Favourite/Unfavourite them
+
+-Verify that I will be able to navigate back to previous screen with the help of available option.
+
+- Any service marked as featured service from the Vendor panel by the vendor while creating service; will reflect on the top under service cards (Swipe right-left) and tapping to the view all, all the services whether marked as featured or not will display in listing on new screen. (5 to 8 cards)",,,,
+US_13,Hamburger Menu,Notifications Settings,"As a user, I want to view the noitification settign so that Ican perform appropriate actions",The user should be on the settings screen then by clicking on the Notifications they will view be redirected to notification settings screen,"The user by clicking on the Notification section will get reditrected to the Notifcation settings screen where they will view:
+1. The user will view the PUSH  NOTIFICATION toggle button by tapping on which the user will be able to turn it on./Off
+-- By default, it will be ""ON"" state
+
+- The user will also view the back icon by clicking on which they will be taken back to setting screen
+
+",,,,
+US_14,Hamburger Menu,Help>FAQs,"As a user, I want to access the FAQ section in order to find solutions for my queries.""","User should have Clicked on the ""FAQs"" option on the ""Settings"" screen.","On the FAQ screen the user will view the following details:
+1. The user will view the Question and answers posted by the Admin from the Admin panel.
+2. On clicking 'down arrow' icon the user will view the answer within the specific question.
+2.1 The user by clicking on ' up aarow' icon will be able to close the answer.",,,,
+US_15,Hamburger Menu,My Favourites,"As a user, I want to view the My favourites section so that I can view them","User should have Clicked on the ""My Favourites"" option on the ""Menu"" screen.","On the My favourites section the user will be able to view the following details:
+1. The user will view 3 segmented tabs:
+- Products
+- Services
+- Vendors
+
+-- By default,  the user will land on Products tab where they will view :
+2.  The user will be able to view the Product card with following options:
+2.1 Image of the product
+2.2 Product name with short description
+2.3 Product type tag > ( Rent, Buy, Rent/Buy) 
+2.4 Product price (Will be show with discounted price if applied)
+2.5 The user will also view the discount % on the card
+2.6  The user by clicking on the Product card will get redirected to the Product detail screen where they can view all the details related to the product
+2.7 The user will also view the Favourites icon in the filled form, If user clicks on that icon they will view the promp on confirming which the product will be removed from the Favourites list.
+
+3. The user by clicking on the Services tab will view the Services detail:
+3.1 Image of the Service , name with short description
+3.3 Service type tag > ( Rent, Buy, Rent/Buy) 
+3.4 Service price (Will be show with discounted price if applied)
+3.5 The user will also view the discount % on the card
+3.6  The user by clicking on the Service card will get redirected to the Service detail screen where they can view all the details related to the Service 
+3.7 The user will also view the Favourites icon in the filled form, If user clicks on that icon they will view the promp on confirming which the Service will be removed from the Favourites list
+3.8 By clicking on the Service card will redirect the user to the detail screen
+
+4. The user by clicking on the Vendor tab will view the Vendor detail:
+4.1  Image  
+4.2 Address
+4.3 The user will also view the Favourites icon in the filled form, If user clicks on that icon they will view the promp on confirming which the Vendor will be removed from the Favourites list.
+4.4 By clicking on the Service card will redirect the user to the detail screen",,,,
+US_16,Hamburger Menu,My Profile ,"As a user, I want to view the My Profile so that I can change the account settings according to my requirement","User should have Clicked on the ""My Profile"" option on the ""Menu"" screen.","On the Profile screen the user wil view the following option:
+1. Profile Image
+- Name
+- Contact number
+- Email
+
+2. Edit Profile
+3. Manage Addresses
+4. Manage Payment Method
+5. Manage Set Location.
+
+
+
+",,,,
+US_17,My Profile ,View Profile,"As a user, I want to view the My Profile so that I can change the account settings according to my requirement","User should have Clicked on the ""My Profile"" option on the ""Menu"" screen.","On the view Profile screen the user will view the follwoing details:
+-First Name
+- Last Name
+- Contact number
+- Email
+- Image
+
+By clicking on Edit icon present over Image the user will be able to edit the profile image
+
+- The user will view following details
+
+1. Prefilled phone number
+
+1.2. The user will then view the Update My phone number button by clicking on which they will get redirected to the Update phone number screen with folloiwng options:
+- The user will view the enter Phone number field with country code
+- The user after entering the phone number will view the higlhighted contiue button which will redirect them to the ""OTP verification"" screen.
+- On clicking back from  Update phone number screen the user will be taken back to the Phone number settings screen.
+
+- On clicking back from  ""OTP verification"" screen, the user will move back to the  Update phone number screen.
+
+- The phone number once updated can be seen on the Phone number settings screen.
+
+1.3. On clicking back will redirect the user to the settings screen.
+
+2. Email id
+- User will view the entered email 
+- User will also view the Verify email button by clicking on which they will be able to verify their email as well. Verification process will include same process of OTP verification as followed under Mobile no. update.
+
+3. First Name and Last Name with an ability to edit and save them.
+
+- Verify that if after making the changes in the profile section if the user tries to leave the screen without saving the made changes then user will be prompted with alert confirmation message: Do you want to save or discard changes?, and based on the option selected(Discard, Save Changes) the action will be performed.
+
+Note: As discussed with Arjun, The designs flow for updating mobile and email via OTP process is under discuss
+
+ 
+",,,,
+US_18,My Profile ,Edit Profile,"As a user, I want to edit my profile so that I can make better use of the platform by updating it..",The user should have clicied on the Edit profile option which redirects them to Edit profile screen,"On the Edit profile screen the user will view te following prefillled fields which can be updated by clicking on them:
+1. First Name
+2. Last name
+3. Email Address
+4. Mobile number
+5. Update Profile Picture
+If the user edits anything the Updated button will get highlighted and on clicking which the details edited will get updated.
+","1. First name
+- Special characters not allowed
+
+2. Last name
+- Space not allowed
+- Special characters not allowed
+
+
+2. Email ID:
+2.1. It should contain “@” and “sub-domain_ name. Domain_name”
+2.2. Input allowed: Alphanumeric with special character allowed. No space allowed
+
+
+3. Phone number
+3.1. minimum number of digits for a mobile number is 5 [Country:Saint Helena]
+&
+Max digits for a mobile number is 13 [Country: Austria ]
+
+3.2 Usually country code is 1–3 digits
+
+Need to show functionality in the App to ask for permission to access gallery, camera, and location. These permissions ensure that only trusted applications can access sensitive information on the device, protecting your privacy and security. When granting permissions, it's a good practice to review why an app needs access to these features before allowing it. That way, you can be sure that your personal data is used appropriately.",,,
+US_19,My Profile ,Manage Addresses,"As a user, I want to manage address so that I can update irt whenever needed","1. The user should have clicked on the Manage Addresses option which redirects them to the Manage Addresses screen
+
+2. On the home screen if the user has clicked on the Address field from the top, they will get redirected to 'Find Location'  screen","- By clicking on the Manage address screen the user will view the following details:
+
+1. List of Addresses added
+- The user will view the list of addresses added by the user with Edit and Delete options
+- One Primary Location can not be deleted but can be edited
+- For Primary Address I can view the tag 'Primary Location'
+- On the other address cards I can view a button 'Make a primary address' by tapping on which that specific card will denote as the primary address and others will not be highlighted as primary anymore.
+- Each added address will be displayed in the following order:
+* Apartment/Suit Name(in bold)
+* Building Name
+* Complete address with Zip code
+
+- By clicking on the added address card, I will be navigated to the detail screen where I will be able to edit the address details and save them.
+- By clicking on delete address the user will view the confirmation popup and on selecting OK the card will get deleted and removed from the List.
+- I can also view and tap on 'Add a new address' CTA to add a new address which will take me to a new screen.
+
+2. Add New AddressThe user by clicking on the Address will view the following input fields:
+- First user will be navigated to a screen where he will be able to search for a specific location , the provided address will have a Zip code as well. Once the location is selected the same will be reflected under the location field below
+- Location
+- Apartment/Suite
+- Building name
+- Landmark(optional)
+Note: While adding new address, user will not see the list of added address.
+
+3. The user will also view the radio button for Drop-off options:
+- Hand it to me
+- Leave it at Location
+- The user will be able to select any one of the above
+
+4. After filling all the mandatory fields the user will be able to click on the Add address button on which the user will get redirected to the Address listing screen where they can view their added address on top.","- Location: Min. 3 and Max. 100 characters allowed.
+** Following error message should be prompted if the entered characters are less than 3 , ""Min. 3 Characters allowed"".
+
+** Following error message should be prompted if the entered characters are more than 100 , ""Max. 100 Characters allowed"".
+
+- Apartment/Suits: Min. 3 and Max. 100 characters allowed.
+** Following error message should be prompted if the entered characters are less than 3 , ""Min. 3 Characters allowed"".
+
+** Following error message should be prompted if the entered characters are more than 100 , ""Max. 100 Characters allowed"".
+
+-Building Name: Min. 3 and Max. 100 characters allowed.
+** Following error message should be prompted if the entered characters are less than 3 , ""Min. 3 Characters allowed"".
+
+** Following error message should be prompted if the entered characters are more than 100 , ""Max. 100 Characters allowed"".
+
+-Landmark: Min. 3 and Max. 100 characters allowed.
+** Following error message should be prompted if the entered characters are less than 3 , ""Min. 3 Characters allowed"".
+
+** Following error message should be prompted if the entered characters are more than 100 , ""Max. 100 Characters allowed"".
+
+** Need to show functionality in the App to ask for permission to access gallery, camera, and location. These permissions ensure that only trusted applications can access sensitive information on the device, protecting your privacy and security. When granting permissions, it's a good practice to review why an app needs access to these features before allowing it. That way, you can be sure that your personal data is used appropriately.",,,
+US_20,My Profile ,Manage Payment,"As a user, I want ti view the payment section so that I can purchase ",The user should have clicked on the Manage Payment option which redirects them to Manage Payment screen,"On the Manage Payment screen the user will view the following details:
+1. The user will view the list of cards added details such as:
+Card number (Last 4 digit will be shown)
+Expiry Date
+Delete option
+Card logo
+
+2. The user will also view the Add Credit/Debit Card button clicking on which they will get redirected to the Add Card screen
+- Enter Card number
+- Enter Expiry date
+- Enter CVV
+- Enter Card holder name
+
+The user by entering all the fields will be able to click on the Add details button clicking on which they will view the Confriamtion popup","For CVV:
+
+Format: Validate that the CVV consists of the expected number of digits (usually 3 for Visa/MasterCard and 4 for American Express).
+Numeric: Allow only numeric input for the CVV.
+Required Field: Confirm that the CVV is a required field.
+
+For Cardholder Name:
+
+Format: Ensure that the name contains only alphabetic characters.
+Required Field: Confirm that the cardholder name is a required field.
+Minimum and Maximum Length: Set a range for the name length (e.g., 2-50 characters).",,,
+US_21,Hamburger Menu,Privacy Policy,"As a user, I want to view the Privacy Policy  of the app so that i can get all the details about the app Privacy Policy ","User should have Clicked on the ""Privacy Policy"" option on the ""Menu"" screen.","1. The user will be displayed with the following attributes on the ""Privacy Policy "" screen:
+   - Privacy Policy(Header)
+   - Back Button(Header)
+   - App Logo
+   - Content
+
+2. User can click on the ""Back"" button to close the ""Privacy Policy"" screen & get redirected to the ""Menu"" screen.
+",,,,
+US_22,Hamburger Menu,Terms & Conditions ,"As a user, I want to view the Terms & Conditions  of the app so that i can get all the details about the app Terms & Conditions ","User should have Clicked on the ""Terms & Conditions "" option on the ""Settings"" screen.","1. The user will be displayed with the following attributes on the ""Terms & Conditions "" screen:
+   - Terms & Conditions (Header)
+   - Back Button(Header)
+   - App Logo
+   - Content
+
+2. User can click on the ""Back"" button to close the ""Terms of Service"" screen & get redirected to the ""Menu"" screen.
+","10,000 characters",,,
+US_23,Hamburger Menu,Contact Us,"As a user, I want to view the Contact Us  of the app so that i can get all the details about the app Contact Us","User should have Clicked on the ""Contact Us "" option on the ""Hamburger"" screen.","1. The user will be displayed with the following attributes on the ""Contact Us"" screen:
+   -Placeholder text: Contact Us
+   - Email
+   - Mobile Number
+  
+2. By clicking on mobile the user will be redirected to their phone's screen
+3. By clicking on email the user will get redirected to the mail","Email ID:
+2.1. It should contain “@” and “sub-domain_ name. Domain_name”
+2.2. Input allowed: Alphanumeric with special character allowed. No space allowed
+
+
+3. Phone number
+3.1. minimum number of digits for a mobile number is 5 [Country:Saint Helena]
+&
+Max digits for a mobile number is 13 [Country: Austria ]
+
+3.2 Usually country code is 1–3 digits
+",,,
+US_24,Settings,Delete Account,"As a user, I should be able to delete my account if I have found someone or if I do not want to use the platform anymore.","The user must have tapped on the ""Delete account"" option from the settings screens .","1. Users can delete their account if they do not want to use the platform 
+
+2. Users will view the Confirmation popup on clicking delete account and they will Get OTP on phone no. to delete
+
+
+",** TO BE COVERED IN PHASE-2**,,,
+US_25,Settings,Deactiate  Account,"As a user, I want to deactivate my account so that I can remove from my details from the Platform",,"By clicking on the deactivate account the user will view the Confirmation poup 
+- If user clicks on Confirm then in that case they will Get OTP on phone no. to deactivate
+",** TO BE COVERED IN PHASE-2**,,,
+US_26,Settings,Logout,"As a user, I want to log out of my account so that I can Keep it secure","The user must have tapped on the ""Logout"" option from the settings screens .  ","1. On the """"Logout"""" pop-up, User would view the following details:
+   -Placeholder Text: Are you sure you want to log out?
+   -Cancel: By tapping on the """"Cancel"""" option, the pop-up would be discarded and User would be on the same page.
+   -Log out: By tapping on the """"Log out"""" option, the User will be logged out from the platform and will be redirected to the """"Login"""" page.""    ",,,,
+US_27,Product Detail,Product Detail,"As a user, i want to view the product detail screen so that I can view all the specifications related to the product",The user must have clicked on the Product card which will redirect the user to the Details screen," On the Product detail screen the user will  view the follwoing details:
+- Product Image
+-- There can be a multiple images which can be viewed by swiping right
+Note: There can be single product video if uploaded by vendor related to the product and the video needs to be played within the application.
+
+- The user will view the Name of Product 
+- If the Product is available for Rent and Purchase their tags will be shown woth following details
+-- For rent: Amount/Day with Original price, Discount Price and %  value off (Note Discount price will be calculated based on Orginal Price and % value off )
+-- For purchase: Amount with Original price, Discount Price and %  value off (Note Discount price will be calculated based on Orginal Price and % value off )
+
+The user will then view the following details in the accordian view:
+
+1.  Description of the product
+2. Key Attributes, It will includes title and associated descriptions
+3. Purchase details
+- Under this the user will view the Shipping details & Payments, Returns & Refunds options such as :
+Shipping
+-- Shipping fee information
+-- Delivery day information
+Payments
+- Supported  Cards/payment methods ( To be covered in next phase)
+Return and Refund details
+
+4. Lead time
+Under this the user will view the estimated time within which the Product will get delivered.
+
+4. Seller Details
+- The user by clicking on the seller details will view it with following options:
+-- Business Name
+-- Seller/Vendor Logo
+-- Associated departments list
+-- Ability to visit vendor profile with available option
+
+5. Similar Products
+- The user can view the similar products by swiping right
+-  Products displayed in card view will belong to only those department  related to which the product detail is being visited. (TBD)
+
+
+6. The user will then view the CTA (PART OF PHASE 2SCOPE)
+- Start Order
+- Add to Cart
+
+
+7. On clicking Add to cart the user will view the confirmation popup stating that product has been added to the cart succssfully
+8. On clicking the Start order the user will be able to procced to purchase that product",,,,
+US_28,Service Detail,Service Detail,"As a user, i want to view the Service detail screen so that I can view all the specifications related to the Service ",The user must have clicked on the Service card which will redirect the user to the Details screen," On the Service detail screen the user will  view the following details:
+- Service Image
+-- There can be a multiple images which can be viewed by swiping right.
+Note: There can be single service video if uploaded by vendor related to the product and the video needs to be played within the application.
+
+
+- The user will view the Name of Service 
+-Service Original Price:  Amount/Hr (striked off)
+-Service Final Price:  Amount/Hr
+(Note: If you write a 1 followed by nine zeros, you get 1,000,000,000 = one billion)
+- Discount Percentage
+The user will then view the following details in the accordian view:
+
+1.  Description of the Service 
+2. Key Attributes, It will includes title and associated descriptions
+3. Purchase details
+- Under this the user will view the Payments, Returns & Refunds options such as :
+3.1` Payments
+- Supported  Cards/payment methods ( To be covered in next phase)
+3.2 Return and Refund details
+
+4. Seller Details
+- The user by clicking on the seller details will view it with following options:
+-- Business Name
+-- Seller/Vendor Logo
+-- Associated departments list
+-- Ability to visit vendor profile with available option.
+
+5. Similar Service
+- The user can view the similar Service by swiping right.
+
+6. The user will view the Favourite icon clicking on which they will be able to add that service to My favourites",,"Note: If you write a 1 followed by nine zeros, you get 1,000,000,000 = one billion",,
+US_29,Notification ,Notifications,"As a user, I want to view the notifications so that I may be informed and guided by clicking on them.",The user should be able to view the Notification icon by clicking on which they will be able to read the notification,"On the Notifcations screen the user will be able to view the following details:
+1. The user will view the Admin sent notification with ""TEAM REEL TREK""
+2. The user can view the Timestamp
+
+3. The user can view the Notification message.
+
+4. By clicking on the notification the user will be able to read it on the popup.
+- The user will view the ""Ok"" button by clicking on the pop will be closed and user will  taken to notification screen
+
+5. The unread notification will be shown with Higlighted colour
+
+6. The read notification will be shown with White colour.
+
+7. By swiping left the user will be able to view ther remove button by tapping on which they will be able to remove the notification.
+7.1 The user will view the confirmation message here
+
+Business Rules:
+1. There will be a vertical scrolling in the screen
+2. The notifications will be sorted on the  basis of most recent notification on top.
+3. The notification will be marked as read when the user clicks on it.","Timespan:
+Just Now : For 3 to 5 seconds
+
+“X” Seconds: For 6 seconds to 59 seconds
+
+“X” Minutes: For 1 minute to 59 minutes
+
+“X” Hours: For 1hour to 23hrs 59 minutes”
+
+“week day name”, ”xx” AM/PM: For 1day to 7 days(Saturday 12:00AM)
+
+“Date(DD/MM/YYYY)”, “xx” AM/PM: For 7 days to forever(12/12/2021 12:00AM",,,
+US_30,,,,,,,,,
+US_32,,,,,,,,,
+US_33,,,,,,,,,
+US_34,,,,,,,,,
+US_35,,,,,,,,,
+US_36,,,,,,,,,
+US_37,,,,,,,,,
+US_38,,,,,,,,,
+US_34,,,,,,,,,
+US_35,,,,,,,,,
+US_36,,,,,,,,,
+US_37,,,,,,,,,
+US_38,,,,,,,,,
+US_39,,,,,,,,,
+US_40,,,,,,,,,

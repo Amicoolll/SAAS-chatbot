@@ -1,0 +1,43 @@
+﻿Fundamental analysis: 
+
+
+Step1: 
+
+
+PE ratio: should be less 
+PB ratio : should be less 
+Debt ratio: should be less 
+Current ratio: should be high = asset/liability 
+
+
+
+
+
+
+Sales=> year on year is increasing or not 
+Profit=> increasing year on year or not
+
+
+Total assets = should increase every year 
+Total liabilities = should be less than assets 
+Cash flow = company should have cash 
+
+
+Future work 
+
+
+
+
+
+
+            1 Intrinsic value = less
+        2 PE Ratio = less
+        3 PB Ratio = less
+        4  Debt to Euity = less liabilities
+        5 Current ratio = < 1
+        6 Total revenue and net income = > increase
+        7 Balance sheet = current asset / liabilities
+        8 Promotor holding trend = increase
+        9 Low pledged promotor trend holding = decrease
+        10 forun and mutual investor 
+        11 Cash flow = increase

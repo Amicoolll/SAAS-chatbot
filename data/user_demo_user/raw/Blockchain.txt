@@ -1,0 +1,4 @@
+﻿Creating SSH
+
+
+Command: ssh-keygen -t rsa

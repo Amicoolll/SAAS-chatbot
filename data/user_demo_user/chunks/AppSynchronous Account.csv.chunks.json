@@ -1,0 +1,6 @@
+{
+  "source_file": "data/user_demo_user/raw/AppSynchronous Account.csv",
+  "chunks": [
+    ",Client Project Payments,,,\n,,,,\n,ARC1,Call Center,Scheduler,ARC2\nTotal Cost,14500,22200,13500,\nCR,11772,,6300,\n,,,,\n,-500,-7500,-6750,\n,-2000,,-3150,\n,-3500,,,\n,-3500,,,\n,-3500,,,\n,-5886,,,\n,-5886,,,\n,,,,\n,,,,\n,,,,\nRemaining,1500,14700,9900,0"
+  ]
+}

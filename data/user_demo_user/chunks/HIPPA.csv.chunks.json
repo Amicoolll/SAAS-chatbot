@@ -1,0 +1,6 @@
+{
+  "source_file": "data/user_demo_user/raw/HIPPA.csv",
+  "chunks": [
+    "Patient consent\n\"Logs- Only basic level\n\"\n\"Screenshot\n\n\"\n\"Third party Exploration for BAA\n\n\"\nDatabase encryption:\n\"Token based access\n\n\"\nStrong Password policy\nThird party Exploration for BAA\nDatabase backup\n\"PHI Information transfer\n\"\n\"Load testing tools and techniques to emulate production-like scenarios.\n\"\n\"AWS cloud watch for logs\n\"\n\"Implement SSL certificate\n\""
+  ]
+}

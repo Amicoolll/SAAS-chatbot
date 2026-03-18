@@ -1,0 +1,6 @@
+{
+  "source_file": "data/user_demo_user/raw/Milestone 1 Queries 16_Aug.csv",
+  "chunks": [
+    "Milestone,Module,Query\n1,Update Status,Reason Api fix on production\n1,Product Tour,Update api on 100% complete progress \n1,Log a Ticket,Access on account on production and move code of fix on production \n1,More Screen Icons,Need missing icons of more updated comment on figma\n1,Download Report,Have received url's from Ujjwal currently only have a few queries this is currently in discussion\n1,DropDown Values & Labels,Need single api for all dropdowns or any solution for all dropdowns and labels\n1,Need labels for more and other actions also for m2 like actions in da's and trips,\n1,Chat icon in more,Design needed to display the chat icon on the bottom action sheet which is showing after clicking on the three dots of the more options from the header section of all list.\n1,,"
+  ]
+}

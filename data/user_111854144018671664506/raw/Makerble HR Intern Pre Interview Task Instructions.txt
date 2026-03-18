@@ -1,0 +1,63 @@
+﻿Pre Interview Task
+https://qa.makerble.com/hubs/welcome
+(USE ONLY THIS LINK TO DO THE ASSESSMENT)
+
+
+This task gets you to do part of the setup for a fictional client. Follow the steps outlined below. 
+Introduction
+Hostel of Care is a fictional nonprofit based in Leicester that has recently become a Makerble client. Hostel of Care provides accommodation and counselling services to people who have severe mental health difficulties. Hostel of Care has a good reputation as an organisation that helps people struggling with mental health in Leicester and as such, the local doctors, members of the police force and staff at other charities will often come across someone who has a mental health difficulty and recommend that the person is helped by Hostel of Care. This is called a ‘referral’ and the way it works is that the referrer, e.g. the local doctor, with the consent of the person with mental health difficulties, will complete a Public form that contains the details of the person suffering from mental health difficulties. They will then send that completed Public form to Hostel of Care by physical post.
+
+
+Up until now, Hostel of Care has had a paper-based Public form that doctors send to them via physical post. When Hostel of Care accepts a person with mental health difficulties into their hostel, they put the person’s details in a spreadsheet. This was fine when Hostel of Care was working with 10 residents at a time in one building but now that the organisation has opened three more buildings, they need a better way to receive referrals and keep track of the people they are helping. This is why they have chosen to switch to Makerble. 
+
+
+Your pre interview task is to set up Hostel of Care on Makerble so that they can receive referrals.
+Before You Start
+https://qa.makerble.com/hubs/welcome
+   (USE ONLY THIS LINK TO DO THE ASSESSMENT)
+
+
+1. You should NOT create an account on the official Makerble site. You have to use the link provided in the respective steps. Violating this rule will result in disqualification.
+2. You should NOT REACH OUT TO HELP ON THE MAKERBLE PLATFORM, since the purpose of this assessment is to test your attention to detail, your problem solving ability and your understanding of how to use software. However, you can reach out to the HR via email (recruitment@makerble.com) if you’re facing significant difficulties. 
+3. While creating an account, you may receive an email to book a meeting. You must NOT book a demo or a meeting. If you see a link to do that, please ignore it.
+4. This assignment requires you to create an organization and a project after you are signed in. DO NOT add other users to your organization or project.
+Steps
+1. Create a user account on Makerble using this link ONLY. (Don’t use the option to sign up with Facebook, Google, etc; use the Email Address option instead) - https://qa.makerble.com/hubs/welcome (USE ONLY THIS LINK TO DO THE ASSESSMENT)
+2. Once signed up and logged in: create an organisation called Hostel of Care. 
+   1. (Feel free to make up other information that goes in the Create Organisation page - we’re not assessing your creativity so don’t feel under pressure to go into lots of detail here.
+   2. Guidance on how to do this step is available on this page of the User Guide page
+   3. As the Organisation Type: select Company  
+3. Create a project called Counselling. 
+1. For details on how to create a project, follow the guidelines here.
+4. Create a Contact Form based on this paper-form that the charity uses)
+   1. Start by creating a Dropdown called Patient’s Ethnicity and include a few countries as options in this field - 5 countries is enough, you don’t need to include every country in the world! (Steps)
+   2. Then create a new Contact Form called Patients and add the fields below to it (Steps)
+      1. Note that Name is already included in the Contact Form so you don’t need to add that,
+      2. In addition, there are other hidden fields that are displayed that you should ignore as they won’t appear on the final form, e.g. Beneficiary Type, Foreign ID, etc.
+      3. Start by adding the Patient’s Ethnicity field you created - it should be in the Search section of fields. 
+      4. You can see the Create New Field or Question button to the left side. Use it to create the other fields and the section, e.g. Why this person needs our help.
+   3. This annotated diagram shows you the different types of field to create. We expect you to create ALL of these fields.  
+   5. Add the Patients Contact Form to the Counselling project and turn on the Waiting List. (Steps) 
+   6. Create a Signup Page  (Steps) 
+   1. called “Potential Patients” 
+   2. that uses the Patients contact form 
+   3. to add people to the Waiting List of that project
+   7. Copy the Share  link to your new Signup Page  (Steps)
+   8. Open a new Incognito Window in Google Chrome
+   9. Paste the Signup Page  web link in the Incognito Window 
+   10. Your Signup Page should appear
+   1. On Page 1: Fill in the fields of the Signup Page with the details of a fictional person who is suffering from mental health difficulties. The first page should display the Contact Form 
+   11. Now go back to your other Chrome window where you are signed into Makerble
+   12. Go to the Contacts App, press the Contact Filters button and tick the Waiting List state; then press Apply. 
+   13. The page should display the contact that you have just created. 
+   14. When you click the name of the contact, you should be taken to their Contact Profile page and on the left hand side it should display all of the completed fields that were entered on the Signup Page. Keep the URL of this page ready to submit.
+   15. That’s it. You’ve successfully created a Signup Page that Hostel of Care can share with their referral partners. Now that you have created the Signup Page, you need to provide instructions that explain how to use it. We are keen to see how good you are at communicating and explaining how to use Makerble.
+   1. Create a free account on www.loom.com in which you explain to a new person, how to complete the Hostel of Care referral form that you have made. (Hearing, but also Watching). 
+   1. Once you have generated your loom video, follow these steps to generate a shareable link for your Loom video: https://support.loom.com/hc/en-us/articles/360002208157-How-to-share-your-recording 
+   2. Test that it works by trying to open your loom video link in an incognito window.
+   16. Finally, provide your answers to these questions. You can add your answers in the form shown in step 17:
+   1. What are your suggestions and recommendations on how we could improve the User Experience of the Makerble platform?
+   2. What involvement have you had with charitable work or helping people who are in need? Preferably volunteering or actually working for a charity. What did you learn from the experience?
+   17. Please submit your completed assessment (including links to the Signup Page and video, etc) for the points numbered 14, 15 and 16: 
+   1. You are expected to submit the assessment through the following link -  
+https://forms.gle/tYzwGyne8tNBVmJ59

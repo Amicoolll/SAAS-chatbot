@@ -1,0 +1,36 @@
+﻿About DeepThought
+DeepThought is a DeepTech Innovation company working in the education space. We build products basis empirical research on socio-psychological first principles of learning. DeepThought's technological product innovation aims at transforming a normal classroom into a research classroom. DeepThought was founded by Tarun, a Computer Scientist, and TEDx speaker with 10 years of field experience in the education space in 150+ schools.
+ 
+Selection Process
+Task 1 - Go through the following reference materials patiently and carefully.
+(A must-read for all aspiring designers: Adobe's article on fundamental Design Principles)
+ 
+DT's Design Principles
+Design Guidelines
+Style Guide
+Logo Repository
+DT's UI Designs
+Profile Page and Search (Explore) Page
+Session Listing Page and Live session Pages
+Payments Page
+ 
+Task 2
+Redesign the Payments Page to a more aesthetically pleasing one, while following the provided style guide. Remember, you have complete creative freedom as long as you stick to the style guide.
+ 
+Task 3
+What was your thought process around the design you made? Answer this question in approximately 200 words. Use this form to submit the write-up, the link to the Figma design you created, and your contact information
+ 
+After completing the tasks, join the WhatsApp group provided in the previous page
+Once you join the WhatsApp group,
+1 - Leave your introduction
+2 - Your experience while submitting the assignment
+3 - Why do you wish to do UI Design
+
+
+
+
+
+
+Additional materials for your reference:
+1 - Pitch Deck
+2 - Tech Vision

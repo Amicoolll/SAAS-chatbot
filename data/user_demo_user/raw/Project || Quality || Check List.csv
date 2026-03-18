@@ -1,0 +1,31 @@
+Milestone 1,,,,,,,
+ETA Completion Date: ,,,,,,,
+Tasks,Sub Tasks,Start Date ,End Date,Status,Link,Verified Status,Client Approval
+Understand Business Objectives,,,,,,,
+Create a project folder in drive,"Drive folder name:
+1. Documents
+2. Client Call Recordings
+3. Client Feedback
+4. Code Review
+5. QA
+6. Approval Details
+Note: Based on the requirements, create the folders
+",,,,,,
+"Stakeholder Introduction, Identification and Analysis","Gather Requirements: 
+1. Meetings to elicit requirements from stakeholders. 
+2. Using of techniques such as brainstorming, mind mapping, and prototyping to clarify requirements.",,,,,,
+"Functional Document 
+Note: All documents must be inside Project folder ",WBS,,,,,,
+,User Stories,,,,,,
+,Technical Document (optional -only if client pays for it),,,,,,
+,Share above documents with client and take approval,,,,,,
+,share documents with team,,,,,,
+Verify and Validate Requirements,"Review with leads, internal business team (Internal), External review with client",,,,,,
+Prioritize Requirements: This step is with PM,,,,,,,
+"Manage Requirements Changes: (Optional) if any CR comes in then document changes should be tracked in versions.
+
+",,,,,,,
+Facilitate Communication (Discussion with client team),,,,,,,
+"Support Development and Testing: (KTs to team ""Dev, QA"")",,,,,,,
+"Ensure Quality and Acceptance: One round of Sanity testing after QA testing is done, along with QA for review",,,,,,,
+Continuous Improvement: Conduct post-project reviews to capture lessons learned and identify areas for process improvement.,,,,,,,

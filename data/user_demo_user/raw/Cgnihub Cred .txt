@@ -1,0 +1,184 @@
+﻿AWS: 
+
+
+Email: mine 
+Password: Amit!@#$09
+
+
+
+
+
+
+SMTP credentials
+IAM user name
+ses-smtp-user.20250904-183446
+SMTP user name
+AKIAVDT2PJPPUFV2IKDJ
+SMTP password
+BHlcGBKOt9C4zMKHJ0nzHYbmRMx7ZAXngSur5JTMcwyN
+Hide
+
+
+
+
+SMTP_HOST=email-smtp.ap-south-1.amazonaws.com
+SMTP_PORT=465
+SMTP_USER=AKIAVDT2PJPPUFV2IKDJ
+SMTP_PASS=BHlcGBKOt9C4zMKHJ0nzHYbmRMx7ZAXngSur5JTMcwyN
+FROM_EMAIL=no-reply@cognihubai.com
+
+
+
+
+
+
+Git push token to push code to EC2: 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
+
+
+
+
+
+
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPcFyZvik5LcagNMUSUw/4PedDO5WXL0D549Tdw8HE90 amitsinghcoolll.1807@gmail.com
+
+
+
+
+
+
+Key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIvplwaee4+xF4FWSIVVEqAlS/48RVhGrsHKHiOuqFYX ec2-deploy@cognihubai.com
+
+
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIvplwaee4+xF4FWSIVVEqAlS/48RVhGrsHKHiOuqFYX ec2-deploy@cognihubai.com
+
+
+
+
+
+
+Tech stack 
+
+
+Backend: Docker + Caddy + Neon 
+
+
+
+
+
+
+
+
+Conenction URL: ssh -i ~/.ssh/cognihub-ec2-mumbai.pem ec2-user@3.111.78.19
+
+
+
+
+Server 
+
+here you go — a tight, copy-pasteable playbook you can keep around.
+* * Health endpoint: /healthz returns 200 (GET).
+
+________________
+
+
+From your laptop (dev)
+# in your local repo
+git add -A
+git commit -m "Your message"
+git push origin main   # or your feature branch
+________________
+On EC2 (deploy)
+# 1) SSH in
+ssh -i ~/.ssh/cognihub-ec2-mumbai.pem ec2-user@3.111.78.19
+# 2) Pull latest code
+cd ~/backend
+BRANCH=$(git branch --show-current)
+GIT_SSH_COMMAND='ssh -i ~/.ssh/github_deploy -o IdentitiesOnly=yes' git fetch origin
+GIT_SSH_COMMAND='ssh -i ~/.ssh/github_deploy -o IdentitiesOnly=yes' git pull --rebase origin "$BRANCH"
+# 3) Install/upgrade dependencies (your requirements already have Python-conditional pins)
+source venv/bin/activate
+pip install --no-cache-dir -r requirements.txt
+# 4) Apply Alembic migrations to the prod DB
+export PYTHONPATH=$PWD
+set -a; [ -f .env ] && . ./.env; set +a
+python -m alembic upgrade head
+# 5) Restart the API
+# If you created the systemd service (recommended):
+sudo systemctl restart cognihub-api
+sudo systemctl status cognihub-api --no-pager -l
+# If you don't have the service yet, use uvicorn directly:
+# (free the port if a root-owned process is holding it)
+PID=$(sudo lsof -t -iTCP:8000 -sTCP:LISTEN 2>/dev/null); [ -n "$PID" ] && sudo kill -9 $PID || true
+nohup uvicorn app.main:app --host 0.0.0.0 --port 8000 --proxy-headers >/tmp/backend.out 2>&1 &
+sleep 2 && tail -n 80 /tmp/backend.out
+# 6) Quick health checks
+curl -I http://127.0.0.1:8000/docs
+curl -I https://api.cognihubai.com/docs
+That’s it ✅
+________________
+Notes & gotchas (so you don’t get tripped up)
+   * Pull doesn’t update? Make sure you pushed your changes to GitHub first, then pull on EC2.
+
+Conflicts/stash: If EC2 has local edits, run:
+
+git stash -u
+GIT_SSH_COMMAND='ssh -i ~/.ssh/github_deploy -o IdentitiesOnly=yes' git pull --rebase
+git stash pop
+      *       * Migrations: Ensure your new migration files are committed and pushed (in alembic/versions/) before pulling on EC2.
+
+      * Caddy/Docker: You already set Caddy (in Docker) to proxy to the host at 172.17.0.1:8000. You won’t need to touch it again for normal deploys.
+
+Neon: enable branching/PITR, or add a nightly dump:
+
+crontab -e
+# add:
+15 2 * * * pg_dump "$DATABASE_URL" > /home/ec2-user/neon_backup_$(date +\%F).sql
+         *          * Uptime check: add UptimeRobot/BetterStack monitor for
+https://api.cognihubai.com/healthz.
+
+________________
+
+
+Next: make it scale smoothly (when ready)
+A) Tomorrow-easy win: Gunicorn workers
+Add gunicorn_conf.py and change Dockerfile CMD to:
+
+CMD ["gunicorn","-c","gunicorn_conf.py","app.main:app"]
+            *             * Start with 2 workers on your instance. (Rule of thumb: ≈ 2× vCPU.)
+
+            * Keep SQLAlchemy pool small (above).
+
+B) CI build to ECR (ready for future ECS)
+               * Add a GitHub Action that builds the Docker image on every push and pushes to ECR.
+
+               * No infra change yet — just standardize builds.
+
+C) When traffic/ops pain grows → move to ECS Fargate + ALB
+                  * ALB handles HTTPS (ACM cert), health checks, WAF (optional).
+
+                  * ECS Fargate runs 2+ tasks across AZs; enable autoscaling (CPU ~60%).
+
+                  * Secrets Manager/SSM for env; CloudWatch for logs & alarms.
+
+                  * DNS: api.cognihubai.com → ALB CNAME.
+
+                  * Run Alembic via a one-off migrator task on deploy.
+
+________________
+
+
+Quick “go/no-go” checklist for scale
+                     * p95 latency on light endpoints < 500ms ✅
+
+                     * CPU < 60% sustained ✅
+
+                     * No “too many connections” from Neon ✅
+
+                     * OpenAI quotas not the bottleneck ✅
+(If they are, add per-user/IP rate limiting and/or a background queue.)
+
+If any turn red, it’s time for Gunicorn (if not already) and then ECS + ALB.
+________________
+
+
+If you want, I can turn this into a DEPLOY.md in your repo and add a tiny deploy.sh that runs steps 1–4 for you in one go.

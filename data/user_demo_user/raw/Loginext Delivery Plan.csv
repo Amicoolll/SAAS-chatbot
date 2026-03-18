@@ -1,0 +1,10 @@
+Dispatcher,,
+Production Accounts,,
+Item Name,Status,Comments
+Google Account,Pending,We have dev8 account not the production one
+Firebase Setup,Pending,Need production account of google
+Google play account,Pending,Need google play console account
+Apple Developer account,Pending,"We have developer access, Need to discuss with LN team to upload the app on store."
+Google Analytics,Pending,Need production account of google
+SSO,Pending,"We have created our own demo account, Need LN teams account for production."
+Sentry or Crashlytics,Pending,Need to confirm with LN team for crash reports which platform they need.

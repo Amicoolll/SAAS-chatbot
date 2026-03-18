@@ -1,0 +1,83 @@
+Total :- 244 (Issues 200 +Pending Task(16 Moshen Work Pointer + Redmine Tickets  Dependency 22  ),,,,,,
+Time calculation ,Easy,Average,Hard,Not possible,Won't Do,Mohsen's work issues not considered here
+,2349,ADJ-2361,2354,2351, 2309 rejected ,ADJ-456
+,2348,2358,2347,2346,2282 rejected,ADJ-550
+,2342,2357,2345,2343,2278 archana's  input required here as it was never there,ADJ-638
+,2341,2356,2331,2328,2307 rejected,ADJ-760
+,2340,2350,2323,2324,2266 should be rejected,ADJ-770
+,2339,2344,2320,2317,2261 need discussion,ADJ-791
+,2338,2337,2314,2316,2171 LN issue,ADJ-810
+,2326,2336,2305 already marked as rejected,2315,2169 LN issue,ADJ-868
+,2325,2330,"2300
+a comment from archana side exist on this issue",2312,2167 LN issue,ADJ-886
+,2319,2323,2295 half of the bug is invalid last point we will need to check,2310,2163 LN issue,ADJ-888
+,2308,2322,2289- Update functionality is pending,2298,2139 LN issue,ADJ-888
+,2306,2321,2281,2296,2136 LN issue,ADJ-1638
+,2304,2313,2279,2260 e2e order issue ,2112 LN issue,ADJ-1644
+,2303,2309 rejected,2274,2256,1884 library dependent,ADJ-1757
+,2302,2297,"2271
+Spacing issue in all forms",2249 it will be hard to replicate,1883 library dependent,ADJ-1961
+,2301,2294,2240 rejected,2229 rejected,1839 LN dependent,ADJ-1962
+,2291,2292,2233,2227 rejected,1776 LN dependent,
+,2288,2287,2231,2225 not able to understand,1746 CR,
+,2283,2286,"2216
+rejected by tanmay",2221 library issue not generating in simulator need to check,1713 LN dependent,
+,2277,2285,2214,2152,1586 react native dependency,
+,2275,2284,2210-in discussion with raman,1761,1585 react native dependency,
+,2272,2280,2209- config api dependent,919 need to check library design,,
+,2273,2276,2204,917 need to check library design,,
+,2269,2290,2191,1930 react native issue,,
+,2268,2278-add da address through map,1752,,,
+,2267,2270,2181,,,
+,2264,2265,2180-archana  comment need,,,
+,2263,2259,1988 not generating,,,
+,2255,2253,1972,,,
+,2247,2251,1971,,,
+,2245,2250,1957 not generating,,,
+,2243,2238,1850 device specific,,,
+,2242,2234,1841,,,
+,2235,2230,1840,,,
+,2232,2226,1720 depend on amit sir comment (whether it will be a cr or not),,,
+,2224,2223,907,,,
+,2217,2211,798,,,
+,2215,2208- control tower,756,,,
+,2213,2205,750,,,
+,2207,2203- control tower,745,,,
+,2206,2200,743,,,
+,2202,2199,740,,,
+,2196,2198,739,,,
+,1888,2195,706,,,
+,1707,"2193
+routess",2311,,,
+,1576,2188,,,,
+,954,2187,,,,
+,942,2186,,,,
+,935,2184,,,,
+,932,2179,,,,
+,627,1956,,,,
+,629,1953,,,,
+,,1950,,,,
+,,1940,,,,
+,,1936,,,,
+,,1932-enchancement comment added by shivansh,,,,
+,,1929-BE dependency LN side,,,,
+,,1875,,,,
+,,1859,,,,
+,,1704,,,,
+,,1639,,,,
+,,1595,,,,
+,,1571,,,,
+,,1559,,,,
+,,1174,,,,
+,,899,,,,
+,,890,,,,
+,,831,,,,
+,,817 sahre location from chat issue,,,,
+,,809,,,,
+,,717,,,,
+,,716,,,,
+,,708,,,,
+,,707,,,,
+,,689,,,,
+,,705,,,,
+,,1938,,,,

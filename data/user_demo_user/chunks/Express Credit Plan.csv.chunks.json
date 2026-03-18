@@ -1,0 +1,6 @@
+{
+  "source_file": "data/user_demo_user/raw/Express Credit Plan.csv",
+  "chunks": [
+    "Milestone 1(Complete prelogin),\nUser,\nProject plan,Done\nAdmin Wireframe scatches,Done\nServer setup,Done\nAPI Project Setup,Done\nDatabase setup,Done\nLogin,Done\nSignup,Done\nHow screen UI only,Done\nAdmin,Done\nLogin,Done\nMilestone 2,\nForgot password,Done\nChange password,Done\nHome screen see all added categories,Done\nsee complanieas added to categories,Done\nUpload documents,Done\nProfile,Done\nAdmin/Delivery,Done\nUser listing,Done\nAdd categories,Done\nCategories Listing,Done\nAdded Compaies in Categories,Done\nCompanies listing,Done\nMilestone 3,\nSend request for loan,Done\nLoan request history,Done\nChat ,Done\nLogout ,Done\nSettings,Done\nNotifications,Recieved account on 1st december \nAdmin,Done\nSee all request,Done\nApprove loan,Done\nChating ,Done\nNotificatins,Recieved account on 1st december \n,\nNote: Following the Scope of work for implementing all the features.,"
+  ]
+}

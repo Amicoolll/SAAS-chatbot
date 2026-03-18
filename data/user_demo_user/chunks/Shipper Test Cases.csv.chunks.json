@@ -1,0 +1,6 @@
+{
+  "source_file": "data/user_demo_user/raw/Shipper Test Cases.csv",
+  "chunks": [
+    "Date ,Planned Count ,Completed Count ,Module ,Comments\n25 Feb 2024,N.A.,415,,\n26 Feb 2024,43,43,,\n27 Feb 2024,32,32,,\n28 Feb 2024,30,30,,\n29 Feb 2024,26,20,,??\n1 Mar 2024,26,27,,\n4 Mar 2024,30,26,,??\n5 Mar 2024,25,19,,??\n6 Mar 2024,17,16,,??\n7 Mar 2024,18,17,,??\n8 Mar 2024,11,10,,??\n11 Mar 2024,15,12,,??\n12 Mar 2024,14,14,,\n13 Mar 2024,3,3,,\n14 Mar 2024,12,12,,\n15 Mar 2024,11,11,,\n18 Mar 2024,12,34,,\n19 Mar 2024,11,15,,\n20 Mar 2024,14,34,,\n21 Mar 2024,8,8,,\n22 Mar 2024,6,6,,"
+  ]
+}

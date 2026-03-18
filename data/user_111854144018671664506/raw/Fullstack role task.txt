@@ -1,0 +1,43 @@
+﻿Objective
+Create a basic blog application with a list view and a detail view for blog posts, and deploy it to a cloud platform. This task will assess your skills in frontend development, backend development, database management, and deployment.
+Requirements
+Backend (Choose one: Node.js with Express, Python with Flask, or Ruby on Rails)
+1. Set up a RESTful API with the following endpoints:
+   * GET /posts (list all posts)
+   * GET /posts/:id (get a specific post)
+   * POST /posts (create a new post)
+   * PUT /posts/:id (update a post)
+   * DELETE /posts/:id (delete a post)
+2. Implement a simple database model for blog posts using any SQL or NoSQL database
+3. Implement basic error handling and input validation
+Frontend (React, Vue, or Angular)
+1. Create a responsive layout with a header, main content area, and footer
+2. Implement a list view of blog posts, displaying title and excerpt
+3. Implement a detail view for individual blog posts
+4. Create a form for adding new blog posts
+5. Implement basic client-side form validation
+Full Stack Integration
+1. Connect the frontend to the backend API
+2. Implement proper error handling and loading states
+3. Use appropriate state management techniques
+Deployment
+1. Deploy the full stack application to a cloud platform (e.g., Render, Fly.io, Heroku)
+2. Ensure the deployed application is fully functional
+3. Provide clear documentation on how to access and use the deployed application
+Bonus Points
+* Implement a good design for the blog - You can use this for reference https://www.figma.com/design/iCi42NilLXCVnqpFz2L9ez/Fullstack-task?node-id=0-1&t=nF62BgBxoiCqtZ3G-1
+* Implement user authentication
+* Add a comment system for blog posts
+* Implement a search functionality
+* Add unit tests for both frontend and backend
+* Set up a CI/CD pipeline for automated deployment
+Evaluation Criteria
+1. Code quality and organization
+2. Proper use of frontend and backend technologies
+3. Database design and query efficiency
+4. API design and implementation
+5. User interface and experience
+6. Error handling and edge case management
+7. Version control usage (provide a GitHub repository)
+8. Successful deployment and application accessibility
+9. Quality of deployment documentation and instructions

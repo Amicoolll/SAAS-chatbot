@@ -1,0 +1,28 @@
+﻿Decision tree:
+
+
+Impurity: In data science, "impurity" refers to a measure of how mixed or disordered a set of data is, typically used in the context of decision trees, where it indicates how likely a randomly selected data point is to be misclassified based on the class distribution within a specific node; a lower impurity means the data is more homogeneous and easier to classify, while higher impurity indicates a more mixed distribution of classes
+
+
+
+
+
+
+  
+
+
+
+  
+
+  
+  
+
+
+
+Compute impurity feature each subset 
+Combine the impurity values for all candidate subsets to get the impurity of the split
+The goal is to split to decrease the impurity within each subset
+Two common impurity measures - Gini impurity and Entropy
+
+
+Gini impurity:

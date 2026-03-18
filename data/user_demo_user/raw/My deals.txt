@@ -1,0 +1,120 @@
+﻿App Synchronous
+Project Name: My Deals
+
+
+Document Created By: Amit 
+
+
+Created for: Aaron
+
+
+All the questions are in red
+
+
+
+
+* Product will have
+  Admin
+  Application(user)
+
+
+* App:
+
+
+* Signup
+   * Name
+   * Email
+   * Password
+   * Repeat password
+   * Accept trading terms
+
+
+* Login
+   * Email Address
+   * Password
+
+
+* Location
+   * User will be able to give his location 
+
+
+* Verification with email OTP
+*  Categories
+   * User will be able to select the categories to see the desire categories
+
+
+* Companies
+   * User will be able to see the company profile
+   * User will be able to see the deals related to the companies
+
+
+* Mydeals
+   * In this section user can see my deals and user will be able to purchase the deals
+
+
+* Ads
+   * User will be able to see the advertisement added by admin for the company
+   * Ads will contain only images
+
+
+* Chat
+   * User will be able to send message to admin
+   * Messages will be only text 
+   * No images, Videos etc
+
+
+* Buy Deals
+   * User will be able to buy the Deals
+
+
+* Notifications
+   * User will be getting the notifications of every deals 
+   * User will be getting the notifications for messages sent my admin
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Admin:
+* Add Company
+   * Admin will be able to add the company information 
+   * Company will give 
+   * Name
+   * Address 
+   * Location
+* Add deals for the company
+   * Admin will be able to add the deals for the company that user can avail
+   * User can redeem that deals from user app
+   * Deals code for the customers will expire in 24 hours 
+* Adding Ads to the system
+   * Admin will be able to add the Advertisement in the system
+
+
+* Chat 
+   * Admin can send the message to user
+   * User can send msg to admin
+Assumptions:
+* Ads will be image types
+* Chat will be containing only text not images and videos 
+
+
+Question
+* How the deal code will generate, will admin be adding the codes
+* Scan My Deals barcode at physical outlets
+* Push Notifications in a (x) mile radius of vicinity of the physical outlet of a company tailored to the specific customer.
+* Ad will be added by admin or it will come from AdMod or iAd.

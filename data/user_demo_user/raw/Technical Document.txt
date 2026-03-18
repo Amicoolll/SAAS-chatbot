@@ -1,0 +1,89 @@
+﻿App Synchronous
+Project Name: My Deals
+
+
+Document Created By: Amit 
+
+
+Created for: Aaron
+
+
+Technical Documentation:
+
+
+Frontend:
+Language
+	 React native
+	Design Pattern
+	MVC
+	Database
+	Local storage async storage
+	Networking API
+	Axios
+	Push notification
+	Firebase
+	Version control system
+	Bitbucket
+	Supported iOS/Android version
+	Minimum version: iOS 13, 21 lolipop
+	IDE
+	VS Studio 
+	
+
+
+
+Reason of Using React native: 
+* React Native is one of the best frameworks suited for creating a top-of-the-range mobile UI. ... Amongst other frameworks, User Interface designed in React Native provides a smoother feel, minimizes the load time, and is highly responsive
+* Only one developer can handle the source code of iOS and Android Mobile apps
+* Low investment, because you need only one developer to manage the both apps
+
+
+
+
+Products those are using React native 
+* Facebook
+* Instagram
+* Skype
+* Airbnb
+* Bloomberg
+* Tesla
+* Uber eats
+* Walmart
+
+
+Backend:
+
+
+Language
+	Node.JS 12.18.4, 
+	Design Pattern
+	MVC
+	Database
+	MongoDB
+	Version control system
+	Bitbucket
+	IDE
+	Visual studio 
+	Caching
+	Redis 6.2.4
+	Queuing System
+	Kafka/RabbitMQ
+	
+
+
+
+Reason of Using NodeJS: 
+* Node.js-Welcome to the Real Time Web Application Development World.
+* Node.js wins with Speed
+* Node.js wins with Data Streaming
+* Node.js wins with Database Queries
+* Node.js –a single codebase for real-time applications
+Products those are using NodeJS
+* Netflix - how Node. js reduced startup time. ...
+* PayPal - better performance thanks to Node. js. ...
+* Trello. Many IT companies use the agile methodology to manage their products. 
+* Capital One. ...
+* LinkedIn. ...
+* Yahoo. ...
+* Mozilla. ...
+* Uber.

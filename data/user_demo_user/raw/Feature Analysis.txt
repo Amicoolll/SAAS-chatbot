@@ -1,0 +1,230 @@
+﻿1. Initiate Return Analysis Frontend
+
+
+FMLM, ALLMILE => Same as create order except, we need to swap the customer details from pickup to deliver and vice versa. And mark it as booking state return.
+Condition for return order to be created
+* Return allowed toggle should be on to create return order
+* Check for order status
+* If order status is “Attempted Pickup” or “Attempted Delivery” Then check for order life cycle in dispatcher if return order creation is allowed or not
+                For FM,LM => No option to initiate return order
+                
+
+
+                Parameter required from backend
+* Order State
+* Return allowed flag
+
+
+        ** Open queries commented in PRD
+
+
+2. Activity Logs Analysis Frontend
+* Activity log will start after submitting an order, once the order request has been created (PENDING status).
+* Separate activity log will be generated for each field updated while updating order
+* Sort Functionality was not there previously (need to check) : Added in Designs
+* Filter icon is missing in design (need to check) : Added in Designs 
+* Indication for shipper and dispatcher app (need to check in design) : Still Missing in design, Confirmed by Akarsh not needed
+* Current working flow of dispatcher is analysed and mentioned in separate sheet
+Update Sheet
+
+
+Change
+	Impact
+	Dated
+	Sorting added
+	New flow
+	
+
+	Filter added
+	New flow
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   3. Dashboard Analysis Frontend
+
+
+Change
+	Impact
+	Dated
+	Refresh Button added
+	New flow
+	
+
+	Manage Dashboard
+	Removed
+	
+
+	Deliver Time Trend replaced with order request trend (No Extra Effort)
+	
+
+	
+
+	Pickup, Draft request tab removed
+	Removed
+	
+
+	Overall Rating removed
+	Removed
+	
+
+	Update Delay time 
+	New feature
+	
+
+	Exception Preference
+	New Feature
+	
+
+	Tooltip things
+	Enhancement
+	
+
+	Exception list: view all redirection to list with filters
+	Redirection with filter, new enhancement
+	
+
+	
+
+** As per previous PRD there are some other changes as well but after updated designs provided last year(we accepted those), previous PRD in not in sync with the new designs
+
+
+   4. CX Dashboard Analysis Frontend
+
+
+
+
+Previous
+	Backend Efforts
+
+
+	Updated
+	Change in efforts (Frontend)
+	Change in efforts (Backend)
+	Three cards(Total customer rating, average customer ratings, total feedback received)
+
+
+10 hrs
+	4 hrs
+	Total customers, Order requests, with change in value and spark line representation
+
+
+18hrs
+	8 hrs
+	API for Total customers, Order requests - 4 hrs
+
+API for spark line representation for customers, Order requests - 12-16hrs
+	Feedback trend
+
+
+8hrs
+	4 hrs
+	5 cards with corresponding graphical representation (ivr, sms, whatsapp, tracking, email)
+
+
+24 hrs
+	16 hrs
+	6 hrs
+	Avg Rating per question 
+
+
+Order feedback along with avg rating order wise
+
+
+Order wise question question rating
+	8 hrs
+
+
+
+
+12hrs
+
+
+
+
+
+
+6 hrs
+	3 cards with corresponding graphical representation (Avg feedback rating, total customer feedbacks, promotions) (New thing added)
+	16 hrs
+	API for avg feedback, total customer feedback, promotions - 4hrs
+
+API for graph data for avg feedback, total customer feedback, promotions - 4hrs
+	
+
+	
+
+	Download report (New thing added)
+	4 hrs
+	API for download report - 8hrs
+	
+
+
+
+Change
+	Impact
+	Dated
+	Total Customer Ratings, Average customer rating, feedback replaced cards replaced by Order request created, Customer count and their trend(increasing or decreasing  from previous interval)
+	
+
+	
+
+	Feedback Trend graph is replaced by analytics stats(tracking link, sms, ivr, email, whatsapp) and their graph
+	Below features are not in old PRD tracking link, sms, ivr, email, whatsapp and promotions
+	
+
+	Average feedback rating, customer feedback rating, promotion cards added and their graphical view)
+	New feature
+	
+
+	Download report
+	New Feature
+	
+
+	   5. Branding Profile Analysis Frontend
+** Previous PRD does not include the branding profile feature.
+
+
+Current work done 
+   1. Html editor and mobile preview for header and footer
+   2. Promotion multiarray fields and upload file logic without validation and api
+
+
+Feature
+	Effort
+	Listing Structure, List, Searching, Pagination, Change Status, Delete (Not build previously)
+	2+2+2+2+2 => 10hrs
+	HTML editor customization, fetch default branding data and prefill
+	2+4=> 6hrs
+	uploadPromotionImage api integration, Promotion validation
+	2hrs
+	Add branding profile + validation handling
+	8 + 4 => 12 hrs
+	Get Branding profile details +  Edit branding profile, Clone
+	2 + 6 => 8hrs
+	Desktop Preview + promotions preview 
+	4 hrs
+	Add branding structure seems static (not sure)
+	
+
+	Labels 
+	4 hrs approx
+	
+
+	46 hrs approx

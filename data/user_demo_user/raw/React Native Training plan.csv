@@ -1,0 +1,118 @@
+Topics,Sub Topics,Demo Project
+"Week 1: Introduction to React Native, Setup and Javascript Basic",,
+React Native Introductions,"What is react Native
+What is virtual Dom
+What is cross platform development
+What are the pros and cons of react native
+",
+React Native Setup,"React Native CLI
+Homebrew
+Node and Npm (difference between npm and yarn)
+Xcode setup
+Android studio setup
+How to debug React native application
+What is the difference between hot reloading live reloading (now Fast Refresh)
+Demo Program",
+JavaScript Basics,"What is Javascript, Javascript Engine.
+Execution Context, Execution Stack.
+Variable types.
+Loops.
+",
+JavaScript Intermediate,"Map, Filter, Reduce Function.
+Slice(), Splice(), Array.from(), Unshift(), push(), pop(), concat()
+this, call, bind, apply",
+Week 2: Javascript and React Native basics,,
+Javascript advance,"Promises
+Hosting
+use strict
+async and await
+Callback
+Test",
+React Class Component Basic,"JSX
+Props and Immutability
+State
+Styling
+React Lifecycle methods
+Composition vs Inheritance
+Demo
+Test",
+React Native Basic Component,"Text, Image, View, Button Components
+Flatlist, Scrollview, 
+Stylesheet
+Dimensions API
+Keyboard Avoiding View, SafeAreaView",
+Week 3:  React Native Class and functional component,,
+React Class Component Advance,"PureComponent
+Uncontrolled component
+Sectionlist
+Debugging Basics, React Dev Tools, Native Debugging
+API integraion
+Demo
+Test",
+React Functional Component,"Functional Component
+Basic Hooks
+Demo
+Test",
+Week 4:  React Native Class and functional component,,
+React Advanced hooks,"Advanced hooks
+Custom hooks
+Demo
+Test",
+React Navigation,"React Native Navigation integraion in Android and ios
+React native navigation component (screen, overlay, modal)
+React native navigation function (push,pop,popTo)
+React native navigation stack
+Same Tasks as above for React Navigation
+Demo / Test",
+Week 5:  ES6 concept and Git,,
+ES6 Basic,"Class
+Arrow Function
+Block Scoping
+Bind, call, apply
+Spread Operator
+Test",
+ES6 Advance,"Constant
+Destructing
+Modules
+Template Literals
+Rest Params
+Computed Property
+Demo
+Test",
+Git,"Basic git command 
+Advance git command
+Test",
+Week 6:  Typescript and project folder structure,,
+TypeScript,"Typescript introduction
+Basic types
+Variable declration and type anotations
+Function
+Interfaces & Type Aliases
+Classes & OOP
+Generics 
+","Project initiation by using typescript and proper folder structure. 
+
+https://docs.google.com/document/d/1HERouYgJxXiChM1rNjpgdSzOO65BPKUxV8Qm4sREhjw/edit?tab=t.0"
+TypeScript with React Native and Folder structure,"
+Project Folder structure
+Coding Guideline",
+Week 7:  Redux integration,,
+Redux Integration,"Benefits of using redux
+Key Features of redux
+Redux architecture
+Redux implementation
+Redux thunk / Redux Saga",
+Redux Middleware,Redux tool kit,
+Week 8:  Unit test cases,,
+Unit Testing,"Jest / Enzyme
+Detox",
+,React Native CLI vs Expo,
+Week 9 and 10:  Third party library integration and security,,
+Extra,"Firebase
+Map / Place auto complete
+Camera
+Real time chat  
+Integration of Push Notifications
+Security - Storing Sensitive Info (Secure Storage), Async Storage
+Context API",
+Week 11 to Week 12 Demo project,,

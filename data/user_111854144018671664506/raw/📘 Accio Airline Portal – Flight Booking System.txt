@@ -1,0 +1,186 @@
+﻿📘 Accio Airline Portal – Flight Booking System
+1. Introduction
+The Accio Airline Portal is a comprehensive Flight Booking System designed to facilitate seamless operations for airlines and a smooth booking experience for customers. It supports flight creation, seat management, ticket booking, cancellation, rescheduling, payments, and more, while ensuring real-time availability and fairness through concurrency handling.
+This platform will be implemented as a Microservices-based application with a Spring Boot backend and ReactJS frontend.
+________________
+
+
+2. Stakeholders
+* Airlines: Manage flights, employees, aircraft, and ticket sales.
+
+* Customers: Search, book, and manage flights.
+
+* System Admin (optional, real-time feature): Oversee platform operations, fraud detection, and escalation handling.
+
+________________
+
+
+3. Functional Requirements
+3.1 Airline Features
+   1. Registration
+
+      * Airlines can register on the platform.
+
+      * Verification through email and admin approval (real-world feature).
+
+         2. Aircraft Management
+
+            * Add aircraft details (type, capacity, configuration).
+
+            * Define seating classes (Business, Premium Economy, Economy).
+
+            * Set pricing rules (window seat surcharge, festive pricing, etc.).
+
+               3. Employee Management
+
+                  * Airlines can invite employees (e.g., flight schedulers, ground staff).
+
+                  * Employees have role-based access to flight operations.
+
+                     4. Flight & Sub-Flight Creation
+
+                        * Create flights with route details (origin, destination, terminals).
+
+                        * Create connecting flights (e.g., Delhi → Mumbai → Ahmedabad → Chennai).
+
+                        * Define seat pricing by class & seat type.
+
+                           5. Flight Operations
+
+                              * View total tickets sold and occupancy percentage.
+
+                              * Cancel a flight (all customers notified via email with cancellation reason).
+
+                              * Dynamic pricing (real-time feature: as seats fill, price increases).
+
+________________
+
+
+3.2 Customer Features
+                                 1. Search Flights
+
+                                    * Search flights by source, destination, date, and class.
+
+                                    * Filter and sort by price, duration, departure/arrival time.
+
+                                       2. Booking & Payments
+
+                                          * Book single or multiple tickets.
+
+                                          * Real-time seat locking system (first-come-first-serve).
+
+                                          * Seat lock for 5 minutes during payment (auto-release if payment fails).
+
+                                          * Multiple payment options: Wallet, Credit/Debit card, UPI.
+
+                                          * Wallet refunds on cancellations for faster rebooking.
+
+                                             3. Booking Management
+
+                                                * View previous and upcoming bookings.
+
+                                                * Cancel tickets (partial or full).
+
+                                                * Reschedule flights (with change fee, if applicable).
+
+                                                   4. Feedback & Ratings
+
+                                                      * Customers can provide feedback on flights.
+
+                                                      * Ratings influence airline’s visibility.
+
+________________
+
+
+3.3 System Features (Real-Time Enhancements)
+                                                         * Notification System
+
+                                                            * Email & SMS alerts for booking confirmation, cancellations, delays, and reschedules.
+
+                                                               * Concurrency Handling
+
+                                                                  * Multiple customers booking the same seat → allocated based on timestamp.
+
+                                                                  * Optimistic locking or Redis-based seat reservation.
+
+                                                                     * Loyalty Points / Membership
+
+                                                                        * Customers earn loyalty points for every booking.
+
+                                                                        * Points can be redeemed for discounts.
+
+                                                                           * Waitlist Management
+
+                                                                              * If a flight is full, customers can join a waitlist.
+
+                                                                              * Seats automatically allocated if someone cancels.
+
+                                                                                 * Dynamic Pricing & Offers
+
+                                                                                    * Prices increase as seats fill up (airline industry practice).
+
+                                                                                    * Flash discounts and promo codes.
+
+                                                                                       * Analytics Dashboard (for Airlines & Admin)
+
+                                                                                          * Airlines: Ticket sales, revenue, occupancy trends.
+
+                                                                                          * Admin: Platform-wide analytics (popular routes, high-demand timings).
+
+________________
+
+
+4. Non-Functional Requirements
+                                                                                             * Scalability: Handle high load during peak booking seasons.
+
+                                                                                             * Security: Secure payment gateway, JWT-based authentication, data encryption.
+
+                                                                                             * Performance: Real-time seat allocation (<2 sec response time).
+
+                                                                                             * Reliability: High availability, fault tolerance, and disaster recovery support.
+
+________________
+
+
+5. Tech Stack
+                                                                                                * Frontend: ReactJS, TailwindCSS
+
+                                                                                                * Backend: Spring Boot Microservices
+
+                                                                                                * Database: PostgreSQL / MongoDB (for bookings & logs)
+
+                                                                                                * Message Broker: RabbitMQ / Kafka (for notifications & concurrency handling)
+
+                                                                                                * Cache: Redis (for seat locking & real-time availability)
+
+                                                                                                * Authentication: JWT / OAuth2 (Role-based access for Airlines, Employees, Customers)
+
+                                                                                                * Payment Integration: Razorpay / Stripe (wallet + card/UPI support)
+
+________________
+
+
+6. Example User Journey
+                                                                                                   1. A customer searches for Delhi → Hyderabad flights.
+
+                                                                                                   2. System shows multiple options (direct + connecting flights).
+
+                                                                                                   3. Customer selects a seat → seat locked for 5 minutes.
+
+                                                                                                   4. Payment initiated → successful → booking confirmed.
+
+                                                                                                   5. Customer receives email + SMS confirmation.
+
+                                                                                                   6. Later, customer cancels → wallet refund processed instantly.
+
+________________
+
+
+7. Future Enhancements
+                                                                                                      * AI-powered fare prediction (suggest cheapest days to fly).
+
+                                                                                                      * Chatbot assistant for customer support.
+
+                                                                                                      * Baggage tracking system integration.
+
+                                                                                                      * API for third-party travel aggregators (e.g., MakeMyTrip, Yatra).

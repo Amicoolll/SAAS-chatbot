@@ -1,0 +1,98 @@
+﻿# whatsapp option is not available initially while development
+
+
+
+  
+
+# unable to to return end time section
+how can we enter that value
+# overall combination of all the toggle that on enable which toggle which fields or section get enable like when we enable add pickup, add delivery together then or when we enable all toggle the which field should hide
+
+
+# cases for Return to Warehouse  this field visibility
+
+
+
+
+# in some case when we click on checkbox of Return to same address
+the no section will enable or disable
+
+
+
+
+ # which field is interdependent on another field , which field should be filled to access another field
+
+
+
+
+  
+
+# Name field is mandatory as well as disable ,so we cannot move forward  this is the blocker in the flow can’t submit the form
+
+
+
+
+  
+
+ # No return branch filed in available in form still on submit press we got this popup 
+Which is blocker and led us to not create form
+
+
+
+
+
+
+  
+
+# Not getting any error message over skill set fields
+
+
+
+
+
+
+  
+
+# Service type is dependent on skill set but here we can see that skill set is blank still we got values in service type
+
+
+
+
+
+
+
+
+  
+
+# after filling out all the mandatory field we are getting this blank toast which led to complete blocker
+
+
+  
+
+
+
+# since origin and destination field are not mandatory still we get error after clicking on save button at mobile POV we have to move on last tab for this message which led flow break
+# even while creating order from all file when origin and destination branches are same still user can able to create order then why this popup message for?
+
+
+
+
+
+
+
+
+# end time is mandatory is showing in popup but fields are not behaving like mandatory which led difficulty to find particular end time field under which tab is showing error
+
+
+
+
+  
+
+# In popup we got different error but in api response the message is different 
+How we got to know these type of cases
+
+
+# share all the checks in which fields will be hidden or visible as they are static checks
+
+
+# also if there are any other static checks in the form please share those as well as it is not possible to run each case this can lead to mismatch in web and DMA mobile app also there can be chances of missing cases

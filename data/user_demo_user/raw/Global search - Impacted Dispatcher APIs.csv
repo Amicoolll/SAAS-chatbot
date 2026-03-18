@@ -1,0 +1,28 @@
+Impacted Existing APIs that are common at both Shipper and Dispatcher side:,,Efforts
+Add Customer,https://dev8.loginextsolutions.com/ClientApp/customer,
+Toggle Customer Status (Active/Inactive),https://dev8.loginextsolutions.com/ClientApp/customer/active?customerIds=13069749&isactive=false,
+Bulk Upload Customer,https://dev8.loginextsolutions.com/ClientApp/customer/import,
+Bulk Upload Booking,https://dev8.loginextsolutions.com/BookingApp/booking/upload/import,
+,,
+,,
+Impact on Existing APIs at Dispatcher side:,,
+Update customer address details,https://dev8.loginextsolutions.com/ClientApp/customer/nodedetails,
+Update customer,https://dev8.loginextsolutions.com/ClientApp/customer,
+Update Order (MIDDLEMILE),https://dev8.loginextsolutions.com/ShipmentApp/middlemile/shipment/order/bulkUpdate,
+Approve Booking,https://dev8.loginextsolutions.com/BookingApp/booking/update/shipmentrequest?event=accept,
+Reject Booking,https://dev8.loginextsolutions.com/BookingApp/booking/update/shipmentrequest?event=reject,
+Delete Order MIDDLEMILE,https://dev8.loginextsolutions.com/ShipmentApp/middlemile/shipment/order/delete?orderIds=112750,
+Update Address,https://dev8.loginextsolutions.com/ClientApp/clientnode/updateLocation,
+Bulk Upload Booking MIDDLEMILE,https://dev8.loginextsolutions.com/ShipmentApp/middlemile/shipment/order/bulkUpdate,
+Bulk Upload Order MIDDLEMILE,https://dev8.loginextsolutions.com/ShipmentApp/middlemile/shipment/order/import?access_token=c85572bc-0883-4c10-9489-9f617bc38d45&CLIENT_SECRET_KEY=$2a$08$/kjMUikXJrFUtNHSM/pp5uPgr8G33oZ3sjACq/dLCYFEkmy44Rqa6,
+"Bulk Upload Order 
+FMLM, LM",https://dev8.loginextsolutions.com/ShipmentApp/order/import,
+"Delete Order 
+FMLM, LM",https://dev8.loginextsolutions.com/ShipmentApp/shipment/fmlm?shipment_ids=24882299,
+"Update Address 
+FMLM, LM",https://dev8.loginextsolutions.com/ShipmentApp/shipment/customer/address/update,
+Update Order FMLM,https://dev8.loginextsolutions.com/ShipmentApp/shipment/fmlm/update/v2?isBulkUpdate=true,
+"Override Order Status FMLM, LM",https://dev8.loginextsolutions.com/ShipmentApp/shipment/fmlm/override/status?status=NOTDISPATCHED,
+"Create Order FMLM, LM",https://dev8.loginextsolutions.com/ShipmentApp/shipment/fmlm/create,
+"Update/Cancel Order Status 
+FMLM, LM",https://dev8.loginextsolutions.com/ShipmentApp/shipment/fmlm/status?status=NOTDISPATCHED,

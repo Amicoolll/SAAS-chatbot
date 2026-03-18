@@ -1,0 +1,200 @@
+﻿Client Visit Minutes of Meeting
+
+
+
+
+
+
+Backend Minutes of Meeting
+	BULK UPDATE
+
+
+1. AI team Discussed with LN team on the issue related to Multiple type of data structure for orders(LM/FM/FMLM/Return).
+
+
+Response LN Team - LN Team suggested that there should be one validation in FE/BE side to allow bulk upload for only one type of order. They will update the PRD and Figma accordingly also they have explained about items details related information update while bulk update.
+
+
+GLOBAL SEARCH
+
+
+1. We discussed the global search with the LN team and we have presented two solution.
+a.) Elastic Indexing using Logstash 
+b.) Event based indexing & Data pipeline using AOP & Apache Kafka & Elastic
+
+
+Response LN Team - LN team is ready to continue R&D on the 2nd method of indexing. Also the LN team agreed that one shipper can not view the data of another shipper. 
+
+
+
+
+ORDER REPORT DOWNLOAD
+
+
+1. The LN team Suggested using a lambda function to support this functionality . 
+
+
+2. The LN team provided us with a demo and we designed a flow diagram for the requirement .
+
+
+SIGNUP FUNCTIONALITY
+
+
+Output of discussion with LN team
+
+
+1. Vishwanath from the LN team confirmed that in the form and builder there will be a single sign up form which will show additional fields for questions and for business details.
+
+
+2. OTP will be saved in DB and it will remain active for a certain duration.If someone refreshes the page then there will be no impact and the OTP will remain active till end time meets.
+
+
+3. If a user hits and generates an OTP again then the previous OTP will expire and a new OTP will be generated.
+
+
+4. The user will be restricted from generating or verifying OTP for the next 15 mins. This interval will go on increasing by 30, 45 and 60 mins.This is pending from the LN team and they will confirm what will be the exact flow and  how many times it can work.
+
+
+5. As per Pradyumana's assumption he said it might expire for the whole day and then shipper can only retry after 24 hrs but this was not confirmed by LN team and they will update us on this accordingly.
+
+
+TnC & PRIVACY POLICY
+
+
+1. Need to show the TnC mandatory by default. It will be a checkbox and the hyperlink on the TnC will be redirected to a new tab to open the pdf document uploaded by the Dispatcher.
+
+
+2. We are still awaiting the confirmation from the LN team as to where in the dispatcher we can provide these PDFs, Kanishk (LN team) said it is working on dispatcher from backend only but in FE it is not implemented. 
+
+
+BULK UPLOAD ERROR LOG
+
+
+1. For bulk uploading, the LN team will update the PRD. According to the LN team it's not on priority and can be shifted to the 3rd milestone.
+
+
+REDIS FLUSH ISSUE
+
+
+1. After changing the setting (Required & Mandatory ) in Dispatcher Side. Redux not flushing the new update automatically.
+
+
+ELECTRONIC PROOF
+
+
+1. The LN team suggested not using the existing dispatcher api directly and find out the required data source for the shipper and in this case api should return only required data.
+
+
+LABEL STRUCTURE
+
+
+1. All labels should be configured in the Dispatcher side. 
+2. All labels will be managed by the FE team for required true or false. 
+3. All labels will come from label API.
+
+
+ORDER REQUEST STATUS
+
+
+1. This was discussed with the LN team and They have updated the PRD. We need to implement the same.
+
+
+QUOTES
+
+
+1. Initially there was only one type of Quote. LN team has done knowledge transfer with Zeeshan & Archana on Quotes creation process. Also we are expecting one document related to quotes creation process.
+
+
+	
+
+Dispatcher Minutes of Meeting
+	Output of discussion with LN team
+
+
+1. We will be using the framework's APIs for all the modules that contain cards in Milestone 3.
+
+
+2. We will target the scan module first as the LN team is targeting to make the app live after this. We will share a build with the client once the module is completed from our end.
+
+
+3. For scanning, the LN team has asked to integrate the ML kit of firebase.
+
+
+4. React native does not have any library or sdk for firebase. ML kit needs to integrate with native module and we will be requiring RND on the said module as the android native module has issues with scanning and also its performance in scanning is really poor as compared to iOS.
+
+
+5. We will create a native module for Android only as iOS does not require an external library for scanning, Also we will show performance of iOS to Kanishk and will take the approval accordingly, and if it lacks then we need to create native modules for both android and ios.
+
+
+6. The LN team asked to share builds targeted for dev8 only. (Archana has reported several issues on dev8 final decision for this will be after discussing with the team).
+
+
+7. One Login SMA is used at LN team end which does not have support for mobile neither in react native nor in android and iOS native. We have integrated the web view and supported the feature through the callback listener of the web view and it is working fine now.
+8. Vishwanath from the LN team provided the okta verification v1 api which they were using at their end to validate the token generated by okta.
+
+
+9. The LN team will fix the azure issue at their end on the web and after that we will be able to integrate the same. Although we were able to generate a token from the platform that will require web fixes first to fix it at our end.
+
+
+10. We will need to integrate a suggestive dropdown for customer Id and follow it for address id and this will be for profile values in the fields. (For add order)
+
+
+11. We need to show “*” for required fields in all the forms.
+
+
+12. Need to update input fields for required fields.
+
+
+13. We have shared pending pointers on mail with Kanishk regarding milestone 3.
+
+
+14. Jira issues were discussed with the LN team and comments were updated on jira tickets.
+
+
+15. Few jira tickets were assigned to the LN team for updates and some were rejected which were duplicate or irrelevant.
+	
+
+
+
+
+
+Shipper Minutes of Meeting
+	CUSTOMER LIST VIEW ADDRESS
+
+
+Outcomes of the discussion with LN team
+
+
+1. There can be any number of addresses.
+2. Search bar has to be added to the address.
+3. Add a point to show a mark of fav in the address list.
+4. Address Id needs to be unique.
+5. Customer Id will be a unique Id.
+6. Address Id will be primary Id.
+7. Address Id will be different and value can be the same.
+8. Update will be disabled in case of multiple customer address selection.
+
+
+PRINT AWB TEMPLATE
+
+
+1. The LN team will review print AWB and provide us the template for the same.
+GENERAL
+
+
+1. Tagged Pradyuman in figma designs. 
+2. Edit Screens will be provided by Pradyuman.
+3. Fav address cannot be deleted.
+4. Delete will not be there in edit customer, deactivate will be there.
+5. Bulk upload in customer listing will be having first address as primary address.
+6. Address Id and Address Name both can be searched in the address details.
+7. When adding a new customer address while editing we can delete the newly added address.
+8. Dynamic labels will be there for the Shipper App.
+9. Delivery type => 40 character limit.
+10. Submit button needs to be removed in the action dropdown.
+11. Create detail discussion is Pending (LN team will get back to us)
+12. Track order => order will have a hyperlink and once it clicked then we need to open a new tab.
+13. If the address id is new we do not need to run validation on address fields.
+14. Address ID needs to be mandatory.
+15. Column preference => LN team will share the list of columns to be shown by default.
+16. It is not mandatory to add items while creating order requests.

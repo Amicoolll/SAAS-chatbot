@@ -1,0 +1,93 @@
+Feature,Tasks,Dev Status,QE Status,QE Comment,
+Dashboard,Task Feature Implementation,RG -> UD -> DE-> TESTING -> Tested,Passed   SAK ,,
+Potential Patient List,"1. Ins verification status Yes, Disable time stamp in Referral Comment and Scheduling Notes, 
+2. Dates not saving for any of the fields in this page on save 
+3. Intead of showing Box 1, box 2 show PT1, PT2 in popup so it collectly reflects to user where he need to take action",RG -> UD -> DE-> TESTING -> Tested,Passed,"Only Timestamp is non-editable
+Dates are saving correctly apart from Timestamp",RG -> Requirement Gathered
+Claim Third Tab,Auth Visits and date are not in claim detail page,RG -> UD -> DE-> TESTING-> Tested,Passed,,UD -> Under Development
+Auth Tracker,"""Auth Name""  please change to ""Auth Phase"", we will work on 1.1 to make it auto numbering, right now we will stay at manual type in.",RG -> UD -> DE->TESTING-> Tested,Passed,,
+Auth dates not transferred into Claim when auth is saved.,"when saving a Auth, starting date, end date and visits authorixed are not transferred to Claim",RG -> UD -> DE -> TESTING-> Tested,Passed,Working for happy scenario only,
+Potential Patient List Extended, No need to create multiple auth entry when clicking on same claim (add claim button) again and again,RG -> UD -> DE  -> TESTING-> Tested,Passed,,
+"Auth tracker ""request"" does not go anywhere","it supposed to send a request to someone's message center.  Also, send a request should be an independent operation, that is after the request is send, that send a request window should close, but the Auth Tracker should remain open for the user to decide what to do next instead of just closed off. ",RG -> UD -> DE -> TESTING -> Tested,Passed,,
+Message Center,Have confirmation popup on mark complete in messahe center,RG -> UD -> DE -> TESTING -> Tested,Passed,,
+Whole Software,Need Date field to support date input ,Calculating Efforts,,,
+App signup table in dashboard,Open Potential Pateint List from Signedup location ,RG -> UD -> DE -> TESTING -> Tested,Passed,,
+All,Getting Internal server error for invalid search on the search box,RG -> UD -> DE -> TESTING -> Tested,Passed,,
+Potential Patient List,"1. Timestamp is showing in dd/mm/yyyy format
+2. Timestamp is auomatically getting update when user hadn't updated any field. In my case it has took future date as well",RG -> UD -> DE -> TESTING ,"Failed
+DOB of patient is taking future date",,
+Potential Patient List,Show insurance name in Potential Patient List column.,RG -> UD -> DE -> TESTING -> Tested,Passed,,
+Patient & Claims,"Rename top title:  ""Patient & Claims -> Claim Setup"" to Patient & Claims",RG -> UD -> DE -> TESTING -> Tested,Passed,I will turn the Feature cell green after I tested it. --- Dr. Wang,
+PtApp - Notification,"Notification Number does not change, also needs App to open the notification screen when pt tap on the PtApp program Icon, that is if there is notification about new exercise, then when pt tap App it will open the screen to show pt the exericse, same thing if there is a nre newsletter, it will open the newsletter.",,,,
+FDS Daily -> Payment,"When click ""Other"", we need a ""Dispense source"" of Inventory dispense [from local inventory and the local inventory of that item will be reduce by 1] or to order [we will need to open the Order form, then completed, the order will be sent to Supply Mangement module]",RG -> UD ->  DE -> TESTING ,"Need some clarification as basic inventory and other inventories are showing items available but those items are not available on the FDS daily entry when we click on ""Others""",,
+Auth modification ,"When check Authorization under ""Claims -> Set up Claim -> Authorization"" the data are not modifiable, we need this when staff made mistakes. Only staff with ""Auth Tracker"" access can modify.",need discussion(Anupam ji),,,
+Potential Pt Entry - Validation,Dashboard -> Patient & Claim -> Potential Patient Entry   ----   Validation needed in the area in the pictures to the right,RG -> UD->  DE --> TESTING ,"For primary insurance we have added asterisk as suggested by client for mandatory fields same he does for secondary insurance as well, But we added asterisk only for Primary not for secondary insurance, I can understand that subject to when we opted for secondary insurance but that needs to be consistent in correct manner if user opted for secondary insurance.",,
+Add a new PCP - Needs more fields,Address fields are needed for PCP,,,,
+Dashboard,Confirmation popup on app signup table ,RG -> UD ->  DE -> TESTING ,Passed,,
+Reason code for Claim,"In order to make the claim unique, like PT1 - Low back pain, PT2 - Shouler pain, so when presented for patient to choose when trying to make an appointment using PtApp.  However, we can not find where this reason code should be entered.
+
+https://drive.google.com/file/d/1CZteqjVLQxd4lzV6J1Pv8M5jSc1pNMrh/view?usp=drive_link","Discussed and closed, auth reason and claim reason are completely different fields",,"Claim Reason and auth reason are two different things, claim reason or reason code has to be filled in the reason column as show in the image, feel free to reach out to us , Thank you,",
+,"Follow up on 25 row query, you will find reason input in ""Patient and Claims"" screen attached screen shot(we don't  have access to above attached link Thank you,) ->","Shaik is added to access the file above, please let me know if still not able to access",,,
+"Pt & Claims -> Add ""Claim list"" sectional title","Add sectional title of ""Claim List"" in Patient & Claim page, so there is clear separation of Patient section and Claims section.  
+
+https://docs.google.com/spreadsheets/d/14onI6-wXspr1odUUD2bW8zfUE-vCWLMW/edit?usp=drive_link&ouid=100799750396316623054&rtpof=true&sd=true",RG -> UD > DE -> TESTING,Passed,Save button on Right    doc was anything needed? ,
+Scheduler -> Schedule New appointment,"in order to be in line with Appt made by PtApp, we need ARCS staff be able to choose claims that associated with the appointment, so when pt sign in using Kiosk will have the correct claim. Modification is needed.
+
+https://docs.google.com/spreadsheets/d/14onI6-wXspr1odUUD2bW8zfUE-vCWLMW/edit?usp=drive_link&ouid=100799750396316623054&rtpof=true&sd=true
+included in this link, 2nd tab",Will pick with scheduler change,,,
+,,,,,
+,,,,,
+,,,,,
+Scheduler ,Group tab should be editable per userr and save on their login,RG -> UD - >DE-> TESTING,Passed  SAK,,
+Scheduler ,Key tab  shoud be custmonzed and  saved per user ,RG -> UD -> DE-> TESTING,Passed- NOT WORKING,,
+Patient app,Appts in order by calander date,RG -> UD -> DE-> TESTING,Passed,,
+Scheduler ,Visit counts shoud be per office location that is displayed,RG -> UD -> DE -> TESTING,,,
+,,,,,
+,,,,,
+Scheduler ,office schedule /schedules should fit to tht escreen based on the number of office choosen,RG -> UD > DE -> TESTING,,,
+Scheduler ,Patient info should display when click on the scheduled ptatient name,,,Video sent on ARC2 chat   3/5/2026   ,
+Scheduler,How to edit a Event-   currently labeled blocker,RG -> UD > DE-> TESTING,Passed  SAK ,,
+Scheduler ,Blocker is not using the correct time zone ,RG -> UD ->  DE-> TESTING,Passed  SAK ,,
+Scheduler ,"Blocker also needs ""all Branch"" as a drop down choice",RG -> UD > DE-> TESTING,Passed  SAK ,,
+Scheduler,Re-name this to Event ,RG -> UD > DE-> TESTING,Passed  SAK ,,
+Scheudler,Time chioces should be managed in the calander set up    using 10 or 15 mins/   if 15 min is choosen that should be the only times avaialable for appt and blockers schedule,,,,
+,"ex:     8:00, 8:15,8:30,8:45,9     no other mins the same rule would follow if 10 min appt slot where choosen ",,,,
+,,,,,
+Scheduler,Needs a Patient search in the scheduler list,RG -> UD > DE-> TESTING,Passed  SAK,,
+,,,,,
+Scheduler ,Allowed the same patient to have 2 appts on the same day but differetn offices/   one showing in the patient app,NEED EXPLATION  ,,,
+,,,,,
+,,,,,
+Scheduler ,"This should display  from / to date      Friday, March 6, 2026 --- Tuesday, March 31, 2026",RG -> UD > DE-> TESTING,Passed  SAK ,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+Scheduler,appts labled on the schedule    Patient  / Serivces /  Purpose of visit,RG -> UD > DE-> TESTING,Passed   SAK,,
+Scheduler,Please show me how the restrictions are programs     1 NP/OPNC/OPSC per hour and 1 Acu only per hour,This can be done in 1.1 if needed   SAK ,,,
+,,,,,
+DC Tracker,When DC and close   DC note should be requested to the note Request list,Need document to work on. ,,,
+Auth Request   ,Pateint Sandra March    PT auth was requested on the final save instead of the ACU auth     PT auth was already in     ACU auth shoudl have been reqeusted,,,,
+All Dates,All dates that have to be entered should be typalbe  option also in the fomrat of MM/DD/YYYY    Calander to open an click should be optional,Working on it.,,,
+FDS Entry ,Providers are not pulling to PT/PTA   and ACU to the providers for that office location,If not checkout on same day how we will be able to do this if pulling clinician based on schedule.,,,
+Scheduler,"On Scheduler for all branches we need to have all branches view instead of single view, freezing the branch name during scroll similar to excel, and remove day 
+
+
+ ✅ Anshu || ACU- NP 
+  Dynamic width of calendar",RG -> UD > DE-> TESTING,Passed   SAK ,,
+,,,,,
+DC tracker,Remove name when DC        Dc should request the DC note to the note request and have the drop down reason codes for DC,,,,
+,,,,,
+DC tracker,Send note  to providerf and manger should show   patient infom and notes ,video sent 03122026,,,
+,,,,,
+Scheduler,List View Dates are not coming correctly as per MM/DD/YYYY ,,,,
+Scheduler,Service Interested should show mandatory validation and Asterisk mark as it is mandatory in Patient entry form,RG -> UD > DE-> TESTING,,,
+,,,,,
+,,,,,
+Reports,Still need these created,,,,
+,,,,,
+Scheduler,Blocker should not display here only the what is write in the Note section ,,,,

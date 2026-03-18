@@ -1,0 +1,218 @@
+﻿Introduction
+In-App Purchase, or IAP for short, is a feature that gives developers the ability to sell content to the end user after their app has been downloaded. For instance, it could be used to charge the end user’s credit card in exchange for some specific functionality within the app. IAP is implemented in all major mobile platforms including iOS and others also
+Types of Product in In App Purchase:(we will use Auto-Renewable Subscription and Consumable)
+1 Consumable
+Consumable refers to a product that a user can buy multiple times. For example, let’s say you are creating a casino-like application. You’ll implement selling coins to your users as a consumable In-App Purchase. Another type of consumable might be a 30 minute consultation. Every time you have this consultation, you need to buy it. They cannot be shared across iOS devices.
+You’ll implement a Consumable In-App Purchase in the cases where a user will buy it multiple times. It’ll appear on the receipt once and it won’t be able to be synced across devices or restored.
+2 Non-Consumable
+This refers to a purchase that can only happen once. In the app Brushes, this is implemented in a very clever way. They give you two brushes for free so you can use the app and paint. However, they have 6 more brushes that you can buy. You only buy it once and can use it forever. It doesn’t expire. Non-Consumables can be share among iOS devices.
+You’ll implement a Non-consumable In-App Purchase if you want your user to buy it once. This purchase will always appear on receipt. It’ll be synced across devices and restored by the system.
+3 Auto-Renewable Subscription
+This is a type of purchase that renews after a certain period of time. You can configure this period in the Apple developer portal. Most SaaS products nowadays use this type of model. Think of it as a membership to the gym or a subscription to a magazine. It is my personal opinion that if you can sell a product or service using this type of IAP, you’ll have better chances of bringing in consistent money. In my opinion, this is the best option.
+A user will be able to buy multiple Auto Renewable Subscriptions. They will appear on the receipt every time and will be synced across devices and restored by the system.
+4 Non-Renewable Subscriptions
+This is a subscription that has an expiration date. Think of it as going to an all-you-can-eat restaurant. You’ll pay once and eat until you are satisfied, but after you leave the restaurant, you’ll have to buy it again. This type of IAP allows you to give access to certain content for a certain amount of time. It can be that you allow a player to go into certain parts of your game or you’ll allow your users to post some information until a certain time.
+Users will also be able to buy multiple Non-Renewable Subscriptions, but they will only appear once in the receipt. Your app will be in charge of syncing it across devices and restored it.
+5 Free Subscriptions
+This type of in-app purchase is only available to newsstand-enabled applications. Let’s say you have a free electronic magazine (E-Zine) that you want to deliver via the newsstand application. This would be the way to implement such content. Many companies are using this type of In-App Purchase to deliver free content to their entire user base. An upside to distributing content this way is that it’ll be available on all the user’s devices after he or she subscribes on one of the devices.
+A user will be able to buy one Free Subscription, but they will always appear on the receipt. The system will be in charge of syncing it across devices and restoring it.
+How to configure IAP in Apple’s developer portal:
+1 Getting Apple certificates
+1. Log into the Apple Developer Center at http://developer.apple.com
+2. Navigate to Certificates, Identifiers & Profiles → Certificates → Development
+3. Click on the cross to create a new certificate
+4. Make sure to select iOS App Development and click continue.
+5. Make sure to follow the instruction the following screen: “About Creating a Certificate Signing Request (CSR)”
+6. Upload CSR file.
+2 Identifiers and App Ids
+3 Setting up your app in iTunes Connect
+1. Log into iTunes Connect.
+2. Click the + symbol and add a new iOS App.
+3. Add a name, version, and select a language.
+4. Make sure you select an Bundle ID that has IAP enabled.
+Once you do this, you can go into your app’s iTunes Connect portal and click on In-App Purchase.
+1. Click on "Create New."
+2. On the following screen you’ll be able to choose any type of IAP. Let’s use Consumable for our first example.
+You’ll see 3 fields that are really important:
+Reference Name: This will be displayed to the user before they agree to pay for your product. Product ID: This is the string that we’ll use in our codebase to reference this product. Price Tier: How much you are going to charge.
+Note: Make sure you upload screenshots demonstrating how the IAP works. Moreover, you can also leave a review note so that you can explain the overall idea and flow. The screenshots and the review note won’t be seen by the end users, but they will support the app review team when they are reviewing your app.
+-Code overview:
+-Apple gives us a framework called StoreKit to handle everything about In-App Purchases. It is about 12 classes, and they will greatly simplify the amount of work required to charge a user's credit card.
+StoreKit objects in detail:
+1 SKProductsRequest
+This class will allow you to communicate with Cupertino and ask for products and manage all your products using iTunes Connect. The upside of having all the product’s information on the cloud is that you won’t need to hardcode that information into your app. Moreover, localization plays a role because you’ll able to localize your products (SKProduct). In a nutshell, this class send a request to Apple and gives you the products using the delegate method. Let’s see how you’ll use it:
+var productID:NSSet = NSSet(object: “product_id_on_itunes_connect”);
+var productsRequest:SKProductsRequest = SKProductsRequest(productIdentifiers: productID);
+productsRequest.delegate = self;
+productsRequest.start();
+
+
+func productsRequest (request: SKProductsRequest, didReceiveResponse response: SKProductsResponse)
+
+
+2 SKProductsResponse
+These types of objects will be handed down to you by Apple when you implement the delegate method:
+func productsRequest (request: SKProductsRequest, didReceiveResponse response: SKProductsResponse. 
+
+
+The most important method is the products method, which will contain a collection of all your SKProducts.
+3 SKProduct:
+These are basically the products you register with Apple on iTunes Connect. You can’t initialize them since they will be handed down to you wrapped inside a SKProductsResponse in one of the delegate methods for SKProductsRequest. SKProducts are really cool because you can create localized versions of their attributes. Therefore, you should always use the localizedDescription and localizedTitle to display information to the user instead of hardcoding this information into your app.
+Two additional handy methods that SKProduct gives us are the price and priceLocale methods. Price will display the price in local currency and priceLocate will use NSLocale used to display this price.
+I can’t stress enough how important is to use localized versions of your products. This will not only improve the user experience, but also earn you more money.
+4 SKPayment:
+This is the class that will encapsulate the information you send to Apple. It sort of handled the communication between your app and Apple, but it needs help from SKPaymentQueue. Think of it as an object that holds information, but needs a vehicle SKPaymentQueue to get to Apple.
+You’ll initialize it with an SKProduct. There will be many times (like implementing buying chips on a casino) that you want to sell multiple quantities of the same item. For example: You want to sell 2 coins of 500 chips each. With these cases, you’ll use the quantity attribute.
+5 SKPaymentQueue
+This is a class that handles the communication between you and Apple. Think of it as the vehicle that will transport information into Infinite Loop (Apple). When you want to buy a product and you have the SKPayment Object, you’ll use SKPaymentQueue to add the product to it and wait for Apple’s request using the delegates methods. The following lines of code illustrate the idea:
+var payment = SKPayment(product: product)
+SKPaymentQueue.defaultQueue().addPayment(payment);
+
+
+One handy method, SKPaymentQueue, gives us is the ability to determine if the user can make payments. It is highly recommended that you wrap all your buying code using the canMakePayment method. This will make your code more robust. For example:
+if (SKPaymentQueue.canMakePayments()){
+    // BUYING CODE
+} else {
+    // PRESENT A USER FOR UI about not being able to make payments. 
+ }
+
+
+When payment is declined, oftentimes it is because the user has parental controls enabled or he or she doesn’t have a proper credit card registered with Apple.
+The content of the queue is persistent between app launches. This means that if you haven’t finished a transaction, and for some reason your app quits or the user quits the app, the content will still be there and you’ll need to act accordingly.
+Remember the observer pattern? This is where it comes in handy because we’ll need to tell the queue who its observer is. We can add more than one observer, but this is an advanced technique that I won’t go into detail about in this chapter.
+To initiate the payment sequence, we’ll need to create an SKPayment object and add it to the queue. The queue will create a SKPaymentTransaction to process the payment. The payment will be handle by Apple, and after the payment is fulfilled, the queue will update the transaction object and call any observers. The observer must process the transaction and then remove the transaction from the queue.
+This last step of removing the transaction from the queue is really important because it is our signal to Apple to let them know that we have properly presented the user with the functionality they just bought.
+If we fail to remove the transaction object from the queue, we’ll receive them each time the user buys another object and it can cause very nasty bugs in our code.
+6 SKProductsRequestDelegate
+This is the protocol you’ll have to implement in order to do IAP and communicate with Apple. The only method you’ll need to implement is productsRequest:didReceiveResponse. Make sure to tell the object you want to received the delegate call on that you are implementing this delegate protocol. For example: Let’s say you are implementing the delegate protocol in your main UIViewController. You’ll do something like:
+class ViewController: UIViewController, SKProductsRequestDelegate{}
+
+
+7 SKPaymentTransactionObserver
+This is an observer object that will be on the lookout for changes in our payment queue (SKPaymentQueue). In a nutshell, it’ll call methods on your object when a transaction is done. Therefore, this is one of the most important objects in StoreKit since the protocol you’ll need to implement will be the final step in the purchase chain. When you get word from this object, you’ll unlock the functionality the user just purchased. When implementing the protocol, the most important method you’ll implement is:
+paymentQueue:updatedTransactions:
+
+
+8 SKRequest
+This is a class that encapsulates all communication with Apple. It is the superclass of the SKProductRequest and most of the time you won’t use it, you’ll use its subclasses. One instance where you’ll see this class in your code is when implementing:
+func request(request: SKRequest!, didFailWithError error: NSError!) {
+    println(“Print the NSError");
+}
+
+
+This class comes with the SKRequestDelegate protocol that you’ll need to implement when dealing with subclasses of SKRequest.
+9 SKPaymentTransaction
+These are objects that will live in your SKPaymentQueue. They represent the transaction your user does while buying (SKPayment) a SKProduct. They are handed down to you by Apple by the SKPaymentTransactionObserver delegate method: paymentQueue:updatedTransactions.
+The payment transaction can have a different state and they are really important to the flow of making a purchase in StoreKit. They can be one of the following:
+SKPaymentTransactionStatePurchasing
+SKPaymentTransactionStatePurchased
+SKPaymentTransactionStateFailed
+SKPaymentTransactionStateRestored
+
+
+You’ll rarely encounter a SKPaymentTransactionStatePurchasing - at least that has been the case in my experience. Most of the time you’ll receive back from Apple a SKPaymentTransationStatePurchased and you’ll have to make sure to give the user what they just bought. This is entirely up to you, but creating a good user experience around this code path will guarantee revenue for you down the road. When implementing Non-Consumable In-App Purchases, you’ll receive the SKPaymentTrasactionStateRestored when the user buys back or clicks on the restore button for that product.
+Make sure to properly handle the case when you received back an SKPaymentTransactionStateFailed. I see way too many cases in the App Store where developers don’t handle this case by properly displaying the error in the UI, or at least letting the user know the transaction failed. This is just a recipe for a bad review on the App Store and less revenue down the road.
+Example Controller:
+Let's take a code dive into a fully working example app that will demonstrate how In-App purchases for consumable products work. 
+Let's first create a button that will initiate the purchasing flow:
+func addBotton(){
+    let buyBottom = UIButton(frame: CGRectMake(100, 320, 200, 40))
+    buyBottom.setTitle("Buy Consumable", forState: UIControlState.Normal);
+    buyBottom.backgroundColor = UIColor(red: 0.0, green: 0.2, blue: 0.2, alpha: 1.0)
+    buyBottom.addTarget(self, action: "buyConsumable", forControlEvents: UIControlEvents.TouchUpInside)
+    self.view.addSubview(buyBottom);
+    }
+
+
+There you can see that we'll call the function buyConsumable when the user clicks on that button. Let's create the function:
+func buyConsumable(){
+    println("About to fetch the products");
+    // We check that we are allow to make the purchase.
+    if (SKPaymentQueue.canMakePayments())
+    {
+        var productID:NSSet = NSSet(object: self.product_id!);
+        var productsRequest:SKProductsRequest = SKProductsRequest(productIdentifiers: productID);
+        productsRequest.delegate = self;
+        productsRequest.start();
+        println("Fething Products");
+    }else{
+        println("can not make purchases");
+    }
+}
+
+
+A lot happened in the last function. First we printed "About to fetch the products" just to make sure we wired everything correctly. Then we asked SKPaymentQueue if we where able to make a purchase. If so, we created a set with just one object - the product ID of our consumable item. This is the product ID we configured on iTunes Connect. Then we initiated an SKProductsRequest, setting the delegate method to be the controller we are operating out of.
+Apple will process this request and call the method func productsRequest (request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) in our controller. Let's implemented it:
+func productsRequest (request: SKProductsRequest, didReceiveResponse response: SKProductsResponse) {
+    println("got the request from Apple")
+    var count : Int = response.products.count
+    if (count>0) {
+        var validProducts = response.products
+        var validProduct: SKProduct = response.products[0] as SKProduct
+        if (validProduct.productIdentifier == self.product_id) {
+            println(validProduct.localizedTitle)
+            println(validProduct.localizedDescription)
+            println(validProduct.price)
+            buyProduct(validProduct);
+        } else {
+            println(validProduct.productIdentifier)
+        }
+    } else {
+        println("nothing")
+    }
+}
+
+
+Here you can see that we received from Apple an SKProductsResponse with products inside it. We know we are only going to receive one product from Apple because we requested just one. Therefore, I do var validProduct: SKProduct = response.products[0] as SKProduct and if (validProduct.productIdentifier == self.product_id) to get the SKProduct and make sure it is the one we want to buy. After that you can see some handy localization methods and the function to buy the product called buyProduct(validProduct);. Let's implement it.
+func buyProduct(product: SKProduct){
+    println("Sending the Payment Request to Apple");
+    var payment = SKPayment(product: product)
+    SKPaymentQueue.defaultQueue().addPayment(payment);      
+}
+The function above is pretty simple. We initialize an SKPayment with the product we passed in and then we send the payment to the queue. After we do this we'll need to rely on our observer to know when Apple process the transaction. Let's see how that looks:
+func paymentQueue(queue: SKPaymentQueue!, updatedTransactions transactions: [AnyObject]!)    {
+    println("Received Payment Transaction Response from Apple");
+
+
+    for transaction:AnyObject in transactions {
+        if let trans:SKPaymentTransaction = transaction as? SKPaymentTransaction{
+            switch trans.transactionState {
+            case .Purchased:
+                println("Product Purchased");
+                SKPaymentQueue.defaultQueue().finishTransaction(transaction as SKPaymentTransaction)
+                break;
+            case .Failed:
+                println("Purchased Failed");
+                SKPaymentQueue.defaultQueue().finishTransaction(transaction as SKPaymentTransaction)
+                break;
+            // case .Restored:
+            //[self restoreTransaction:transaction];
+            default:
+                break;
+            }
+        }
+    }
+}
+
+
+This is one of the most important steps in our In-App Purchase flow in Swift. It is the final step that will let us know that Apple processed the payment. We need to make sure to deliver the functionality or product to the user and remove the transaction from the queue
+Performed Action:
+-Buy(Purchase): it will be work for new user
+-Restore: it will be work for those who already subscribe with other device and app will be deleted
+Receipt Validation:
+If you want to save your application from being pirated or you need to verify that an In-App Purchase is legitimate, validation of the App Store receipt is essential. You have two options:
+* You validate the receipt locally on the device.
+* You send the receipt to Apple's servers for validation.
+Validating the receipt locally has many advantages, but it can be a headache to implement. It may be easier or more convenient to send the receipt to Apple's servers, asking to validate it for you.
+You can do this by sending the receipt to https://buy.itunes.apple.com/verifyReceipt in the production environment or https://sandbox.itunes.apple.com/verifyReceipt in the sandbox environment. You should never send the App Store receipt directly to Apple's servers. This is something you absolutely need to avoid.
+Backend Dependency:
+-we will validate the receipt with the help of backend so they can also keeps the record at server end for the subscriptions
+
+
+
+
+
+
+
+
+*

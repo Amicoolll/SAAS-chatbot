@@ -1,0 +1,15 @@
+Type of bugs,Count of Bugs,Comment (if any),Efforts (hrs)
+,,,
+Error State,23,Already mentioned in the M1-M4 sheet the bugs that are not mentioned by LN will also be picked as all forms will have error state and validations will be implemented with that if any validation that is in the web and not in the structure api that will be raised to LN.,72
+Api dependent,4,,
+APi issue ,3,,
+Dev issue ,1,,
+Discussion with LN,36,Require discussion with LN,
+M1-M4,16,,
+Device Dependent,3,,
+Other Bugs,214,Need to go through one by one and will update the count when verified at our end in the above columns,
+,,,
+,,,
+,,,
+,,,
+Total Bugs ,86,,

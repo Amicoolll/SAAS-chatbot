@@ -1,0 +1,6 @@
+{
+  "source_file": "data/user_demo_user/raw/Loginext Delivery Plan.csv",
+  "chunks": [
+    "Dispatcher,,\nProduction Accounts,,\nItem Name,Status,Comments\nGoogle Account,Pending,We have dev8 account not the production one\nFirebase Setup,Pending,Need production account of google\nGoogle play account,Pending,Need google play console account\nApple Developer account,Pending,\"We have developer access, Need to discuss with LN team to upload the app on store.\"\nGoogle Analytics,Pending,Need production account of google\nSSO,Pending,\"We have created our own demo account, Need LN teams account for production.\"\nSentry or Crashlytics,Pending,Need to confirm with LN team for crash reports which platform they need."
+  ]
+}

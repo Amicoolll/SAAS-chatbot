@@ -1,0 +1,6 @@
+{
+  "source_file": "data/user_demo_user/raw/ARCs Discussion.csv",
+  "chunks": [
+    "Featurs ,Sub Features ,Status ,Document Links \nOrganizations,,,\n,Department,Approved,\n,Branch,Approved,\n,Designation,Approved,\n,Employee,Approved,\n,Calendar,Work in Progress,\n,,,\nInsurance,,,\n,Insurance Co search & Edit,Approved,\n,New Insurance Company Entry,Approved,\n,,,\n\"Patient Records\n\",,,\n,Insurance Verification,Work in Progress,\n,FDS Daily Entry,Work in Progress,\n,Claim Setup,Work in Progress,\n,Patient & Claims,Work in Progress,\n,,,\n\"Performance\n\",,,\n,Event List & New Entry,Work in Progress,\n,Performance Summary,Work in Progress,\n,,,\n\"Supply Order & Status\n\",,,\n,Supply Order Form,Work in Progress,\n,Basic Inventory,Work in Progress,\n,Corporate Inventory,Work in Progress,\n,Supply Management,Work in Progress,\n,,,\nMy Profile,,Approved,"
+  ]
+}

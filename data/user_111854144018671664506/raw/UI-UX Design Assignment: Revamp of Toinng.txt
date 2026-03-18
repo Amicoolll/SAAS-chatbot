@@ -1,0 +1,50 @@
+﻿UI-UX Design Assignment: Revamp of Toinng.com Landing Page
+Introduction
+Welcome to Toinng.com! We are revolutionizing the way businesses handle their calling needs with our cutting-edge AI calling system. Our innovative solution is designed to cater to both businesses looking for seamless AI calling solutions and developers seeking to integrate advanced AI calling tools into their applications. Whether you are a business aiming to enhance customer interaction or a developer looking for powerful APIs, our AI calling agent has got you covered. Join us in transforming communication with reliable, efficient, and easy-to-use technology.
+Kudos to Tabbasum for all the beautiful design as of now as she will be pursuing her masters she took a leave of absence so currently need of 2 thoughtful and creative UI/UX interns to join our crack team 😄
+Purpose and Goals
+* The main purpose of this assignment is to develop a new landing page for Toinng.com that conveys the story of our brand and what we do.
+* The current landing page was created quickly and does not meet our standards, so we are seeking a redesign.
+* The landing page should follow a simplistic and elegant design, providing a great visual appeal and effectively communicating our brand identity and story which we need to convey.
+User Journey
+1. Demo Page: Users will first arrive at the demo page where they can interact with our AI calling system by selecting options and making calls with some free minutes provided.
+Demo Mockup Video.
+2. Call-to-Action(Why Toingg): After interacting with the demo, users will click on a call-to-action button(Why Toingg) that will lead them to the landing page.
+3. Landing Page: The landing page, which the applicants need to design/mockup, should convey our brand story and identity,(should have an analogy for every section or story added in doc) and provide further information about our product.
+Requirements for the Landing Page
+   1. Brand Story: Communicate who we are, what we do, and the benefits of our AI calling system.
+   2. Audience: Cater to both businesses and developers, highlighting features and tools relevant to each group.
+   3. Simplicity and Elegance: Maintain a clean, minimalistic, and elegant design that is visually pleasing.
+   4. Visual Appeal: Use creativity to create a design that is engaging and visually attractive.
+   5. Responsive Design: (MUST) Ensure the design is fully responsive and accessible across different devices and screen sizes.
+   6. Prototyping(MUST):
+
+
+   7. Key Sections:
+   * Introduction: Brief overview of the company and the AI calling system.
+   * Features: Highlight key features of the product for both businesses and developers.
+   * Benefits: Explain the benefits of using our AI calling system.
+   * Testimonials: Include customer testimonials or case studies if available.
+   * Call-to-Action: Strong call-to-action encouraging users to sign up, learn more, or get in touch.
+   * Contact Information: Provide easy access to contact details and support information.
+(You have a free hand to design the landing page but it should cover all the basics and should be compelling enough for users to sign up, so the main purpose is to show what we are and Make user Signup. Here your creativity and thinking process will be evaluated.)
+Competitor Analysis
+   * Competitors:
+   * VAPI-AI
+   * Bland-AI
+   * CallFluent (This is not a direct competitor but can serve as inspiration for effective design elements, demo presentations, and user engagement strategies)
+   * Other inspirations:
+   * LangChain
+   * Cred (For its minimalist look and Conveying message. It also matches with our Saas colors Demo image of our SAAS)
+   * Our SAAS Website:- app.toingg.com.
+Assignment Instructions
+Task: Design a new landing page for Toinng.com following the guidelines and requirements outlined above.
+Requirements:
+   1. Design Theme: Ensure the design is simplistic, elegant, and visually appealing.
+   2. Responsiveness: Ensure the design is fully responsive and accessible across different devices.
+Deadline: 48 Hours of receiving this assignment. (You have to submit the Deliverables within 48 hours of getting this mail.)
+Deliverables:
+   1. Video Explanation: A video explaining the design choices and thought process behind the landing page design. (Can use loom for recording video.)
+   2. Figma Prototype: A Figma prototype or Figma design link showcasing the landing page design.
+   3. Submission: Both the video and Figma link should be sent to hiring@pgagi.in.
+Please use your creativity and expertise to bring this vision to life, ensuring the design is both functional and aesthetically pleasing.

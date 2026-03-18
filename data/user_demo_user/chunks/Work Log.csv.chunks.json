@@ -1,0 +1,6 @@
+{
+  "source_file": "data/user_demo_user/raw/Work Log.csv",
+  "chunks": [
+    "Date,Task\n,\n14 March 2024,insurance page issue fixes\n15 March 2024,Deductible Collect Scale component creation with dummy data\n16 March 2024,Deductible Collect Scale component creation with dummy data\n17 March 2024,Holiday\n18 March 2024,add and edit api integration  Deductible Collect Scale\n19 March 2024,delete api integration of Deductible Collect Scale & code pushed\n20 March 2024,discusion for new tasks and code structure overview\n21 March 2024,add company form reset fixes & code pushed\n22 March 2024,air areo Html creation\n23 March 2024,air areo Html creation\n24 March 2024,Holiday\n25 March 2024,icon crete for html & responsive check all pages\n26 March 2024,angular project structure creation\n27 March 2024,Api code setup in angular for air areo\n28 March 2024,edit profile select disabled & add insurance \n29 March 2024,air areo Html creation\n30 March 2024,air areo Html creation\n31 March 2024,Holiday"
+  ]
+}

@@ -1,0 +1,228 @@
+S.No,Bug Description,Screen Name ,Bug Type,Bug Status,Comments Developer
+1,"Login and Signup arrow is overlapping with device home key icons(Minimize , back key and app minimized icon )",Login Screen ,UI,CLOSED,Resolved
+2,"Maintain consistency on text of error message and use appropriate text 
+
+
+a)  Email field -> Please enter Email , ""E"" of email should be small
+b)  Password field -> Password too short , show the minimum password limit in the toast 
+c)  Phone  Number -> ""Please enter phone number"" should be displayed
+d) User already registered -> Registered spelling is incorrect as well as correct the message text 
+e) Initial of Name field should be displayed automcatically in Caps - SUGGESTION",Signup screen ,Textual issues,CLOSED,Resolved
+3,Mobile numer should be displayed on mobile verification screen ,LOGIN > Mobile verification screen ,MAJOR (UI),CLOSED,
+4,"Due to auto attached country code""971"" before phone number , 
+Unable to login in the app",LOGIN Screen ,BLOCKER ,CLOSED,Country Code is fixed for UAE Code - 971
+5,"Message should not be displayed""Please enter the valid email address"" , IF user enter mobile number with ""+"" on mobile number field","Login screen > login 
+with mobile number",Textual issues,CLOSED,Resolved
+6,"On tap on back arrow button , user should not redirected to the
+ out of the App",Verifying OTP screen ,MINOR,RE-OPEN,Resolved
+7,"Unable to login with mobile number ->>>> Showing ""INVALID CREDENTIALS"" If user tried to login with 
+mobile number with or without country code",Login with Mobile number,BLOCKER,CLOSED,Resolved
+8,"Screen title ""Verifying Number !"" with back button -> overlapping with Status bar",Verifying Number screen,UI,RE_OPEN ...increase more spacing,Resolved
+9,"OTP as ""0000"" should not be acceptable in OTP screen ,on 
+entered the otp ,user navigated to the home screen",Verifying Number screen,MAJOR,CLOSED,"Not a Bug  it is randome code it may be 0000, 1111, 2222... 9999 etc"
+10,Cursor should displayed beore placeholder text of the FIELDS,"Change Password screen , Reset Password and Forgot Password Screen",MINOR,RE-OPEN..keep all placeholder text left aligned,No need Discussed with TL
+11,Confirm password field should not hide under Keyboard,Change Password screen ,MAJOR,Closed,Resolved
+12,"Dummy text should be displayed from ADMIN instead of ""Email template""","Settings > About Us , privay Policy ,Help and Contact Us ",Minor,,"Currently not implemented , Need to Discuss"
+13,"Screen name should ""Terms and Conditions"" instead 
+of ""Term &app....""",Settings > Terms and Conditions,Textual issues,,Resolved
+14,"make complete field tap able instead of just ""next arrow button""",Settings screen,Minor,,Resolved
+14,"Image placeholder area should not changed automcatically on change the navigation bars 
+and also uploaded image is not displayed 
+
+Showing rectangle from SQUARE",My Profile ,Minor,,Resolved
+15,"App name should updated ""dogood"" in place of ""DONAR""",Complete app,Textual (major),,Needs to discuss
+16,Change My Password doesn’t verify Confirm Password field case sensitivity with New Password field. It accepted qwerty@123 in the New Password field and QWERTY@123 in the Confirm Password field. ,Change My Password,Major,RE_OPEN,Resolved
+17,"LIKE and COMMENT count should be same as displayed on ""Likes"" screen ",Charity Count Screen ,Minor,,Resolved
+18,"Share Count should increased on share the ""Charity Cause""",Charity Count Screen > Share,Minor,,No need DIscussed with TL
+19,"On tap on LOCATION on, drop-down should be displayed with 
+the list of locations",Filters ,UI ,,"Not a bug,  only UAE(counrty) is allowed"
+20,Applied/Selected drop-down item should be displayed highlighted in the drop-down list ,Filter pop-up screen ,UI,,Resolved
+21,"Incorrect grammer, message should say ""Please enter amount""",Subscription screen >Amount field blank,Textual,,Resolved
+22, ,Subscription > Amount field ,Major,,Resolved
+23,Screen Name is MISSING ,Transactions details,UI(MAJOR),,Resolved
+24,"Name field - should say  ""Please enter name  on the card""
+
+ii) Entered card number should be aligned on right 
+
+iii) CVV field - Please enter CVV instaed of ""Cvv""
+
+iv) Card NUmber - card number should be displayed in 4-digit format - Refer deisgns","Transactions details > Update
+ fiele toast messages",UI and textual,,Resolved
+25,Footer navigation bar is MISSING,Cause detail screen ,,,Not a bug discussed with TL
+26,"""PAY NOW"" button should not enable untill user enter all the details on the screen
+
+->> Pay now button is active before fill the CVV field ",Transactions details Screen ,,,Resolved
+27,"Tried to submit the Cause without ""Till date"" -> Please select date"" is displayed on every screen , should closed after few minutes",Subscription screen ,,,Resolved
+28,"Thanknyou screen is MISSING after ""GIVE DONATION """,Subscription > Give donation,,,Not a bug (No need as discussed with TL)
+29,"Donor Count should  increased  only when Donor is different
+
+
+:- Donor count is increasing on each DONATION",Cause detail screen > DOnation Status,,,Resolved
+30,"Donation status reflected with the diffrent colour
+->> RECENT DONAR image should be displayed in the section
+
+- Slider color should darker on increase the donationed amount",Cause details ,,,Resolved
+31,"""Select Month"" should not be displayed in Year drop-down and ""Total Amount"" text should be sme in all the screens.",List Subscription,,,Resolved
+32,"Logged-in user name is displayed in place of ""Institute Name""
+
+Steps :- Proceed to Institute Screen 
+ 2) Proceed to Cause detail screen and redirect back to the institute listing screen 
+- Username is displayed in place of ""Institute Name""",Institution screen ,,,Resolved
+33,"Serach Cause/Institute field - > as user start entering the characters , close icon should  be displayed to remove the entered text ",Charity Cause > Search ,,,Not a bug user can remove text using remove button ( Discussed with TL)
+34,"the amount will be debit on current date as welland then on next year same date n month ->>> or Week , daily, Quartely and Yearly",List Subscription > type of subscription,,,Resolved
+35,"- Entered text shuold be dispayed with black
+- Emojis should be acceptable 
+- Paste link should active (un derlined and highlighted) 
+- Commented number should underlined which willnavigate user to the dial contact screen",Comments Screen ,SUGGESTIONS,,Need to discuss
+36,"Comment time is not correct , showing AM instead OF PM",Comments Screen ,,,Resolved (it was backend issue)
+37,"Year should not changed if user chnage the tab bar 
+- Selected Year should displayed highglighted
+- On listing subscription , ""Till date"" text should be displayed before DATE",List Subscription ,,,Resolved
+38,Donation Donated count should increase on GIVE DONATION,Side Menu (Recurring),,,Pending
+39,Notification Count should removed on READ the CAUSE AND CHARITY,Notification Screen ,,,Resolved
+40,"Filter are not working 
+
+->> Category field - On select category as Flood and submit it but when redirect to the filter screen , last selected data should displayed filled in the ""Category"" Field",Filters ,,,Filter is working properly
+41,"If Entered amount is too long (5-10)numbers , its overlapping with ""Donation Donated"" text",Side Menu > Donated account(On Time),,,Resolved
+42,"a) Fields should displayed with white outline 
+b) Total amount should be displayed 
+c) Reports not working",Report Screen ,BLOCKER,,Resolved
+43,"Favourite Screen should refresh ,showing message for blank screen and sometimes showing ""Cause""",Favoutites screen,,,Not reproduced at my end
+44,"Apply pagination on listing of cause , institute screen ",Listing screens,,,Resolved
+45,"Cause Detail screen without Readmore text :- Half screen is
+ displaying black
+
+SUGGESTION :- Description should mandatory from BACK END","Cause Detail screen without
+ Readmore text",,,
+46,DALINI app should not displayed on tap on RATE US menu,Rate Us,MAJOR,,
+47,"ApplyconfirmaTION ON MULTIPLE tap on device key ""Are you sure you want to exit"" ?",Suggestion ,,,
+48,"On Side Menu , ""$Null"" is showing instead of ""donatedd amount""",Signup with Facebook,Textual,,Resolved
+49,"Chnage Password option should not displayed to user who is 
+login with social media",Suggestion ,Suggestion,,
+50,"Afte listing of multiple accounts , nothing happened",Login wth google,BLOCKER,,Resolved
+51,"On perform any action , user should logout from the app automcaqtically by showing message ""You are blocked by the admin"" , donot show ""Your session is expired""",User BLOCKed by the ADMIN,MAJOR,,Resolved
+52,User should not be able to Signup with BLOCKED USER CREDENTIALS,User BLOCKed by the ADMIN,MAJOR,,"Not reproduced working fine Message shows ""alredy registered"""
+53,"Showing message ""Account is BLOCKED"" instead of "" Invalid crdentials""",Delete User > Login (ADMIN),MAJOR,,Resolved
+54,"On perform any action , user should logout from the app automcqtically by showing message ""You account has been deleted by the admin""",DLETE THE USER ,MAJOR,,Resolved
+Date - 21 JUne 2017- APP consistency,,,,,
+56,Resend OTP timer is MISSING,Verifying number screen ,MAJOR,,Resolved
+57,Filter pop-up should closed on tap outside the FIlter pop-up,Filter Screen ,Minor,,Resolved
+58,"""Select"" should be displayed in drop-down list if nothing is selected  and if user applied the filters then ""Select"" should displayed at the top of the list  ",Filter Screen ,Minor,,Pending
+60,Apply limit on name field of 20 characters,Profile ,,,Resolved
+61,"If image of charity is not displayed , place holder image
+ should be displayed",Search charity/cause,,,Already imlemented
+62,Apply limit on name field of 20 characters,Profile ,,,Repeated same issue point 60
+63,"User Profile image > 
+ when no image uploaded -> placeholder icon should be displayed with white outline",Side Menu,,,Already imlemened
+64,"side menu should be displayed instead of ""back arrow key""",Settings creen ,,,Resolved
+65,"When notification icon is OFF , it should not should not be displayed with White color ", Settings screen ,,,Resolved
+66,"Are you sure you want to logout ?  with 
+
+Cancel - pop-up should closed 
+OK - User should redirexct back to the login screen   ",Logout confirmation pop-up,,,Resolved
+67,apply search icon on report screen ,Report Screen ,,,
+68,"a) If institute image is not displayed for nay reason , show image place holder 
+b) Institute detail screen -> ""People favorite"" should replaced by ""People Donated""",Institute > Prominent ways to retain ,,,Pending
+69,Add a reset button to clear the filter ,Charity Cause > Filter ,,,Pending
+70,On like screen listing should right aligned instead of Left,Like screen and Comment screen ,,,Not a bug (No need as discussed with TL)
+71,"If commnet exceeds more than 10 , count started displaying with 1,2.....and all posted commnets should be displayed(APPLY PAGINATION)",Comment > more than 10 ,,,Paginatin is pending
+72,Profile image should be squarewith round corner,,,,Resolved
+73,"If network connectivity is low or not connected with app , cause description and other detail get disappeared",,,,
+74,"If user donate amount from institute detail screen -> after donated teh amount , user should redirected back to the institute screen afte submit the donation",Institute detail > give donation,,,Resolved
+75,"minimize space between  ""People registered"" and """"Cause Created""",Institute screen > Image,,,Resolved
+76,"Daily , weekly text should be displayed with BLANK FONT COLOR",Subscription screen ,,,Resolved
+77,Apply pull to refresh on the screen ,cHARITY cAUSE AND INSTITUTE LISTING screen,,,Resolved
+78,"On expiry month , date picker should not open ",Trnsaction detail > Expiry month and year ,,,
+79,"""DOnar"" text on footer bar should dispalyed with RED COlor instead of ""BLACK""",,,,Not a bug (Please check Screen)
+80,"screen title should say ""Edit Subscription""",Subscription list > Edit ,,,Resolved
+81,"a) Incrase space between report listing 
+b) Amount should be dispalyued next to the Cause name
+c) Tick icon size shuold incrase
+d) Totall amount should change on chnage the dates
+f) Date format should same",Report screen,,,Resolved
+82,"""it's"" should be displayed as ""its""",Login screen ,CLOSED,,Resolved
+,,,,,
+,UPDATE message for > Total donatedd amount should not be greater than Raise amount,,MAJOR,,
+,,,,,
+DONATION_27 JUNE,,,,,
+1,Place holder text and entered text should be displayed with different font colors,Complete app,,,
+2,"Update all messages from attached Sheet
+a) Name field should accepts only characters , if user enter wrong special characters or number , show alert message ""Please enter a valid name""
+b) Name field - Apply min and max limit to the Name field i.e, 3-20 characters
+c) Apply messages for valid email address
+d) Password field ->  apply min-max limit to the password field i.e, 6-32 characters
+f) Phone numer field should say -> Please enter your mobile number
+g) CHECKBOX(Send me Update) -> Button size should increase , not easily tap able",Signup screen ,,,Resolved
+3,Mobile number duplicacy should not be allowed..show  alert message,Signup screen ,Major,,Resolved (Backend)
+4,"On tap on device back key , Splash screen should not be displayed again ",Splash ,,MOTO DEVICE  G5,Resolved
+5,"On tap on device back key and back arrow key on OTP screen , user should not redirected to the out of the App",Mobile verification screen ,,MOTO DEVICE  G6,Resolved
+6,"Maintain Consistency -> in ""Log in"" and ""Sign up"" buttons",Login and Signup screen ,,,Resolved
+7,"a) Maximize spacing between Status bar and Screen Name 
+b) OTP Code should come on OTP screen instead of Signup screen 
+c) Field place holder line should be visible (displayed with grey color) 
+d) Submit button shuoul dnot be tap able untill user enter the
+ OTP number in the field (donot show message) 
+e) ",Verifying Number Screen ,,,
+8,"If user enter 4-digit OTP code and then delete the number placed on third field -> then on  tap on delete icon of keypad , cursor should redirected to the first otp field ",Verifying Number Screen > OTP,,,
+9,Contact Access confirmation  should not be displayed if user tap on google icon ,Login with google ,,,Resolved
+10,Tutorial screen should not be displayed on KILL The APP,Tutorial screen ,,,Resolved
+11,"Mutiple logged-in user list is displayed only for once(first time) , should be displayed for second time also ",Login  with google > Multiple login account ,,,Resolved
+12,Unable to Login -> showing INvalid key hash Value,Social Media Login > With Facebook,BLOCKER ,,Resolved
+13,REMOVE back arrow key displayed on right of header,OTP SCREEN ,,,
+14,"Unable to login with email and mobile number duplicacy 
+",LOGIN SCREEN ,BACKEND ,,
+15,"User can't enter more than 10 digits in the mobile number field
+ - maintain consistency",Forgot Pasword,,,Resolved
+16,Cursor should blink at the Starting of Place holder text instead of over the Place holder text,Reset Password screen ,,,Resolved
+17,"a) Password field shuold Case-Sensitive
+b) d) Able to submit even when password doesn't mactched 
+",Reset Password screen ,,,Resolved
+18,"If user enter mobile number which is already used by other user and try to change password with already registered number , showing"" Invalid Phone number""  
+
+",Forgot Pasword,BACKEND,,
+19,"Inside the app , Chnage the APP NAME from donar to ""dogood""",Complete app,,,
+20,"Cropper should be displayed 
+to crop the image uploadedd from camera and gallery
+
+ii) Image icon is too Small ",My Profile ,,,
+21,"Image uploads options should be displayed as in iOS 
+
+a) Camera 
+b) Gallery
+c) Cancel button",My Profile > Upload image options ,,,
+22,"Gallery access permission should be displayed if gallery 
+access permission is OFF",My Profile ,,,
+23,"Search should be appplied on ""Initial characters of letters"" instead of mid ",Search > Throughout the app,,,
+24,"On submit the transaction , user should navigtae to the Cause for whose charity is donated instead of Cause detail screen",Cause > Charity,,,
+25,Fund raised amount is not incrased untill user refresh the screen by pull to refresh,"Charity Cause > Fund raised 
+
+and also for LIKE and COMMENT count",,,
+26,Rcent DOnar -user image should be displayedd in Circle,Cause detail,,,
+27,Donot show Share blank screen for cause detail,Cause detail screen >Share,,,
+28,"Like and Comment count should be displayed with Icons 
+
+Steps - Proceed to the Likes and Comment screen 
+b) Redirect backto the cause detail screen 
+c) Again , ",Cause > Comments screen ,,,
+30,"daily . weekly.......nothing should be displayed pre-selected on the screen initially
+
+Apply Till date message ->>> Please enter till date",Subscription > recurring,change,,
+31,"Added count is wrong , i added 100$ but on raised amount and REPORT SCreen it showing 382 , before it was 372","Subscription > recurring, REPORT",,,
+32,DONATION Stautus Progress bar -> progress bar should displayed with color on donate the amount and it keeps increasing everytime,Cause detail,,,
+33,"Total amount raised + Donated amount -> Total amount 
+
+DONATED amount and total amount is Not CORRECT",Cause detail,,,
+34,"a) Due to wrong displayed donated amount on Cause detail screen , On report listing screen , listed cause AMOUNT is also WRONG
+b) Total Amount is not equal to listed Cause amount
+c) Use proper message for date field
+d) ) Between Amount and ""$"" , space shouldn't be displayed
+e) Minimize space between cause name and location",Report Screen,,,
+35,Report date filter is not working,Report Screen > date filter,backend,,
+36,Date format to be allowed should be YYYY-MM-DD,Subscription screen ,recommendation,,
+37,Remove today Calendar,List Subscription ,recommendation,,Resolved
+38,Subscription edited successfully -> message should be displayed on save the edited subscription,List Subscription > Edit > SAve,,,
+39,"a) Password field should not accepts spaces 
+b) password should case sensitive",Settings,,,Resolved
+40,"Cancelled subscription showing again on screen on kill the
+ application",List Subscription,,,
+41,Setting screen should be same for both the platform,Settings,,,

@@ -1,0 +1,3630 @@
+﻿Expin Application
+
+
+
+
+Expin Application
+	Software Requirements Specification
+	
+
+	All details on this document and any other information for this project are confidential. 
+	
+
+	CHITRA SUNDAR
+	10/27/2018
+	
+
+	  
+  
+  
+
+________________
+
+
+Document Management
+Document Versions
+Version Number
+	Date
+	Comments
+	Author
+	Reviewer
+	1.0
+	27/10/2018
+	Draft Version
+	Chitra S
+	
+
+	1.1
+	02/11/2018
+	Draft Version
+	Chitra S
+	
+
+	
+
+________________
+
+
+TABLE OF CONTENTS
+Introduction        6
+Purpose        6
+In Scope        6
+Features List        7
+System Perspective        9
+Assumptions        9
+Limitations/Constraints        9
+Risks        10
+Dependencies        10
+Business Process Overview        10
+Current Business Process (As Is)        10
+Proposed Business Process (To be)        10
+Functional Requirements        11
+User Type        11
+Definitions        12
+Influencer Mobile App        12
+Sign Up        12
+Profile Verification        16
+Business Rules for Profile Verification        17
+Navigation        18
+Stories        18
+Stories Landing Screen        18
+Stories View        19
+Experience Feed        19
+Experience Feed        20
+Detailed Experience View        22
+Experience Booking        24
+My Bookings        26
+Upcoming        27
+Check-In        29
+Business Rules to be implemented – Check-In        29
+Previous        29
+Business rules to be implemented        30
+Profile        30
+Upgrade Plan        31
+Make Payment (use google play store and apple store to setup)        32
+Pricing Plans        33
+Billing        33
+Notifications        34
+Post Review        35
+Settings        36
+Notification Settings        36
+Experiences Settings        37
+Messages        37
+FAQ        38
+Merchant Mobile App        39
+Login        39
+5.4.2    Navigation        40
+Merchant App Dashboard        40
+Experience Details – Influencer Waiting List Screen        40
+Approve Influencer’s Booking Request        42
+Reject Influencer’s Booking Request        42
+Block Influencer        42
+Business rules to be implemented for Blocked Influencer        43
+View Influencer’s Content        43
+View Influencer’s Audience demographic data        43
+Submit Review about Influencer        43
+1.1.1    Messages        44
+Technical Architecture        46
+Architecture        46
+Technology Stack        46
+3rd Party Services/ API        46
+Database Structure        47
+Styling and Animations        47
+________________
+
+
+1. Introduction
+Expin is a mobile application which allows Instagram influencers to book experiences with their selected Merchants
+   1. Purpose
+To develop a mobile application (for iOS and Android platform) which allow Instagram influencers to browse all the available experiences on their desired category/ merchants and book it. Once booking has been completed, Influencer posts content on their instagram channel via stories or posts, of which we will need to capture the content and the insights and save the content/insights on the web merchant portal, the influencer is also then required to submit their review against experience and vice versa.
+Merchants can create experience and set up restrictions about which influencers can see and access which experiences based on different properties - like number of followers -  of the Influencer (hereinafter referred to as visible and invisible restrictions). Merchants can use the mobile app to view the influencer requests for bookings. Merchant can accept or reject the influencer booking like Tinder-card style. More over via web based dashboard, Merchants can get real time insights about the Influencers’ Instagram account and how their Posts/Stories posted about the Experiences perform. 
+   2. In Scope
+1. Mobile App - Influencer Section
+   1. Instagram Influencer Sign up module
+   2. User Profile Complete Module 
+   3. Experiences 
+      1. View Experience Details
+      2. Search for specific  experiences and merchants via keywords using search bar
+      3. Toggle between newly added experiences, experiences ending soon and ended experiences
+      4. Book Experience 
+      5. Cancel booking 
+      6. Reschedule Booking 
+      7. Check-In
+      8. Get on the Waiting list if applicable
+      9. Write a review about the booking experience 
+      10. Hide specific experiences of Merchant
+      11. Block Experiences of Merchant
+      12. Toggle secondary language when and if available
+      13. Ask Merchant
+   4. Stories view of experience 
+   5. My Bookings 
+      1. Upcoming 
+         1. Chat with Merchant
+      2. Past bookings 
+   6. Notification 
+      1. Reminder
+      2. Action Required 
+   7. My Messages
+   8. Make Online Payment 
+      1. Influencer can use In app purchase to complete VIP account payment (apple pay or Google Play)
+      2. Merchant Payment detail are integrated with Quickbooks for Account Purposes 
+         1. Auto assign credits to the Experience based on the payment done 
+   9. Additional Features 
+      1. Display Reviews on Experiences page
+      2. Display Influencer created content on Stories & Experience detailed view
+      3. Multi language for system (English/languages to be added later from admin)
+      4. Up to 2 languages for each experience I.e. available in Turkish for content, primary language is always English.
+      5. My messages (a list of all current chats with merchants/Influencer, archive option available)
+2. Mobile App - Merchant Section 
+   1. Merchant Login
+   2. View Bookings by Experience
+   3. Tap on experience to see waiting list 
+      1. On Waiting List - Tinder Card style 
+         1. Swipe left to reject influencer
+            1. Rejection must prompt rejection reason checkbox along with an OK confirmation
+         2. Swipe right to approve influencer
+            1. Approval prompts confirmation message
+         3. Skip to move to next one without deciding
+         4. Swipe up to see the latest instagram posts (9 posts)
+         5. Click on Audience to see influencer’s audience demographics
+            1. Toggle between Cities/Countries (data from FB Graph AP)
+         6. Click on the profile or posts will open instagram app on the influencer’s profile
+   4. Settings
+      1. Blocked Influencers
+   5. Notification 
+      1. Reminder
+      2. Action Required 
+   6. My Messages
+3. Web Admin 
+   1. Admin Login
+   2. Manage Influencers 
+      1. Influencers Pending Approval 
+      2. Most Active Influencers
+      3. No Show
+      4. Top/ Least rated Influencers by Merchant 
+      5. No Review/ Pending Reviews
+      6. Waiting List 
+   3. Manage Merchant 
+      1. Merchant Pending Approval 
+      2. Most/ Least Popular Experience by Merchant 
+      3. Top/ Least Rated Experience by Merchant 
+      4. Waiting List Experience by Merchant 
+   4. Manage Experiences
+   5. Manage Bookings
+   6. Manage Reviews
+   7. Manage Type (Influencer Type)
+   8. Manage Admin Users
+Milestones
+The above said project scope are planned to completed within 5 Milestones. The following google sheet specifies the detailed list of features to be completed on each milestone 
+
+
+Out of Scope 
+1. Merchant Sign up 
+2. Merchant web Portal 
+3. Create Experience in Merchant Web Dashboard
+4. Capture content and Insights from Influencer’s Instagram profile and show it on Merchant Web portal 
+Features Planned for Phase 2: 
+1. The following two different types of experience is planned for Phase 2 release  
+   1. Barter: This type of experience requires ‘Merchant’ approval on the influencer’s booking. This type of booking requires, influencer to provide their delivery address to receive a free product in exchange of a posting instead of date and time.
+   2. Coupon Voucher: This type of experience requires ‘Merchant’ approval on the influencer’s booking. This type of experience provides the influencer with a coupon voucher to the influencer instead of choosing a date/time
+2. Features List
+Influencer Mobile App Features List
+	S.No
+	Module
+	Features
+	1
+	Sign up
+	Sign up using Instagram
+	 
+	 
+	Step 1 - Profile Information
+	 
+	 
+	Step 2 – Nationality, Country & City Information
+	 
+	 
+	Step 3 - Type of Influencer
+	2
+	Profile Verification
+	Step 1 - Mobile Verification
+	 
+	 
+	Step 2 - Email Verification
+	 
+	 
+	Step 3 - Connect Facebook Business Account
+	3
+	Stories
+	Stories Categories List
+	 
+	 
+	View story (Image/ Video)
+	 
+	 
+	View Story - Detailed experience View
+	4
+	Experiences
+	Experiences Feed
+	 
+	 
+	View Experience Details
+	 
+	 
+	Book Experience (Slide to book)
+	 
+	 
+	Block/ Unblock Merchants
+	5
+	Profile
+	View Profile Information
+	 
+	 
+	Upgrade Plan
+	
+
+	
+
+	Cancel subscription 
+	 
+	 
+	Billing (Payment History )
+	6
+	Settings
+	Notifications settings
+	 
+	 
+	Experience Settings
+	 
+	 
+	Language preference
+	 
+	 
+	Blocked Merchants 
+	
+
+	
+
+	Deactivate account 
+	7
+	Notifications
+	Action Needed
+	 
+	 
+	Reminders
+	8
+	My Bookings
+	Upcoming Bookings
+	 
+	 
+	Check-In
+	 
+	 
+	Cancel Booking
+	 
+	 
+	Reschedule Booking
+	 
+	 
+	Previous Booking
+	 
+	 
+	Post Review
+	
+
+	
+
+	Chat with Merchant 
+	9
+	Help/ FAQ
+	 
+	10
+	My Messages
+	Message List
+	
+
+	
+
+	Message Thread (Like Chat window )
+	
+
+	
+
+	Post a Message 
+	
+
+Merchant Mobile App Features List
+	S.No
+	Module
+	Features
+	1
+	Login
+	 
+	2
+	Dashboard
+	View Bookings by Experience 
+	 
+	 
+	See Influencers
+	 
+	 
+	Approve/ Reject Influencer
+	 
+	 
+	Write a Review
+	3
+	Settings
+	Block/ Unblock Influencer
+	4
+	My Messages
+	Messages List
+	
+
+	
+
+	Message Thread (Like Chat Window)
+	
+
+Merchant Web Dashboard Features List (Out of Scope)
+	S.No
+	Module
+	Features
+	1
+	Login
+	 
+	2
+	Dashboard
+	View Experience Stats
+	 
+	 
+	View upcoming Experience
+	 
+	 
+	Create New Experience 
+	 
+	 
+	Create New Experience in additional language
+	 
+	 
+	Download Influencer created content
+	 
+	 
+	Download Monthly Report 
+Download Experience report
+	3
+	Influencer
+	View Booking Influencers by Experience
+	 
+	 
+	View Influencer Profile
+	 
+	 
+	Block/ Unblock Influencer
+	 
+	 
+	Download Influencer created content
+	4
+	Subscription
+	Upgrade Plan/Add Credits
+	 
+	 
+	Payment Gateway Integration (Telr.com)
+	5
+	Settings
+	Notifications
+	
+
+	
+
+	Blocked Influencers
+	6
+	My Messages
+	Messages List
+	
+
+	
+
+	Message Thread (Like Chat Window)
+	
+
+Web  Admin Features List
+	S.No
+	Module
+	Features
+	1
+	Login
+	 
+	2
+	Dashboard
+	 
+	3
+	Influencers
+	Approve/reject pending influencers
+	 
+	 
+	List of Paying Influencers
+	 
+	 
+	List of Free trial Influencers
+	 
+	 
+	Influencers by type
+	 
+	 
+	Influencers by country/ location
+	 
+	 
+	Most active influencer
+	 
+	 
+	No show
+	 
+	 
+	Top rated/ least rated influencers by merchants
+	 
+	 
+	No Reviews/ Pending reviews
+	 
+	 
+	Waiting List
+View blocked merchants by influencer
+	4
+	Bookings
+	Upcoming bookings
+	 
+	 
+	Past Bookings
+	 
+	 
+	Reviews
+	 
+	 
+	Influencer content
+	5
+	Merchant
+	Active Experiences running 
+	 
+	 
+	List of experiences by category
+	 
+	 
+	Most/ least popular experience
+	 
+	 
+	Location
+	 
+	 
+	Top/ least rated experience
+	 
+	 
+	Pending Waiting list
+	 
+	 
+	Experience views
+	 
+	 
+	View blocked influencers by merchant
+	3. System Perspective
+   1. Assumptions
+1. Instagram Content (Instagram posts and stories connecting to Experiences) and Instagram Insights (Analytics of the Content posted by Influencers) watching is done by the Expin development team as an external application. Any APIs to access these informations should be don by the Expin development team. 
+   1. Limitations/Constraints
+1. Only registered and admin approved influencers can book experiences on the influencer mobile app 
+2. Only admin approved experiences will be displayed in the influencer section of the  mobile app
+3. Admins can set global minimum requirements for signup from admin portal, i.e. minimum 3000 followers, anyone with less will not have access to the expin app.
+4. Merchant can create their own account via Expin.com website and use that login credentials to login to the Merchant Mobile app. There is no separate sign up process in the mobile application for Merchant, sign up for merchants is done exclusively on web 
+   1. Risks
+To be added when identified 
+   2. Dependencies
+1. Merchant Web Dashboard is done by the Expin development team.
+2. Instagram Content watching is done by the Expin development team and accessible via APIs.
+4. Business Process Overview
+   1. Current Business Process (As Is)
+This is a new business going to be implemented and its process can be viewed at https://expin.com/
+
+
+   2. Proposed Business Process (To be)
+Flow chart of Influencer 
+https://www.dropbox.com/s/m2b5lvav1ksg2d0/Expin%20-%20Influencer%20Workflow.jpg?dl=0 
+
+
+Flowchart Merchant view:
+https://www.dropbox.com/s/34n03d943d6d0p9/Expin%20-%20Merchant%20Workflow.jpg?dl=0 
+5. Functional Requirements
+   1. User Type
+Role Name
+	Access To
+	Description
+	Influencer
+	Influencer Section of Mobile Application
+	These are the primary users of the application. These users are having their Instagram account and get their profile approved by admin to book the Experiences available in the application 
+	Merchant 
+	Merchant Section of Mobile application & Web Dashboard 
+	These are the business who is promoting their service to customers via experience 
+	Admin
+	Admin Panel Website 
+	These users are the employee of the company who can handle the data in the system on behalf of the Merchant s
+	
+
+   2. Definitions
+Term
+	Definitions
+	Package 
+	Refers the subscription plan which comes with a specific number of influencer bookings allocated per month
+	Slot
+	Refers the available date & time for influencer to book the experience. 
+A slot is the availability within an experience which can be booked by an influencer
+	Credit
+	Refers the available count of influencer booking
+A credit is used to open a slot within an experience, and credit is ONLY removed when a PIN is entered successfully
+	Waiting list
+	Refers the influencer booking need approval from Merchant done on the app or the web
+	Available
+	Refer the booking is available to book it immediately without merchant approval
+	Check-In
+	Refers the influencer’s physical presence the experience’s location at the time of the booked experience 
+	PIN
+	A 4-digit number given to the merchant, this number is entered on the influencer’s phone when they click on Check-in. The PIN number basically verifies that the influencer was at the venue, and that the merchant did service them
+	Story
+	A short vertical image/video which describes an experience.  For each Experience multiple Stories can be added by the Merchant.
+Inside the Influencer section of the Mobile App Influencers can browse these Stories grouped by Experiences in a way Instagram users can browse Stories of other users they are following. Each Stories link to the related Experience. They are like a preview of the Experience they are referring to.
+	Notice Period
+	the minimum period of time needed between (today) and the slot date
+	Action Required
+	Within the notification tab, this is where we keep the tasks that the user need to do, there are now two primary tasks for influencers: 
+1. Write a review on merchant post booking, 
+2. Choose a timeslot for an approved waiting list request.
+
+
+There are now two primary tasks for merchants: 
+1. Write a review on influencer post booking 
+2. Approve/reject influencers on waiting list
+	Lock
+	Notify the influencer that they can’t book the experience due various use cases which was described in the following sections 
+	Openings
+	Number of concurrent upcoming bookings an influencer can book simultaneously
+	Influencer
+	These are the person who are having their account in Instagram social media and promote content about various merchant and/or brands to their followers 
+	Content
+	is what the influencers posts online to their followers (the public) via instagram post or instagram story
+	Reviews
+	These are comments posted by Influencer about their experience or by Merchant about the Influencer. These reviews are only visible to our end users (merchants/influencers) and not the public.
+	Insights
+	refers the various stats captured from instagram for the content about the experience influencer has posted in their instagram profile 
+	Experience Type
+
+
+	Refers the Experience required Merchant approval or auto booking is allowed. Also it refers the Experience required the influencer check-in or content post is enough
+
+
+	Experience
+	Refers the free try provided by hotest brands/ Merchant
+	Merchant
+	These are the vendor who are wish to promote their brand information to the social influencers to achieve their brands ongoing success 
+	Booking
+	Refers the confirmation of the time slot is booked by the Influencer 
+	   3. Influencer Mobile App
+      1. Sign Up
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR1
+	NA
+	Instagram Influencer can register themselves on the application to access the features 
+	
+
+Solution Specification
+1. User can register on the application using their Instagram account credentials 
+2. Click on ‘Sign up with Instagram’ button, user shall redirected to Instagram login page in new window/ screen with the following items 
+   1. User will be asked to enter Instagram login credentials to register via Instagram. After successful, login user need to authorize ‘Expin’ application to access their instagram profile information 
+   2. Click on “login” button should uses the following logic which was already done on the instagram 
+      1. check the email address & password supplied by user is correct & registered with Instagram.
+      2. If validated, close the window and & redirect the user to the profile form screen of “Expin” application with the following pre-filled details, which will be captured from Instagram profile of user, if available in user profile;
+         1. First name
+         2. Email address
+Note: In general the following information of the user is captured from user’s Instagram profile 
+* Instagram ID (to be used as master information, as influencers are known to always change their names/username)
+* Full name of Influencer
+* Username on Instagram 
+* Email address of Influencer 
+* Profile Picture 
+* Number of followers 
+      1. If not, display an error message and prompt user to provide the valid email address & password.
+3. The profile form will have the following fields as explained in below table 
+Field Name
+	Mandatory?
+	Read Only?
+	Default
+	Format Type
+	Description/ Comments
+	Step 1
+	First Name
+	Yes
+	No
+	Pre-filled with user's Instagram name
+	Text Input
+	Min length – 02 chars
+Max length – 25 chars
+User is allowed to edit the pre-filled value
+	Last Name
+	Yes
+	No
+	Blank
+	Text Input
+	Min length – 03 chars
+Max length – 25 chars
+User is allowed to edit the pre-filled value
+	Gender
+	Yes
+	No
+	Blank
+	Drop Down
+	User to choose one option here
+	Username
+	
+
+	Yes
+	Pre- filled with Instagram username
+	
+
+	Updates every time user logins or refreshes profile page on application by swiping down
+	Profile Picture
+	
+
+	Yes
+	Pre-filled with Instagram profile picture
+	Image
+	Updates every time user logins or refreshes profile page on application by swiping down
+	Number of followers
+	
+
+	Yes
+	Pre-filled with instagram number of followers
+	Number
+	Below 10k – use full number with three digits coma i.e. 1,567 followers or 346 followers
+Between 10k and 1M
+use rounded numbers i.e.
+100k
+96.3K
+12.2k
+Above 1M
+1.2M
+	Birthdate
+	Yes
+	No
+	Blank
+	Date Picker
+	User should select date of birth here.
+Users with age below 18 will not be allowed to register. 
+Future date selection shall not be allowed here.
+	Nationality
+	Yes
+	No
+	Blank
+	Drop Down - Autofill
+	User to choose from dropdown. 
+Single selection shall be allowed.
+	Next
+	N/A
+	No
+	N/A
+	Action Button
+	When clicked on it, system should check whether all mandatory details are provided or not, influencer is over 18 years of old and the provided information on the form are valid:
+* If yes, System redirect the user back to step 2 of profile form
+* If not, System should display error and prompt user to provide the mandatory details
+	Step 2
+	Country
+	Yes
+	No
+	United Arab Emirates
+	Drop Down
+	User to choose country from dropdown. 
+Single selection shall be allowed.
+	City
+	Yes
+	No
+	Blank
+	Text Input
+	User to enter city value here. 
+Only characters shall be allowed.
+	Back
+	N/A
+	No
+	N/A
+	Action Button
+	When clicked on it, system redirect the user back to Step 1 of profile form
+	Next
+	N/A
+	No
+	N/A
+	Action Button
+	When clicked on it, system should check whether all mandatory details are provided or not:
+* If yes, System redirect the user back to step 3 of profile form
+* If not, System should display error and prompt user to provide the mandatory details
+	Step 3
+	Mobile No
+	Yes
+	No
+	Blank
+	Text Input
+	Min length – 10 chars
+Max length – 15 chars
+All the validations related to Mobile No should be applicable 
+Split into two (country code) and mobile number
+	Email
+	Yes
+	No
+	Pre-filled with user's Instagram email
+	Text Input
+	Min length – 07 chars
+Max length – 70 chars
+It should be unique in the system.
+All the validations related to Email address should be applicable.
+	Back
+	N/A
+	No
+	N/A
+	Action Button
+	When clicked on it, system redirect the user back to Step 2 of profile form. 
+Use Local Cache to store previously inputted data by user.
+	Next
+	N/A
+	No
+	N/A
+	Action Button
+	When clicked on it, system should check whether all mandatory details are provided or not:
+* If yes, 
+   * System should send an verification email to user's registered email address 
+   * User shall get an popup notification about the verification email sent to their email address 
+      * Clicking “OK” button in the popup, User shall be redirected to step 4 of profile form
+* If not, System should display error and prompt user to provide the mandatory details
+	Step 4
+	Type
+	Yes
+	No
+	Blank
+	Selection
+	User is allowed to select maximum of 3 types. The types can be edited from the Admin portal.
+	Back
+	N/A
+	No
+	N/A
+	Action Button
+	When clicked on it, system redirect the user back to Step 3 of profile form. Use Local Cache to store previously inputted data by user.
+	Submit
+	N/A
+	No
+	N/A
+	Action Button
+	Button only enabled, after user selects at least one of the 'Type'
+
+When clicked on it, system should check whether user is selected only allowed no. of types
+* If user selected allowed 3 Types, 
+   * System should save the user's record and send to admin for their approval 
+   * User shall get an popup notification about their profile is pending for admin approval. Clicking 'OK' button on the popup window redirect the user to profile screen of the app 
+   * Now users are allowed to browse the experience available in the Expin application before admin approval 
+   * But Influencer is not allowed to book the experience until admin approval and profile verification process complete 
+* User selected more than 3 Types allowed limit, 
+   * User shall get an pop up notification informing them they cannot select more than 3
+	
+
+      2. Profile Verification
+CR01: https://docs.google.com/document/d/1XOrNjiD7FGzjKDMSqOVsa9zxXoKHbW3x19ypwBKARMA/edit?usp=sharing 
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR2
+	NA
+	Influencer user must verify their profile in order to book the experience via Expin application
+	
+
+Solution Specification
+1. Influencer user must verify the following to complete their profile in the Expin application to get access to experience booking feature 
+   1. Mobile Number
+   2. Email Address
+2. Influencer user must connect their business account to complete the profile in Expin application 
+3. The profile verification process is split into the following 5 steps 
+   1. Step 1: Phone Number Verification 
+   2. Step 2: Email Verification 
+   3. Step 3: Business Account Connect
+Step 1: Phone Number Verification 
+1. First, user needs to verify their mobile number in order to get their profile verified status. 
+2. Once user clicked on ‘Verify’ button near to Mobile No filed in their profile screen, triggers an SMS 4-digit verification code via twilio to the given phone number and user will be redirected to the screen where influencer can input the verification code received through SMS 
+3. User is provide an ability to request the verification SMS again by simply tapping the ‘Resend’ option or to edit the mobile number they input before re-sending, if they edit the number, it needs to be updated in the database.
+4. Verify Phone Number: Clicking this action button, after entered the verification code will validate the entered code is correct or not 
+   1. If user entered code is correct,
+      1. User shall be redirected to the profile page with ‘Verified’ icon near to the mobile no field instead of ‘Verify’ button 
+   2. If user entered code is incorrect
+      1. User get an popup notification saying that entered wrong verification code 
+      2. Clicking ‘OK’ button on the popup, 
+         1. Closes the popup notification window 
+         2. Shows verification code screen and prompt the user to entered the pin again 
+Step 2: Email Verification 
+1. Influencer’s email address must be unique in the Expin application. 
+2. Once user clicked on ‘Verify’ button near to Email filed in their profile screen,  User will get an popup window saying verification email sent to that address 
+3. Clicking the link in the email received, will automatically update the ‘Verified’ status icon near to the Email field instead of ‘Verify’ button
+Step 3: Facebook Business Account Connect 
+User will be redirected to this screen, when clicking ‘Connect’ option from their profile screen. In this screen user can see the following 
+1. Option to connect with Facebook Business account: There are the following 3 cases are possible when clicking on this button 
+   1. Case 1: User is previously connected/ Logged into their Facebook 
+      1. User is redirected to the Facebook confirm login window/screen with ‘Continue’ button. Tapping this button shall redirect the user to the profile with ‘Connected’ status icon near to Connect your account field instead of ‘Connect’ button 
+   2. Case 2: User hasn’t logged into their Facebook 
+      1. User is redirected to Facebook Login page 
+      2. User will be asked to enter Facebook login credentials to connect 
+      3. Click on “login” button should check the email address & password supplied by user is correct & registered with Facebook.
+         1. If valid, then do the following
+            1. Closes the popup Facebook window 
+            2. User shall be redirected to profile with ‘Connected’ status icon near to Connect your account field instead of ‘Connect’ button 
+         2. If not valid, display an error message and prompt user to provide the valid email address & password.
+   3. Case 3: User has connected their Facebook account which is not a Business account 
+      1. User will get a popup notification saying that they need to upgrade their account to business account along with how to video in it 
+      2. User’s account is still remains  in ‘Unlocked’ status 
+2. How-to Video 
+         1. Business Rules for Profile Verification
+1. User must complete all the 3 steps in order to get the profile ‘Unlocked’ status 
+2. Admin must have also approved account
+3. Skip any of the above step will mark that user profile as ‘Locked’ status 
+4. User is provide an ability to connect their social media later by going to their profile page to get it unlocked status 
+5. In case of user’s connected business account is changed back to Individual account, User’s account status is changed back to ‘Unlocked’ status (So user’s connected business account need to verified regularly to update it) 
+      1. Navigation
+1. Following options shall be available to users in the navigation
+   1. Profile: redirect the user to profile page where logged in user can manage their profile information 
+   2. My Bookings: displays the list of experience that were booked by the logged in user 
+   3. Experience: displays the list of experience available in the system for user to review and book on it. And this is the Main screen user will land on every successfully login. 
+   4. Stories: display the list of stories available in the system 
+   5. Messages: displays the list of messages received from Merchant or admin of the application
+   6. Notifications: display the list of reminder and action needed notification received 
+   7. Settings: this section let user manages settings for the application like manage push notifications, change password, etc.
+   8. Help: displays the help content for user to view on it
+      1. Stories
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR3
+	NA
+	This section shows all the stories available in the Expin application.  
+
+
+Stories are short vertical images and/or videos which describe the experience. User shall able to play the story video and see the complete details about that experience 
+	
+
+Solution Specification
+1. All the stories added in the application shall displayed in this section 
+2. Visible/ Invisible Restrictions also applied for stories view too. i.e Stories view only show the experiences that the logged in influencer is eligible to view will be displayed 
+3. Stories navigation works as exactly like Instagram stories 
+   1. Story images last for 4 seconds and move on to the next 
+   2. Story videos are last up to 15 seconds and move on to the next 
+   3. Each story can have multiple images/videos within it
+4. Stories categories are sorted Vertically by order of most (quantity) experiences available to least experiences
+5. Stories within each category are sorted horizontally newest (date of creation) to oldest
+6. Tapping stories category icon, user shall redirected to “Stories view’ with all experiences and their stories of that category
+7. User can easily tap on any experience thumbnail from the category to see the stories view of that experience 
+8. Progress bar is required on both images/videos
+         1. Stories Landing Screen
+1. User is redirected to this screen when clicking ‘Stories’ option from Navigation 
+2. User will see the following information in this screen 
+   1. Stories Category 
+   2. Stories within each category 
+3. Stories categories are sorted Vertically by order of most (quantity) experiences available to least experiences
+4. Stories within each category are sorted horizontally newest (date of creation) to oldest
+5. Tapping stories category icon, user shall redirected to “Stories view’ with all experiences and their stories of that category
+6. Tapping any experience thumbnail from the category list, will redirected to the stories view screen of that experience 
+         1. Stories View
+1. User is redirected to this screen when tapping any story category or experience thumbnail from the stories landing screen 
+   1. Users can also be redirected to this screen by tapping on the logo from experience feed or detailed experience feed
+2. All the stories within the category selected shall be displayed in this section 
+3. Stories view works as exactly like Instagram stories
+4. In Stories view, user can see the following information about that story 
+   1. Story Image or video 
+      1. Story images last for 4 seconds and move on to the next 
+      2. Story videos are last up to 15 seconds and move on to the next 
+   2. Story Category Name
+   3. Experience 
+   4. Slider (Auto progress to notify the image or video going to move on)
+   5. Location 
+   6. Duration 
+   7. Close icon 
+   8. See More 
+5. The following table summarizes the various action navigation within the stories view 
+Action
+	Expected Outcome
+	Swipe RIGHT
+	Go to Previous Story
+	Swipe LEFT
+	Go to Next Story
+	Hold Press
+	Pause video/image
+	Tap on the right Section
+	Go to next content within the Story
+	Tap on the Left section
+	Go to previous content within the Story
+	Swipe UP
+	Go to Detailed Experience View of that Experience
+	Tap on See more (bottom center)
+	Go to Detailed Experience View of that Experience
+	Swipe DOWN
+	Exit Story mode and go back to story Categories
+	Click on X (top right)
+	Exit Story mode and go back to story Categories
+	
+
+      2. Experience Feed
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR4
+	NA
+	This section shows all the experience available in the Expin application.  
+
+
+User shall able to book the experience and able to see the complete details about that experience 
+	
+
+Solution Specification
+2. All the Experiences added in the application shall displayed in this section 
+3. Only the experiences the influencer is eligible to view will be displayed in this section 
+4. There are the following types of experience is available in this section 
+   1. Waiting List: This type of experience requires ‘Merchant ’ approval on the influencer’s booking 
+   2. Auto-approve: this type of experience booked immediately. Once all the available slots are booked, this will open the waiting list which requires Merchant  approval on the booking 
+         1. Experience Feed
+1. This is the main home screen of Expin Application 
+2. User shall be redirected to this screen on the following scenarios 
+   1. Scenario 1: On every successful login to the app 
+   2. Scenario 2: tapping ‘Experience’ from navigation panel 
+3. In this screen, user can see the list of experiences that the user is eligible to view will be displayed. 
+4. User can see the following sorting option to view the experiences 
+   1. Newest 
+   2. Ending soon: This sort option is selected by default  
+   3. Ended 
+5. For each experience in the feed/ list page, user can see the following information 
+   1. Merchant  Logo 
+   2. Name of Experience 
+      1. 35 characters limit
+      2. Language switch option to be shown if the Merchant posted that experience in additional language 
+   3. Location of experience 
+   4. Experience Image
+   5. Short description about the experience 
+   6. Distance from user’s location 
+   7. Experience Booking Status (Available or Waiting List) 
+   8. Book or Request (Action Button) 
+   9. More: tapping this navigation will popup the bottom menu with the following action navigation
+      1. Hide this experience 
+      2. Not interested in experiences from this merchant (block) 
+Block: Blocking will hide all the experiences posted by this Merchant to this influencer 
+   10. Reviews
+   11. Icons of the experience : 
+      1. There is maximum of 8 icons to be shown on Experience Detailed view 
+      2. There are the following two type of icons are the available 
+         1. Mandatory icons: The following 3 are the list of mandatory icons to be displayed on the Experienced Detailed view 
+            1. No. of Guests Allowed
+            2. Duration 
+            3. Type of experience 
+         2. Optional icons: This is based on Merchant choice 
+   12. Instagram account of merchant
+   13. Ask Merchant a Question
+6. The following table summarizes the various action navigation within Experience Feed page 
+Action
+	Expected Outcome
+	Tapping ‘Newest’ sort navigation at top 
+	Experiences are sorted by newest to oldest (Based on added date)
+	Tapping ‘Ending Soon’ sort navigation at top 
+	Experiences are sorted by ending soonest(Based on Experience end date)
+	Tapping ‘Ended’ sort navigation at top 
+	Experiences are sorted by Ended experience at first (Based on date that experience has ended)
+	Tapping Experience Image
+	Go to Detailed Experience View of that Experience
+	Sliding ‘Book’ action button
+	Go to Detailed Experience View of that Experience and default opening is Availability 
+	Sliding ‘Request’ action button
+	Go to Detailed Experience View of that Experience and default opening is Availability
+	
+
+Booking Status on Experience Feed Page
+The following table summarizes the different possible cases for showing the booking status of the experience 
+Case #
+	Experience Type
+	Slots availability
+	Booking Cancelled 
+	Experience Status 
+	Case 1
+	Auto-Approve
+	Available
+	No
+	Available with ‘Book’ button
+	Case 2
+	Auto-Approve
+	Not Available
+	No
+	‘Waiting List’ with ‘Request’ button
+	Case 3
+	Auto-Approve
+	Not Available
+	Yes (Auto Approved Booking)
+	Available with ‘Book’ button
+	Case 4
+	Auto-Approve
+	Not Available
+	Yes (Merchant Approved Booking)
+	‘Waiting List’ with ‘Request’ button
+	Case 5
+	Waiting List
+	Available 
+	N/A
+	‘Waiting List’ with ‘Request’ button
+	
+
+Booking Button Label on Experience Feed page
+The following table summarizes the different possible cases for showing the booking button of the experience 
+Case #
+	Slots 
+	Req. met
+	Profile Verified
+	Already Booked
+	Comments
+	Experience Status 
+	Button Label
+	1
+	Available
+	Yes
+	Yes
+	No
+	
+
+	Available
+	Book
+	2
+	Available
+	No
+	Yes
+	No
+	
+
+	Available
+	Book w. lock 
+	3
+	Available
+	Yes
+	No
+	No
+	
+
+	Available
+	Book w. lock 
+	4
+	Available
+	Yes
+	Yes
+	Yes
+	Not yet attend
+	Available
+	Booked
+	5
+	Available
+	Yes
+	Yes
+	Yes
+	Did not attend
+	Available
+	Missed 
+	6
+	Available
+	Yes
+	Yes
+	Yes
+	Booking Completed & Not Reviewed
+	Available
+	Pending Review
+	7
+	Available
+	Yes
+	Yes
+	Yes
+	Booking Completed & Reviewed
+	Available
+	Done
+	8
+	Available
+	Yes
+	Yes
+	No
+	Openings not available
+	Available
+	Book w. lock 
+	9
+	Not Available
+	Yes
+	Yes
+	No
+	
+
+	Waiting List
+	Request
+	10
+	Not Available
+	Yes
+	Yes
+	Yes
+	Not yet attend
+	Waiting List
+	Booked 
+	11
+	Not Available
+	Yes
+	Yes
+	Yes
+	Did not attend
+	Waiting List
+	Missed 
+	12
+	Not Available
+	Yes
+	Yes
+	Yes
+	Booking Completed & Not Reviewed
+	Waiting List
+	Pending Review
+	13
+	Not Available
+	Yes
+	Yes
+	Yes
+	Booking Completed & Reviewed
+	Waiting List
+	Done
+	
+
+         2. Detailed Experience View
+1. User shall be redirected to this screen on the following scenarios 
+   1. Scenario 1: tapping ‘See More’ navigation from ‘Stories view’
+   2. Scenario 2: sliding the experience ( ‘Book’ action button navigation) from ‘Experience List’ page
+   3. Scenario 3: tapping experience image from ‘Experience List’ page 
+2. In detailed experience view, user can see the following information about that experience which is customized by admin from admin panel 
+   1. Experience video 
+      1. This video is different from story mode video 
+      2. The video should be in horizontal view and can be up to 3 minutes long 
+   2. Category of Experience
+   3. Logo of brand – tapping routes to Stories view
+   4. Name of Experience
+   5. About experience
+      1. Only up to 250 characters of text should be displayed by default here – Do not cut words, and take the last word before cutting into the read more.
+      2. ‘Read more’ – tapping this navigation will expand this section with the entire text information provided in this section 
+   6. Instagram account
+      1. Tapping this account will open the corresponding Instagram profile in Instagram app 
+      2. Block: tapping this navigation, influencer can block this Merchant . Blocking will hide all the experiences posted by this Merchant  to this influencer 
+   7. Icons (how many guests, and other type of icons selected from admin)
+      1. Maximum of 8 icons & text should be displayed here
+      2. Location & duration are the first two icons which are fixed 
+      3. Other icons & text are customizable by admin from admin panel 
+   8. Requirements Section (minimum number of followers, number of posts, number of insta-stories)
+   9. What you’re going to experience (text only)
+      1. Only 250 characters of text should be displayed here 
+      2. ‘Read more’ – tapping this navigation will expand this section with the entire text information provided in this section
+   10. Notes:
+      1. Only 250 characters of text should be displayed here 
+      2. ‘Read more’ – tapping this navigation will expand this section with the entire text information provided in this section
+   11. What’s expected from you (text only)        
+      1. Only 250 characters of text should be displayed here 
+      2. ‘Read more’ – tapping this navigation will expand this section with the entire text information provided in this section
+   12. Where it’s at (text only)
+      1. Only 150 characters of text should be displayed here 
+      2. ‘Read more’ – tapping this navigation will expand this section with the entire text information provided in this section
+   13. Google maps (clicking on it opens Google maps app)
+   14. Availability: Availability will be updated dynamically when the influencer view based on noticed period and user’s current date  
+      1. Maximum of 8 dates will be displayed per experience 
+      2. Earliest 3 timeslots displayed in the order 
+      3. See more timeslots: tapping this navigation will show 5 more dates of that experience 
+   15. Ask a Merchant: tapping this action button, will redirect the compose message page for influencer to initiate the message thread with that Merchant against that experience. This action button will always stay at bottom of the screen 
+3. The above mentioned experience details are divided into the following sub sections in ‘Experience Detailed” view 
+   1. About 
+   2. Requirements 
+   3. Availability 
+   4. Reviews 
+4. Influencer can also have the language switch option if the ‘Merchant’ posted that experience in any other language 
+   1. The default language will be ‘English’ by default 
+   2. Influencer user is able to switch the language which was chosen by the Merchant when posting that experience 
+   3. If influencer has language preference setting to language X, always show secondary language of the experience if secondary language = X else, revert back to primary language English.
+i.e. :
+               1. If system settings is set to Arabic, and experience secondary language is Arabic, then show Arabic version of that experience. 
+               2. If system settings in Arabic, and experience has secondary language Spanish, then show English version for that experience by Default. 
+
+
+5. Reviews: Under this section, Influencer can see all the reviews posted by other influencer against that experience. For each review, user can see the following information 
+   1. Influencer Profile picture 
+   2. Influencer username
+   3. Posted date 
+   4. Star rating 
+   5. Review comment 
+6. The following table summarizes the various action navigation within Experience Detailed view 
+Action
+	Expected Outcome
+	Tapping ‘Play’ icon of the video 
+	Video will be played in Long format, can be expanded to full screen and exited, tapping on the video would pause the video, should have full video control like youtube or vimeo.
+	Tapping ‘Read More’ from any of the section
+	Will expand this section with the entire text information provided in this section
+	Tapping ‘Instagram’ account
+	Corresponding Instagram profile page opened in Instagram application 
+	Tapping ‘Map’
+	User is redirected to Google Maps app to that location's details
+	Tapping ‘Back’ button 
+	Case 1: Detailed view accessed from Experience Feed page, user is redirected to ‘Experience Feed’ Page
+
+
+Case 2: Detailed view accessed from Stories view, user is redirected back to ‘Stories view’ page 
+	Sliding any ‘Time Slot’ 
+	Based on the user’s status booking process begins. Please refer the section “5.3.5.2.1 Experience Booking”
+	Tapping ‘See more timeslots
+	Will show all the available time slots of that experience (maximum of 8 slots) 
+	Tapping ‘Ask a Merchant’
+	User is redirected back to ‘compose new message’ screen 
+	
+
+7. In Experience Detailed view, user can see the Availability timeslot based on the following 
+   1. Time Zone: Influencer user can see the available timeslot based on their time zone while admin can see the influencer booked time slot on the default Dubai Time zone (GMT + 4:00) 
+   2. Notice period: This is the minimum period of time needed between (today) and slot date. The following table summarizes the sample of different notice period 
+Name of experience
+	Noticed Period
+	Available Period
+	Today
+	Available Timeslot  Influencer sees
+	Date
+	Time
+	Date
+	Time
+	Experience 1
+	0 day (0hrs)
+	From: 1 Nov 2018 
+To:  7 Nov 2018 
+	10:00 AM
+	2 Nov 2018 
+	09:00 AM
+	2 Nov 2018 10:00 AM
+3 Nov 2018 10:00 AM
+4 Nov 2018 10:00 AM
+5 Nov 2018 10:00 AM
+6 Nov 2018 10:00 AM
+7 Nov 2018 10:00 AM
+	Experience 2
+	0 day (0hrs)
+	From: 1 Nov 2018 
+To:  7 Nov 2018 
+	10:00 AM
+	2 Nov 2018 
+	11:00 AM
+	3 Nov 2018 10:00 AM
+4 Nov 2018 10:00 AM
+5 Nov 2018 10:00 AM
+6 Nov 2018 10:00 AM
+7 Nov 2018 10:00 AM
+	Experience 3
+	1 day (24hrs)
+	1 Nov 2018 to 7 Nov 2018
+	10:00 AM
+	2 Nov 2018
+	09:00 AM
+	3 Nov 2018 10:00 AM
+4 Nov 2018 10:00 AM
+5 Nov 2018 10:00 AM
+6 Nov 2018 10:00 AM
+7 Nov 2018 10:00 AM
+	Experience 4
+	1 day (24hrs)
+	1 Nov 2018 to 7 Nov 2018
+	10:00 AM
+	2 Nov 2018
+	11:30 AM
+	4 Nov 2018 10:00 AM
+5 Nov 2018 10:00 AM
+6 Nov 2018 10:00 AM
+7 Nov 2018 10:00 AM
+	Experience 5
+	3 days (72hrs)
+	1 Nov 2018 to 7 Nov 2018
+	10:00 AM
+	2 Nov 2018
+	09:00 AM
+	5 Nov 2018 10:00 AM
+6 Nov 2018 10:00 AM
+7 Nov 2018 10:00 AM
+	Experience 6
+	3 days (72hrs)
+	1 Nov 2018 to 7 Nov 2018
+	10:00 AM
+	2 Nov 2018
+	12:30 PM
+	6 Nov 2018 10:00 AM
+7 Nov 2018 10:00 AM
+	Experience 7
+	2 hours
+	1 Nov 2018 to 7 Nov 2018
+	10:00 AM
+	2 Nov 2018
+	8:00 AM
+	2 Nov 2018 10:00 AM
+3 Nov 2018 10:00 AM
+4 Nov 2018 10:00 AM
+5 Nov 2018 10:00 AM
+6 Nov 2018 10:00 AM
+7 Nov 2018 10:00 AM
+	Experience 8
+	2 Hours
+	1 Nov 2018 to 7 Nov 2018
+	10:00 AM
+	2 Nov 2018
+	9:00 AM
+	3 Nov 2018 10:00 AM
+4 Nov 2018 10:00 AM
+5 Nov 2018 10:00 AM
+6 Nov 2018 10:00 AM
+7 Nov 2018 10:00 AM
+	Experience 9
+	12 hrs
+	1 Nov 2018 to 7 Nov 2018
+	10:00 AM
+	2 Nov 2018
+	9:00 AM
+	3 Nov 2018 10:00 AM
+4 Nov 2018 10:00 AM
+5 Nov 2018 10:00 AM
+6 Nov 2018 10:00 AM
+7 Nov 2018 10:00 AM
+	Experience 10
+	12 hrs
+	1 Nov 2018 to 7 Nov 2018
+	10:00 AM
+	1 Nov 2018
+	9:00 PM
+	2 Nov 2018 10:00 AM
+3 Nov 2018 10:00 AM
+4 Nov 2018 10:00 AM
+5 Nov 2018 10:00 AM
+6 Nov 2018 10:00 AM
+7 Nov 2018 10:00 AM
+	
+
+            1. Experience Booking
+The following are the different possible cases for booking the experience 
+1. Book button from ‘Experience Feed’ Page
+   1. Case 1: User profile verified 
+      1. Go to Detailed Experience View of that Experience
+   2. Case 2: User Profile Not verified 
+      1. Get an popup notification to unlock their profile to book that experience 
+         1. Close: tapping this button in the popup window, just closes the popup window and remains on the same Experience Feed page
+         2. OK: Tapping this button in the popup window, should redirect the user to unlocking process 
+         3. Request Assistance – Opens chat box with admin.
+   3. Case 3: User not met the requirements 
+      1. Get a popup notification to notify the sufficient number of followers count not met to book that experience. 
+         1. And the popup should say “This experience requires a minimum of XXX followers in order to complete booking”. Alternatively, it can say “You need to have completed XX number of experiences to attend this experience”
+         2. OK: Tapping this button in the popup window, just closes the popup window and remains on the same Experience Feed page
+   4. Case 4: Openings not available (Basic Plan)
+      1. Get a popup notification saying “You don’t have sufficient openings to book this experience” with the following action button navigation 
+         1. Upgrade Plan: Tapping this button in the popup window, should redirect the user to upgrade plan process 
+         2. Cancel: tapping this button in the popup window, just closes the popup window and remains on the same Experience Feed page
+   5. Case 5: Openings not available (VIP Plan)
+      1. Get a popup notification saying “You don’t have sufficient openings to book this experience. Please complete or cancel any previous booking and come again to book” with the following action button navigation 
+         1. OK: tapping this button in the popup window, just closes the popup window and redirect the user back to ‘My Bookings’ page 
+         2. Cancel: tapping this button in the popup window, just closes the popup window and remains on the same Experience Feed page
+2. Tapping on any available ‘Timeslot’ from ‘Detailed Experience’ view
+   1. Case 1: User profile verified 
+      1. Get a booking confirmation popup notification with the following action button navigation – SLIDE TO CONFIRM.
+         1. Sliding this button will initiate the following process simultaneously 
+            1. Closes the popup window 
+            2. Deduct 1 slot from that experience slots. 
+            3. Generates a 5-digits unique booking ID of that user’s booking that is used in admin panel and merchant dashboard
+            4. Redirect the user back to ‘My Bookings’ page
+         2. Cancel: tapping this button in the popup window, just closes the popup window and remains on the same Detailed Experience page
+   2. Case 2: User Profile Not verified 
+      1. Get an popup notification to unlock their profile to book that experience 
+         1. Close: tapping this button in the popup window, just closes the popup window and remains on the same Detailed Experience page
+         2. OK: Tapping this button in the popup window, should redirect the user to unlocking process 
+   3. Case 3: User not met the requirements 
+      1. Get a popup notification to notify the sufficient number of followers count not met to book that experience. 
+         1. And the popup should say “This experience requires a minimum of XXX followers in order to complete booking”. Alternatively, it can say “You need to have completed XX number of experiences to attend this experience”
+         2. OK: Tapping this button in the popup window, just closes the popup window and remains on the same Detailed Experience page
+   4. Case 4: Openings not available (Basic Plan)
+      1. Get a popup notification saying “You don’t have sufficient openings to book this experience” with the following action button navigation 
+         1. Upgrade Plan: Tapping this button in the popup window, should redirect the user to upgrade plan process 
+         2. Cancel: tapping this button in the popup window, just closes the popup window and remains on the same Detailed Experience page
+   5. Case 5: Openings not available (VIP Plan)
+      1. Gets a popup notification saying “You don’t have sufficient openings to book this experience. Please complete or cancel any previous booking and come again to book” with the following action button navigation 
+         1. OK: tapping this button in the popup window, just closes the popup window and redirects the user back to ‘My Bookings’ page
+         2. Cancel: tapping this button in the popup window, just closes the popup window and remains on the same Detailed Experience page
+   6. Case 6: Slots not available (waiting list opened)
+      1. Gets a popup notification saying ‘Your request has been sent to Merchant for approval’ with OK button. Tapping Ok button, just closes the popup notification and remains the user in the same Experience Detailed screen view 
+         1. Influencer will get an push notification if the Merchant approved or rejected their request 
+         2. Influencer will get an regular notification saying their request has not yet responded by Merchant 
+         3. Waiting list will automatically expire on 7 days. And the Influencer will get an regular notification saying that their request has been expired 
+3. Other possible cases from Detailed Experience page 
+   1. Case 7: User already booked that experience and not yet attend (i.e. slot time not reached)
+      1. User will see the button  label as ‘Booked’ and tapping that button navigation will redirect the user back to ‘My Bookings - Upcoming’ page 
+   2. Case 8: User already booked that experience and didn’t attend 
+      1. User will see the button  label as ‘Missed’ and tapping that button navigation will redirect the user back to ‘Ended Experiences’ of Experience Feed page 
+   3. Case 9: User has completed experience and not reviewed 
+      1. User will see the button  label as ‘Pending Review’ and tapping that button navigation will redirect the user back to ‘Notifications – Action Needed’ page 
+   4. Case 10: User has completed experience and reviewed  
+      1. User will see the button  label as ‘Done’ and tapping that button navigation will redirect the user back to ‘My Bookings - Previous’ page
+      3. My Bookings
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR5
+	NA
+	This section shows all the experiences that are already booked by the influencer via Expin application.  
+
+
+User shall able to cancel or reschedule their previous booking as well check-in the completed booking from this module 
+
+
+User can also initiate the one to one chat with that experience’s Merchant from this module 
+	
+
+Solution Specification
+1. This section displays the list of experiences booked by the logged in Influencer 
+2. This section was further divided into the following sub sections 
+   1. Upcoming
+   2. Previous 
+         1. Upcoming
+1. This section displays the list of upcoming experiences booked by the logged in Influencer 
+2. In this screen, user can see the following information 
+   1. Total no. of used vs. total available slots count 
+   2. List of booked experiences. For each booked experience, user can see the following information 
+      1. Name of experience 
+      2. Booked Time slot 
+      3. Location (Google Maps)
+      4. Experience Image (tapping plays long format horizontal video)
+      5. Action button for the following 
+         1. Check-In: Using this action navigation button, influencer can notify their presence on the experience location to mark that experience is completed 
+         2. Re-Schedule: Using this action navigation button, influencer can modify their booking timeslot – User can re-schedule up to 3 times maximum with a confirmation message each time. I.e. You are about to reschedule a 2nd time, you will one have 1 re-scheduling option remaining. Once you reschedule 3 times, the reschedule button is grayed out.
+         3. Cancel: Using this action navigation button, influencer can cancel their booking 
+         4. Chat with Merchant: Using this action navigation, influencer can initiate the private chat with the Merchant who posted that experience 
+3. The following are the possible use cases for ‘Check-In’ the experience 
+   1. Case 1: User taps ‘Check-In’ button before time-slot is reached (greater than 2hrs of Slot time)
+      1. User will see the ‘Lock’ icon in the ‘Check-In’ button 
+      2. Tapping ‘Check-In’ button will show a popup notification saying that he/she is earlier to check-in and asked them to come on the booked time to check-in with ‘OK’ button 
+         1. OK: tapping this button navigation on the popup window, just closes the popup window and remains on the same ‘My bookings – Upcoming’ page 
+   2. Case 2: User taps ‘Check-In’ button, before two hours of event and up to the end of the duration period of the event.
+      1. Tapping ‘Check-In’ button will redirect the user back to ‘Check-In’ screen where influencer show his phone to Merchant  to enter the PIN to complete the experience 
+4. The following are the possible use cases for ‘Re-Schedule’ the experience 
+   1. Case 1: User doesn’t reach the maximum allowed no. of limits of –Re-scheduling’
+      1. User will get an popup with list of all available time slot of that experience 
+      2. User taps any timeslot from the popup window, will show booking reschedule confirmation popup notification with the following action button navigation 
+         1. OK: tapping this button will initiate the following process simultaneously 
+            1. Closes the popup window 
+            2. Change the booked timeslot of the experience in My Bookings page. 
+            3. Show prompt to user to inform him of each time remaining i.e. you have rescheduled 2 times, this is the last available reschedule 
+         2. Cancel: tapping this button in the popup window, just closes the popup window and remains on the same ‘My Bookings’ page
+   5. Case 2: User already used all the available reschedule limits. 
+      1.  User will get an popup notification saying that they are already used allowed no. of limits to reschedule that experience booking with OK button navigation 
+         1. OK: tapping this button in the popup window, just closes the popup window and remains on the same ‘My Bookings’ page
+5. The following are the possible use cases for ‘Cancel’ the experience 
+   1. Case 1: User cancelled their ‘Auto-Approved’ booking and Experience is not ended  
+      1. Tapping ‘Cancel’ button navigation will show confirmation popup notification with the following action button navigation 
+         1. OK: tapping this button will initiate the following process simultaneously 
+            1. Closes the popup window 
+            2. Add 1 slot to that experience’s ‘Available’ list 
+            3. Remove that experience from user’s My Booking page
+            4. User remains the same ‘My Bookings’ page 
+         2. Cancel: tapping this button in the popup window, just closes the popup window and remains on the same ‘My Bookings’ page
+   2. Case 2: User cancelled their ‘Auto-Approved’ booking and Experience is ended  
+      1. Tapping ‘Cancel’ button navigation will show confirmation popup notification with the following action button navigation 
+         1. OK: tapping this button will initiate the following process simultaneously 
+            1. Closes the popup window 
+            2. Add 1 slot to that experience’s ‘Available’ list and reopen that experience 
+            3. Remove that experience from user’s My Booking page
+            4. User remains the same ‘My Bookings’ page   
+         2. Cancel: tapping this button in the popup window, just closes the popup window and remains on the same ‘My Bookings’ page
+   3. Case 3: User cancelled their booking request approved by the Merchant 
+      1. Tapping ‘Cancel’ button navigation will show confirmation popup notification with the following action button navigation
+         1. OK: tapping this button will initiate the following process simultaneously
+            1. Closes the popup window 
+            2. Add 1 slot to that experience’s Waiting list
+            3. Remove that experience from user’s My Booking page
+            4. User remains the same ‘My Bookings’ page
+         2. Cancel: tapping this button in the popup window, just closes the popup window and remains on the same ‘My Bookings’ page
+            1. Check-In
+1. This is the screen where influencer can complete their experience 
+2. In this screen, user can see the following information 
+   1. User Profile image
+   2. User first and last name
+   3. Instagram name 
+   4. Manager Full Name: Input filed to enter the name of the manager who puts the PIN 
+   5. Merchant code: Input field to enter the PIN 
+   6. Done: Tapping this navigation, will check whether enter PIN is correct or not 
+      1. If entered PIN is correct, user will get a popup notification
+         1. Popup message says “You have successfully checked-in! Enjoy your experience and don’t forget to post all about it!” You are all set along with instructions to post the @merchantinstagramusername and @Expinapp on their created content 
+         2. OK: tapping this button in the popup window, just closes the popup window and do the following simultaneously 
+            1. Mark that experience is completed by that influencer 
+            2. Move that experience to ‘Previous’ list of ‘My Bookings’ 
+            3. Change the book label of that experience for that Influencer as ‘Pending Review’ 
+            4. Redirect the user back to ‘Previous – My Bookings’ page 
+      2. If entered PIN is incorrect, user will get a popup notification notifying the about the same. 
+         1.  OK: tapping this button in the popup window, just closes the popup window and remains on the same ‘Check-In’ page to re-enter the correct PIN with a chat with admin for assistance button.
+               1. Business Rules to be implemented – Check-In
+1. User will get a push notification as a reminder about their upcoming booking on the time period 
+   1. 24 hours before scheduled experience 
+   2. 3 hours before scheduled experience 
+2. User is allowed to input the check-in PIN before two hours of event and up to duration period of the event.
+         1. Previous
+1. This section displays the list of experiences booked by the logged in Influencer and completed 
+2. In this screen, user can see the following information 
+   1. List of completed experiences. For each completed experience, user can see the following information 
+      1. Name of experience 
+      2. Booked Time slot 
+      3. Location 
+      4. Experience Image 
+      5. Action button for the following 
+         1. Pending Review: Using this action navigation, influencer can submit their review against that experience. Tapping this navigation will redirect the user back to Notifications – Action needed page 
+         2. Chat with Merchant: Grayed out and unavailable. 
+3. The following are the possible use cases on showing action navigation 
+   1. Case 1: User completed the experience and not yet submitted review 
+      1. User will see the following action navigation in the ‘Previous – My bookings’ page of that experience 
+         1. Pending Review
+   2. Case 2: User completed the experience and submitted review
+      1. User will see ‘Completed’ text in the ‘Previous – My bookings’ page of that experience 
+            1. Business rules to be implemented
+1. Review of the completed experience should be submitted within 3 days of the booked time slot from both the merchants and influencers
+   1. If no review submitted after 72 hours, send push notification reminder “Reminder! Don’t forget to write a review about your experience!”
+   2. If no review submitted after 120 hours, send 2nd push notification “Reminder! Don’t forget to write a review about your experience!”
+2. User will get an notification to submit the review against the completed experience on the correct PIN has been entered 
+      1. Profile
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR6
+	NA
+	User can view their registration details, contact details and account details  
+	
+
+Solution Specification
+1. User shall able to view their complete profile information from this section 
+2. User will be redirected to this screen when clicking ‘Profile’ option from navigation menu 
+3. Profile screen is further divided into the following sub section which will be displayed as horizontal navigation 
+   1. Personal 
+   2. Contact 
+   3. Account 
+4. Under ‘Personal’ section User can see the following details in this screen 
+   1. Profile Info: This section shows the following details 
+      1. User’s First and Last Name 
+      2. Status (shows if the user’s profile is pending admin approval)
+      3. Profile Status icon (Locked or Unlocked)
+   2. Instagram Info: This section shows the following details and these information are updated from Instagram account each time user open the Expin application 
+      1. Instagram handle 
+      2. Total No. of followers count 
+      3. Profile image thumbnail 
+   3. Personal Info: This section shows the following details 
+      1. Country (editable)
+      2. City   (editable)
+      3. Gender
+      4. Birthdate 
+      5. Nationality 
+5. Under ‘Contact’ section User can see the following details in this screen 
+   1. Mobile Number with verified status icon or ‘Verify’ action button 
+   2. Email with verified status icon of ‘Verify’ action button  
+   3. Connect your account with connected status icon or ‘Connect’ action button 
+6. Under ‘Account’ section User can see the following details in this screen 
+   1. Case 1: User current subscription is Basic Account, and the user can see the following information 
+      1. Type 
+      2. Plan : This section shows the following information about the plan 
+         1. Name of the Plan 
+         2. Allowed slot limit of the plan 
+         3. ‘Upgrade Plan’: tapping this navigation, user shall be redirect to upgrade plan process 
+         4. Free VIP account trial of 30 days available once per account lifetime.
+         5. Pricing Plans: tapping this navigation, user shall be redirect to the screen where they can see the available plans of Expin subscription  
+
+
+   2. Case 2: User current subscription is VIP Account, and the user can see the following information
+      1.  Type 
+      2. Plan : This section shows the following information about the plan 
+         1. Name of the Plan 
+         2. Allowed slot limit of the plan 
+         3. ‘Cancel Subscription’: tapping this navigation, user shall be redirect to the screen where they can see the instructions about how to cancel their Expin subscription 
+         4. Pricing Plans: tapping this navigation, user shall be redirect to the screen where they can see the available plans of Expin subscription 
+      3. Billing Details: tapping this navigation, user shall be redirect to Billing screen 
+         1. View Past/ Next payment date (if paid customer)
+         2. Download receipts (if paid customer)
+      2. Upgrade Plan 
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR7
+	NA
+	User can subscribe to VIP account which allows 5 concurrent bookings at a time 
+	
+
+Solution Specification
+1. There are the following two types of accounts available for Influencer User 
+   1. Basic Account: 
+      1. This is a free forever account 
+      2. This type of account allows only one openings (upcoming booking) in user’s My Bookings section 
+      3. Every new Influencer user will registered with Expin application will automatically assigned to this account 
+      4. User may upgrade their account at anytime, by going to their profile or My bookings section 
+   2. VIP: Account 
+      1. This is a paid account. 
+      2. This type of account allows 5 openings in user’s My Bookings section 
+      3. There are the following one type of subscription plans available for influencers to upgrade this paid account 
+         1. Monthly Plan 
+
+
+      4. Paid subscription plans are automatically renewed and upcoming payment date will be shown here for user in their billing details.  
+      5. Every user who upgraded their account will get 1 Month free trial period (One time only). Once the trial period is over, system will charge the user for their paid subscription 
+2. User shall select anyone subscription plan from the listed one.
+3. After plan selection, user shall click on the “Start your free month/ Upgrade My account” option. Clicking on this shall redirect to the “In app” purchase screen and allow user to make the payment for the selected plan.
+4. Once the “In app’ purchase setup is done successfully, the user should be able to upgraded to VIP plan access the features based on the subscription plan selected.
+5. User will not be charged until the trial period is over. user is able to cancel their subscription anytime during the trial period 
+6. An email notification should be send on the registered email address with the subscription plan details.
+7. Subscription plan details are updated in the user’s profile page too 
+8. System should send an in-app & email notification to the user, 3 days before the Free trial plan expires notifying them that in 3 days they will be charged if they wish to continue using the VIP plan, otherwise they can cancel upgrade and be reverted back to Basic plan.
+         1. Make Payment (use google play store and apple store to setup)
+1. Click on “Start your free month/ Upgrade My account” option on subscription plan shall redirect the user to the “In-App’ purchase screen on the application.
+2. Once the “In app’ purchase setup is done successfully, user will get the following 
+   1. A pop-up window should get generated with a message as “Thank you. You have successfully subscribed for “<plan name>” and your trial period ends on <date> with ‘OK’ button navigation.
+      1. On clicking ‘OK’ button on the popup window, user shall be redirected to the Experience Feed home screen.
+   2. An invoice should get automatically generated by the system.
+   3. An email notification should be sent on the registered email address with the generated invoice.
+   4. The admin should be notified on the backend about the new subscriber.
+   5. The selected subscription plan details shall be displayed in the profile section with the following details:
+      1. Subscription plan name
+      2. Subscribed date – Date on which the user subscribed
+      3. Expiry date – Date on which the plan will get expired.
+3. The following cases are possible when recurring payment process 
+   1. Case 1: Recurring Payment success: 
+      1. User account will remains in VIP account and access all the features  of that 
+   2. Case 2: Recurring payment failed 
+      1. Grace period is 14 days. This can be easily setup from Apple/Google stores.
+      2. If the recurring payments fail 3 times in the 14 days period, user account is downgraded to “Basic” Account 
+      3. User will get an email notification about their payment failed and account is downgraded to “Basic” account 
+      4. If user has upcoming bookings, they will be canceled and only the one earliest booking date is kept. 
+      3. Pricing Plans 
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR8
+	NA
+	User can see the available subscription plans for VIP account and the details about the additional feature they get access when upgrading to VIP account 
+	
+
+Solution Specification
+1. Using this screen, user shall able to see the available pricing plans of the VIP account
+2. In this screen, user can see the following information 
+   1. Plan details: This section shows the following information 
+      1. Plan Name
+      2. Plan Price 
+      3. Recurring Period (monthly)
+   2. Instruction about cancellation and reminder notification
+   3. Start your free Month: Action button to initiate the upgrade process
+   4. Terms & Conditions: tapping this navigation shall redirect the user to the terms and conditions screen 
+      1. Billing 
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR9
+	NA
+	User can see the details of the billing charged by Expin application  
+	
+
+Solution Specification
+1. Using this screen, user shall able to see the details of the billing that was charged by Expin application 
+2. In this screen, user can see the following information 
+   1. Membership details: This section shows the following information about the user’s subscription 
+      1. Subscripted Plan Name
+      2. Plan Price 
+      3. Next Billing date 
+   2. Billing history: This section shows all the previous billing happened for that account. This section shows the billing history up to 1 year period. For each billing record, user can see the following information 
+      1. Payment date
+      2. Paid amount 
+      3. Expin service with Plan Period 
+
+
+3. By simply tapping any billing record, user can able to see the invoice details of that record. In the invoice screen user can see the following information 
+   1. App details: This section shows Expin company name and Address
+   2. Customer details: This section shows the following details about the user
+      1. User Name (First and Last Name)
+      2. Email address 
+   3. Invoice details: This section shows the following details 
+      1. Invoice #
+      2. Date 
+      3. Description
+      4. Service Period 
+      5. Amount 
+      6. Total Paid 
+   4. Payment Method 
+      1. Notifications 
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR10
+	NA
+	User shall receive the following 2 type of notification from the application 
+1. Reminders
+2. Action Needed 
+	Solution Specification
+1. Unread messages should be highlighted by color or should be bold to distinguish from notifications which are read.
+2. Users should receive notifications following activities:
+Activity
+	Push/ Regular/ Email
+	Notification Text
+	Redirect to 
+	Admin approved the Influencer
+	Push  & Email
+	Nice one! You’ve been approved for our network of elite trendsetters!
+	App Landing Page
+	Admin rejected the Influencer
+	Push  & Email
+	Your application hasn’t been successful this time. We hope to hear from you again soon.
+	N/A
+	Waiting List booking is approved by the Merchant
+	All
+	Congrats - you’ve been selected to join (EXPERIENCE NAME) - and we’re sure it’s going to be awesome. Now it’s time to choose your date/time slot, and get it in your diary!
+	Redirects to ‘Calendar selection” of that experience booking 
+	Waiting List booking is rejected by the Merchant
+	Regular only
+	All of these experience slots are closed right now, and we won’t be taking your application further. Feel free to apply again, and we hope you’re successful next time around!
+	Redirect to that experiences feed screen 
+	Reminder 24 hours before scheduled experience
+	Push  & Regular
+	Your experience is coming up in 24 hours - see My Bookings and check out where you’re headed!
+	Redirect to ‘My Bookings – Upcoming’ page 
+	Reminder 3 hours before scheduled experience
+	Push  & Regular
+	It’s just 3 hours until your experience begins. Time to try something new! Check out this map to see exactly where you’re heading.
+	Redirect to ‘My Bookings – Upcoming’ page 
+	Notification (duration period) after PIN entered successfully to write the experience review
+	Push  & Regular
+	Your experience is now complete. Loved every minute? Don’t forget to write a review and let the world know all about it!
+	Redirect to ‘Post a Review’ screen of that experience 
+	Notification after duration period PIN NOT entered
+	Push  & Regular
+	We’re sorry to see you didn’t attend your booking. Please keep in mind that if this happens another time, your account will be suspended and you’ll miss out on further experiences.
+	N/A
+	3. User can see the following information in this section 
+   1. Horizontal navigation to select the following 
+      1. Action Needed (Selected by default)
+      2. Reminders 
+   2. Based on the horizontal navigation selected, user will see the corresponding content 
+      1. For Action Needed, user can see the following details for each notification 
+         1. Merchant Logo 
+         2. Name of Experience 
+         3. Push message 
+         4. Action navigation  link 
+         5. Received timestamp (in ago format) 
+      2. For ‘Reminder’ user can see the following details for the each reminder notification 
+         1. Merchant Logo 
+         2. Name of Experience 
+         3. Reminder (text)
+         4. Reminder push message
+         5. Received timestamp (in ago format) 
+         2. Post Review 
+1. User shall be redirected to this screen when tapping the corresponding action navigation from ‘Notifications- Action needed’ section 
+2. User shall able to see the following information in this form 
+   1. Able to select the 5 star rating 
+   2. Write your Review: Free text box to enter the review comment (minimum 50 characters with a character counter)
+   3. Submit: tapping this action button, will do the following actions simultaneously 
+      1. Store that influencer’s review against that experience 
+      2. Show the popup message saying that user’s review has been submitted successfully along with ‘OK’ button. 
+         1. Tapping  “OK’ button in the popup window, will just closes that popup window and redirect the user back to ‘Notifications – Action Needed’ section where he/she came from 
+Business rules to be implemented on Review 
+1. All reviews posted by Influencer posted automatically and it is visible for Merchant 
+2. If the Influencer submitted poor review against the experience, that need review need admin approval to post it on the application (i.e. Review star rating is less than average such 1 or 2 star rating )
+
+
+      2. Settings
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR11
+	NA
+	This section allows user to customize settings of Expin application as per their desire 
+	Solution Specification
+1. Settings are further divided into the following sub sections 
+   1. Notifications: This sub section helps user to switch on or off notification they received from Expin application 
+   2. Experiences: Using this section, user can easily change the type of experience they are looking for which was selected during the sign up process  
+   3. Blocked Brands: Using this section, user can manage all of their blocked Merchant  as well as able to unblock them 
+   4. Language: Using this section, user can decide their default language of the app to be load. ‘English’ will be the default selection  
+   5. Logout : Logged out the user from the application
+   6. Deactivate Account : Using this option, user can deactivate their Expin account 
+         1. Notification Settings 
+1. Users shall able to turn on/off general and In app notification they will receive from Expin application
+2. Under ‘General’ notification user can turn on/ off the following 
+   1. Push Notification 
+      1.  If user turns on push notification option, then app shall notify user when any activity happen.
+      2. If user turns off push notification option, then app shall not notify user when any activity happen.
+      3. User will receive in-app notifications in any selected case.
+      4. Push notification is off when the user is using the app.
+   2. Email Notification 
+      1. If user turns on email notification option, then system shall send notification on email to user when any activity happens.
+      2. b. If user turns off email notification option, then system shall not send notification on email to user when any activity happens.
+      3. User will receive in-app notifications in any selected case.
+3. Under ‘In-app’ notification, user can turn on/ off the following 
+   1. New Experience 
+      1. If user turns on this option, then app shall notify user when any new experiences available in the system for the influencer to see and book on it 
+      2. If user turns off this option, then app shall not notify user when any new experiences available in the system for the influencer to see and book on it 
+   2. Booking 
+      1. If user turns on this option, then app shall notify user when any activity happened related to that user’s experience booking 
+      2. If user turns off this option, then app shall not notify user when any activity happened related to that user’s experience booking 
+         1. Experiences Settings 
+1. Users shall able to select which type of experience they would like to get notification. 
+2. The experience types user has chosen during sign up process will be selected by default. 
+3. User shall be allowed to select maximum of 3 experience types to get it notified  
+      1. My Messages 
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR12
+	NA
+	This feature allows Influencer user to communicate with the Merchant  
+	
+
+Solution Specification
+1. This feature is available to all users of the application (free and paid users).
+2. Users of this application should be able to send message to Merchant  in following cases
+   1. Case 1: Influencer already booked or requested the experience that Merchant  has posted 
+   2. Case 1: Influencer is eligible to book the experience that Merchant  has posted 
+3. Influencer can directly send message Merchant for whom experience he is eligible for or booked it. But the Merchant can send response message once the influencer initiates the message thread 
+4. In this screen, Users should be able to see the following 
+   1. Compose a new message: 
+      1. User can initiates the conversation from the following sections 
+         1. Tapping ‘Ask a Merchant’ navigation from ‘Experienced Detailed Screen”
+         2. Tapping ‘Live Chat’ action navigation from ‘My Bookings’ screen 
+      2. In this screen, user can type message and send it to Merchant 
+   2. View all messages (My Messages - inbox section) –
+      1. All the messages should display in list format.
+      2. Listing will be sorted based on newest message at top to oldest.
+      3. If there is any unread message, count should be displayed.
+      4. User can search for message thread with the name of merchant.
+      5. Following information should be displayed in the message list –
+         1. Merchant  Logo 
+         2. Name of the Experience 
+         3. 50 characters of the latest message received
+         4. Received on – date/time
+      6. If the message is received today only time will be displayed
+      7. For all earlier messages date/time both should be displayed.
+      8. Actions -
+         1. Tap on message should navigate user to message detail screen.
+         2. Swipe right any message tile shall allow users to:
+            1. Archive conversation – clicking on this archive the thread and moves it in archived section.
+            2. Delete conversation – clicking on this delete the thread and move to deleted section.
+               1. Confirmation alert to display before deleting.
+   3. View message detail –
+      1. Clicking on message tile shall redirect user to detail screen.
+      2. Users should be able to view complete conversation here from starting till date.
+      3. Users can send text message from here.
+      4. Actions for users on detail screen –
+         1. Delete conversation
+            1. User can delete complete conversation through this option.
+               1. Confirmation alert to display before deleting.
+         2. Archive conversation
+            1. User shall be able to archive the message thread using this option.
+         3. Block this Merchant
+            1. This option shall allow user to block that Merchant.
+            2. User should not be able to send and receive message from the Merchant to whom they have blocked as well see the experience that Merchant has posted 
+            3. Before blocking, confirmation alert shall display.
+            4. Blocked Merchant will display in “Blocked Merchant s under “Setting”
+   4. Archived section –
+      1. Once the thread has been archived, it gets moved to “Archived section”.
+      2. Thread remains under this section until user manual move it to inbox back.
+      3. If user send message whose thread is archived, then thread get moved back in inbox section.
+      4. Actions
+         1. Swiping right any message tile shall provide following options:
+            1. Move to inbox – this move message thread back to inbox
+            2. Delete – this delete the message thread and move to deleted section.
+   5. Deleted section –
+      1. All deleted thread display under “Deleted section”.
+      2. Deleting conversation shall delete the chat from user side only (who is logged in) who clicked this option. It should remain as it is at other user’s end.
+      3. Deleted thread remains in deleted section for 30 days.
+      4. After 30 days, thread gets removed permanently.
+1. Users to be notified through in-app and push notification when a new message is received.
+   1. Push notification text should contain Merchant name along with static text.
+      1. FAQ
+1. This section mainly consists of frequently asked questions about the app features 
+2. In this screen, user can see the following 
+   1. List of FAQ categories
+   2. Live Chat with admin
+3. Tapping any FAQ category will redirect the user back to detailed screen where user can see the following 
+   1. List of questions and answers for that FAQ category 
+   2. Message Us 
+4. Tapping ‘Live Chat’ or ‘Message Us’ option, user shall initiate the conversation with Expin support team. In the conversation, user shall able to send message along with an ability to attach media files 
+   1. Merchant Mobile App 
+      1. Login 
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR13
+	NA
+	A registered Merchant shall be able to login into the Merchant Mobile application with their registered email address and password.
+	
+
+Solution Specification
+1. Merchant shall be able to login in Mobile application with the registered email address and password they set at time of registration via merchants.expin.com website.
+   1. Verify if the email address & password supplied by the Merchant, is correct & registered with the system,
+      1. If not, display an error, “The email address or password is incorrect, please try again”.
+      2. If yes, navigate user to “Dashboard” screen.
+2. When user enters the password on login screen, the password should be shown in encrypted format only.
+3. All validations related to email address and password will be applicable.
+4. Login form will have following fields, explained in the below table:
+Field Name
+	Mandatory?
+	Read Only?
+	Default
+	Format Type
+	Description/ Comments
+	Email
+	Yes
+	No
+	Blank
+	Text Input
+	It should be same as registered email address
+Min length – 07 chars
+Max length – 70 chars
+All the validations related to Email address should be applicable.
+	Password
+	Yes
+	No
+	Blank
+	Encrypted Text
+	Password should be shown in encrypted format. 
+Min length – 05 chars
+Max length – 25 chars
+	Login
+	N/A
+	No
+	N/A
+	Action Button
+	Application should verify whether the entered email address & password are correct & registered with the system when clicked on it: 
+- If yes, navigate user to dashboard screen. 
+- If not, system shall display an error, “This email address or password is incorrect, please try again”.
+	Forgot Password
+	N/A
+	No
+	N/A
+	Action Link
+	When clicked on it, system redirect to 'Forgot Password' screen 
+	
+
+Merchant Navigation 
+1. Following options shall be available to users in the navigation
+   1. App Dashboard: displays the list of experience that were posted by the logged in user
+   2. My Messages: displays the list of messages received from Influencer or admin of the application
+   3. Notifications: display the list of notification received from the app
+   4. Settings: this section let user manages settings for the application like manage push notifications, change password, etc.
+      1. Merchant App Dashboard 
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR14
+	NA
+	Merchant shall able to see the list of experiences with upcoming booking and waiting list booking details 
+	
+
+Solution Specification
+1. This is the landing screen for Merchant Mobile app on every successful login 
+2. Merchant user can see all the experience that were posted by them and currently in active status 
+3. In this screen, user can see the following information for each experience, 
+   1. Merchant  Logo 
+   2. Name of Experience 
+   3. Location of Experience 
+   4. Image/ Video thumbnail of the experience 
+   5. Available Slots count 
+   6. Count of Waiting list 
+   7. See Influencer: tapping this action button, shall redirect to waiting list influencer screen where merchant can approve or reject on tinder card style 
+4. The following table summarizes the various action navigation within Dashboard page 
+Action
+	Expected Outcome
+	Tapping Experience Image/ Video thumbnail
+	Go to Waiting list of Influencers screen of that experience 
+	Tapping ‘See Influencer’ action button 
+	Go to Waiting list of Influencers screen of that experience 
+	
+
+      2. Experience Details – Influencer Waiting List Screen 
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR15
+	NA
+	Merchant user shall able to view the list of influencer who are booked that experience as well approve or reject that influencer’s booking 
+	
+
+Solution Specification
+1. There are the following two ways merchant shall be redirected to this screen 
+   1. Tapping ‘Experience Image/ Video’ thumbnail of any experience from Dashboard screen 
+   2. Tapping ‘See Influencer’ action navigation of any experience from ‘Dashboard’ screen 
+2. This screen shows the booked influencer profile based on the booking time 
+3. In this screen, Merchant can see the following details about that influencer 
+   1. Instagram Profile picture of the influencer 
+   2. Influencer Name (First and Last Name) 
+   3. Influencer instagram username
+   4. Location (City/Country)
+   5. # of Followers count 
+   6. Influencer Bio taken from Instagram profile 
+   7. Type 
+   8. Content: Using this horizontal tap navigation, Merchant shall able to see latest 9 posts on instagram posted by that influencer 
+   9. Audience: Using this horizontal tap navigation, Merchant shall able to see the audience insights of that influencer 
+   10. Reviews: View other merchant reviews about this influencer. Button ONLY appears when number of reviews is more than 3.
+   11. Action navigation: Merchant can also see the following action navigation in that screen against that Influencer
+      1. Case 1: Influencer booking request is in waiting list, then Merchant can see the following action navigation 
+         1. Block: tapping this option, Merchant can block that influencer. Once the influencer has been blocked by Merchant, that influencer can’t able to view the experiences posted by this Merchant 
+         2. Approve: Using this option, Merchant can accept that influencer booking request 
+         3. Reject: Using this option, Merchant can reject that influencer’s booking request 
+         4. Skip: Using this option, Merchant can skip that merchant request for later decision and move on to reviewing next influencer profile 
+
+
+      2. Case 2: Influencer completed the experience, then Merchant can see the following action navigation 
+         1. Block: tapping this option, Merchant can block that influencer. Once the influencer has been blocked by Merchant, that influencer can’t able to view the experiences posted by this Merchant - Can only Block if pending reviews have been completed. Otherwise block is grayed out with a notification “Please complete the review before being able to block this influencer”
+         2. Post review: tapping this option, Merchant can rate that influencer 
+
+
+4. The following table summarizes the various action navigation within this page 
+Action
+	Expected Outcome
+	Swipe Left 
+	Influencer’s Booking request rejection process has been initiated 
+	Swipe Right
+	Influencer’s Booking request approval process has been initiated 
+	Swipe up
+	* Shows the latest Instagram post of that influencer under ‘Content’ section 
+* Only the last 9 posts will be displayed 
+	Tapping ‘Skip Up’ action navigation 
+	Merchant shall moved on to the next influencer record without making decision on the current influencer’s booking request 
+	Tapping on ‘Influencer’s Profile’ thumbnail
+	Influencer’s Instagram profile will be opened in the Instagram app 
+	Tapping on any posts
+	Influencer’s Instagram profile will be opened in the Instagram app 
+	Tapping ‘Block’ action navigation 
+	Block influencer process has been initiated 
+	Tapping ‘Content’ tap navigation 
+	Recent 9 Instagram posts of that influencer will be shown 
+	Tapping ‘Audience’ tap navigation 
+	Audience demography data of that influencer record will be shown 
+	
+
+         2. Approve Influencer’s Booking Request 
+1. Merchant can accept the booking request of the influencer by simply swipe right from Influencer screen of that experience 
+2. Swipe right, will displays the approve confirmation popup window with the following information 
+   1. Notes about the current available slot count 
+   2. Remaining slots count after approving this request
+   3. OK:  action button. tapping this button in the popup window will do the following actions simultaneously 
+      1. Shows another confirmation popup window saying merchant has successfully approved that influencer’s booking request with ‘OK’ button navigation. Tapping ‘OK’ button on the confirmation popup window, Move screen on to next influencer record of that experience
+      2. Reduces one available slot count of that experience 
+      3. Triggers and push and email notification to that influencer about their booking request has been approved 
+   4. Cancel: tapping this action button, will just closes the confirmation popup window and remains on the same influencer page
+         1. Reject Influencer’s Booking Request 
+1. Merchant can reject the booking request of the influencer by simply swipe left from Influencer screen of that experience 
+2. Swipe left, will displays the reject booking popup window with the following information 
+   1. Option to select the ‘Reason for Rejection” 
+   2. OK:  action button. This button only enabled after Merchant has chosen the reason for rejection. tapping this button in the popup window will do the following actions simultaneously 
+      1. Shows another confirmation popup window saying merchant has successfully rejected that influencer’s booking request with ‘OK’ button navigation. Tapping ‘OK’ button on the confirmation popup window, Move screen on to next influencer record of that experience
+      2. Triggers and push and email notification to that influencer about their booking request has been rejected 
+   3. Cancel: tapping this action button, will just closes the confirmation popup window and remains on the same influencer page
+         1. Block Influencer 
+1. Blocking influencer means, that Influencer won’t able to see the experience posted by this Merchant and can’t book it
+2. Merchant can block the influencer by simply tapping ‘Block’ action navigation 
+3. When clicking on ‘Block’ action navigation, confirmation popup window shall be displayed with the following 
+   1. Asking confirmation to block the influencer 
+   2. OK:  action button. tapping this” button in the popup window will do the following actions simultaneously 
+      1. Shows another confirmation popup window saying merchant has successfully blocked that influencer with ‘OK’ button navigation. Tapping ‘OK’ button on the confirmation popup window, will just closes that popup window 
+      2. Triggers a regular notification to that influencer about their booking request has been rejected
+      3. Move that influencer profile to ‘Blocked Influencers’ list  
+   3. Cancel: tapping this button, will just closes the confirmation popup window and remains on the same influencer page
+            1. Business rules to be implemented for Blocked Influencer 
+1. Influencer won’t able to see the experience posted by the Merchant once Merchant blocked that Influencer from Expin application. 
+2. Influencer just get an ‘rejection’ notification on any of their outstanding booking request with the experience that was posted by that Merchant 
+3. Merchant can able to unblock the influencer anytime by going into ‘Blocked Influencers’ section 
+         1. View Influencer’s Content
+1. Merchant can view the content posted by the influencer by simply swipe up 
+2. Only recent 9 posts will be displayed in the recent to old order 
+3. Only  image/ video thumbnail of the post will be displayed in this section 
+4. Tapping any image/video thumbnail will open that influencer’s Instagram profile in Instagram app 
+         1. View Influencer’s Audience demographic data 
+1. Merchant can view the audience demographic data of the influencer by simply tapping ‘Audience’ tap navigation 
+2. FB Graph API to be used to get this demographic data about that influencer’s profile 
+3. Under audience demographic data, Merchant can see the following stats chart/ graph
+   1. Top Locations by City and Country: bar chart will be shown 
+   2. Age Range: bar chart will be shown 
+   3. Gender: pie chart will be shown 
+4. For ‘Top Locations’ stats, Merchant can toggle between Cities and Countries 
+5. For ‘Age Range’ stats, Merchant can filter the data  based on Men, Women or All
+         1. Submit Review about Influencer
+1. Merchant shall be redirected to this screen when tapping “Post Review’ action navigation from Influencer profile screen 
+2. User shall able to see the following information in this form 
+   1. Influencer details: In this section, Merchant can see the following details about that influencer 
+      1. Influencer profile image
+      2. Influencer Name 
+      3. Instagram username
+   2. Experience details: In this section, Merchant can see the following details about the experience that influencer has completed 
+      1. Name of experience 
+      2. Check-In date 
+   3. Able to select the 5 stars-rating 
+   4. Write your Review :Free text box to enter the review comment 
+   5. Submit: tapping this action button, will do the following actions simultaneously 
+      1. Store that Merchant’s review against that Influencer in Expin application  
+      2. Show the popup message saying that user’s review has been submitted successfully along with ‘OK’ button. 
+         1. Tapping  “OK’ button in the popup window, will just closes that popup window and redirect the user back to ‘Dashboard’ screen 
+Business rules to be implemented on Review
+1. All reviews posted by Merchant posted automatically 
+2. If the Merchant submitted poor review against the Influencer, that review needs admin approval to post it on the application (i.e. Review star rating is less than average such 1 or 2 star rating )
+
+
+
+
+5.4.4 My Messages
+Requirements Overview
+Functional Requirement No
+	Reference to BRD
+	Comment/ Description (If any)
+	FR16
+	NA
+	This feature allows Merchant user to respond to the Influencer questions regarding the experience
+	 
+Solution Specification
+1. Merchant Users of this application should be able to send message to Influencer in following cases
+   1. Case 1: Influencer initiated the ‘Live Chat’ option of the experience posted by that Merchant
+   2. Case 2: Influencer initiated ‘Ask Merchant option’ from any of the experience posted by that Merchant
+2. Merchant user can’t initiate the communication. He is only able to respond to the message received from the Influencer
+3. In this screen, Users should be able to see the following
+   1. View all messages (My Messages - inbox section) –
+      1. All the messages should display in list format.
+      2. Listing will be sorted based on newest message at top to oldest.
+      3. If there is any unread message, count should be displayed.
+      4. Merchant User can search for message thread with the name of experience.
+      5. Following information should be displayed in the message list –
+         1. Influencer Profile Picture
+         2. Influencer Name
+         3. Name of the Experience
+         4. 50 characters of the latest message received
+         5. Received on – date/time
+      6. If the message is received today only time will be displayed
+      7. For all earlier messages date/time both should be displayed.
+      8.  Actions -
+         1. Tap on message should navigate user to message detail screen.
+         2. Swipe right any message tile shall allow users to:
+            1. Archive conversation – clicking on this archive the thread and moves it in archived section.
+            2. Delete conversation – clicking on this delete the thread and move to deleted section.
+               1. Confirmation alert to display before deleting.
+   2. View message detail –
+      1. Clicking on message tile shall redirect user to detail screen.
+      2. Users should be able to view complete conversation here from starting till date.
+      3. Users can send text message from here.
+      4. Actions for users on detail screen –
+         1. Delete conversation
+            1. User can delete complete conversation through this option.
+               1. Confirmation alert to display before deleting.
+         2. Archive conversation
+            1. User shall be able to archive the message thread using this option.
+         3. Block this Influencer
+            1. This option shall allow user to block that Influencer.
+            2. User should not be able to send and receive message from the Influencer to whom they have blocked as well see the booking request
+            3. Before blocking, confirmation alert shall display.
+            4. Blocked Influencer will display in “Blocked Influencers” under “Setting”
+   3. Archived section –
+      1. Once the thread has been archived, it gets moved to “Archived section”.
+      2. Thread remains under this section until user manual move it to inbox back.
+      3. If user send message whose thread is archived, then thread get moved back in inbox section.
+      4. Actions
+         1. Swiping right any message tile shall provide following options:
+            1. Move to inbox – this move message thread back to inbox
+            2. Delete – this delete the message thread and move to deleted section.
+   4. Deleted section –
+      1.  All deleted thread display under “Deleted section”.
+      2. Deleting conversation shall delete the chat from user side only (who is logged in) who clicked this option. It should remain as it is at other user’s end.
+      3. Deleted thread remains in deleted section for 30 days.
+      4. After 30 days, thread gets removed permanently.
+4. Users to be notified through in-app and push notification when a new message is received.
+   1. Push notification text should contain Influencer name, Name of the experience they asked for along with static text.
+Settings
+Requirements Overview
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR17
+	NA
+	This section allows Merchant to customize settings of Expin application as per their desire 
+	Solution Specification
+2. Settings are further divided into the following sub sections 
+   1. Notifications: This sub section helps Merchant to switch on or off notification they received from Expin application 
+   2. Blocked Influencer: Using this section, Merchant can manage all of their blocked Influencers as well as able to unblock them 
+   3. Language: Using this section, Merchant can decide their default language of the app to be load. ‘English’ will be the default selection  
+   4. Logout : Logged out the Merchant from the application
+Notification Settings 
+4. Merchant shall able to turn on/off general and In app notification they will receive from Expin application
+5. Under ‘General’ notification user can turn on/ off the following 
+   1. Push Notification 
+      1.  If user turns on push notification option, then app shall notify user when any activity happen.
+      2. If user turns off push notification option, then app shall not notify user when any activity happen.
+      3. User will receive in-app notifications in any selected case.
+      4. Push notification is off when the user is using the app.
+   2. Email Notification 
+      1. If user turns on email notification option, then system shall send notification on email to user when any activity happens.
+      2. b. If user turns off email notification option, then system shall not send notification on email to user when any activity happens.
+      3. User will receive in-app notifications in any selected case.
+6. Under ‘In-app’ notification, user can turn on/ off the following 
+   1. New Booking (Auto-Accepted) 
+      1. If user turns on this option, then app shall notify user when any influencer booked their experience  
+      2. If user turns off this option, then app shall not notify user when any influencer booked their experiences 
+   2. Booking Request
+      1. If user turns on this option, then app shall notify user when any Influencer sent booking request to the experience that Merchant has posted 
+      2. If user turns off this option, then app shall not notify user when any influencer sent booking request to the experience that Merchant has posted 
+Merchant Web Portal (Out of Scope)
+Merchant Sign up
+Requirements Overview 
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR18
+	NA
+	Merchant can register themselves via Expin.com website 
+	
+
+Solution Specifications 
+1. Merchant can register their account into the ‘Expin’ system through ‘Expin.com’ website
+2. The Merchant registration form will have the following fields as explained in below table 
+Field Name
+	Mandatory?
+	Read Only?
+	Default
+	Format Type
+	Description/ Comments
+	Business Name
+	Yes
+	No
+	Blank
+	Text Input
+	Min length – 03 chars
+Max length – 25 char
+	Business Logo
+	No
+	No
+	
+
+	Image Upload
+	If the Merchant doesn’t upload image, Merchant’s Instagram profile image to be used
+	Instagram Handle
+	Yes
+	No
+	Blank
+	Text Input
+	Should be valid Instagram handle
+	Contact Person Name
+	Yes
+	No
+	Blank
+	Text Input
+	Min length – 03 chars
+Max length – 25 chars
+	Mobile No
+	Yes
+	No
+	Blank
+	Text Input
+	Min length – 10 chars
+Max length – 15 chars
+All the validations related to Mobile No should be applicable 
+	Email
+	Yes
+	No
+	Blank
+	Text Input
+	Min length – 07 chars
+Max length – 70 chars
+It should be unique in the system.
+All the validations related to Email address should be applicable.
+	Create Account
+	N/A
+	No
+	N/A
+	Action Button
+	When clicked on it, system should check whether all the mandatory details are filled or not
+* If yes, 
+   * System should send an verification email to Merchant's registered email address
+   * Merchant shall get an confirmation message saying verification email sent to his email
+* If not, system should display error and prompt user to provide the mandatory details 
+	
+
+Package (Merchant Subscription)
+Solution Specifications 
+1. Merchant can registered their account into the system without subscribe any package. 
+2. Merchant subscribe for any package in order to create their experience into the system as well get it booked from Influencer. 
+3. There are different type of Packages available for Merchant to subscribe which are managed by administrator by the backend portal. 
+4. Every Package should have their own features in it such as the following 
+   1. No. of Experience  
+   2. No. of Slots per Experience
+   3. Waiting List (Included or Not)
+   4. Monthly reports (Included or Not)
+5. Every package are available on Monthly basis. Merchant need to pay on Monthly basis and system use the recurring system which will automatically deduct the Payment from Merchant account on start of every month 
+6. Once Merchant paid for their package subscription, system will automatically assign the corresponding slot credit to Merchant account for the experience they’ve created
+   1. Credit: 
+      1. Is used to notify that the Merchant has paid for that experience to get booking from influencer 
+      2. It Is a count how many no. of influencer booking is allowed for that experience 
+      3. Allocated credit will be deducted on every booking against that experience. 
+7. The following table summarizes the credit count allocated to the Merchant account based on their subscriptions 
+Package Name
+	No. of Experience
+	No. of Slots/ Experience
+	Waiting List
+	Monthly Report 
+	No. of Credit allocated 
+(Total vs Per Experience)
+	Package 1
+	2
+	5
+	No
+	No
+	10 - 5/Experience
+	Package 2
+	2
+	5
+	Yes
+	No
+	10 - 5/Experience
+	Package 3
+	2
+	5
+	Yes
+	Yes
+	10 - 5/Experience
+	
+
+Business Rules to be Implemented on Package
+1. On every successful payment (recurring payment), Merchant will get an email notification about their account subscription was renewed 
+2. Merchant has the rights to cancel their subscription anytime before next recurring period 
+3. Merchant subscription cancellation, will reflect on their future recurring only and it won’t end the current month subscription immediately 
+4. Credit will be allocated automatically to the Merchant’s account once Merchant paid for their subscription via Online 
+5. Admin has the rights to override the automatically added Credit to Merchant’s account 
+6. On every Influencer booking, allocated credit count should be deducted 
+7. The following are the possible cases for automatically end the Experience based on ‘Credits’
+   1. Case 1: Merchant subscribed package doesn’t allow ‘Waiting List’ Feature (Package 1 in the above table)
+      1. System will automatically end the Experience once the available credits of that Experience is equal to 0 in the both scenarios of slots available and not available 
+   2. Case 2: Merchant subscribed package allows ‘Waiting List’ Feature (Package 2 & 3 in the above table) (Slots are available for that Experience)
+      1. System will automatically move that experience to ‘Waiting List’ once the available credits of that Experience is equal to 0  - until all of the available slots of that experience is finished
+   3. Case 3: Merchant subscribed package allows ‘Waiting List’ Feature (Package 2 & 3 in the above table) (Slots are not available for that Experience)
+      1. System will automatically end the Experience once all available slots of that experience is finished even the available credits of that Experience is greater than 0 
+Create Experience
+Requirements Overview 
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR19
+	NA
+	Merchant can create their Experience into the ‘Expin application’ via this Merchant web Portal 
+	
+
+Solution Specifications 
+3. Merchant can create their Experience into the Expin application 
+4. The no. of Experience allowed is based on the package that Merchant has subscribed 
+5. The create Experience form will have the following fields as explained in below table 
+Field Name
+	Mandatory?
+	Read Only?
+	Default
+	Format Type
+	Description/ Comments
+	Experience Title
+	Yes
+	No
+	Blank
+	Text Input
+	Min length – 10 chars
+Max length – 35 chars
+	Category
+	Yes
+	No
+	Blank
+	Drop Down
+	Merchant is allowed to select only one category from the Pre-filled list
+	About the experience
+	Yes
+	No
+	Blank
+	Text Input
+	Min length – 150 chars
+Max length – 500 chars
+First 250 characters is visible on ‘Experience Detailed view’ with ‘Read More’ option which will expand the section with complete information provided 
+	Duration
+	Yes
+	No
+	2
+	Number
+	Merchant is to add a number representing length of the experience in Hours.
+	Event Type
+	No
+	No
+	Open
+	Drop Down 
+	* Available Options 
+   * Open
+   * Waiting List
+* Merchant is allowed to select only one option.         
+	Noticed Period
+	No
+	No
+	0
+	Drop Down 
+	* This field is used to show the slot availability to influencer based on how long ahead of time the influencer needs to book 
+* Merchant is allowed to select the notice period based on any one of the following 
+   * Hours
+   * Days
+* If ‘Hours’ option is selected, Merchant is allowed to select hour format from 1 to 24
+* If ‘Day’s option is selected, Merchant is allowed to select the no of days like, 1, 2, 3, 5, 7, etc., 
+	What you're going to experience
+	No
+	No
+	Blank
+	Text Input
+	Max length – 750 chars
+First 250 characters is visible on ‘Experience Detailed view’ with ‘Read More’ option which will expand the section with complete information provided 
+	What's expected from you
+	No
+	No
+	Blank
+	Text Input
+	Max length – 750 chars
+First 250 characters is visible on ‘Experience Detailed view’ with ‘Read More’ option which will expand the section with complete information provided 
+	Where it's at
+	No
+	No
+	Blank
+	Text Input
+	Max length – 300 chars
+First 150 characters is visible on ‘Experience Detailed view’ with ‘Read More’ option which will expand the section with complete information provided 
+	Location
+	No
+	No
+	Blank
+	Google Maps Search
+	Autocomplete using Google Map API 
+	Timezone
+	No
+	No
+	GMT+4:00 (Dubai)
+	Drop down
+	
+
+	Availability
+	Start Date
+	Yes
+	No
+	Today Date
+	Date Picker
+	Merchant is not allowed to select Past date
+	End Date
+	Yes 
+	No
+	Today Date
+	Date Picker
+	Merchant is not allowed to select Past date
+End date must be greater than Start Date 
+	Time
+	Yes 
+	No
+	Current Time
+	Drop down select time slot 
+	
+
+	Show dates
+	N/A
+	No
+	N/A
+	Action Button
+	When clicked on it, system will show all dates with time between the entered start and end date with the following for each record 
+* Available Date and TIme 
+* Checkbox to select that particular date as available
+	Check All dates
+	N/A
+	No
+	Blank
+	Check box
+	when checked on it, system will check all the check box of the dates shown 
+	Uncheck All dates
+	N/A
+	No
+	Blank
+	Check box
+	When checked on it, system will uncheck all the check box of the dates shown 
+	Copy First 7 days
+	N/A
+	No
+	Blank
+	Check box
+	When checked on it, system will create a copy of first 7 date checked on the list
+	Guests Allowed
+	No
+	No
+	Blank
+	Drop Down
+	Minimum value is 1
+Maximum value is 10
+	Monthly slots available
+	Yes
+	Yes
+	Automatic number based on No. of slots allocated to that Merchant subscribed package
+	Number
+	Only Admin is allowed to change the allocated no. of slots limits
+Merchant can only view this information while creating experience and can’t change it 
+	Waiting List amount
+	No
+	Yes
+	Blank
+	Number
+	Only Admin is allowed to change the value of this field 
+
+
+Merchant can only view this field information and can’t change it 
+	Days to reset (Slots)
+	NO
+	No
+	Blank
+	Number
+	
+
+	Maximum no. of guests per day
+	No
+	No
+	Blank
+	Number
+	
+
+	Labels to be included
+	NO 
+	No
+	Blank
+	Check box
+	Merchant is allowed to select from the predefined list 
+Maximum no. of allowed label is 8
+	Experience Uploads 
+	Experience Logo
+	No
+	No
+	N/A
+	Image Upload
+	If the Merchant doesn’t upload image, Merchant’s Instagram profile image to be used
+	Stories Thumbnail
+	No
+	No
+	N/A
+	Image Upload
+	* Merchant is allowed to add image or extracted from short video 
+* This thumbnail will be used in ‘Stories Landing page’ of the Influencer app Under the corresponding category icon 
+	Feed Thumbnail
+	No
+	No
+	N/A
+	Image Upload
+	* Merchant is allowed to add image or extracted from short video 
+* This thumbnail will be used in ‘Experience Feed page’ of the Influencer app 
+	Detailed view Thumbnail
+	No
+	No
+	N/A
+	Image Upload
+	* Merchant is allowed to add image or extracted from short video 
+* This thumbnail will be used in ‘Experience Detailed View page’ of the Influencer app
+	Experience Video (long video)
+	No
+	No
+	N/A
+	Video Upload
+	This is the video that will be played when influencer clicks on play icon from ‘Experienced Detailed View page of influencer app
+	Stories Video/Image (short videos)
+	No
+	No
+	N/A
+	Image or Video Upload
+	* Merchant is allowed to add either Video or Image under this section 
+* This image or video will be used in the Stories view of the influencer app                 
+	Visible Restriction
+	Influencer Types
+	No
+	No
+	Blank
+	Check box
+	Merchant is allowed to select from the predefined list 
+	Minimum no. of followers required
+	No
+	No
+	3000
+	Number
+	If the value is entered, only influencers that have that much minimum number of followers count or higher will be able to book that experience. Other Influencer can only able to view it.
+	Past experiences completed required
+	No
+	No
+	Blank
+	Number
+	If the value is entered in this field, only influencers with that number of past completed experience in the Expin application will be able to book that experience. Other influencers can only be able to view it.
+	Genuine reviews required
+	No
+	NO
+	Blank
+	Number
+	If the value is entered in this field, only influencers with that number of Genuine reviews submitted in the Expin application will able to book that experience. Other Influencer can only able to view it 
+	Invisible Restrictions
+	Allowed Genders
+	No
+	No
+	Blank
+	Check box
+	The gender value selected from the field will not able to see that experience even that influencer met all of the visible restrictions 
+
+
+	Allowed Countries
+	No
+	No
+	Blank
+	Drop down
+	Merchant is able to select multiple countries
+Once added, the added country will be displayed with ‘x’ - Clicking ‘x’ icon will remove that pre-selected country from the added list
+	Maximum no. of followers
+	No
+	No
+	Blank
+	Number 
+	If the value is entered in this field, only influencers with that number of followers count  will not able to see that experience.  
+	Minimum Age
+	No
+	No
+	Blank
+	Number
+	Minimum 18
+	Maximum Age
+	No
+	No
+	Blank
+	Number
+	Maximum 50. Number must be greater than minimum age.
+	Preview
+	N/A
+	No
+	N/A
+	Action Button
+	When clicked on it, merchant can able to see the preview of that experience 
+	Publish
+	N/A
+	No
+	N/A
+	Action button 
+	When clicked on it, system verifies whether all the mandatory fields are filled or not
+* If yes,
+   * System send a notification to admin saying that new experience is pending approval 
+   * System shows confirmation message to Merchant their experience is submitted to admin for review and currently it is pending approval status 
+* If not, system displays error message and prompt user to fill the necessary mandatory information 
+	
+
+Visible & Invisible Restrictions 
+1. Visible restrictions: These are the requirements of the influencer who can  able to view that experience 
+2. Invisible restrictions: These are the requirements of the influencer who can’t able to view that experience 
+3. System needs to consider both Visible and Invisible restrictions when showing the experience to the the influencer on the Expin influencer app. 
+4. If more than one visible/ invisible restrictions are set, system needs to consider all the restrictions. i.e AND condition to be used for each restrictions 
+5. The following table summarizes the few sample of visible and invisible restrictions 
+
+
+Case
+	Visible Restrictions
+	Invisible Restrictions
+	About Influencer
+	Showing Experience Rules
+	1
+	Min. # of Followers: 50K
+	Male
+	Gender: Male
+Followers Count: 60K
+	Influencer can’t able to see that experience 
+	2
+	Min. # of Followers: 50K
+	Male
+	Gender: Female
+Followers Count: 60K
+	Influencer can able to see that experience in the Experience and Stories view and able to book it
+	3
+	Min. # of Followers: 50K
+	Male
+	Gender: Female
+Followers Count: 40K
+	Influencer can able to see that experience but can’t book it since she don’t have the minimum # of followers count (visible restrictions set) 
+	4
+	Min. # of Followers: 50K & 
+Past experiences completed required 2
+	Male
+	Gender: Male
+Followers Count: 60K
+Past Completed Experience: 2
+	Influencer can’t able to see that experience 
+	5
+	Min. # of Followers: 50K & 
+Past experiences completed required 2
+	Male
+	Gender: Female
+Followers Count: 60K
+Past Completed Experience: 1
+	Influencer can able to see that experience but can’t book it since she does complete the no of past experience required 
+	6
+	Min. # of Followers: 50K & 
+Past experiences completed required 2
+	Male
+	Gender: Female
+Followers Count: 60K
+Past Completed Experience: 3
+	Influencer can able to see that experience in the Experience and Stories view and able to book it
+	7
+	Min. # of Followers: 50K & 
+Past experiences completed required 2
+	Male & Dubai
+	Gender: Male
+Followers Count: 60K
+Past Completed Experience: 2
+Location: Dubai
+	Influencer can’t able to see that experience 
+	8
+	Min. # of Followers: 50K & 
+Past experiences completed required 2
+	Male & Dubai
+	Gender: Male
+Followers Count: 60K
+Past Completed Experience: 2
+Location: India
+	Influencer can able to see that experience in the Experience and Stories view and able to book it
+	9
+	Min. # of Followers: 50K & 
+Past experiences completed required 2
+	Male & Dubai
+	Gender: Female
+Followers Count: 60K
+Past Completed Experience: 2
+Location: Dubai
+	Influencer can able to see that experience in the Experience and Stories view and able to book it
+	10
+	Min. # of Followers: 50K & 
+Past experiences completed required 2
+	Male & Dubai
+	Gender: Female
+Followers Count: 60K
+Past Completed Experience: 1
+Location: India
+	Influencer can able to see that experience but can’t book it since she does complete the no of past experience required 
+	
+
+Business Rules to be implemented 
+1. Once Merchant created an experience, that will be sent to admin for their review and approval 
+2. Merchant can able to save the “create experience’ form and submit it later 
+3. Merchant can also have the ability to publish the experience in additional language 
+   1. Merchant is allowed to add one additional language to create their experience 
+   2. In the ‘Create Experience’ form, Merchant can select the additional language that experience need to be shown 
+   3. Default language of the experience shown on the influencer app is ‘English’
+   4. If Merchant created an experience in the additional language, Influencer can see the ‘Language’ switch option on that ‘Experience Detailed view’
+4. Merchant created experience only visible in the influencer app once the following are met
+   1. Admin approved that experience 
+   2. Experience has the slots available (i.e, Merchant purchased credit for that experience) 
+Web Dashboard 
+Requirements Overview 
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR20
+	NA
+	Merchant shall able to see the list of experiences with upcoming booking and able to see the status of the Experience 
+	
+
+Solution Specifications                                                                 
+1. This is the landing screen of Merchant Web Portal on every successful login 
+2. In this screen, Merchant can see the following 
+   1. Quick stats: This section shows the following quick stats count 
+      1. # of Experience Pending Approval (From Admin)
+      2. # of Influencer Bookings 
+      3. # of Booking Request (Waiting List)
+   2. Upcoming Booking: This section shows the recent booking of their experience. For each booking, Merchant can see the following 
+      1. Influencer Name
+      2. Name of Experience 
+      3. Booked Status 
+   3. Waiting List: This section shows the list of influencer booking that are waiting for Merchant’s approval. For each booking request, Merchant can see the following 
+      1. Influencer Name 
+      2. Name of Experience 
+      3. Approve:  Using this navigation, Merchant can approval that influencer’s booking request. Please refer “5.4.4.1 Approve Influencer’s Booking Request’ section for more details  
+      4. Reject: Using this navigation, Merchant can reject that Influencer’s booking request. Please refer “5.4.4.2 Reject Influencer’s Booking Request’
+   4. Account Details: Under this section, Merchant can see the following details about their account 
+      1. Current Package Subscribed
+      2. Next Renewal date
+      3. Current Credit Availability 
+   5. Followers Growth: This section shows the followers growth of that Merchant’s Instagram profile 
+My Experiences 
+Requirements Overview 
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR21
+	NA
+	Merchant shall able to manage all of their Experience
+	
+
+Solution Specifications         
+1. This section displays a list of  Experience that Merchant has created 
+2. For each Experience, Merchant can see the following details 
+   1. Name of Experience 
+   2. Status (Draft, Pending Approval, Active, Ended)
+   3. Action: Merchant can see the following action navigation based on the status of the experience. 
+Status of Experience
+	Available Action Navigation
+	Draft
+	* Edit: Using this navigation, Merchant can able to complete the experience form 
+	Pending Approval
+	* Preview: Using this navigation, Merchant can see the preview of that experience 
+	Active
+	* End: Using this navigation, Merchant can manually end that Experience. When clicked on it, user will get an confirmation popup. Once confirmed, System will mark that Experience as ended and won’t visible to other influencer for further booking. For the influencer already booked that experience, still able to see that experience and its details  
+	
+
+Bookings 
+Requirements Overview 
+Functional Requirement No
+	Reference to BRD 
+	Comment/ Description (If any)
+	FR22
+	NA
+	From this module, Merchant shall able to see all the bookings received against their Experience as well see their influencer’s profile
+	
+
+Solution Specifications         
+1. This section display all of the bookings of the experience that were posted by that Merchant 
+2. This section was further divided into the following sub sections 
+   1. Past Bookings: This section shows all of the influencer bookings that has been already approved and/ or completed 
+   2. Upcoming Bookings: This section  shows all of the influencer bookings that has been approved (either auto or manually)  or waiting for approval and not yet reached the booked date 
+3. For Past Bookings, Merchant can see the following details about that booking 
+   1. Name of Influencer
+   2. Name of Experience 
+   3. Booked/ Completed Date 
+   4. Action: Merchant can see the following action navigation 
+      1. View Profile: Using this navigation, Merchant can see the complete details about that influencer. Please refer “5.4.4 Experience Details – Influencer Waiting List Screen” section for the details of the information to be shown on the profile screen 
+      2. Submit Review: Using this navigation, Merchant can submit the review against that influencer 
+      3. View Review: This option only visible if the influencer already submitted review against that experience. Using this navigation, Merchant can see the review submitted by that influencer against that experience 
+      4. Message: This option only visible if the influencer already initiates the message with that Merchant 
+      5. Block: Using this navigation, Merchant can block that influencer.  Blocked Influencer will no longer be able to see any experience created by this Merchant. Merchant can remove block by accessing settings - Blocked Influencers section 
+4. For “Upcoming Bookings’, Merchant can see the following details about that booking 
+   1. Name of Influencer 
+   2. Name of Experience 
+   3. Booking Date 
+   4. Status (Approved or Waiting List) 
+   5. Action: There are the following cases are possible to show the available action navigation of that  
+      1. Case 1: Status of Booking is ‘Approved’, then Merchant can see the following action navigation 
+         1. View Profile: Using this navigation, Merchant can see the complete details about that influencer. Please refer “5.4.4 Experience Details – Influencer Waiting List Screen” section for the details of the information to be shown on the profile screen 
+         2. Message: This option only visible if the influencer already initiates the message with that Merchant 
+         3. Block: Using this navigation, Merchant can block that influencer.  Blocked Influencer will no longer be able to see any experience created by this Merchant. Merchant can remove block by accessing settings - Blocked Influencers section 
+      2. Case 2: Status of Booking is ‘Waiting List’, then Merchant can see the following action navigation 
+         1. Approve: Using this navigation, Merchant can approval that influencer’s booking request. Please refer “5.4.4.1 Approve Influencer’s Booking Request’ section for more details  
+         2. Reject: Using this navigation, Merchant can reject that Influencer’s booking request. Please refer “5.4.4.2 Reject Influencer’s Booking Request’
+         3. View Profile: Using this navigation, Merchant can see the complete details about that influencer. Please refer “5.4.4 Experience Details – Influencer Waiting List Screen” section for the details of the information to be shown on the profile screen 
+         4. Message: This option only visible if the influencer already initiates the message with that Merchant 
+         5. Block: Using this navigation, Merchant can block that influencer.  Blocked Influencer will no longer be able to see any experience created by this Merchant. Merchant can remove block by accessing settings - Blocked Influencers section 
+5.4.4 My Messages
+Requirements Overview
+Functional Requirement No
+	Reference to BRD
+	Comment/ Description (If any)
+	FR23
+	NA
+	This feature allows Merchant user to respond to the Influencer questions regarding the experience via this web portal 
+	 
+Solution Specification
+1. Merchant Users  should be able to send message to Influencer in following cases
+   1. Case 1: Influencer initiated the ‘Live Chat’ option of the experience posted by that Merchant
+   2. Case 2: Influencer initiated ‘Ask Merchant option’ from any of the experience posted by that Merchant
+2. Merchant user can’t initiate the communication. He is only able to respond to the message received from the Influencer
+3. In this screen, Users should be able to see the following
+   1. View all messages (My Messages - inbox section) –
+      1. All the messages should display in list format.
+      2. Listing will be sorted based on newest message at top to oldest.
+      3. If there is any unread message, count should be displayed.
+      4. Merchant User can search for message thread with the name of experience.
+      5. Following information should be displayed in the message list –
+         1. Influencer Profile Picture
+         2. Influencer Name
+         3. Name of the Experience
+         4. 50 characters of the latest message received
+         5. Received on – date/time
+      6. If the message is received today only time will be displayed
+      7. For all earlier messages date/time both should be displayed.
+      8.  Actions -
+         1. Click on message should navigate user to message detail screen.
+         2. Select checkbox for  any message and user shall able to see the following actions:
+            1. Archive conversation – clicking on this archive the thread and moves it in archived section.
+            2. Delete conversation – clicking on this delete the thread and move to deleted section.
+               1. Confirmation alert to display before deleting.
+   2. View message detail –
+      1. Clicking on message tile shall redirect user to detail screen.
+      2. Users should be able to view complete conversation here from starting till date.
+      3. Users can send text message from here.
+      4. Actions for users on detail screen –
+         1. Delete conversation
+            1. User can delete complete conversation through this option.
+               1. Confirmation alert to display before deleting.
+         2. Archive conversation
+            1. User shall be able to archive the message thread using this option.
+         3. Block this Influencer
+            1. This option shall allow user to block that Influencer.
+            2. User should not be able to send and receive message from the Influencer to whom they have blocked as well see the booking request
+            3. Before blocking, confirmation alert shall display.
+            4. Blocked Influencer will display in “Blocked Influencers” under “Setting”
+   3. Archived section –
+      1. Once the thread has been archived, it gets moved to “Archived section”.
+      2. Thread remains under this section until user manual move it to inbox back.
+      3. If user send message whose thread is archived, then thread get moved back in inbox section.
+      4. Actions
+         1. Select checkbox for any message tile and user shall able to see the following actions:
+            1. Move to inbox – this move message thread back to inbox
+            2. Delete – this delete the message thread and move to deleted section.
+   4. Deleted section –
+      1.  All deleted thread display under “Deleted section”.
+      2. Deleting conversation shall delete the chat from user side only (who is logged in) who clicked this option. It should remain as it is at other user’s end.
+      3. Deleted thread remains in deleted section for 30 days.
+      4. After 30 days, thread gets removed permanently.
+Web Admin
+Admin Login
+Requirements Overview
+Functional Requirement No
+	Reference to BRD
+	Comment/ Description (If any)
+	FR24
+	NA
+	Admin shall able to login to the web admin panel using their login credentials.
+	 
+Solution Specifications
+1. There should be only one administrator account credentials will be generated/ hard coded in the application
+2. There are the following cases are possible to change the admin account credentials
+   1. Case 1: Admin can manually change their account password by going to their profile in admin panel
+   2. Case 2: Expin application developers can directly update the credentials in the DB
+3. Admin shall be able to login in the admin panel with the given email address and password
+   1. Verify if the email address & password supplied by the admin, is correct
+      1. If not, display an error, “The email address or password is incorrect, please try again”.
+      2. If yes, navigate admin to “Manage Influencers” screen.
+4. When admin enters the password on login screen, the password should be shown in encrypted format only.
+5. All validations related to email address and password will be applicable.
+Manage Influencers
+Requirements Overview
+Functional Requirement No
+	Reference to BRD
+	Comment/ Description (If any)
+	FR24
+	NA
+	Administrator of the system can manage all the influencers of the Expin application. Moreover from this module, admin can approve or reject the influencer account as well suspend it
+	 
+Solution Specifications
+1. Admin shall able to manage the entire Influencers list of the Expin application
+2. Influencers lists are displayed in the sorting order of date (registration/ approved/ rejected)from newest to old
+3. Admin shall able to filter the influencers records based on the following
+   1. Influencers by Status (Approved/ Rejected)
+   2. Influencer Account Type (Basic or VIP or Free Trial)
+   3. Influencer by Type & Category
+   4. Influencer by Country/ Location
+   5. Others Filters: such as the following
+      1. Most Active Influencers
+      2. No Show
+      3. Top/ Least Rated Influencers by Merchant
+      4. No Reviews/ Pending Review
+      5. Waiting List
+4. This section was further divided into the following subsections
+   1. Pending Approval
+   2. All
+5. In this section, Influencer records are shown in a grid format. And for each influencer’s record, admin can able to see the following
+   1. Instagram profile picture,
+   2. Number of followers, who have requested to be a part of Expin but are pending approval from the admin team.
+   3. Date of signing up
+   4. Date of approval/rejection,
+   5. Admin user that did the approval rejection is needed.
+6. Admin can do the following action against each influencer record
+   1. View Profile: Selecting this navigation, admin will be redirected to that influencer’s Instagram profile page in a new window/ tab
+   2. View Registration Info: Selecting this navigation, admin will be redirected to the screen where he can see the completed information about that influencer which was given during the registration
+   3. View Bookings: Selecting this navigation, admin will be redirected to ‘Bookings’ screen with filter applied for the selected influencers bookings only
+   4. Approve: This action button only available if the influencer account is not approved. When clicked on it, the following action need to be done simultaneously
+      1. Status of that Influencer record is changed to ‘Approved’ in Web admin panel as well Influencer app
+      2. Need to capture the approved timestamp along with approved admin name and store it in the database
+      3.  Account approved email/ push notification sent to that influencer based on their notification settings
+   5. Reject: This action button only available if the influencer account is not approved. When clicked on it, Admin prompt to input the reason for rejection. Once rejection reason entered and submitted, the following action need to be done simultaneously
+      1.  Status of that Influencer record is changed to ‘Rejected’ in Web admin panel as well Influencer app
+      2. Need to capture the rejected timestamp along with rejected admin name and store it in the database
+      3.  Account rejected email/ push notification sent to that influencer based on their notification settings
+      4. Influencer still able to login to their account via Influencer app and able to browse the experience but can’t able to book it
+   6. Suspend: This action button is available for all active influencer record. When clicked on it, the following action need to be done simultaneously
+      1. Status of that Influencer record is changed to ‘Suspended’ in Web admin panel as well Influencer app
+      2. Account suspended email notification sent to that influencer registered email address
+      3. Influencer restricted to login to the influencer app further
+   7. Activate: This action button is available for all suspended influencer record. When clicked on it, the following action need to be done simultaneously
+      1. Status of that Influencer record is changed to ‘Approved’ in Web admin panel as well Influencer app
+      2. Account activated email notification sent to that influencer registered email address
+      3. Influencer still able to login to their account via Influencer app and able to browse & book  the experience
+Influencers Pending Approval
+1. This section shows the list of influencers record that are waiting for admin review and approval
+2. Influencers records are displayed in the sorting order of signing up date from oldest to new
+3. For each influencer’s record in this section, admin can able to see the following
+   1. Instagram profile picture,
+   2. Name
+   3. Email (with status icon to notify whether that influencer verified their email or not)
+   4. Mobile No. (with status icon to notify whether that influencer verified their mobile number or not
+   5. Facebook Business (status to notify whether that influencer connected or not connected their business account
+   6. Number of followers, who have requested to be a part of Expin but are pending approval from the admin team.
+   7. Date of signing up
+4. Admin can do the following action against each influencer record
+   1. View Profile: Selecting this navigation, admin will be redirected to that influencer’s Instagram profile page in a new window/ tab
+   2. View Registration Info: Selecting this navigation, admin will be redirected to the screen where he can see the complete information about that influencer which was given during the registration
+   3. Approve: When clicked on it, the following action need to be done simultaneously
+      1. Status of that Influencer record is changed to ‘Approved’ in Web admin panel as well Influencer app
+      2. Need to capture the approved timestamp along with approved admin name and store it in the database
+      3. Account approved email/ push notification sent to that influencer based on their notification settings
+   4. Reject: When clicked on it, Admin prompt to input the reason for rejection. Once rejection reason entered and submitted, the following action need to be done simultaneously
+      1. Status of that Influencer record is changed to ‘Rejected’ in Web admin panel as well Influencer app
+      2. Need to capture the rejected timestamp along with rejected admin name and store it in the database
+      3. Account rejected email/ push notification sent to that influencer based on their notification settings
+      4. Influencer still able to login to their account via Influencer app and able to browse the experience but can’t able to book it
+   5. Suspend: When clicked on it, the following action need to be done simultaneously
+      1. Status of that Influencer record is changed to ‘Suspended’ in Web admin panel as well Influencer app
+      2. Account suspended email notification sent to that influencer registered email address
+      3. Influencer restricted to login to the influencer app further
+ 
+Most Active Influencers
+1. This filter shows the list of influencers who are most active on the app in terms of # of experience booking (This not count the no. of booking request that influencer has made)
+2. Influencers lists are displayed in the sorting order of  “Total # of Bookings” from highest to low
+3. When selecting this filter option, admin can see the influencers records with the following information about each influencer
+   1. Instagram profile picture,
+   2. Number of followers
+   3. Date of signing up
+   4. Account Type (Basic or VIP or Free Trial)
+   5. Total # of Bookings  
+   6.  # of Upcoming Bookings
+No Show
+1. This filter shows the list of influencers who had the most of no show
+2. Influencer’s booking is marked as ‘No Show’ or ‘Missed’ when the influencer doesn’t enter their check-in pin within the period
+3. Influencers lists are displayed in the sorting order of “Total # of No show” from highest to low
+4. When selecting this filter option, admin can see the influencers records with the following information about each influencer
+   1. Instagram profile picture,
+   2. Number of followers
+   3. Date of signing up
+   4. Account Type (Basic or VIP or Free Trial)
+   5. Total # of Bookings  
+   6. Total # of No Show: When click on it, admin will be redirected to Bookings module with list of past bookings of that influencer record filtered on it
+Top rated influencers by merchants
+1. This filter shows the list of influencers who had received the top ratings from the Merchant
+2. Top rating is calculated based on the no. of star rating that influencer received for their booking
+3. Influencers lists are displayed in the sorting order of “Total # of Top Reviews” from highest to low
+4. When selecting this filter option, admin can see the influencers records with the following information about each influencer
+   1. Instagram profile picture,
+   2. Number of followers
+   3. Date of signing up
+   4. Account Type (Basic or VIP or Free Trial)
+   5. Total # of Bookings  
+   6. Total # of Reviews (Received)
+   7. Total # of Top Reviews (Received): When click on it, admin will be redirected to Bookings module with list of past bookings (Bookings that influencer has received the review from Merchant) of that influencer record filtered on it
+Least rated influencers by merchants
+1. This filter shows the list of influencers who had received the least ratings from the Merchant
+2. Least rating is calculated based on the no. of star rating that influencer received for their booking
+3. Influencers lists are displayed in the sorting order of “Total # of Least Reviews” from highest to low
+4. When selecting this filter option, admin can see the influencers records with the following information about each influencer
+   1. Instagram profile picture,
+   2. Number of followers
+   3. Date of signing up
+   4. Account Type (Basic or VIP or Free Trial)
+   5. Total # of Bookings  
+   6. Total # of Reviews (Received)
+   7. Total # of Least Reviews (Received): When click on it, admin will be redirected to Bookings module with list of past bookings (Bookings that influencer has received the review from Merchant) of that influencer record filtered on it
+No Review/ Pending Reviews
+1. This filter shows the list of influencers who had completed their experience but not yet submitted their review against that experience
+2. This section shows the influencer even if he is not submitted the review one of the completed experience too
+3. Influencers lists are displayed in the sorting order of “Total # of Pending Reviews” from highest to low
+4. When selecting this filter option, admin can see the influencers records with the following information about each influencer
+   1. Instagram profile picture,
+   2. Number of followers
+   3. Date of signing up
+   4. Account Type (Basic or VIP or Free Trial)
+   5. Total # of Bookings  
+   6. Total # of Reviews (Submitted)
+   7. Total # of Pending Reviews: When click on it, admin will be redirected to Bookings module with list of past bookings (Bookings that influencer has completed and not yet submitted review) of that influencer record filtered on it
+Waiting List
+1. This filter shows the list of influencers who had submitted their booking request and waiting for Merchant approval
+2. Influencers lists are displayed in the sorting order of “Total # of Waiting list booking” from highest to low
+3. When selecting this filter option, admin can see the influencers records with the following information about each influencer
+   1. Instagram profile picture,
+   2. Number of followers
+   3. Date of signing up
+   4. Account Type (Basic or VIP or Free Trial)
+   5. Total # of Bookings
+   6. Total # of Waiting List Booking : When click on it, admin will be redirected to Bookings module with list of waiting list bookings of that influencer record filtered on it  
+ 
+Manage Merchant  
+Requirements Overview
+Functional Requirement No
+	Reference to BRD
+	Comment/ Description (If any)
+	FR25
+	NA
+	Administrator of the system can manage all the Merchant of the Expin application. Moreover from this module, admin can approve or reject the Merchant account as well suspend it
+	 
+Solution Specifications
+1. Admin shall able to manage the entire Merchant list of the Expin application
+2. Merchant lists are displayed in the sorting order of date (registration/ approved/ rejected)from newest to old
+3. Admin shall able to filter the Merchant records based on the following
+   1. Merchant by Status (Approved/ Rejected)
+   2. Merchant by Country/ Location
+   3. Others Filters: such as the following
+      1. Most / Least Popular Experience
+      2. Top/ Least Rated Experience 
+      3. Pending Waiting List
+4. This section was further divided into the following subsections
+   1. Pending Approval
+   2. All
+5. In this section, Merchant records are shown in a grid format. And for each Merchant record, admin can able to see the following
+   1. Instagram profile picture/ Business Logo  
+   2. Merchant Business Name
+   3. Email
+   4. Date of signing up
+   5. Date of approval/rejection,
+   6. Admin user that did the approval rejection is needed.
+6. Admin can do the following action against each Merchant record
+   1. View Profile: Selecting this navigation, admin will be redirected to that Merchant’s Instagram profile page in a new window/ tab
+   2. View Registration Info: Selecting this navigation, admin will be redirected to the screen where he can see the completed information about that Merchant which was given during the registration
+   3. View Experiences: Selecting this navigation, admin will be redirected to ‘Experiences’ screen with filter applied for the selected Merchant created experiences only (both active and past) 
+   4. Approve: This action button only available if the Merchant account is not approved. When clicked on it, the following action need to be done simultaneously
+      1. Status of that Merchant record is changed to ‘Approved’ in Web admin panel as well Mobile app
+      2. Need to capture the approved timestamp along with approved admin name and store it in the database
+      3. Account approved email/ push notification sent to that Merchant based on their notification settings
+   5. Reject: This action button only available if the Merchant account is not approved. When clicked on it, Admin prompt to input the reason for rejection. Once rejection reason entered and submitted, the following action need to be done simultaneously
+      1. Status of that Merchant record is changed to ‘Rejected’ in Web admin panel  
+      2. Need to capture the rejected timestamp along with rejected admin name and store it in the database
+      3. Account rejected email/ push notification sent to that Merchant based on their notification settings
+      4. Merchant still able to login to their account via Merchant web dashboard and able to update their profile information  and submit again for approval
+   6. Suspend: This action button is available for all active Merchant record. When clicked on it, the following action need to be done simultaneously
+      1. Status of that Merchant record is changed to ‘Suspended’ in Web admin panel as well Expin System  
+      2. Account suspended email notification sent to that Merchant registered email address
+      3. Merchant is restricted to login to the Mobile app and Web Dashboard further
+   7. Activate: This action button is available for all suspended Merchant record. When clicked on it, the following action need to be done simultaneously
+      1. Status of that Merchant record is changed to ‘Approved’ in Web admin panel as well Expin System 
+      2. Account activated email notification sent to that Merchant’s registered email address
+      3. Merchant  able to login to their account via Mobile app as well Web dashboard
+Merchant Pending Approval
+1.  This section shows the list of Merchant record that are waiting for admin review and approval
+2. Merchant records are displayed in the sorting order of signing up date from oldest to new
+3. For each Merchant’s record in this section, admin can able to see the following
+   1. Instagram profile picture/ Business Logo  
+   2. Merchant Business Name
+   3. Email
+   4. Date of signing up
+4. Admin can do the following action against each influencer record
+   1. View Profile: Selecting this navigation, admin will be redirected to that Merchant’s Instagram profile page in a new window/ tab
+   2. View Registration Info: Selecting this navigation, admin will be redirected to the screen where he can see the complete information about that Merchant which was given during the registration
+   3. Approve: When clicked on it, the following action need to be done simultaneously
+      1. Status of that Merchant record is changed to ‘Approved’ in Web admin panel as well Expin System
+      2. Need to capture the approved timestamp along with approved admin name and store it in the database
+      3. Account approved email/ push notification sent to that Merchant based on their notification settings
+   4. Reject: When clicked on it, Admin prompt to input the reason for rejection. Once rejection reason entered and submitted, the following action need to be done simultaneously
+      1. Status of that Merchant record is changed to ‘Rejected’ in Web admin panel as well Expin System 
+      2. Need to capture the rejected timestamp along with rejected admin name and store it in the database
+      3. Account rejected email/ push notification sent to that Merchant based on their notification settings
+      4. Merchant still able to login to their account via Merchant web dashboard and able to update their profile information  and submit again for approval
+   5. Suspend: When clicked on it, the following action need to be done simultaneously
+      1. Status of that Merchant record is changed to ‘Suspended’ in Web admin panel as well Expin System
+      2. Account suspended email notification sent to that Merchant registered email address
+      3. Merchant restricted to login to the Mobile app as well Web dashboard further
+Most Popular Experience
+1. This filter shows the list of Merchant who are having most popular experience in terms of no. of bookings received on the experience that Merchant has created
+2. Merchant lists are displayed in the sorting order of  “Total # of Popular Experience” from highest to low
+3. When selecting this filter option, admin can see the Merchant records with the following information about each influencer
+   1. Instagram profile picture/ Business Logo  
+   2. Merchant Business Name
+   3. Email
+   4. Plan Subscribed
+   5. Total # of Experiences (Count included both Active and Past)
+   6. Total # of Popular Experiences : When clicked on it, admin will be redirected to Bookings module with list of Experiences of that Merchant that has high no. of bookings in it
+Least Popular Experience
+1. This filter shows the list of Merchant who are having Least popular experience in terms of less no. of bookings received on the experience that Merchant has created
+2. Merchant lists are displayed in the sorting order of  “Total # of Least Popular Experience” from highest to low
+3. When selecting this filter option, admin can see the Merchant records with the following information about each influencer
+   1. Instagram profile picture/ Business Logo  
+   2. Merchant Business Name
+   3. Email
+   4. Plan Subscribed
+   5. Total # of Experiences (Count included both Active and Past)
+   6. Total # of Least Popular Experiences : When clicked on it, admin will be redirected to Bookings module with list of Experiences of that Merchant that has Least no. of bookings in it
+Top rated Experience
+1. This filter shows the list of Merchant whose experience had received the top ratings from the Influencer
+2. Top rating is calculated based on the no. of star rating that Merchant’s experience received for the completed booking
+3. Merchant lists are displayed in the sorting order of “Total # of Top Reviews” from highest to low
+4. When selecting this filter option, admin can see the Merchant records with the following information about each Merchant
+   1. Instagram profile picture/ Business Logo 
+   2. Merchant Business Name
+   3. Email
+   4. Plan Subscribed
+   5. Total # of Experiences (Count included both Active and Past)
+   6. Total # of Reviews (Received)
+   7. Total # of Top Reviews (Received): When click on it, admin will be redirected to Bookings module with list of past bookings (Bookings that Merchant’s Experience has received the review from Influencer) of that Merchant’s Experience record filtered on it
+Least rated Experience
+1. This filter shows the list of Merchant whose experience had received the least ratings from the Influencer
+2. Least rating is calculated based on the no. of star rating that Merchant’s experience received for the completed booking
+3. Merchant lists are displayed in the sorting order of “Total # of Least Reviews” from highest to low
+4. When selecting this filter option, admin can see the Merchant records with the following information about each Merchant
+   1. Instagram profile picture/ Business Logo 
+   2. Merchant Business Name
+   3. Email
+   4. Plan Subscribed
+   5. Total # of Experiences (Count included both Active and Past)
+   6. Total # of Reviews (Received)
+   7. Total # of Least Reviews (Received): When click on it, admin will be redirected to Bookings module with list of past bookings (Bookings that Merchant’s Experience has received the review from Influencer) of that Merchant’s Experience record filtered on it
+Waiting List
+1. This filter shows the list of Merchant whose experience had received the booking request and and waiting for Merchant approval
+2. Merchant lists are displayed in the sorting order of “Total # of Waiting list booking” from highest to low
+3. When selecting this filter option, admin can see the Merchant records with the following information about each Merchant
+   1. Instagram profile picture/ Business Logo 
+   2. Merchant Business Name
+   3. Email
+   4. Plan Subscribed
+   5. Total # of Experiences (Count included both Active and Past)
+   6. Total # of Bookings
+   7. Total # of Waiting List Booking : When click on it, admin will be redirected to Bookings module with list of waiting list bookings of that Merchant’s experience record filtered on it 
+Manage Experience   
+Requirements Overview
+Functional Requirement No
+	Reference to BRD
+	Comment/ Description (If any)
+	FR26
+	NA
+	Administrator of the system can manage all the Experience of the Expin application. Moreover from this module, admin can approve or reject the Experience, allocate credit or slot and view analytics stats  
+	 
+Solution Specifications
+1. Admin shall able to manage the entire Experiences of the Expin application
+2. Experiences are displayed in the sorting order of created date from newest to old
+3. Admin shall able to filter the Experience records based on the following
+   1. Experience by Status (Approved/ Rejected/ Active/ Expired)
+   2. Experience by Type/ Category
+   3. Experience by Country/ Location
+   4. Others Filters: such as the following
+      1. Most / Least Popular Experience
+      2.  Top/ Least Rated Experience 
+      3. Pending Waiting List
+4. This section was further divided into the following subsections
+   1. Pending Approval
+   2. All
+5. In this section, Experience records are shown in a grid format. And for each Experience record, admin can able to see the following
+   1. Experience Logo
+   2. Name of the Experience
+   3. Start date
+   4. End date
+   5. Date of creation
+   6. Date of approval/rejection,
+   7. Admin user that did the approval/rejection is needed.
+6. Admin can do the following action against each Experience record
+   1. View Detail: Selecting this navigation, admin will be redirected to that Experience’s detailed view which was given by Merchant while creating that Experience
+   2. Preview: When clicked on it, admin will see the preview of that experience
+   3. Approve: This action button only available if the Experience is not approved. When clicked on it, the following action need to be done simultaneously
+      1. Status of that Experience record is changed to ‘Approved’ in Web admin panel as well Expin System
+      2. Need to capture the approved timestamp along with approved admin name and store it in the database
+      3. 4 digits unique check-pin generated & shared it with Merchant to mark that experience booking is completed
+      4. Experience approved email/ push notification sent to that Merchant based on their notification settings
+      5. New Experience available email/ push notification sent to Influencer based on their notification settings
+      6. Experience available in the Mobile app for Influencer view and book
+   4. Reject: This action button only available if the Experience account is not approved. When clicked on it, Admin prompt to input the reason for rejection. Once rejection reason entered and submitted, the following action need to be done simultaneously
+      1. Status of that Experience record is changed to ‘Rejected’ in Web admin panel  
+      2. Need to capture the rejected timestamp along with rejected admin name and store it in the database
+      3. Experience rejected email/ push notification sent to that Merchant based on their notification settings
+   5. Assign Credits: When clicked on it, admin prompt to input the credit for that experience both available & waiting list slots.
+   6. Load Balance: When clicked on it, admin is allowed to chart out the slots in a way that an experience does not get booked out during the start of the month itself.
+   7. Pending Waiting List: This action button only available if the Experience received the waiting list booking. When clicked on this action button, admin will be redirected to the “bookings’ screen with list of waiting list booking of that experience filtered in it
+   8. Stats: This action button only available if the Experience is approved and active. When clicked on it, admin will able to see the stats about how many times a particular experience detailed description was viewed in total
+   9. View Reviews:  When clicked on it admin will be redirected to the ‘Reviews’ screen with list of Influencer’s reviews of that experience filtered on it 
+Manage Bookings
+Requirements Overview
+Functional Requirement No
+	Reference to BRD
+	Comment/ Description (If any)
+	FR27
+	NA
+	Administrator of the system can manage all the Bookings of the Expin application.    
+	 
+Solution Specifications
+1. Admin shall able to manage the entire Bookings of the Expin application
+2. Bookings are displayed in the sorting order of booked date from newest to old
+3. Admin shall able to filter the Bookings records based on the following
+   1. by Status (Approved/ Waiting List/ Completed/ Pending Review)
+   2. by Type/ Category
+   3. by Country/ Location
+4. This section was further divided into the following subsections
+   1. Upcoming Bookings
+   2. Past 
+5. In this section, Bookings records are shown in a grid format. And for each Booking record, admin can able to see the following
+   1. Influencer Name
+   2. Name of the Experience
+   3. Booked Timeslot
+   4. Status (Approved/ Waiting List/ Completed/ Pending Review)
+   5. Date of  Booking
+   6. Date of approval/rejection,
+   7. Merchant user that did the approval/rejection.
+ 
+Manage Reviews
+Requirements Overview
+Functional Requirement No
+	Reference to BRD
+	Comment/ Description (If any)
+	FR28
+	NA
+	Administrator of the system can manage all the reviews of the Expin application.    
+	 
+Solution Specifications
+1. Admin shall able to manage the entire Reviews of the Expin application
+2. Reviews are displayed in the sorting order of reviewed date from newest to old
+3. Admin shall able to filter the Reviews records based on the following
+   1. by Status (Published/ Waiting Review)
+   2. by  Merchant
+   3. by  Influencer
+   4. Least Reviews
+4. This section was further divided into the following subsections
+   1. Reviews by Merchant
+   2. Reviews by Influencer
+5. In this section, Reviews records are shown in a grid format. And for each Review record, admin can able to see the following
+   1. Name of the Experience
+   2. Name of Merchant
+   3. Name of Influencer
+   4. Reviewed by (Influencer or Merchant Name)
+   5. Reviewed Timestamp
+   6. Review Star rating and Comment
+   7. Date of approval/rejection,
+   8. Admin user that did the approval/rejection.
+6. Admin can do the following action against each review record
+   1. Approve: This action button only available if the review is not approved i.e the review star rating is below average. When clicked on it, the following action need to be done simultaneously
+      1. Status of that review record is changed to ‘Approved’ in Web admin panel as well Expin System
+      2. Need to capture the approved timestamp along with approved admin name and store it in the database
+      3. Review published in the mobile app for others to see
+   2. Reject: This action button only available if the review is not approved. When clicked on it, Admin prompt to input the reason for rejection. Once rejection reason entered and submitted, the following action need to be done simultaneously
+      1. Status of that review record is changed to ‘Rejected’ in Web admin panel  
+      2. Need to capture the rejected timestamp along with rejected admin name and store it in the database
+      3. Review won’t published in the Mobile app for others to see
+   3. Remove: When clicked on it, admin prompt to confirm the removal of that review from the Expin system. Once removed that review won’t be visible in the Expin app
+Manage Type
+Requirements Overview
+Functional Requirement No
+	Reference to BRD
+	Comment/ Description (If any)
+	FR29
+	NA
+	Administrator of the system can manage ‘Type’ that will be available in the Mobile app while influencer sign up 
+	 
+Solution Specifications
+1. Admin shall able to manage the ‘Type’ records available Expin application
+2. In this section, Type records are shown in a grid format. And for each Type record, admin can able to see the following
+   1. Thumbnail Image
+   2. Type Name
+   3. Status (Active/ Inactive)
+3. Admin can do the following action against each Type record
+   1. Edit: Using this navigation, admin can easily edit that ‘Type’ record details
+   2. Delete: Using this navigation, admin can permanently remove that type record from the Expin System. There are the following cases are possible when deleting a ‘Type’ record
+      1. Case 1: Influencer already added the ‘Type’ in their profile
+         1. System will display an alert popup saying that some of the influencer chooses this type in their profile and are you sure to delete it?
+            1. Yes: Clicking ‘Yes’ on the alert popup will do the following action
+               1. Remove that ‘Type’ record from Expin System
+               2. In Mobile app, Influencer who already chooses that Type will be removed from their settings
+               3. Deleted ‘Type’ record won’t visible in the sign-up form further
+            2. No: Clicking ‘No’ on the alert popup window, just closes the popup window and remains on the same page
+      2. Case 2: No one added the ‘Type’ in their profile
+         1. System gets an delete confirmation from admin and permanently remove that Type record from ‘Expin’ system. And the deleted ‘Type’ record won’t visible in the sign-up form further
+4. Admin can also add new type record from this module. The Add New Type form will have the following fields as explained in below table
+Field Name
+	Mandatory?
+	Read Only?
+	Default
+	Format Type
+	Description/ Comments
+	Type Name
+	Yes
+	No
+	Blank
+	Text Input
+	Min length – 03 chars
+Max length – 25 chars
+	Thumbnail
+	Yes
+	No
+	Blank
+	Image Upload
+	* Admin is allowed to add image or extracted from short video
+* This thumbnail will be used in ‘Sign-up’ Profile form for influencer’s to choose the ‘Type’ they wish to get notification
+	Status
+	Yes
+	No
+	Active
+	Radio
+	
+
+	Submit
+	N/A
+	No
+	N/A
+	Action Button
+	When clicked on it, system verifies whether all the mandatory fields are filled or not
+·         If yes, system save that Type record and return back to the ‘Type’ records list page. Newly added ‘Type’ record will be visible in the Mobile app for Influencer to see it
+·         If not, system displays error message and prompt user to fill the necessary mandatory information  
+	Cancel
+	N/A
+	No
+	N/A
+	Action Button
+	When clicked on it, will discard all the changes admin did in this ‘Add New Type’ form and redirect back to ‘Type’ records list page
+	 
+Manage Admin Users
+Requirements Overview
+Functional Requirement No
+	Reference to BRD
+	Comment/ Description (If any)
+	FR30
+	NA
+	Administrator of the system can manage ‘Admin users’ who are having access to this web admin panel and do the activities on behalf of administrator of the Expin System  
+	 
+Solution Specifications
+1. Admin shall able to manage the ‘Admin Users’ records available Expin System
+2. In this section, Admin Users records are shown in a grid format. And for each Admin User record, admin can able to see the following
+   1. Admin User Name
+   2. Email
+   3. Created Date
+   4. Status (Active/ Inactive)
+3. Admin can do the following action against each Admin User record
+   1. Edit: Using this navigation, admin can easily edit that ‘Admin User’ record details
+   2. Delete: Using this navigation, admin can permanently remove that Admin User record from the Expin System. When clicked on it, system will display a delete confirmation, once admin confirmed that admin user record is permanently removed from the Expin system and the deleted admin user can’t able to access the web admin panel further
+4. Admin can also add new ‘Admin User’ record from this module. The Add New Admin User form will have the following fields as explained in below table
+Field Name
+	Mandatory?
+	Read Only?
+	Default
+	Format Type
+	Description/ Comments
+	First Name
+	Yes
+	No
+	Blank
+	Text Input
+	Min length – 03 chars
+Max length – 25 chars
+	Last Name
+	Yes
+	No
+	Blank
+	Text Input
+	Min length – 03 chars
+Max length – 25 chars
+	Email
+	Yes
+	No
+	Blank
+	Text Input
+	Min length – 07 chars
+Max length – 70 chars
+It should be unique in the system.
+All the validations related to Email address should be applicable.
+	Profile Image
+	No
+	No
+	Blank
+	Image Upload
+	Admin is allowed to add image   
+	Status
+	Yes
+	No
+	Active
+	Radio
+	
+
+	Access Rights
+	Yes
+	No
+	 
+	Check Box
+	* Admin is able to see check box option for the following module access
+   * Influencer
+   * Merchant
+   * Experience
+   * Bookings
+   * Reviews
+* Admin is able to select one or multiple module from this section 
+	Submit
+	N/A
+	No
+	N/A
+	Action Button
+	When clicked on it, system verifies whether all the mandatory fields are filled or not
+·         If yes,
+o        System saves that Admin User record and return back to the ‘Admin User’ records list page.
+o        System triggers an email notification to the given email id in the form with instructions to login to their web admin panel.
+·         If not, system displays error message and prompt user to fill the necessary mandatory information  
+	Cancel
+	N/A
+	No
+	N/A
+	Action Button
+	When clicked on it, will discard all the changes admin did in this ‘Add New Admin User’ form and redirect back to ‘Admin User’ records list page
+	 
+ 
+Invision Designs and flow.
+Mobile App (Complete)
+Web Admin  (Incomplete, minor adjustments needed to be inline with current specs)
+
+
+1. Technical Architecture 
+   1. Architecture 
+1. Amazon EC2
+2. Amazon S3
+   1. Technology Stack 
+System
+	Technology Stack 
+	Mobile Front-end
+	* React Native
+* Redux
+* React Native Navigation
+	Web Front-End
+	* React
+* Redux
+* React Router
+	Backend 
+	* Framework: Laravel PHP or Express.js
+* Main database: Relational Database (MySQL, PostgreSQL, SQLite, etc.)
+* Cache database layer: NoSQL database for caching (Redis, Elasticsearch, MongoDB, etc.)
+* Real time notifications: Pusher, Socket.IO, Firebase
+	
+
+   2. 3rd Party Services/ API
+* Instagram API https://www.instagram.com/developer/ - to be used for influencer signup for the application
+   * Instagram Client ID: [client_id_here]
+   * Instagram user data has to be updated and synced to the database every time the Influencer opens the application including
+      * “Username”
+      * “Full name”
+      * Profile picture
+      * Bio
+      * Website
+      * User metrics (media count, number of followers, following).
+* Facebook Graph API - https://developers.facebook.com/docs/graph-api/ - to be used for connecting Influencer’s Instagram Business Account to the application
+   * Facebook App ID: [app_id_here]
+   * A Facebook Login https://developers.facebook.com/docs/facebook-login/ process has to be completed in order to retrieve a short-lived user access token with the following permissions:
+      * email
+      * instagram_basic
+      * Instagram_manage_insights
+         * Stories - Selected stories.
+            * Reach
+            * Impressions
+            * Replies
+            * Exits
+         * Audience - Account level
+            * Top 5 Cities
+            * Top 5 Countries
+            * Age Range 
+               * All
+               * Male
+               * Female
+            * Gender
+               * Male
+               * Female
+         * Feed Posts - Post level
+            * Impressions
+            * Reach
+            * Engagement
+            * Likes
+            * Comments
+            * Saved
+      * Manage_pages
+   * The short-lived token has to be upgraded to a long-lived token at the time of authorization and the long-lived token has to be saved to the database
+   * The long-lived token has to be refreshed every time the Influencer opens the application
+* Twilio - https://www.twilio.com/docs/usage/api - to be used for verifying the Influencer’s phone number
+   * A 6 digit number has to be sent to the Influencer’s phone number via Text Message - Influencers have to enter this number to the app in order to verify their phone number
+* Amazon S3 API - to be used for storing media files
+* Sendgrid (optional) - to be used for sending all e-mails including e-mail address verification
+* Pusher (optional) - to send push notifications
+* Firebase Real Time DB (optional) - to send push notifications
+* Amazon Simple Notification Service (optional) - to send push notifications
+* Bugsnag for debugging
+* Transloadit for transcoding videos or Amazon Elastic Transcoder
+* Amazon CloudFront for mobile video content delivery CDN
+
+
+   3. Database Structure 
+To be added later 
+   4. Styling and Animations 
+1. Animation Style of Detailed Experience 
+https://dribbble.com/shots/3043567-New-Interaction-Effect-of-ToFind-s-Cards-Flow 
+2. Animation of Style of Feed, Choosing a city and Category 
+https://dribbble.com/shots/5097519-California-National-Park-Guide

@@ -1,0 +1,24 @@
+﻿Trading rules: 
+
+
+Rule number 1:  first we have to see the small timeframe which is 5 min if money flow is going from red to green vice versa we will check the bigger time frame that is is backed up by the higher timeframe or not 
+
+
+
+
+Rule number 2: we will also check the blue wave if it’s going down to up and also money flow is going red to green we will take the trade. It is long. Again we have to check rule number 1 as well.
+
+
+
+
+Rule number 3: we will also check the blue wave if it’s going up to down and also money flow is going green to red we will take the trade. It means it is short. Again we have to check rule number 1 as well.
+
+
+Rule number 4: Least priority if v-wap is also going on the money flow direction it means it’s double confirmation. 
+
+
+
+
+Rule number 5
+=> Money flow should be thick 
+=>

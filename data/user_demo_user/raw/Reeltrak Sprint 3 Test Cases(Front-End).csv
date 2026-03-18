@@ -1,0 +1,143 @@
+Project Name,ReelTrak,,,,,,,,,
+Module Name,Studio Dashboard - Active & Completed Productions,,,,,,,,,
+Created By,Keshavanand Upadhyay,,,,,,,,,
+Date of Creation,,,,,,,,,,
+Date of Review,,,,,,,,,,
+,,,,,,,,,,
+Module,Test Case ID,Test Case,Pre-Conditions,Test Steps,Test Data,Expected Results,Screenshot,Status,"Bug Link
+(JIRA Issues)",Remarks & Comments
+Studio Dashboard,TC_001,"Verify that on the Studio dashboard user will get two sections:
+1. Completed Productions
+2. Active Productions",,"1. Login into the app
+2. Goto Studio Dashboard
+3. Scroll down on the dashboard page",,"on the Studio dashboard user should get two sections:
+1. Completed Productions
+2. Active Productions",,Pass,,
+,TC_002,Verify that user will be able view only those completed or active productions that are associated with the selected studio,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Scroll down on the dashboard page",,user should be able view only those completed or active productions that are associated with the selected studio,,Pass,,
+Completed Productions,TC_003,Verify that under the completed production user will get cards of those production for which the schedules are done,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Scroll down on the dashboard page",,under the completed production user should get cards of those production for which the schedules are done,,Pass,,
+,TC_004,Verify that all the production cards will be visible in alphabetical order,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Scroll down on the dashboard page",,all the production cards should be visible in alphabetical order,,Pass,,
+,TC_005,Verify that user will get maximum of 2 cards in grid view under completed production section,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Scroll down on the dashboard page
+4. See the Completed Production section ",,user should get maximum of 2 cards in grid view under completed production section,,Pass,,
+,TC_006,"Verify that on each production card user will able to see below details:
+1. Production image
+2. Production Name",,"1. Login into the app
+2. Goto Studio Dashboard
+3. Scroll down on the dashboard page
+4. See the Completed Production section ",,"on each production card user should able to see below details:
+1. Production image
+2. Production Name",,Pass,,
+,TC_007,Verify that by tapping on each production card user will redirect to it's details page,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Scroll down on the dashboard page
+4. See the Completed Production section
+5. Tap on any of the production card",,by tapping on each production card user should redirect to it's details page,,Pass,,
+,TC_008,Verify that if more than 2 production cards are there then user will get 'View All' button,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Select a studio that is associated with more than 2 productions
+4. Scroll down on the dashboard page
+5. See the Completed Production section",,if more than 2 production cards are there then user should get 'View All' button,,Pass,,
+,TC_009,Verify that by tapping on view all button user will get list of all the completed production in grid view,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Select a studio that is associated with more than 2 productions
+4. Scroll down on the dashboard page
+5. See the Completed Production section
+6. Tap on the View all button",,by tapping on view all button user should get list of all the completed production in grid view,,Pass,,Abhishek Sir yha Completed ki jgh Active aayega (Client side new update)
+,TC_010,Verify that all the production cards will be visible in alphabetical order,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Select a studio that is associated with more than 2 productions
+4. Scroll down on the dashboard page
+5. See the Completed Production section
+6. Tap on the View all button",,all the production cards should be visible in alphabetical order,,Pass,,
+,TC_011,"Verify that on each production card user will able to see below details:
+1. Production image
+2. Production Name",,"1. Login into the app
+2. Goto Studio Dashboard
+3. Select a studio that is associated with more than 2 productions
+4. Scroll down on the dashboard page
+5. See the Completed Production section
+6. Tap on the View all button",,"on each production card user should able to see below details:
+1. Production image
+2. Production Name",,Pass,,
+,TC_012,Verify that by tapping on each production card user will redirect to it's details page,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Select a studio that is associated with more than 2 productions
+4. Scroll down on the dashboard page
+5. See the Completed Production section
+6. Tap on the View all button",,by tapping on each production card user should redirect to it's details page,,Pass,,
+,TC_013,"Verify that if all the productions are in running as per the schedule dates then user will get below message under completed productions:
+
+- No Production found
+- Please select another studio ",,"1. Login into the app
+2. Goto Studio Dashboard
+3. Select a studio which is not associated with any production
+4. Or select a studio in which all the productions are in running state",,"if all the productions are in running as per the schedule dates then user should get below message under completed productions:
+
+- No Production found
+- Please select another studio ",,Pass,,
+,TC_014,Verify that if user update the schedule dates of completed production then that production start appearing in the Active productions section,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Select a studio that is associated with more than 2 productions
+4. Scroll down on the dashboard page
+5. See the Completed Production section
+6. Tap on the View all button",,if user update the schedule dates of completed production then that production start appearing in the Active productions section,,Pass,,
+,TC_015,Verify that user can see other completed production by selecting another studio from the my studio dropdown,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Scroll down on the dashboard page
+4. See the Completed Production section
+5. Tap on any of the production card
+6. Now click on 3dot action menu then select edit option
+7. Now update the schedule dates to current date then save the changes
+8. Now return back to studio dashboard",,user can see other completed production by selecting another studio from the my studio dropdown,,Pass,,
+Active Productions,TC_016,Verify that under the Active production user will get cards of those production which are currently running based on their schedule dates ,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Scroll down on the dashboard page
+4. See the Active Production section",,under the Active production user should get cards of those production which are currently running based on their schedule dates ,,Pass,,
+,TC_017,Verify that all the production cards will be visible in alphabetical order,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Scroll down on the dashboard page
+4. See the Active Production section",,all the production cards should be visible in alphabetical order,,Pass,,
+,TC_018,"Verify that on each production card user will able to see below details:
+1. Production image
+2. Production Name",,"1. Login into the app
+2. Goto Studio Dashboard
+3. Scroll down on the dashboard page
+4. See the Active Production section
+5. See each production card",,"on each production card user should able to see below details:
+1. Production image
+2. Production Name",,Pass,,
+,TC_019,Verify that by tapping on each production card user will redirect to it's details page,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Scroll down on the dashboard page
+4. See the Active Production section
+5. Tap on any of the active production card",,by tapping on each production card user should redirect to it's details page,,Pass,,
+,TC_020,Verify that user can vertical scroll to see all the active productions,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Scroll down on the dashboard page
+4. See the Active Production section
+5. Now continously scroll the active productions section",,user can vertical scroll to see all the active productions,,Pass,,Test case is not updated Abhishek Sir
+,TC_021,"Verify that if all the productions are completed or currently inactive as per the schedule dates then user will get below message under Active Production section:
+
+- No Production found
+- Please select another studio ",,"1. Login into the app
+2. Goto Studio Dashboard
+3. Select a studio which is not associated with any production
+4. Or select a studio in which all the productions are compeleted",,"if all the productions are completed or currently inactive as per the schedule dates then user should get below message under Active Production section:
+
+- No Production found
+- Please select another studio ",,Pass,,
+,TC_022,Verify that if once the production schedule dates completed then the active productions starts reflecting under the completed production,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Select a studio which is not associated with any production
+4. Or select a studio in which all the productions are compeleted",,if once the production schedule dates completed then the active productions starts reflecting under the completed production,,Pass,,
+,TC_023,Verify that user can see other active production by selecting another studio from the my studio dropdown,,"1. Login into the app
+2. Goto Studio Dashboard
+3. Now see all the production under the active production section
+4. Now scroll up and tap on my studio then select another studio",,user can see other active production by selecting another studio from the my studio dropdown,,Pass,,

@@ -1,0 +1,6 @@
+{
+  "source_file": "data/user_demo_user/raw/Air & Aero Plan.csv",
+  "chunks": [
+    ",,,\nMilestone 1,Reward App,Tasks,\n,,Analysis 100%,Done \n,,Designing 100 %,Done \n,,Projest setup ,Done \n,Maintenance App,,\n,,Analysis 100%,Done \n,,Designing 100 %,Done \n,,Projest setup ,Done \n,,,\n,Inventory Management,,\n,,Analysis 100%,Done \n,,Designing 100 %,\n,,Projest setup ,Done \n,Job Calculator analysis ,Analysis 100%,\n,Email generationa analysis,Analysis 100%,\nMilestone 2,Reward app completion ,login ,Done \n,,sign up,Done \n,,forgot PASSWORD ,Done \n,,settings page ,Done \n,,Home screen,Done \n,,,Done \n,Admin of reward completion,User listing,Done \n,,Add reward ,Done \n,,User detail,Done \n,,Login ,Done \n,,Forgot password ,Done \n,,,\n,,,\nMilestone 3,Maintenance management,Adding user (Add annual customer ),\n,,Adding user (commercial customer ),\n,,Adding user (complimentory  customer ),\n,,Adding user (AAero Advantage plan customer ),\n,,Listing of the  users,\n,,Option in side menu ,\n,,,\n,,,\n,,,\n,,,\n,,,\n,\"Job calculator \n\",,\n,,,\n,,,\n,,,\n,,,\n,Inventory management ,,Done \n,,,Done \n,,,Done"
+  ]
+}

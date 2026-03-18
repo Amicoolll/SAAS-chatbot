@@ -1,0 +1,217 @@
+﻿CURRICULUM VITAE
+
+
+
+
+
+
+AMIT SINGH, 
+amitsinghcoolll.1807@gmail.com          
+4th Floor A114 New Ashok Nagar New Delhi
+Mob No: 8802514569                                                                             
+
+
+CAREER OBJECTIVE:
+	
+
+* To Acquire a demanding position in an environment where I can best utilize my skills and education for the growth of the organization and myself.
+Experience Summary: 
+	
+
+	
+
+* Having 1.11 years of experience in Appinventiv Technology Noida.
+* Currently working with Appinventiv Technology  from 2 february to Till Now. 
+
+
+ACADEMIC DETAILS:
+	
+
+* MCA  from KIET, Ghaziabad (U.P.) 2015
+* Bachelor of Computer Application (BCA) 2012 from CSJM University.
+* Senior secondary examinations in 2008 from Uttar Pradesh Board. 
+* Higher secondary examinations in 2006 from Uttar Pradesh Board.
+
+
+TECHNICAL SKILLS:
+	
+
+* Computer language known         : C, Swift, Basic of Objective--C
+* Package                                 : XCode
+* Operating System                        : Mac OS
+* Others                                          : MapKit, Google Map, Social Media Integration, UITableView, UIcollectionView, Core Data, Calendar, Rest Api,
+Contact Syncing, Google Analytics, Digital Analytics, MapBox 
+
+
+ROLE AND RESPONSIBILITIES:
+	
+
+
+
+* Currently working as Tech Lead of two project .
+* Expertise in Application UI design integrations.
+* Expertise in web services management.
+* Knowledge in making online applications and offline applications.
+* Experience in determining customer's needs, gather and document requirements, communicate with customers throughout the development to manage customer expectations, resolve issues and provide status.
+* Involved in investigating and fixing bugs and participating in test execution cycles and interact with other technology groups as needed.
+* Participated in client's requirement review phase and manage change requests (CR)
+* Provided Production/Implementation Support, identifying and fixing bugs in application.
+* Involved in development of technical specification documents (TSD), coding, test cases / test plans, unit testing and integration testing.
+* Extensive technical experience and strong programming knowledge in Swift and Basic Knowledge of objectice -c
+
+
+
+
+PERSONAL SKILLS:
+	
+
+* Quick learner.
+* Hard working.
+
+
+
+
+   ACHIVEMENT:
+	
+
+* Got the Employee of the month of JULY 2015
+
+
+PROJECTS Details:
+	
+
+
+
+
+
+PM App:
+Role: Application Developer
+Discription: PM is an application where you can enjoy exclusive content, events, promotions and the best places to go party.  In the Uncensored section have everything you want to see at the time and place to be hell you want: comedies, news, style, music and webisodes.  Insider PM you can earn points, collect badges and redeem tokens for movies, tickets, video games and much more in store Insider.
+
+
+Technology Used:
+     Front End: Swift, XCode 6.3
+     Back End: MySql, Mongo Db
+
+
+App Store Link: https://itunes.apple.com/mx/app/pm/id1038272175?l=en&mt=8
+
+
+
+
+
+2:Travel Ease App:
+Role: Application Developer
+Discription: TravelEase is one-stop App for all attractions, leisure activities, restaurants, night activities, transportation and other Things to Do in Singapore. Whether it is buying a sim card at the airport, or buying tickets to the Zoo, or booking a 4-hour Spa at Orchard Road, or paying for a 7 course meal in Boat Quay, the App lets you plan and pay for your itinerary. After payment is done, you will receive redemption code in the App which you can scan at the merchant to enjoy the activity. That makes TravelEase the Only Paperless Travel Experience.
+
+And that’s not all.
+1. We bring you the best travel deals in Singapore at substantial discounts. 
+2. You can read reviews by other users before purchasing any activity.
+3. You can gift TravelEase$ to friends and family who are planning to visit Singapore.
+4. We give you personalized suggestions about Things to Do when you are in Singapore.
+5. You can share interesting deals on Facebook, Twitter, Google+.
+6. You can share your itinerary with friends & family.
+
+
+
+
+Technology Used:
+     Front End: Swift, XCode 7.2
+     Back End: MySql, Mongo Db
+
+
+
+
+
+
+App Store Link: https://itunes.apple.com/in/app/travelease/id1135851144?mt=8
+
+
+3: BGON APP:
+Role: Application Developer
+Discription: bgon is a trading app where students can buy stuff and sell stuff exclusively within their school community. List what you no longer need, and find what you do. 
+
+That gently used textbook. The notes from last semester's biology class. Those clothes you bought on a whim. Those games you don’t play anymore. That stuff you need to get rid of because you’re moving out. That other stuff you need to get because you’re moving in. 
+
+All of this is stuff you can turn into dollars and dollars you can turn into a couple of beers, concert tickets, and any other experiences you’ve been saving up for.
+
+
+
+
+Technology Used:
+     Front End: Swift, XCode 7.3
+     Back End: MySql, Mongo Db
+
+
+App Store Link: https://itunes.apple.com/in/app/bgon-buy-sell-connect./id1147262439?mt=8
+
+
+
+
+
+
+4:ET STARTUP App: 
+Role: Application Developer
+Discription:The ET StartUP app is made for the “Economic Times” , this is  an presentation app , the app describe who is the best entrepreneur of every year .
+                This app only made for the iPAD 
+                This app is delivered direct to “Economic times ” so there is no Link
+                FrontEnd in Swift 
+                We use static data for an app 
+Technology Used:
+     Front End: Swift, XCode 6.0
+     Back End: not available
+
+
+
+
+
+
+5: SYTUP :
+Role: Application Developer
+
+
+Discription:This app is to aware the people about health. In this, user can create a post related to any place or product where user can specify the location details like Gym, MMA etc and product post it give the specification of any product which is basically used for health like gym equipment. 
+In this app the user can make the post with Images , Video , user can like the post , comment on the post with image and video etc 
+In this app i send the video and images to the server simultaneously.
+This is the very big app we are developing it last 10 months and this time it is about to end
+Technology Used:
+       Front End: Swift, XCode 7.3
+       Back end PHP and Mongo DB
+        Fully rest API used in this app
+        Link : Not available , but about to live in 15 days 
+
+
+
+
+
+
+PERSONAL PROFILE:
+	
+
+	
+
+Nationality              :  Indian
+Gender                   :  Male        
+Date of Birth           :  18th JUL 1991
+Father Name           :  Indresh Singh.
+State Of Domicile     : Uttar Pradesh.
+Nationality                 :  India
+Flexibility To Travel  :  100%
+Language Known     :  English, Hindi
+Hobbies                  :  Playing Cricket, Surfing internet.
+Permanent Address  : 119/492 Darshan purwa kanpur
+
+
+
+
+
+
+	DECLARATION:
+	
+
+I hereby declare that above information is correct to the best of my knowledge and belief.
+        
+
+
+Date:
+Place: New Delhi                                                                            (Amit Singh)
