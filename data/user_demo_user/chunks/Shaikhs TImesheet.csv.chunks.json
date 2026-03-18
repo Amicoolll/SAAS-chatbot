@@ -1,6 +1,0 @@
-{
-  "source_file": "data/user_demo_user/raw/Shaikhs TImesheet.csv",
-  "chunks": [
-    "Date,Work,Project \nWeek 1,,\n12 August,Created and modified Ui to accomidate the requirements,\n13 August,Integrated apis from fetch data from schduled liist and employees based on profession,\n14 August,,\n15 August,,\n16 August,,\nWeek 2,,"
-  ]
-}

@@ -1,6 +1,0 @@
-{
-  "source_file": "data/user_demo_user/raw/Web site page 2.txt",
-  "chunks": [
-    "﻿* Components will be static on left and write \n* We have to manage the middle screen in different -2 device sizes.\n* Tapping on the component dialogue will open \n* When the page will load for the first time all the 4 stories(characters) will scroll automatically only 1 time then the user can interact on it .\n* Dialogue boxes will come and go parallel at the same time of character scrolling.\n* Dialogue will also come one by one.\n* After scrolling users can click on a particular object to see the info in dialogue.\n* If music is playing automatically it will resume.\n* If the user wants to play music it will play.\n*"
-  ]
-}

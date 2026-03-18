@@ -1,6 +1,0 @@
-{
-  "source_file": "data/user_demo_user/raw/Stockes Analysis .csv",
-  "chunks": [
-    "Stock name ,what this copany do?,stock price,market cap in cr,PE ,book value ,PB,ROCE,ROE (return on equity) High ROE is good ,\"debt to equity= total debt/total share holder equity\n\nHigher debt equity is risky if its greater than 2 its risky \n\nIT companies cases debt equity will always less \",Assets ,Liability,Last year sales growth ,Last year contract got ,div yield,promotors holding\nHimadri Specialist chemical limited,,,,,,,,,,,,,,,\nAmara raja ,\"he flagship company of the Amara Raja Group, is the technology leader and is one of the largest manufacturers of lead-acid batteries for both industrial and automotive applications in the Indian storage battery industry.\",\"1,548\",\"28,337\",30.2,370,1548/370,18.7,14,,,,,,,\nExide industry,\"Exide Industries Ltd is primarily engaged in the manufacturing of storage batteries and allied products in India. [1]\n\",512,\"43,554\",49.8,152,512/152,10.05,7.05,,,,,,,\nHindustan copper limited ,,,,,,,,,,,,,,,\nHero moto corp ,,,,,,,,,,,,,,,\nMahindra and Mahinda ,,,,,,,,,,,,,,,\nTata motors ,,,,,,,,,,,,,,,\nservotech power ltd,,,,,,,,,,,,,,,\nKPIT ,,,,,,,,,,,,,,,"
-  ]
-}

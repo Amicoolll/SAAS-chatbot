@@ -1,6 +1,0 @@
-{
-  "source_file": "data/user_demo_user/raw/Week (15th - 22nd Dec).csv",
-  "chunks": [
-    "Resource,Friday (15th Dec),Saturday (16th Dec),Sunday (17th Dec),Monday (18th Dec),Tuesday (19th Dec),Wednesday (20th Dec),Thursday (21st Dec),Friday (22nd Dec)\nHarsh,\"Bottom Tab Configuration only, show what's been build till M4, and handle dynaic behavior of bottom tab\",\"Datawedge(Zebra Scanner), Route Module Bugs\",Zebra Scanner scanning succeeded integration with code scanning like camera left,Analytics,\"working on the account migration, Note we have not got the account yet\",\"working on the account migration, Note we have not got the account yet\",,\nKamal,Copy Order - E2E,Copy Order,,Copy Order,,,,\nRahul,\"Update Customer Location, All exception download report, Inscan download report, Outscan Download report\",JIRA bugs,,JIRA bugs,,,,\nTanmay,\"Labels, Jira Bugs\",\"Labels, coach marks\",,SSO prod ,,,,\nSaurabh,Final Build of Control Tower,,,,,,,"
-  ]
-}

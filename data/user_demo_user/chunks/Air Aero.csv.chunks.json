@@ -1,6 +1,0 @@
-{
-  "source_file": "data/user_demo_user/raw/Air Aero.csv",
-  "chunks": [
-    "Plate forms and developers per plateforms,,,,,,,,,,\nPlate forms we have to build,Developer needed,QA Needed,PM,TL,,,,,,\nMaintenance app,\"1 iOS, 1 Android, 1 backend developer\",1 QA,0.5 PM,1 TL,,,,,,\nService app,\"1 iOS, 1 Android, 1 backend developer\",,,,,,,,,\nWeb Panel,\"1 Angular developer, 1 HTML developer, 1 backend developer\",,,,,,,,,\n,,,,,,,,,,\n,,,,,,,,,,\n,,,,,,,,,,\nProject timeline and developer engagement,,,,,,,,,,\nWeek needed,w1,w2,w3,w4,w5,w6,w7,w8,w9,UAT\n\" iOS,  Android\",2,2,2,2,2,2,2,2,2,1\nSenior Backend developer,2,2,2,2,2,2,2,2,2,1\nSenior Angular Js developer for web panel,1,1,1,1,1,1,1,1,1,1\nHTML developer,1,1,1,1,1,1,1,1,1,1\nQA,1,1,1,1,1,1,1,1,1,1\nTechnical Head,1,1,1,1,1,1,1,1,1,1\nProject manager,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5"
-  ]
-}

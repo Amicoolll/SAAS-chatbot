@@ -1,6 +1,0 @@
-{
-  "source_file": "data/user_demo_user/raw/To-do list.csv",
-  "chunks": [
-    "\"\n To Do\",,1/3 completed  \n,,\n✓,Date,Task\nTRUE,7/9,Type anything into column A to complete an item\nFALSE,8/9,Change the styling of completed items under 'Format' > 'Conditional Formatting' (on the web)\nFALSE,9/9,Sort items using the drop-down arrows next to the heading name (on the web)\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,\nFALSE,,"
-  ]
-}

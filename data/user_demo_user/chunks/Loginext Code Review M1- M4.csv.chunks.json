@@ -1,6 +1,0 @@
-{
-  "source_file": "data/user_demo_user/raw/Loginext Code Review M1- M4.csv",
-  "chunks": [
-    "Module,Assigned to \nUI Designs,\nMenu bottom configurastion,\nTimezone managemet,\nApplication right to left,\nUnit system management,\ndate formate management,\nOn-Boarding,\n\"Login - with SSO, 2 Factor.\",\nSetting ,\nPage Tutorials,\nOrder List ,\nOrder Details ,\nDelivery Associate ,\nTrip List View ,\nAdd Trip form ,\nUpdate trip form ,\nInscan - Complete Modue,\nOutscan - Complete Module,\nInfoscan - Complete Module,\nE2E Orders listing and milestone,\nUpdate Customer Location,\nAll Exceptions,\nOrder Requests,\nCustomers,\nAddresses,\nTrip Planning,\nTrip Planning Scheduler,\nRoutes,\nVehicles,\nDriver,\nFleet Type,\nNotifications of above screens,\nTutorial of above screens,\nProduct Tour of above screens,\nHelp Center Articles,"
-  ]
-}

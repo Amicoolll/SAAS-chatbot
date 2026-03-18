@@ -1,8 +1,0 @@
-﻿Both are similar in terms of component based architecture.
-
-
-* Angular is a framework.
-
-
-* React is a library that takes care of rendering the view and making sure that view is in sync with state. 
-*

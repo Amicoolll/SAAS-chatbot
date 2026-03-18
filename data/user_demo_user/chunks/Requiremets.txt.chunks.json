@@ -1,6 +1,0 @@
-{
-  "source_file": "data/user_demo_user/raw/Requiremets.txt",
-  "chunks": [
-    "﻿Manga Page Requirement \n\n\n\n\nWeb browser: \n\n\nIt will open as a note book and will have the animation that we have send \nIt will have the manga images on the pages \nLink: https://nodlik.github.io/react-pageflip/\n\n\n\n\n  \n\n\n\nMobile View:\n\n\nAll the images will come line collection with vertical scrolling"
-  ]
-}

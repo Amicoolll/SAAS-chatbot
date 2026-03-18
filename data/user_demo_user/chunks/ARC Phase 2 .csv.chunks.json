@@ -1,6 +1,0 @@
-{
-  "source_file": "data/user_demo_user/raw/ARC Phase 2 .csv",
-  "chunks": [
-    ",,,,,,,,\nTamplate creation,,,,,,,,\n,,,,,,,,\n,,,,,,,,\n,,,,,,,,\n,,,,,,,,\n,,,,,,,,\n,,,,,,,,\n,,,,,,,,\n,,,,,,,,\n,,,,,,,,\nInsert Builder ,,,,,,,,\n,Name ,,,,,,,\n,Insert Question,,,,,,,\n,Insert Type,From where it is coming is it static or we will be adding ?,,,,,,\n,Action,,,,,,,\n,Chart View Name ,,,,,,,\n,Color Background ,,,,,,,\n,Color Button,,,,,,,\n,Chices rich text management,,,,,,,\n,Embed ,,,,,,,\n,,Text entry,,,,,,\n,,Date entry,,,,,,#REF!\n,,Number Entry,,,,,,\n,,Signature,\"Signature title \nAutometically prompt for signature on save\nBilling Provider \nPatient \nGauardian \n \",,,,,\n,,service,,,,,,\n,,Title ,,,,,,\n,,tag,,,,,,\n,,Tamplate ID,,,,,,\n,,,,,,,,\n,Advance ,350,100,,,,,\n,,350,100,,,,,\n,,350,100,,,,,\n,,350,100,,,,,\n,,1000,400,,,,,\n,QA,300,,,,,,\n,,2700,800,3500,,,,"
-  ]
-}

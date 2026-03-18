@@ -1,6 +1,0 @@
-{
-  "source_file": "data/user_demo_user/raw/Planning.csv",
-  "chunks": [
-    "Milestone 1(Complete prelogin),Date of delivery\nUser,27/07/2021\nProject plan,\nAdmin Wireframe scatches,\nServer setup,\nAPI Project Setup,\nDatabase setup,\nLogin,\nSignup,\nHow screen UI only,\nAdmin,\nLogin,\nMilestone 2(Order Booking without payment),\nForgot password,08/01/2021\nChange password,\nHome screen see all added categories,\nsee complanieas added to categories,\nUpload documents,\nProfile,\nAdmin/Delivery,\nUser listing,\nAdd categories,\nCategories Listing,\nAdded Compaies in Categories,\nCompanies listing,\nMilestone 3(,\nSend request for loan,08/06/2021\nLoan request history,\nChat ,\nLogout ,\nSettings,\nNotifications,\nAdmin,\nSee all request,\nApprove loan,\nChating ,\nNotificatins,\n,\nNote: Following the Scope of work for implementing all the features.,"
-  ]
-}

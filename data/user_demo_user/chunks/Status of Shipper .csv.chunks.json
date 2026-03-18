@@ -1,6 +1,0 @@
-{
-  "source_file": "data/user_demo_user/raw/Status of Shipper .csv",
-  "chunks": [
-    "Work ,Status\nDelivery feature sign off ,Done\nJira sign off,Done\nManual QA Sign off,Done\nFront end code review sign off,Done\nBackend code review sign offf,\"Done, last script sent to Vishwanath waiting for the approval.\"\nAutomation test cases 1st sheet those was approved by Tejashree sign off till 22nd March,Done\nSuggestion came from loginext after 30 March ,\nAutomation of Tooltip (Suggestion came on mid march from loginext),Done\nAutomation of header (Suggestion came on mid march from loginext),Done\nAutomation of last MR ,\"all the pointers will be done by 17th April except API, Drag and Drop\""
-  ]
-}

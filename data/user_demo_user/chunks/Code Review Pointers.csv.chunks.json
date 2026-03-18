@@ -1,6 +1,0 @@
-{
-  "source_file": "data/user_demo_user/raw/Code Review Pointers.csv",
-  "chunks": [
-    "\"For Checking Arrays is empty or not , not using isempty\"\nView controller life cycle fuctions are not in manner \nNot proper variable scoping \nNo use of private and fileprivate \none code is in both if and else \nTable view data source and delegate functions are not in proper manner \n\"All Freshers dont know, Who are the delegate fuctions , and Who are the datasource\"\nNot Proper use of extensions"
-  ]
-}

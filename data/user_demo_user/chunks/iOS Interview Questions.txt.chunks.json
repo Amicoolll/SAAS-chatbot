@@ -1,6 +1,0 @@
-{
-  "source_file": "data/user_demo_user/raw/iOS Interview Questions.txt",
-  "chunks": [
-    "﻿iOS Interview Questions\n\n\n1. Core Data :- https://www.appcoda.com/introduction-to-core-data/\n2. NSManagedContext\n3. Persistence\n4. NSManagedObject\n5. Deque problem in tableview\n6. ViewController life cycle\n7. https://medium.com/ios-os-x-development/ios-interview-questions-13840247a57a\n8. Model structure types\n9. NSOperation, NSURLSession, NSURL\n10."
-  ]
-}

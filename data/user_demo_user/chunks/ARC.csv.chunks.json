@@ -1,6 +1,0 @@
-{
-  "source_file": "data/user_demo_user/raw/ARC.csv",
-  "chunks": [
-    "Milestone,Task,Delivery date\nMielstone 1 ,\"Admin Login \nAdmin Edit \nAdmin delete \nAdmin Listing \nCompany add \nCompany listing \nCompany search \nCompany view \nDepartment add \nDepartment listing \nDepartment search \nDepartment view \nBranch add \nBranch listing \nBranch search \nBranch view \nDesignamtion add \nDesignamtion listing \nDesignamtion search \nDesignamtion view \nEmployee add \nEmployee listing \nEmployee search \nEmployee view \",10 Jan 2023\nMilestone 2,\"Patient Record \nInsurance verification\nFDS Daily entry\nNew patient entry\nPatient and claim\",10 Feb 2023\nMilestone 3,\"Insurance\nInsurance List \nInsurance search \nInsurance Edit\nPerformance\nEvent List and New Entry\nEvent List and New Entry\nPerformance Summary\",10 Mar 2023\nMilestone 4,\"Supply order and status\nSupply order form\nPatient\nOffice\nBasic Inventory\nSummary Mgmt\",10 Apr 2023\nMilestone 5,\"Reports \nMy profile \nDB  Management\n\",10 May 2023"
-  ]
-}
