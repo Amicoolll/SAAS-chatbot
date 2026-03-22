@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+gunicorn
+sqlalchemy>=2
+psycopg2-binary
+pgvector
+pydantic-settings
+python-dotenv
+google-api-python-client
+google-auth
+google-auth-oauthlib
+google-auth-httplib2
+openai
+tiktoken

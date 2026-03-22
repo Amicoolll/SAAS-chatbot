@@ -7,10 +7,8 @@ from sqlalchemy import text
 from sqlalchemy.exc import ProgrammingError
 
 from app.core.config import settings
-
-logger = logging.getLogger(__name__)
 from app.db.session import engine, Base
-from app.db import models  # <-- IMPORTANT
+from app.db import models  # noqa: F401 — register models
 from app.db import models_pipeline  # noqa: F401 — register pipeline_state table
 from app.services.drive.oauth import router as drive_oauth_router
 from app.services.drive.routes import router as drive_routes
@@ -19,15 +17,21 @@ from app.api.chat import router as chat_router
 from app.api.index import router as index_router
 from app.api.chat_pg import router as chat_pg_router
 from app.api.agents import router as agents_router
-from app.db import models_chat
+from app.db import models_chat  # noqa: F401
 from app.api.conversations import router as conversations_router
 from app.api.pipeline import router as pipeline_router
 from app.api.documents import router as documents_router
 
+logger = logging.getLogger(__name__)
+
 app = FastAPI(title="Enterprise Drive Chatbot")
 
 # CORS: allow frontend (different origin / ngrok / other network)
-_origins = ["*"] if settings.CORS_ORIGINS.strip() == "*" else [o.strip() for o in settings.CORS_ORIGINS.split(",") if o.strip()]
+_origins = (
+    ["*"]
+    if settings.CORS_ORIGINS.strip() == "*"
+    else [o.strip() for o in settings.CORS_ORIGINS.split(",") if o.strip()]
+)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=_origins,
@@ -47,6 +51,7 @@ app.include_router(conversations_router)
 app.include_router(pipeline_router)
 app.include_router(documents_router)
 
+
 @app.on_event("startup")
 def startup():
     if settings.CREATE_PGVECTOR_EXTENSION:
@@ -64,9 +69,11 @@ def startup():
             )
     Base.metadata.create_all(bind=engine)
 
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
 
 @app.get("/favicon.ico")
 def favicon():

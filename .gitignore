@@ -1,18 +1,27 @@
-# secrets
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Secrets
 .env
 
-# virtual env
+# Virtual env
 .venv/
 venv/
 
-# python cache
-__pycache__/
-*.pyc
+# Data (synced / indexed files — do not commit)
+data/
+
+# Docker / local Postgres
+pgdata/
+
+# Logs
+*.log
 
 # macOS
 .DS_Store
 
-# editors
+# Editors
 .vscode/
 .idea/
-data/
