@@ -6,6 +6,9 @@ class Settings(BaseSettings):
 
     # Database
     DATABASE_URL: str
+    # Try CREATE EXTENSION vector on startup (local/dev). On AWS RDS, app users often lack this
+    # privilege — enable pgvector once as master/admin, then set this to false to skip the attempt.
+    CREATE_PGVECTOR_EXTENSION: bool = True
 
     # OpenAI
     OPENAI_API_KEY: str | None = None

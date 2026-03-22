@@ -4,10 +4,11 @@ import io
 from fastapi import APIRouter, BackgroundTasks, HTTPException, Depends
 from googleapiclient.http import MediaIoBaseDownload
 
-from app.core.deps import get_user_id
+from app.core.deps import get_tenant_user, get_user_id
 from app.core.logging import log_operation
 from app.services.drive.client import build_drive_service
 from app.services.drive.token_store import TOKEN_STORE
+from app.services import pipeline_state
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -52,11 +53,14 @@ def list_all_files(service):
     return all_files
 
 
-def _run_drive_sync(user_id: str, max_files: int) -> dict:
-    """Perform Drive sync and return result. Used by route and background task."""
+def _run_drive_sync_core(user_id: str, max_files: int) -> dict:
+    """
+    Download supported Drive files to data/user_<id>/raw.
+    Raises ValueError if Drive not connected; other exceptions propagate.
+    """
     tokens = TOKEN_STORE.get(user_id)
     if not tokens:
-        raise HTTPException(status_code=401, detail="Drive not connected")
+        raise ValueError("Drive not connected")
 
     service = build_drive_service(
         tokens["access_token"],
@@ -120,6 +124,18 @@ def _run_drive_sync(user_id: str, max_files: int) -> dict:
     }
 
 
+def _drive_sync_background(tenant_id: str, user_id: str, max_files: int) -> None:
+    pipeline_state.mark_drive_sync_running(tenant_id, user_id)
+    try:
+        result = _run_drive_sync_core(user_id, max_files)
+        pipeline_state.mark_drive_sync_success(tenant_id, user_id, result)
+    except ValueError as e:
+        pipeline_state.mark_drive_sync_error(tenant_id, user_id, str(e))
+    except Exception as e:
+        logger.exception("drive_sync_background_failed tenant=%s user=%s", tenant_id, user_id)
+        pipeline_state.mark_drive_sync_error(tenant_id, user_id, str(e))
+
+
 @router.get("/drive/files")
 def drive_files(user_id: str = Depends(get_user_id)):
     tokens = TOKEN_STORE.get(user_id)
@@ -138,16 +154,32 @@ def drive_files(user_id: str = Depends(get_user_id)):
 @router.post("/drive/sync")
 def drive_sync(
     background_tasks: BackgroundTasks,
-    user_id: str = Depends(get_user_id),
+    tenant_user: tuple[str, str] = Depends(get_tenant_user),
     max_files: int = 20,
     background: bool = True,
 ):
-    """Sync Drive files to local raw folder. If background=True (default), returns 202 and runs in background."""
+    """Sync Drive files to local raw folder. If background=True (default), updates pipeline_state when done."""
+    tenant_id, user_id = tenant_user
     tokens = TOKEN_STORE.get(user_id)
     if not tokens:
         raise HTTPException(status_code=401, detail="Drive not connected")
 
     if background:
-        background_tasks.add_task(_run_drive_sync, user_id, max_files)
-        return {"status": "accepted", "message": "Sync started in background.", "user_id": user_id}
-    return _run_drive_sync(user_id, max_files)
+        background_tasks.add_task(_drive_sync_background, tenant_id, user_id, max_files)
+        return {
+            "status": "accepted",
+            "message": "Sync started in background. Poll GET /pipeline/status until drive_sync is not running.",
+            "tenant_id": tenant_id,
+            "user_id": user_id,
+        }
+    pipeline_state.mark_drive_sync_running(tenant_id, user_id)
+    try:
+        result = _run_drive_sync_core(user_id, max_files)
+        pipeline_state.mark_drive_sync_success(tenant_id, user_id, result)
+        return result
+    except ValueError as e:
+        pipeline_state.mark_drive_sync_error(tenant_id, user_id, str(e))
+        raise HTTPException(status_code=401, detail=str(e))
+    except Exception as e:
+        pipeline_state.mark_drive_sync_error(tenant_id, user_id, str(e))
+        raise HTTPException(status_code=500, detail="Drive sync failed") from e

@@ -9,6 +9,7 @@ from app.core.deps import get_tenant_user
 from app.core.logging import log_operation
 from app.db.session import get_db, SessionLocal
 from app.db.models import Document, Chunk
+from app.services import pipeline_state
 from app.services.storage import list_files_recursive, read_text
 from app.services.ingest.chunker import chunk_text
 from app.services.openai_client import embed_texts
@@ -107,11 +108,16 @@ def _run_index(
 
 def _index_background_task(tenant_id: str, user_id: str, max_files: int) -> None:
     db = SessionLocal()
+    pipeline_state.mark_index_running(tenant_id, user_id)
     try:
-        _run_index(db, tenant_id, user_id, max_files)
-    except Exception:
+        result = _run_index(db, tenant_id, user_id, max_files)
+        pipeline_state.mark_index_success(tenant_id, user_id, result)
+    except HTTPException as e:
+        detail = e.detail if isinstance(e.detail, str) else str(e.detail)
+        pipeline_state.mark_index_error(tenant_id, user_id, detail)
+    except Exception as e:
         logger.exception("index_run_background_failed tenant_id=%s user_id=%s", tenant_id, user_id)
-        raise
+        pipeline_state.mark_index_error(tenant_id, user_id, str(e))
     finally:
         db.close()
 
@@ -136,8 +142,19 @@ def index_run(
         background_tasks.add_task(_index_background_task, tenant_id, user_id, max_files)
         return {
             "status": "accepted",
-            "message": "Indexing started in background.",
+            "message": "Indexing started in background. Poll GET /pipeline/status until index is not running.",
             "tenant_id": tenant_id,
             "user_id": user_id,
         }
-    return _run_index(db, tenant_id, user_id, max_files)
+    pipeline_state.mark_index_running(tenant_id, user_id)
+    try:
+        result = _run_index(db, tenant_id, user_id, max_files)
+        pipeline_state.mark_index_success(tenant_id, user_id, result)
+        return result
+    except HTTPException as e:
+        detail = e.detail if isinstance(e.detail, str) else str(e.detail)
+        pipeline_state.mark_index_error(tenant_id, user_id, detail)
+        raise
+    except Exception as e:
+        pipeline_state.mark_index_error(tenant_id, user_id, str(e))
+        raise
