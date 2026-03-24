@@ -32,6 +32,10 @@ class Settings(BaseSettings):
 
     # CORS: comma-separated origins, e.g. "http://localhost:3000,https://myapp.com" or "*" for all (dev)
     CORS_ORIGINS: str = "*"
+    # Optional frontend base URL for OAuth callback redirect, e.g. "https://app.example.com"
+    FRONTEND_URL: str | None = None
+    # Logging
+    LOG_LEVEL: str = "INFO"
 
 
 settings = Settings()

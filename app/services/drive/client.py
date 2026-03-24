@@ -5,7 +5,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
+# Keep in sync with app.services.drive.oauth.SCOPES (token was issued for this set).
+SCOPES = [
+    "openid",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "https://www.googleapis.com/auth/drive.readonly",
+]
 
 def build_drive_service(access_token: str, refresh_token: str):
     creds = Credentials(

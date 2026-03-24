@@ -1,15 +1,28 @@
 import os
+import logging
+from urllib.parse import urlencode
+
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import RedirectResponse
 from google_auth_oauthlib.flow import Flow
 from dotenv import load_dotenv
+from app.core.config import settings
 from app.services.drive.token_store import TOKEN_STORE
 
 load_dotenv()
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
-SCOPES = ["https://www.googleapis.com/auth/drive.readonly"]
+# Must match what Google returns on token exchange. If the consent screen adds
+# OpenID / profile scopes, oauthlib raises Warning("Scope has changed...") and
+# fetch_token fails unless we request the same set here.
+SCOPES = [
+    "openid",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "https://www.googleapis.com/auth/drive.readonly",
+]
 
 def create_flow(state: str | None = None) -> Flow:
     client_id = os.getenv("GOOGLE_CLIENT_ID")
@@ -48,14 +61,33 @@ def oauth_start(user_id: str):
 def oauth_callback(code: str, state: str):
     user_id = state
 
-    flow = create_flow(state=state)
-    flow.fetch_token(code=code)
-    creds = flow.credentials
+    try:
+        flow = create_flow(state=state)
+        flow.fetch_token(code=code)
+        creds = flow.credentials
 
-    TOKEN_STORE[user_id] = {
-        "access_token": creds.token,
-        "refresh_token": creds.refresh_token,
-    }
+        TOKEN_STORE[user_id] = {
+            "access_token": creds.token,
+            "refresh_token": creds.refresh_token,
+        }
+    except Exception as e:
+        logger.exception("oauth_callback_failed user_id=%s error=%s", user_id, type(e).__name__)
+        if settings.FRONTEND_URL:
+            qs = urlencode({
+                "status": "error",
+                "user_id": user_id,
+                "message": f"oauth_callback_failed:{type(e).__name__}",
+            })
+            return RedirectResponse(f"{settings.FRONTEND_URL.rstrip('/')}/oauth-result?{qs}")
+        raise HTTPException(status_code=500, detail=f"OAuth callback failed: {type(e).__name__}") from e
+
+    if settings.FRONTEND_URL:
+        qs = urlencode({
+            "status": "success",
+            "user_id": user_id,
+            "refresh_token_present": str(bool(creds.refresh_token)).lower(),
+        })
+        return RedirectResponse(f"{settings.FRONTEND_URL.rstrip('/')}/oauth-result?{qs}")
 
     return {
         "connected_for_user": user_id,

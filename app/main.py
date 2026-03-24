@@ -1,4 +1,5 @@
 import logging
+import sys
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -22,6 +23,28 @@ from app.api.conversations import router as conversations_router
 from app.api.pipeline import router as pipeline_router
 from app.api.documents import router as documents_router
 
+
+def _setup_logging() -> None:
+    level_name = (settings.LOG_LEVEL or "INFO").upper()
+    level = getattr(logging, level_name, logging.INFO)
+    root = logging.getLogger()
+    root.setLevel(level)
+
+    fmt = "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
+    if not root.handlers:
+        handler = logging.StreamHandler(sys.stdout)
+        handler.setFormatter(logging.Formatter(fmt))
+        root.addHandler(handler)
+    else:
+        for h in root.handlers:
+            h.setFormatter(logging.Formatter(fmt))
+
+    # Keep common server loggers aligned with app level.
+    for name in ("uvicorn", "uvicorn.error", "uvicorn.access", "gunicorn", "gunicorn.error", "gunicorn.access"):
+        logging.getLogger(name).setLevel(level)
+
+
+_setup_logging()
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Enterprise Drive Chatbot")
