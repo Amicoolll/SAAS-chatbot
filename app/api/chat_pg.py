@@ -1,3 +1,7 @@
+import os
+from pathlib import Path
+from urllib.parse import quote
+
 from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
@@ -16,6 +20,29 @@ class ChatRequest(BaseModel):
     conversation_id: str
     question: str
     agent_type: str = "general"
+
+
+def _related_images(user_id: str, sources: list[str], limit: int = 8) -> list[dict[str, str]]:
+    """
+    Return local synced images likely related to retrieved sources by base filename prefix.
+    """
+    raw_dir = os.path.join("data", f"user_{user_id}", "raw")
+    if not os.path.isdir(raw_dir):
+        return []
+    stems = {os.path.splitext(s)[0].lower() for s in sources if s}
+    if not stems:
+        return []
+    image_exts = {".png", ".jpg", ".jpeg", ".webp", ".gif"}
+    out: list[dict[str, str]] = []
+    for p in Path(raw_dir).iterdir():
+        if not p.is_file() or p.suffix.lower() not in image_exts:
+            continue
+        stem = p.stem.lower()
+        if stem in stems or any(stem.startswith(x) or x.startswith(stem) for x in stems):
+            out.append({"name": p.name, "url": f"/drive/images/{quote(p.name)}"})
+            if len(out) >= limit:
+                break
+    return out
 
 
 @router.post("/chat_pg")
@@ -122,4 +149,9 @@ def chat_pg(
     conv.title = conv.title if conv.title != "New chat" else req.question[:40]
     db.commit()
 
-    return {"mode": mode, "answer": answer, "sources": sources}
+    return {
+        "mode": mode,
+        "answer": answer,
+        "sources": sources,
+        "images": _related_images(user_id, sources),
+    }

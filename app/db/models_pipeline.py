@@ -24,12 +24,16 @@ class PipelineState(Base):
     drive_sync_finished_at: Mapped["DateTime | None"] = mapped_column(DateTime(timezone=True), nullable=True)
     drive_sync_result_json: Mapped[str | None] = mapped_column(Text, nullable=True)
     drive_sync_error: Mapped[str | None] = mapped_column(Text, nullable=True)
+    # Live progress while drive_sync_status == "running" (JSON). Poll GET /pipeline/status.
+    drive_sync_progress_json: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     index_status: Mapped[str] = mapped_column(String, default="idle")  # idle|running|success|error
     index_started_at: Mapped["DateTime | None"] = mapped_column(DateTime(timezone=True), nullable=True)
     index_finished_at: Mapped["DateTime | None"] = mapped_column(DateTime(timezone=True), nullable=True)
     index_result_json: Mapped[str | None] = mapped_column(Text, nullable=True)
     index_error: Mapped[str | None] = mapped_column(Text, nullable=True)
+    # Live progress while index_status == "running" (JSON). Poll GET /pipeline/status.
+    index_progress_json: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     updated_at: Mapped["DateTime"] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()

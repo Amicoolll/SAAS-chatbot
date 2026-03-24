@@ -28,6 +28,23 @@ def _safe_json(text: str | None) -> dict[str, Any] | None:
         return {"raw": text}
 
 
+def _progress_payload(text: str | None) -> dict[str, Any] | None:
+    """Parse stored progress JSON and add `percent` for UI bars."""
+    raw = _safe_json(text)
+    if not raw or not isinstance(raw, dict):
+        return None
+    cur = raw.get("current")
+    tot = raw.get("total")
+    pct: float | None = None
+    if isinstance(cur, int) and isinstance(tot, int) and tot > 0:
+        pct = round(100.0 * min(cur, tot) / tot, 1)
+    elif isinstance(cur, int) and isinstance(tot, int) and tot == 0 and cur == 0:
+        pct = 0.0
+    out = dict(raw)
+    out["percent"] = pct
+    return out
+
+
 @router.get("/pipeline/status")
 def get_pipeline_status(
     tenant_user: tuple[str, str] = Depends(get_tenant_user),
@@ -36,9 +53,17 @@ def get_pipeline_status(
     """
     Use this after POST /drive/sync?background=true or POST /index/run?background=true.
 
-    Poll every 2–5s until:
-    - `drive_sync.running` is false before starting index (recommended)
-    - `index.running` is false before expecting chat to see new documents
+    Poll every 1–3s while jobs run. When `drive_sync.running` or `index.running` is true, check
+    `drive_sync.progress` / `index.progress` for live counts:
+
+    - `current` / `total` — e.g. 120 of 385 files (sync uses Drive batch from `max_files`; index uses raw files up to `max_files`)
+    - `percent` — 0–100 when `total` is known
+    - `current_file` — file being processed (when set)
+    - `chunks_so_far` — during indexing only
+
+    Until complete:
+    - wait for `drive_sync.running` false before starting index (recommended)
+    - wait for `index.running` false before expecting chat to see new documents
 
     `ready_for_chat` is true when there is at least one indexed chunk and indexing is not running.
     """
@@ -107,6 +132,7 @@ def get_pipeline_status(
             "running": sync_running,
             "started_at": row.drive_sync_started_at.isoformat() if row and row.drive_sync_started_at else None,
             "finished_at": row.drive_sync_finished_at.isoformat() if row and row.drive_sync_finished_at else None,
+            "progress": _progress_payload(row.drive_sync_progress_json) if row else None,
             "result": _safe_json(row.drive_sync_result_json) if row else None,
             "error": row.drive_sync_error if row else None,
         },
@@ -115,6 +141,7 @@ def get_pipeline_status(
             "running": index_running,
             "started_at": row.index_started_at.isoformat() if row and row.index_started_at else None,
             "finished_at": row.index_finished_at.isoformat() if row and row.index_finished_at else None,
+            "progress": _progress_payload(row.index_progress_json) if row else None,
             "result": _safe_json(row.index_result_json) if row else None,
             "error": row.index_error if row else None,
         },

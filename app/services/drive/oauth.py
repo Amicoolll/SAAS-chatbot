@@ -35,7 +35,7 @@ def create_flow(state: str | None = None) -> Flow:
     )
 
 @router.get("/drive/oauth/start")
-def oauth_start(user_id: str = "demo_user"):
+def oauth_start(user_id: str):
     flow = create_flow(state=user_id)
     auth_url, _ = flow.authorization_url(
         access_type="offline",

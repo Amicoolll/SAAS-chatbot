@@ -26,6 +26,24 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Enterprise Drive Chatbot")
 
+
+def _ensure_pipeline_progress_columns() -> None:
+    """
+    Backward-compatible schema patch:
+    create progress columns when app code is newer than deployed DB schema.
+    """
+    statements = [
+        "ALTER TABLE pipeline_state ADD COLUMN IF NOT EXISTS drive_sync_progress_json TEXT",
+        "ALTER TABLE pipeline_state ADD COLUMN IF NOT EXISTS index_progress_json TEXT",
+    ]
+    try:
+        with engine.begin() as conn:
+            for stmt in statements:
+                conn.execute(text(stmt))
+    except Exception as e:
+        # Keep startup alive; endpoints can still work without live progress.
+        logger.warning("Skipping pipeline_state progress column patch: %s", e)
+
 # CORS: allow frontend (different origin / ngrok / other network)
 _origins = (
     ["*"]
@@ -68,6 +86,7 @@ def startup():
                 e.orig if getattr(e, "orig", None) else e,
             )
     Base.metadata.create_all(bind=engine)
+    _ensure_pipeline_progress_columns()
 
 
 @app.get("/health")
