@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import field_validator
 
 
 class Settings(BaseSettings):
@@ -45,6 +46,17 @@ class Settings(BaseSettings):
     # Chunk size for resumable media download (bytes). Smaller = more round trips,
     # shorter stall if one chunk times out.
     DRIVE_DOWNLOAD_CHUNKSIZE: int = 32 * 1024 * 1024
+
+    @field_validator("DRIVE_DOWNLOAD_CHUNKSIZE", mode="before")
+    @classmethod
+    def _coerce_drive_download_chunksize(cls, v: object) -> object:
+        """
+        Some CI/CD/YAML escaping can accidentally inject a trailing backslash into
+        numeric env var values (e.g. "16777216\\").
+        """
+        if isinstance(v, str):
+            v = v.strip().rstrip("\\")
+        return v
 
 
 settings = Settings()

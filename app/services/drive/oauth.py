@@ -1,5 +1,6 @@
 import os
 import logging
+import secrets
 from urllib.parse import urlencode
 
 from fastapi import APIRouter, HTTPException, Query
@@ -12,15 +13,30 @@ from app.services.drive.token_store import persist_and_cache_tokens
 _OAUTH_STATE_SEP = "###"
 
 
-def _encode_oauth_state(tenant_id: str, user_id: str) -> str:
-    return f"{tenant_id}{_OAUTH_STATE_SEP}{user_id}"
+def _encode_oauth_state(tenant_id: str, user_id: str, code_verifier: str) -> str:
+    # We include PKCE code verifier in state so callback can exchange the auth
+    # code successfully on stateless multi-worker deployments.
+    return f"{tenant_id}{_OAUTH_STATE_SEP}{user_id}{_OAUTH_STATE_SEP}{code_verifier}"
 
 
-def _decode_oauth_state(state: str) -> tuple[str, str]:
+def _decode_oauth_state(state: str) -> tuple[str, str, str | None]:
     if _OAUTH_STATE_SEP in state:
-        tid, uid = state.split(_OAUTH_STATE_SEP, 1)
-        return (tid.strip() or settings.DEFAULT_TENANT_ID, uid)
-    return settings.DEFAULT_TENANT_ID, state
+        parts = state.split(_OAUTH_STATE_SEP)
+        if len(parts) >= 3:
+            tid, uid, code_verifier = parts[0], parts[1], _OAUTH_STATE_SEP.join(parts[2:])
+            return (tid.strip() or settings.DEFAULT_TENANT_ID, uid, code_verifier)
+        if len(parts) == 2:
+            tid, uid = parts[0], parts[1]
+            return (tid.strip() or settings.DEFAULT_TENANT_ID, uid, None)
+        # Fallback: treat the entire state as user_id
+        return settings.DEFAULT_TENANT_ID, state, None
+    return settings.DEFAULT_TENANT_ID, state, None
+
+
+def _generate_code_verifier() -> str:
+    # RFC 7636: verifier is 43-128 chars. token_urlsafe(32) yields ~43-44 chars.
+    v = secrets.token_urlsafe(32)
+    return v[:128]
 
 load_dotenv()
 
@@ -37,7 +53,7 @@ SCOPES = [
     "https://www.googleapis.com/auth/drive.readonly",
 ]
 
-def create_flow(state: str | None = None) -> Flow:
+def create_flow(state: str | None = None, code_verifier: str | None = None) -> Flow:
     client_id = os.getenv("GOOGLE_CLIENT_ID")
     client_secret = os.getenv("GOOGLE_CLIENT_SECRET")
     redirect_uri = os.getenv("GOOGLE_REDIRECT_URI")
@@ -58,6 +74,9 @@ def create_flow(state: str | None = None) -> Flow:
         scopes=SCOPES,
         state=state,
         redirect_uri=redirect_uri,
+        code_verifier=code_verifier,
+        # If we pass code_verifier we want to use it as-is.
+        autogenerate_code_verifier=code_verifier is None,
     )
 
 @router.get("/drive/oauth/start")
@@ -69,8 +88,9 @@ def oauth_start(
     ),
 ):
     tid = (tenant_id or "").strip() or settings.DEFAULT_TENANT_ID
-    state = _encode_oauth_state(tid, user_id)
-    flow = create_flow(state=state)
+    code_verifier = _generate_code_verifier()
+    state = _encode_oauth_state(tid, user_id, code_verifier)
+    flow = create_flow(state=state, code_verifier=code_verifier)
     auth_url, _ = flow.authorization_url(
         access_type="offline",
         include_granted_scopes="true",
@@ -80,10 +100,13 @@ def oauth_start(
 
 @router.get("/drive/oauth/callback")
 def oauth_callback(code: str, state: str):
-    tenant_id, user_id = _decode_oauth_state(state)
+    tenant_id, user_id, code_verifier = _decode_oauth_state(state)
 
     try:
-        flow = create_flow(state=state)
+        if not code_verifier:
+            raise ValueError("Missing PKCE code verifier in OAuth state")
+
+        flow = create_flow(state=state, code_verifier=code_verifier)
         flow.fetch_token(code=code)
         creds = flow.credentials
 
