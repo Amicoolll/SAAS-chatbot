@@ -330,8 +330,7 @@ def drive_sync(
     max_files: int = Query(
         500,
         ge=1,
-        le=5000,
-        description="Max Drive files to download this run (supported types only). Progress total matches this batch.",
+        description="Max Drive files to download this run (supported types only). Will be clamped to 5000.",
     ),
     background: bool = True,
 ):
@@ -345,6 +344,10 @@ def drive_sync(
     tokens = TOKEN_STORE.get(user_id)
     if not tokens:
         raise HTTPException(status_code=401, detail="Drive not connected")
+
+    # Safety limit: keep sync runs bounded even if the client requests a larger number.
+    # This prevents 422 validation errors and ensures the job doesn't overload resources.
+    max_files = min(max_files, 5000)
 
     if background:
         background_tasks.add_task(_drive_sync_background, tenant_id, user_id, max_files)
