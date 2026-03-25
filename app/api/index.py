@@ -20,7 +20,43 @@ logger = logging.getLogger(__name__)
 
 def _read_indexable_text(path: str) -> str:
     if path.endswith(".txt") or path.endswith(".csv"):
-        return read_text(path)
+        try:
+            return read_text(path)
+        except Exception as e:
+            logger.warning(
+                "Skipping text/CSV (unreadable) path=%s error=%s",
+                path,
+                type(e).__name__,
+            )
+            return ""
+    if path.endswith(".xlsx"):
+        try:
+            from openpyxl import load_workbook
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail="XLSX indexing requires 'openpyxl'. Install dependencies and retry.",
+            ) from e
+        try:
+            wb = load_workbook(path, read_only=True, data_only=True)
+            try:
+                lines: list[str] = []
+                for sheet in wb.worksheets:
+                    for row in sheet.iter_rows(values_only=True):
+                        cells = [str(c) if c is not None else "" for c in row]
+                        if any(x.strip() for x in cells):
+                            lines.append("\t".join(cells))
+                return "\n".join(lines).strip()
+            finally:
+                wb.close()
+        except Exception as e:
+            # Password-protected / encrypted workbooks, corrupt files, etc.
+            logger.warning(
+                "Skipping XLSX (encrypted, corrupt, or unreadable) path=%s error=%s",
+                path,
+                type(e).__name__,
+            )
+            return ""
     if path.endswith(".pdf"):
         try:
             from pypdf import PdfReader
@@ -29,11 +65,20 @@ def _read_indexable_text(path: str) -> str:
                 status_code=500,
                 detail="PDF indexing requires 'pypdf'. Install dependencies and retry.",
             ) from e
-        reader = PdfReader(path)
-        pages: list[str] = []
-        for page in reader.pages:
-            pages.append(page.extract_text() or "")
-        return "\n".join(pages).strip()
+        try:
+            reader = PdfReader(path)
+            pages: list[str] = []
+            for page in reader.pages:
+                pages.append(page.extract_text() or "")
+            return "\n".join(pages).strip()
+        except Exception as e:
+            # Encrypted PDFs (cannot decrypt without password), corrupt files, etc.
+            logger.warning(
+                "Skipping PDF (encrypted or unreadable — not decrypted) path=%s error=%s",
+                path,
+                type(e).__name__,
+            )
+            return ""
     return ""
 
 
@@ -51,7 +96,14 @@ def _run_index(
         raise HTTPException(status_code=400, detail="No raw files found. Run /drive/sync first.")
 
     raw_files = list_files_recursive(raw_dir)
-    raw_files = [p for p in raw_files if p.endswith(".txt") or p.endswith(".csv") or p.endswith(".pdf")][:max_files]
+    raw_files = [
+        p
+        for p in raw_files
+        if p.endswith(".txt")
+        or p.endswith(".csv")
+        or p.endswith(".pdf")
+        or p.endswith(".xlsx")
+    ][:max_files]
     total_files = len(raw_files)
 
     pipeline_state.update_index_progress(
@@ -70,14 +122,27 @@ def _run_index(
 
     docs_indexed = 0
     chunks_indexed = 0
+    files_skipped_unreadable = 0
+    files_skipped_error = 0
 
-    for i, path in enumerate(raw_files, start=1):
+    def _finish_file_progress() -> None:
+        pipeline_state.update_index_progress(
+            tenant_id,
+            user_id,
+            phase="embedding",
+            current=file_idx,
+            total=total_files,
+            current_file=name,
+            chunks_so_far=chunks_indexed,
+        )
+
+    for file_idx, path in enumerate(raw_files, start=1):
         name = os.path.basename(path)
         pipeline_state.update_index_progress(
             tenant_id,
             user_id,
             phase="embedding",
-            current=i - 1,
+            current=file_idx - 1,
             total=total_files,
             current_file=name,
             chunks_so_far=chunks_indexed,
@@ -86,81 +151,111 @@ def _run_index(
             mime_type = "text/plain"
         elif path.endswith(".csv"):
             mime_type = "text/csv"
+        elif path.endswith(".xlsx"):
+            mime_type = (
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
         else:
             mime_type = "application/pdf"
 
-        text = _read_indexable_text(path)
-        if not text.strip():
-            logger.info("Skipping file with empty extracted text: %s", path)
-            pipeline_state.update_index_progress(
-                tenant_id,
-                user_id,
-                phase="embedding",
-                current=i,
-                total=total_files,
-                current_file=name,
-                chunks_so_far=chunks_indexed,
+        try:
+            text = _read_indexable_text(path)
+            # Postgres/psycopg reject NUL in text parameters; PDFs often contain them.
+            text = text.replace("\x00", "")
+            if not text.strip():
+                files_skipped_unreadable += 1
+                logger.info(
+                    "Skipping file (empty or unreadable / not decrypted): %s", path
+                )
+                _finish_file_progress()
+                continue
+            chunks = chunk_text(text, chunk_size=chunk_size, overlap=chunk_overlap)
+            if not chunks:
+                _finish_file_progress()
+                continue
+
+            embeddings: list[list[float]] = []
+            for batch_start in range(0, len(chunks), batch_size):
+                embeddings.extend(
+                    embed_texts(chunks[batch_start : batch_start + batch_size])
+                )
+
+            if len(embeddings) != len(chunks):
+                logger.warning(
+                    "Skipping file (embedding count mismatch) path=%s chunks=%s embeddings=%s",
+                    path,
+                    len(chunks),
+                    len(embeddings),
+                )
+                files_skipped_error += 1
+                _finish_file_progress()
+                continue
+            bad_dim = next(
+                (len(e) for e in embeddings if len(e) != settings.EMBED_DIM),
+                None,
             )
-            continue
-        chunks = chunk_text(text, chunk_size=chunk_size, overlap=chunk_overlap)
-        if not chunks:
-            continue
+            if bad_dim is not None:
+                logger.warning(
+                    "Skipping file (embedding dimension mismatch) path=%s got=%s expected=%s model=%s",
+                    path,
+                    bad_dim,
+                    settings.EMBED_DIM,
+                    settings.OPENAI_EMBEDDING_MODEL,
+                )
+                files_skipped_error += 1
+                _finish_file_progress()
+                continue
 
-        embeddings = []
-        for i in range(0, len(chunks), batch_size):
-            embeddings.extend(embed_texts(chunks[i : i + batch_size]))
+            drive_file_id = f"local::{user_id}::{name}"
 
-        drive_file_id = f"local::{user_id}::{name}"
+            doc = db.query(Document).filter(
+                Document.tenant_id == tenant_id,
+                Document.user_id == user_id,
+                Document.drive_file_id == drive_file_id,
+            ).first()
 
-        doc = db.query(Document).filter(
-            Document.tenant_id == tenant_id,
-            Document.user_id == user_id,
-            Document.drive_file_id == drive_file_id,
-        ).first()
+            if not doc:
+                doc = Document(
+                    tenant_id=tenant_id,
+                    user_id=user_id,
+                    drive_file_id=drive_file_id,
+                    name=name,
+                    mime_type=mime_type,
+                    modified_time="",
+                    web_view_link="",
+                )
+                db.add(doc)
+                db.commit()
+                db.refresh(doc)
+            else:
+                db.execute(delete(Chunk).where(Chunk.document_id == doc.id))
+                db.commit()
 
-        if not doc:
-            doc = Document(
-                tenant_id=tenant_id,
-                user_id=user_id,
-                drive_file_id=drive_file_id,
-                name=name,
-                mime_type=mime_type,
-                modified_time="",
-                web_view_link="",
-            )
-            db.add(doc)
+            for idx, (c, e) in enumerate(zip(chunks, embeddings)):
+                db.add(Chunk(
+                    tenant_id=tenant_id,
+                    user_id=user_id,
+                    document_id=doc.id,
+                    chunk_index=idx,
+                    content=c,
+                    embedding=e,
+                ))
+
             db.commit()
-            db.refresh(doc)
-        else:
-            db.execute(delete(Chunk).where(Chunk.document_id == doc.id))
-            db.commit()
-
-        for idx, (c, e) in enumerate(zip(chunks, embeddings)):
-            db.add(Chunk(
-                tenant_id=tenant_id,
-                user_id=user_id,
-                document_id=doc.id,
-                chunk_index=idx,
-                content=c,
-                embedding=e,
-            ))
-
-        db.commit()
-        docs_indexed += 1
-        chunks_indexed += len(chunks)
-        pipeline_state.update_index_progress(
-            tenant_id,
-            user_id,
-            phase="embedding",
-            current=i,
-            total=total_files,
-            current_file=name,
-            chunks_so_far=chunks_indexed,
-        )
+            docs_indexed += 1
+            chunks_indexed += len(chunks)
+            _finish_file_progress()
+        except Exception:
+            db.rollback()
+            files_skipped_error += 1
+            logger.exception("index_file_failed path=%s", path)
+            _finish_file_progress()
 
     log_operation(
         logger, "index_run", tenant_id=tenant_id, user_id=user_id,
         docs_indexed=docs_indexed, chunks_indexed=chunks_indexed,
+        files_skipped_unreadable=files_skipped_unreadable,
+        files_skipped_error=files_skipped_error,
     )
     return {
         "tenant_id": tenant_id,
@@ -168,7 +263,9 @@ def _run_index(
         "docs_indexed": docs_indexed,
         "chunks_indexed": chunks_indexed,
         "total_files_planned": total_files,
-        "note": "Indexed raw/ files into Postgres + pgvector.",
+        "files_skipped_unreadable": files_skipped_unreadable,
+        "files_skipped_error": files_skipped_error,
+        "note": "Indexed raw/ files into Postgres + pgvector. Skipped encrypted/unreadable/empty files.",
     }
 
 

@@ -2,12 +2,25 @@ import os
 import logging
 from urllib.parse import urlencode
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import RedirectResponse
 from google_auth_oauthlib.flow import Flow
 from dotenv import load_dotenv
 from app.core.config import settings
-from app.services.drive.token_store import TOKEN_STORE
+from app.services.drive.token_store import persist_and_cache_tokens
+
+_OAUTH_STATE_SEP = "###"
+
+
+def _encode_oauth_state(tenant_id: str, user_id: str) -> str:
+    return f"{tenant_id}{_OAUTH_STATE_SEP}{user_id}"
+
+
+def _decode_oauth_state(state: str) -> tuple[str, str]:
+    if _OAUTH_STATE_SEP in state:
+        tid, uid = state.split(_OAUTH_STATE_SEP, 1)
+        return (tid.strip() or settings.DEFAULT_TENANT_ID, uid)
+    return settings.DEFAULT_TENANT_ID, state
 
 load_dotenv()
 
@@ -48,8 +61,16 @@ def create_flow(state: str | None = None) -> Flow:
     )
 
 @router.get("/drive/oauth/start")
-def oauth_start(user_id: str):
-    flow = create_flow(state=user_id)
+def oauth_start(
+    user_id: str,
+    tenant_id: str | None = Query(
+        None,
+        description="Same value as X-Tenant-Id on API calls; defaults to server DEFAULT_TENANT_ID.",
+    ),
+):
+    tid = (tenant_id or "").strip() or settings.DEFAULT_TENANT_ID
+    state = _encode_oauth_state(tid, user_id)
+    flow = create_flow(state=state)
     auth_url, _ = flow.authorization_url(
         access_type="offline",
         include_granted_scopes="true",
@@ -59,17 +80,19 @@ def oauth_start(user_id: str):
 
 @router.get("/drive/oauth/callback")
 def oauth_callback(code: str, state: str):
-    user_id = state
+    tenant_id, user_id = _decode_oauth_state(state)
 
     try:
         flow = create_flow(state=state)
         flow.fetch_token(code=code)
         creds = flow.credentials
 
-        TOKEN_STORE[user_id] = {
-            "access_token": creds.token,
-            "refresh_token": creds.refresh_token,
-        }
+        persist_and_cache_tokens(
+            tenant_id,
+            user_id,
+            creds.token,
+            creds.refresh_token,
+        )
     except Exception as e:
         logger.exception("oauth_callback_failed user_id=%s error=%s", user_id, type(e).__name__)
         if settings.FRONTEND_URL:

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import logging
 from datetime import datetime, timezone
 from typing import Any
 
@@ -9,6 +10,8 @@ from sqlalchemy.orm import Session
 
 from app.db.models_pipeline import PipelineState
 from app.db.session import SessionLocal
+
+logger = logging.getLogger(__name__)
 
 
 def _now() -> datetime:
@@ -39,7 +42,12 @@ def mark_drive_sync_running(tenant_id: str, user_id: str) -> None:
         row.drive_sync_error = None
         row.drive_sync_result_json = None
         row.drive_sync_progress_json = json.dumps(
-            {"phase": "starting", "current": 0, "total": None, "current_file": None}
+            {
+                "phase": "starting",
+                "current": 0,
+                "total": None,
+                "current_file": None,
+            }
         )
         db.commit()
     finally:
@@ -52,7 +60,7 @@ def update_drive_sync_progress(
     *,
     phase: str,
     current: int,
-    total: int,
+    total: int | None,
     current_file: str | None = None,
 ) -> None:
     """Best-effort progress for polling (separate DB session)."""
@@ -63,7 +71,21 @@ def update_drive_sync_progress(
             .filter(PipelineState.tenant_id == tenant_id, PipelineState.user_id == user_id)
             .first()
         )
-        if not row or row.drive_sync_status != "running":
+        if not row:
+            logger.warning(
+                "drive_sync_progress_skip no_row tenant=%s user=%s phase=%s",
+                tenant_id,
+                user_id,
+                phase,
+            )
+            return
+        if row.drive_sync_status != "running":
+            logger.debug(
+                "drive_sync_progress_skip status=%s tenant=%s user=%s",
+                row.drive_sync_status,
+                tenant_id,
+                user_id,
+            )
             return
         row.drive_sync_progress_json = json.dumps(
             {
@@ -75,8 +97,15 @@ def update_drive_sync_progress(
             default=str,
         )
         db.commit()
-    except Exception:
+    except Exception as e:
         db.rollback()
+        logger.warning(
+            "drive_sync_progress_write_failed tenant=%s user=%s: %s",
+            tenant_id,
+            user_id,
+            e,
+            exc_info=True,
+        )
     finally:
         db.close()
 
@@ -131,7 +160,7 @@ def update_index_progress(
     *,
     phase: str,
     current: int,
-    total: int,
+    total: int | None,
     current_file: str | None = None,
     chunks_so_far: int | None = None,
 ) -> None:
@@ -143,7 +172,18 @@ def update_index_progress(
             .filter(PipelineState.tenant_id == tenant_id, PipelineState.user_id == user_id)
             .first()
         )
-        if not row or row.index_status != "running":
+        if not row:
+            logger.warning(
+                "index_progress_skip no_row tenant=%s user=%s", tenant_id, user_id
+            )
+            return
+        if row.index_status != "running":
+            logger.debug(
+                "index_progress_skip status=%s tenant=%s user=%s",
+                row.index_status,
+                tenant_id,
+                user_id,
+            )
             return
         payload: dict[str, Any] = {
             "phase": phase,
@@ -155,8 +195,15 @@ def update_index_progress(
             payload["chunks_so_far"] = chunks_so_far
         row.index_progress_json = json.dumps(payload, default=str)
         db.commit()
-    except Exception:
+    except Exception as e:
         db.rollback()
+        logger.warning(
+            "index_progress_write_failed tenant=%s user=%s: %s",
+            tenant_id,
+            user_id,
+            e,
+            exc_info=True,
+        )
     finally:
         db.close()
 

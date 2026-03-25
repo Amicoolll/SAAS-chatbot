@@ -6,12 +6,14 @@ from urllib.parse import quote
 
 from fastapi import APIRouter, BackgroundTasks, HTTPException, Depends, Query
 from fastapi.responses import FileResponse
+from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaIoBaseDownload
 
+from app.core.config import settings
 from app.core.deps import get_tenant_user, get_user_id
 from app.core.logging import log_operation
 from app.services.drive.client import build_drive_service
-from app.services.drive.token_store import TOKEN_STORE
+from app.services.drive.token_store import TOKEN_STORE, ensure_tokens_loaded
 from app.services import pipeline_state
 
 router = APIRouter()
@@ -34,18 +36,92 @@ SUPPORTED_TYPES = {
 }
 
 
-def _download_bytes(request):
+def _download_bytes(request, log_context: str | None = None):
     fh = io.BytesIO()
-    downloader = MediaIoBaseDownload(fh, request)
+    downloader = MediaIoBaseDownload(
+        fh,
+        request,
+        chunksize=settings.DRIVE_DOWNLOAD_CHUNKSIZE,
+    )
     done = False
+    last_pct = -1
+    chunk_n = 0
     while not done:
-        _, done = downloader.next_chunk()
+        status, done = downloader.next_chunk(num_retries=settings.DRIVE_DOWNLOAD_NUM_RETRIES)
+        chunk_n += 1
+        if status and log_context:
+            if status.total_size and status.total_size > 0:
+                p = int(status.progress() * 100)
+                if p >= last_pct + 10 or done:
+                    logger.info(
+                        "drive_download_progress ctx=%s pct=%s bytes=%s total=%s",
+                        log_context,
+                        p,
+                        status.resumable_progress,
+                        status.total_size,
+                    )
+                    last_pct = p
+            elif done or chunk_n == 1 or chunk_n % 3 == 0:
+                logger.info(
+                    "drive_download_progress ctx=%s bytes=%s total_size_unknown done=%s",
+                    log_context,
+                    status.resumable_progress,
+                    done,
+                )
     return fh.getvalue()
 
 
 def _safe_file_name(name: str) -> str:
     # Keep a conservative filename set for local storage and URL paths.
     return name.replace("/", "_").replace("\\", "_")
+
+
+GOOGLE_SHEET_EXPORT_CSV = "text/csv"
+GOOGLE_SHEET_EXPORT_XLSX = (
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+)
+
+
+def _save_google_sheet(
+    service,
+    file_id: str,
+    name: str,
+    raw_dir: str,
+    log_context: str | None = None,
+) -> None:
+    """
+    Prefer CSV export. Some Sheets return 403 cannotExportFile for CSV (policy,
+    linked sheets, or non-exportable content); try XLSX export as fallback.
+    """
+    try:
+        request = service.files().export_media(
+            fileId=file_id, mimeType=GOOGLE_SHEET_EXPORT_CSV
+        )
+        content = _download_bytes(
+            request, log_context=f"{log_context}:csv" if log_context else None
+        ).decode("utf-8", errors="ignore")
+        file_path = os.path.join(raw_dir, f"{name}.csv")
+        with open(file_path, "w", encoding="utf-8") as f_out:
+            f_out.write(content)
+        return
+    except HttpError as e:
+        body = (e.content or b"").decode("utf-8", errors="replace")
+        if e.resp.status != 403 or "cannotExportFile" not in body:
+            raise
+        logger.info(
+            "sheet_csv_export_blocked file_id=%s name=%s trying_xlsx_fallback",
+            file_id,
+            name,
+        )
+    request = service.files().export_media(
+        fileId=file_id, mimeType=GOOGLE_SHEET_EXPORT_XLSX
+    )
+    content = _download_bytes(
+        request, log_context=f"{log_context}:xlsx" if log_context else None
+    )
+    file_path = os.path.join(raw_dir, f"{name}.xlsx")
+    with open(file_path, "wb") as f_out:
+        f_out.write(content)
 
 
 def _ext_from_mime(mime: str) -> str:
@@ -60,7 +136,8 @@ def _ext_from_mime(mime: str) -> str:
     return ""
 
 
-def list_all_files(service):
+def list_all_files(service, on_list_progress=None):
+    """List all Drive files; optional callback with count so polling shows listing progress."""
     all_files = []
     token = None
     while True:
@@ -73,6 +150,8 @@ def list_all_files(service):
             includeItemsFromAllDrives=True,
         ).execute()
         all_files.extend(response.get("files", []))
+        if on_list_progress:
+            on_list_progress(len(all_files))
         token = response.get("nextPageToken")
         if not token:
             break
@@ -85,19 +164,32 @@ def _run_drive_sync_core(tenant_id: str, user_id: str, max_files: int) -> dict:
     Raises ValueError if Drive not connected; other exceptions propagate.
     Updates pipeline_state drive sync progress for GET /pipeline/status polling.
     """
+    if not ensure_tokens_loaded(tenant_id, user_id):
+        raise ValueError("Drive not connected")
     tokens = TOKEN_STORE.get(user_id)
     if not tokens:
         raise ValueError("Drive not connected")
 
     pipeline_state.update_drive_sync_progress(
-        tenant_id, user_id, phase="listing", current=0, total=0, current_file=None
+        tenant_id, user_id, phase="listing", current=0, total=None, current_file=None
     )
 
     service = build_drive_service(
         tokens["access_token"],
         tokens["refresh_token"],
     )
-    files = list_all_files(service)
+
+    def _on_list_progress(n: int) -> None:
+        pipeline_state.update_drive_sync_progress(
+            tenant_id,
+            user_id,
+            phase="listing",
+            current=n,
+            total=None,
+            current_file=None,
+        )
+
+    files = list_all_files(service, on_list_progress=_on_list_progress)
     files = [f for f in files if f["mimeType"] in SUPPORTED_TYPES][:max_files]
     total = len(files)
 
@@ -127,28 +219,39 @@ def _run_drive_sync_core(tenant_id: str, user_id: str, max_files: int) -> dict:
             file_id = f["id"]
             name = _safe_file_name(f["name"])
             mime = f["mimeType"]
+            dl_ctx = f"{i}/{total}:{file_id}:{name[:80]}"
+
+            logger.info(
+                "drive_sync_file_begin user_id=%s i=%s/%s file_id=%s name=%s mime=%s",
+                user_id,
+                i,
+                total,
+                file_id,
+                name,
+                mime,
+            )
 
             if mime == GOOGLE_DOC:
                 request = service.files().export_media(fileId=file_id, mimeType="text/plain")
-                content = _download_bytes(request).decode("utf-8", errors="ignore")
+                content = _download_bytes(
+                    request, log_context=f"{dl_ctx}:gdoc"
+                ).decode("utf-8", errors="ignore")
                 file_path = os.path.join(raw_dir, f"{name}.txt")
                 with open(file_path, "w", encoding="utf-8") as f_out:
                     f_out.write(content)
             elif mime == GOOGLE_SHEET:
-                request = service.files().export_media(fileId=file_id, mimeType="text/csv")
-                content = _download_bytes(request).decode("utf-8", errors="ignore")
-                file_path = os.path.join(raw_dir, f"{name}.csv")
-                with open(file_path, "w", encoding="utf-8") as f_out:
-                    f_out.write(content)
+                _save_google_sheet(service, file_id, name, raw_dir, log_context=dl_ctx)
             elif mime == GOOGLE_SLIDES:
                 request = service.files().export_media(fileId=file_id, mimeType="text/plain")
-                content = _download_bytes(request).decode("utf-8", errors="ignore")
+                content = _download_bytes(
+                    request, log_context=f"{dl_ctx}:gslides"
+                ).decode("utf-8", errors="ignore")
                 file_path = os.path.join(raw_dir, f"{name}.txt")
                 with open(file_path, "w", encoding="utf-8") as f_out:
                     f_out.write(content)
             else:
                 request = service.files().get_media(fileId=file_id)
-                content = _download_bytes(request)
+                content = _download_bytes(request, log_context=f"{dl_ctx}:binary")
                 ext = ".pdf" if mime == "application/pdf" else _ext_from_mime(mime)
                 file_path = os.path.join(raw_dir, f"{name}{ext}")
                 with open(file_path, "wb") as f_out:
@@ -189,6 +292,8 @@ def _run_drive_sync_core(tenant_id: str, user_id: str, max_files: int) -> dict:
 
 
 def _drive_sync_background(tenant_id: str, user_id: str, max_files: int) -> None:
+    # Worker may have empty memory; reload OAuth row from DB (multi-worker safe).
+    ensure_tokens_loaded(tenant_id, user_id)
     pipeline_state.mark_drive_sync_running(tenant_id, user_id)
     try:
         result = _run_drive_sync_core(tenant_id, user_id, max_files)
@@ -201,7 +306,10 @@ def _drive_sync_background(tenant_id: str, user_id: str, max_files: int) -> None
 
 
 @router.get("/drive/files")
-def drive_files(user_id: str = Depends(get_user_id)):
+def drive_files(tenant_user: tuple[str, str] = Depends(get_tenant_user)):
+    tenant_id, user_id = tenant_user
+    if not ensure_tokens_loaded(tenant_id, user_id):
+        raise HTTPException(status_code=401, detail="Drive not connected")
     tokens = TOKEN_STORE.get(user_id)
     if not tokens:
         raise HTTPException(status_code=401, detail="Drive not connected")
@@ -232,6 +340,8 @@ def drive_sync(
     Poll **GET /pipeline/status** for `drive_sync.progress` (`current` / `total` / `current_file` / `percent`).
     """
     tenant_id, user_id = tenant_user
+    if not ensure_tokens_loaded(tenant_id, user_id):
+        raise HTTPException(status_code=401, detail="Drive not connected")
     tokens = TOKEN_STORE.get(user_id)
     if not tokens:
         raise HTTPException(status_code=401, detail="Drive not connected")

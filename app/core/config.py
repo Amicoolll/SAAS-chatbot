@@ -37,5 +37,14 @@ class Settings(BaseSettings):
     # Logging
     LOG_LEVEL: str = "INFO"
 
+    # Google Drive API: per-request socket timeout (seconds). Without this, large
+    # PDFs / slow networks can look "hung" forever on a single read.
+    DRIVE_HTTP_TIMEOUT_SEC: int = 300
+    # Retries for each chunked download request (transient 5xx / connection errors).
+    DRIVE_DOWNLOAD_NUM_RETRIES: int = 5
+    # Chunk size for resumable media download (bytes). Smaller = more round trips,
+    # shorter stall if one chunk times out.
+    DRIVE_DOWNLOAD_CHUNKSIZE: int = 32 * 1024 * 1024
+
 
 settings = Settings()

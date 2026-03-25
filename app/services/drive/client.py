@@ -1,7 +1,12 @@
 import os
-from google.oauth2.credentials import Credentials
-from googleapiclient.discovery import build
+
+import httplib2
 from dotenv import load_dotenv
+from google.oauth2.credentials import Credentials
+from google_auth_httplib2 import AuthorizedHttp
+from googleapiclient.discovery import build
+
+from app.core.config import settings
 
 load_dotenv()
 
@@ -22,4 +27,6 @@ def build_drive_service(access_token: str, refresh_token: str):
         client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
         scopes=SCOPES,
     )
-    return build("drive", "v3", credentials=creds)
+    base_http = httplib2.Http(timeout=settings.DRIVE_HTTP_TIMEOUT_SEC)
+    authed_http = AuthorizedHttp(creds, http=base_http)
+    return build("drive", "v3", http=authed_http, cache_discovery=False)

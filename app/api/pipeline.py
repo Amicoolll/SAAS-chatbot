@@ -5,7 +5,7 @@ import json
 import os
 from typing import Any
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
@@ -13,7 +13,11 @@ from app.core.deps import get_tenant_user
 from app.db.models import Chunk, Document
 from app.db.models_pipeline import PipelineState
 from app.db.session import get_db
-from app.services.drive.token_store import TOKEN_STORE
+from app.services.drive.token_store import (
+    TOKEN_STORE,
+    drive_has_credentials_in_db,
+    ensure_tokens_loaded,
+)
 from app.services.storage import list_files_recursive
 
 router = APIRouter(tags=["Pipeline status"])
@@ -42,11 +46,14 @@ def _progress_payload(text: str | None) -> dict[str, Any] | None:
         pct = 0.0
     out = dict(raw)
     out["percent"] = pct
+    if raw.get("phase") == "listing" and tot is None:
+        out["indeterminate"] = True
     return out
 
 
 @router.get("/pipeline/status")
 def get_pipeline_status(
+    response: Response,
     tenant_user: tuple[str, str] = Depends(get_tenant_user),
     db: Session = Depends(get_db),
 ):
@@ -66,16 +73,28 @@ def get_pipeline_status(
     - wait for `index.running` false before expecting chat to see new documents
 
     `ready_for_chat` is true when there is at least one indexed chunk and indexing is not running.
+
+    **Indexing backlog (approx):** `raw_indexable_file_count` = files on disk the indexer can read;
+    `approx_unindexed_raw_files` ≈ that minus `indexed_documents` (rough; see inline note in code).
     """
     tenant_id, user_id = tenant_user
+    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
 
-    drive_connected = user_id in TOKEN_STORE and bool(TOKEN_STORE.get(user_id))
+    # Memory is per worker; DB row survives long syncs and other workers (Gunicorn).
+    _mem = user_id in TOKEN_STORE and bool(TOKEN_STORE.get(user_id))
+    _db = drive_has_credentials_in_db(tenant_id, user_id)
+    drive_connected = _mem or _db
+    if _db and not _mem:
+        ensure_tokens_loaded(tenant_id, user_id)
 
     raw_dir = os.path.join("data", f"user_{user_id}", "raw")
+    _raw_suffixes = (".txt", ".csv", ".pdf", ".xlsx")
     raw_text_csv_files = 0
     if os.path.isdir(raw_dir):
         for p in list_files_recursive(raw_dir):
-            if p.endswith(".txt") or p.endswith(".csv"):
+            pl = p.lower()
+            if pl.endswith(_raw_suffixes):
                 raw_text_csv_files += 1
 
     indexed_documents = (
@@ -109,7 +128,9 @@ def get_pipeline_status(
     if sync_running:
         hints.append("Drive sync is running; wait before indexing.")
     elif raw_text_csv_files == 0 and drive_connected:
-        hints.append("No .txt/.csv files in raw folder yet; run /drive/sync or check failures in drive_sync.")
+        hints.append(
+            "No indexable files in raw folder yet (.txt/.csv/.pdf/.xlsx); run /drive/sync or check failures."
+        )
     if index_running:
         hints.append("Indexing is running; answers may not include new documents until it finishes.")
     if indexed_chunks == 0 and not index_running and raw_text_csv_files > 0:
@@ -120,12 +141,21 @@ def get_pipeline_status(
     ready_for_index = (not sync_running) and raw_text_csv_files > 0 and (not index_running)
     ready_for_chat = indexed_chunks > 0 and (not index_running)
 
+    # Rough "how much is left": raw files on disk vs rows in `documents`. Not exact if
+    # filenames changed, re-sync replaced files, or index failed partway — but useful for UI.
+    idoc = int(indexed_documents)
+    approx_unindexed_raw_files = max(0, raw_text_csv_files - idoc)
+
     return {
         "tenant_id": tenant_id,
         "user_id": user_id,
         "drive_connected": drive_connected,
+        # Files under raw/ that the indexer can consume (.txt/.csv/.pdf/.xlsx).
         "raw_text_csv_files": raw_text_csv_files,
-        "indexed_documents": int(indexed_documents),
+        "raw_indexable_file_count": raw_text_csv_files,
+        "indexed_documents": idoc,
+        # Approximate count of raw files not yet reflected as Document rows (see note above).
+        "approx_unindexed_raw_files": approx_unindexed_raw_files,
         "indexed_chunks": int(indexed_chunks),
         "drive_sync": {
             "status": drive_status,

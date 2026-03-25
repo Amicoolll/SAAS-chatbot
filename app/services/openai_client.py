@@ -57,7 +57,9 @@ def embed_texts(texts: List[str]) -> List[List[float]]:
             model=settings.OPENAI_EMBEDDING_MODEL,
             input=texts,
         )
-        out = [item.embedding for item in resp.data]
+        # API may return rows out of input order; index maps each row back to input.
+        ordered = sorted(resp.data, key=lambda item: item.index)
+        out = [item.embedding for item in ordered]
         log_operation(logger, "embed_batch", count=len(out), model=settings.OPENAI_EMBEDDING_MODEL)
         return out
     except Exception:

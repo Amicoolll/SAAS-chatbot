@@ -19,6 +19,7 @@ from app.api.index import router as index_router
 from app.api.chat_pg import router as chat_pg_router
 from app.api.agents import router as agents_router
 from app.db import models_chat  # noqa: F401
+from app.db import models_drive_oauth  # noqa: F401 — drive_oauth_tokens
 from app.api.conversations import router as conversations_router
 from app.api.pipeline import router as pipeline_router
 from app.api.documents import router as documents_router
