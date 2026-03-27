@@ -13,6 +13,7 @@ from app.db import models  # noqa: F401 — register models
 from app.db import models_pipeline  # noqa: F401 — register pipeline_state table
 from app.services.drive.oauth import router as drive_oauth_router
 from app.services.drive.routes import router as drive_routes
+from app.services.drive.selected_sync_routes import router as drive_selected_routes
 from app.api.demo import router as demo_router
 from app.api.chat import router as chat_router
 from app.api.index import router as index_router
@@ -84,6 +85,7 @@ app.add_middleware(
 
 app.include_router(drive_oauth_router)
 app.include_router(drive_routes)
+app.include_router(drive_selected_routes)
 app.include_router(demo_router)
 app.include_router(chat_router)
 app.include_router(index_router)
