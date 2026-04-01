@@ -24,6 +24,7 @@ from app.db import models_drive_oauth  # noqa: F401 — drive_oauth_tokens
 from app.api.conversations import router as conversations_router
 from app.api.pipeline import router as pipeline_router
 from app.api.documents import router as documents_router
+from app.api.query_understanding_api import router as query_understanding_router
 
 
 def _setup_logging() -> None:
@@ -94,6 +95,7 @@ app.include_router(agents_router)
 app.include_router(conversations_router)
 app.include_router(pipeline_router)
 app.include_router(documents_router)
+app.include_router(query_understanding_router)
 
 
 @app.on_event("startup")

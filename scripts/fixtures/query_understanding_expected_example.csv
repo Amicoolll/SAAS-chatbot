@@ -1,0 +1,3 @@
+query,domain,intent,complexity,risk_level,needs_exact_match,needs_multi_hop,needs_live_data,requires_citations
+"How do I reset my password?",support,faq,simple,low,false,false,false,false
+"Why is shipment 18472 delayed?",logistics,status_lookup,medium,medium,true,false,true,false

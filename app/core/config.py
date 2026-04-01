@@ -1,5 +1,29 @@
+from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import field_validator
+
+
+_DEFAULT_QUERY_DOMAINS: list[str] = [
+    "medical",
+    "logistics",
+    "support",
+    "hr",
+    "finance",
+    "legal",
+    "general",
+    "multi_domain",
+]
+
+_DEFAULT_QUERY_INTENTS: list[str] = [
+    "faq",
+    "search",
+    "summarization",
+    "troubleshooting",
+    "status_lookup",
+    "policy_lookup",
+    "comparison",
+    "analysis",
+    "workflow_help",
+]
 
 
 class Settings(BaseSettings):
@@ -47,6 +71,14 @@ class Settings(BaseSettings):
     # shorter stall if one chunk times out.
     DRIVE_DOWNLOAD_CHUNKSIZE: int = 32 * 1024 * 1024
 
+    # Query understanding (rule-based MVP): allowed labels from config / env JSON lists
+    QUERY_UNDERSTANDING_DOMAINS: list[str] = Field(
+        default_factory=lambda: list(_DEFAULT_QUERY_DOMAINS),
+    )
+    QUERY_UNDERSTANDING_INTENTS: list[str] = Field(
+        default_factory=lambda: list(_DEFAULT_QUERY_INTENTS),
+    )
+
     @field_validator("DRIVE_DOWNLOAD_CHUNKSIZE", mode="before")
     @classmethod
     def _coerce_drive_download_chunksize(cls, v: object) -> object:
@@ -57,6 +89,15 @@ class Settings(BaseSettings):
         if isinstance(v, str):
             v = v.strip().rstrip("\\")
         return v
+
+    @model_validator(mode="after")
+    def _ensure_query_understanding_labels(self) -> "Settings":
+        if "general" not in self.QUERY_UNDERSTANDING_DOMAINS:
+            self.QUERY_UNDERSTANDING_DOMAINS = [
+                *self.QUERY_UNDERSTANDING_DOMAINS,
+                "general",
+            ]
+        return self
 
 
 settings = Settings()
