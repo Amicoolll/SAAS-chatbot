@@ -8,9 +8,8 @@ where semantics alone often suffice.
 
 from __future__ import annotations
 
-import re
-
 from app.schemas.query_understanding import QueryUnderstandingResult
+from app.services.greetingHandler import processIncomingMessage
 
 # Intents where lexical grounding usually helps retrieval quality.
 _HYBRID_INTENTS = frozenset(
@@ -38,47 +37,14 @@ _HYBRID_DOMAINS = frozenset(
     }
 )
 
-_SKIP_KB_EXACT = frozenset(
-    {
-        "hi",
-        "hello",
-        "hey",
-        "good morning",
-        "good afternoon",
-        "good evening",
-        "tell me a joke",
-    }
-)
-
-_SKIP_KB_RE = re.compile(
-    r"^(hi|hello|hey)(\s+(there|all|team))?[\s!?.]*$"
-    r"|^good (morning|afternoon|evening)\b[\w\s!?.]*$",
-    re.I,
-)
-
-
 def should_skip_kb_retrieval(question: str, qu: QueryUnderstandingResult) -> bool:
     """
-    True for greetings / light chit-chat where vector search would pull random
-    chunks and confuse the model ("context does not contain...").
-
-    Only when analytics say general, low-risk FAQ with no retrieval-oriented flags.
+    True when ``greetingHandler`` marks the message as non-retrieval (greeting-only
+    or configured light chit-chat). ``qu`` is kept for call-site compatibility and
+    optional future classifier fusion.
     """
-    if qu.domain != "general" or qu.intent != "faq":
-        return False
-    if qu.complexity != "simple":
-        return False
-    if qu.risk_level != "low":
-        return False
-    if qu.needs_exact_match or qu.requires_citations:
-        return False
-    if qu.needs_multi_hop or qu.needs_live_data:
-        return False
-
-    s = " ".join(question.strip().lower().split())
-    if s in _SKIP_KB_EXACT:
-        return True
-    return bool(_SKIP_KB_RE.match(s.strip()))
+    _ = qu
+    return processIncomingMessage(question).skipRetrieval
 
 
 def should_use_hybrid_retrieval(qu: QueryUnderstandingResult) -> bool:

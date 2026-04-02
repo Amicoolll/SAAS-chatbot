@@ -18,6 +18,7 @@ from app.services.openai_client import (
     chat_without_context,
     embed_texts,
 )
+from app.services.greetingHandler import processIncomingMessage
 from app.services.query_understanding import analyze_query
 from app.services.rag.hybrid_retrieval import retrieve_hybrid_chunks
 from app.services.rag.query_routing import (
@@ -104,9 +105,15 @@ def chat_pg(
     # turn into a small history string
     history_text = "\n".join([f"{m.role.upper()}: {m.content}" for m in msgs])
 
-    qu = analyze_query(req.question, settings=settings)
+    greeting = processIncomingMessage(req.question)
+    routing_question = (
+        req.question
+        if greeting.skipRetrieval
+        else (greeting.cleanedQuery if greeting.hadGreetingPrefix else req.question)
+    )
+    qu = analyze_query(routing_question, settings=settings)
 
-    if should_skip_kb_retrieval(req.question, qu):
+    if greeting.skipRetrieval:
         try:
             answer = chat_conversational(
                 req.question,
@@ -125,7 +132,7 @@ def chat_pg(
     else:
         # 4) embed question for retrieval
         try:
-            q_emb_list = embed_texts([req.question])[0]
+            q_emb_list = embed_texts([routing_question])[0]
         except Exception:
             raise HTTPException(
                 status_code=503,
@@ -154,7 +161,7 @@ def chat_pg(
                     tenant_id=tenant_id,
                     user_id=user_id,
                     q_emb=q_emb,
-                    question=req.question,
+                    question=routing_question,
                     k_final=k,
                     fts_language=settings.FTS_LANGUAGE,
                     vector_candidate_k=k_vec,
@@ -180,7 +187,7 @@ def chat_pg(
                 mode = "llm_fallback"
                 sources = []
                 answer = chat_without_context(
-                    req.question, agent_type=req.agent_type, history=history_text
+                    routing_question, agent_type=req.agent_type, history=history_text
                 )
             elif use_hybrid:
                 vec_dists = [float(r[2]) for r in rows if math.isfinite(float(r[2]))]
@@ -189,14 +196,14 @@ def chat_pg(
                     mode = "llm_fallback"
                     sources = []
                     answer = chat_without_context(
-                        req.question, agent_type=req.agent_type, history=history_text
+                        routing_question, agent_type=req.agent_type, history=history_text
                     )
                 else:
                     mode = "kb_grounded"
                     context_chunks = [r[0] for r in rows]
                     sources = list(dict.fromkeys([r[1] for r in rows]))[:5]
                     answer = chat_with_context(
-                        req.question,
+                        routing_question,
                         context_chunks,
                         agent_type=req.agent_type,
                         history=history_text,
@@ -207,14 +214,14 @@ def chat_pg(
                     mode = "llm_fallback"
                     sources = []
                     answer = chat_without_context(
-                        req.question, agent_type=req.agent_type, history=history_text
+                        routing_question, agent_type=req.agent_type, history=history_text
                     )
                 else:
                     mode = "kb_grounded"
                     context_chunks = [r[0] for r in rows]
                     sources = list(dict.fromkeys([r[1] for r in rows]))[:5]
                     answer = chat_with_context(
-                        req.question,
+                        routing_question,
                         context_chunks,
                         agent_type=req.agent_type,
                         history=history_text,
