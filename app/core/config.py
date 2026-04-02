@@ -51,6 +51,22 @@ class Settings(BaseSettings):
     RETRIEVAL_TOP_K: int = 8
     CHAT_HISTORY_LIMIT: int = 10
 
+    # Hybrid RAG: dense (pgvector) + Postgres FTS, fused with RRF. Off by default
+    # so existing deployments behave exactly like pure vector retrieval.
+    ENABLE_HYBRID_RAG: bool = False
+    # When True (and ENABLE_HYBRID_RAG), pick hybrid vs vector per analyze_query().
+    # When False, ENABLE_HYBRID_RAG alone forces hybrid for every message (legacy).
+    HYBRID_RAG_ANALYTICS_ROUTING: bool = True
+    # Optional debug payload on POST /chat_pg (domain, intent, retrieval choice).
+    CHAT_RETURN_QUERY_ROUTING: bool = False
+    # Max candidates per leg before fusion (final count stays RETRIEVAL_TOP_K / k param).
+    HYBRID_FTS_CANDIDATE_K: int = 30
+    HYBRID_VECTOR_CANDIDATE_MIN: int = 20
+    HYBRID_VECTOR_CANDIDATE_MULTIPLIER: int = 2
+    HYBRID_RRF_K: int = 60
+    # Postgres text search config; must match chunks.content_tsv definition (startup DDL).
+    FTS_LANGUAGE: str = "simple"
+
     # Multi-tenant: default when headers are not provided (dev only; use auth in prod)
     DEFAULT_TENANT_ID: str = "demo_tenant"
     DEFAULT_USER_ID: str = "demo_user"

@@ -25,6 +25,7 @@ from app.api.conversations import router as conversations_router
 from app.api.pipeline import router as pipeline_router
 from app.api.documents import router as documents_router
 from app.api.query_understanding_api import router as query_understanding_router
+from app.services.rag.hybrid_retrieval import normalize_fts_config
 
 
 def _setup_logging() -> None:
@@ -69,6 +70,32 @@ def _ensure_pipeline_progress_columns() -> None:
     except Exception as e:
         # Keep startup alive; endpoints can still work without live progress.
         logger.warning("Skipping pipeline_state progress column patch: %s", e)
+
+
+def _ensure_chunk_fts_column() -> None:
+    """
+    Add chunks.content_tsv (generated tsvector) + GIN index for hybrid RAG FTS leg.
+    Safe to run repeatedly (IF NOT EXISTS). No-op when hybrid is disabled and
+    column unused; still applied so enabling hybrid does not require manual DDL.
+    """
+    reg = normalize_fts_config(settings.FTS_LANGUAGE)
+    statements = [
+        (
+            "ALTER TABLE chunks ADD COLUMN IF NOT EXISTS content_tsv tsvector "
+            f"GENERATED ALWAYS AS (to_tsvector('{reg}', content)) STORED"
+        ),
+        "CREATE INDEX IF NOT EXISTS ix_chunks_content_tsv ON chunks USING GIN (content_tsv)",
+    ]
+    try:
+        with engine.begin() as conn:
+            for stmt in statements:
+                conn.execute(text(stmt))
+    except Exception as e:
+        logger.warning(
+            "Skipping chunks FTS column/index (hybrid RAG lexical leg unavailable): %s",
+            e,
+        )
+
 
 # CORS: allow frontend (different origin / ngrok / other network)
 _origins = (
@@ -115,6 +142,7 @@ def startup():
             )
     Base.metadata.create_all(bind=engine)
     _ensure_pipeline_progress_columns()
+    _ensure_chunk_fts_column()
 
 
 @app.get("/health")

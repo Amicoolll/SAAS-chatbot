@@ -107,6 +107,46 @@ USER QUESTION:
         raise
 
 
+def chat_conversational(
+    question: str,
+    history: str = "",
+    agent_type: str = "general",
+) -> str:
+    """
+    Greetings / light chit-chat when KB retrieval is intentionally skipped.
+
+    Avoids the RAG-focused agent prompts (which assume document context and make
+    the model say it has \"no context\").
+    """
+    agent = get_agent(agent_type)
+    prompt = f"""
+You are {agent.name} in a brief, human-facing turn.
+
+The user sent a short greeting or casual opener. No document passages are attached to this turn—that is intentional.
+Reply warmly and professionally in 1–3 short sentences. Acknowledge them and offer help with work or knowledge-base questions.
+Do not apologize for lacking context, do not say you cannot access documents in general, and do not ask them to paste context—substantive questions will use documents on later turns.
+
+CHAT HISTORY:
+{history}
+
+USER MESSAGE:
+{question}
+""".strip()
+    try:
+        client = _get_client()
+        resp = client.responses.create(
+            model=settings.OPENAI_CHAT_MODEL,
+            input=prompt,
+        )
+        text = _extract_chat_text(resp)
+        if not text:
+            text = "[No response text returned.]"
+        return text
+    except Exception:
+        logger.exception("chat_conversational_failed agent_type=%s", agent_type)
+        raise
+
+
 def chat_without_context(
     question: str,
     agent_type: str = "general",

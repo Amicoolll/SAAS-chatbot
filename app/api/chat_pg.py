@@ -1,3 +1,4 @@
+import math
 import os
 from pathlib import Path
 from urllib.parse import quote
@@ -11,7 +12,18 @@ from app.core.config import settings
 from app.core.deps import get_tenant_user
 from app.db.session import get_db
 from app.db.models_chat import Conversation, Message
-from app.services.openai_client import embed_texts, chat_with_context, chat_without_context
+from app.services.openai_client import (
+    chat_conversational,
+    chat_with_context,
+    chat_without_context,
+    embed_texts,
+)
+from app.services.query_understanding import analyze_query
+from app.services.rag.hybrid_retrieval import retrieve_hybrid_chunks
+from app.services.rag.query_routing import (
+    should_skip_kb_retrieval,
+    should_use_hybrid_retrieval,
+)
 
 router = APIRouter(tags=["Chat (pgvector)"])
 
@@ -92,51 +104,126 @@ def chat_pg(
     # turn into a small history string
     history_text = "\n".join([f"{m.role.upper()}: {m.content}" for m in msgs])
 
-    # 4) embed question for retrieval
-    try:
-        q_emb_list = embed_texts([req.question])[0]
-    except Exception:
-        raise HTTPException(
-            status_code=503,
-            detail="Embedding service temporarily unavailable. Please try again.",
+    qu = analyze_query(req.question, settings=settings)
+
+    if should_skip_kb_retrieval(req.question, qu):
+        try:
+            answer = chat_conversational(
+                req.question,
+                history=history_text,
+                agent_type=req.agent_type,
+            )
+        except Exception:
+            raise HTTPException(
+                status_code=503,
+                detail="Chat service temporarily unavailable. Please try again.",
+            )
+        mode = "conversational"
+        sources = []
+        retrieve_mode = "none"
+        use_hybrid = False
+    else:
+        # 4) embed question for retrieval
+        try:
+            q_emb_list = embed_texts([req.question])[0]
+        except Exception:
+            raise HTTPException(
+                status_code=503,
+                detail="Embedding service temporarily unavailable. Please try again.",
+            )
+        q_emb = "[" + ",".join(str(x) for x in q_emb_list) + "]"
+
+        use_hybrid = bool(
+            settings.ENABLE_HYBRID_RAG
+            and (
+                not settings.HYBRID_RAG_ANALYTICS_ROUTING
+                or should_use_hybrid_retrieval(qu)
+            )
         )
-    q_emb = "[" + ",".join(str(x) for x in q_emb_list) + "]"
 
-    # 5) retrieve topK chunks + distance
-    sql = text("""
-    SELECT c.content, d.name, (c.embedding <=> (:q_emb)::vector) AS distance
-    FROM chunks c
-    JOIN documents d ON d.id = c.document_id
-    WHERE c.tenant_id = :tenant_id AND c.user_id = :user_id
-    ORDER BY distance
-    LIMIT :k
-    """)
+        threshold = settings.RAG_DISTANCE_THRESHOLD
+        retrieve_mode = "hybrid" if use_hybrid else "vector"
+        try:
+            if use_hybrid:
+                k_vec = max(
+                    k * settings.HYBRID_VECTOR_CANDIDATE_MULTIPLIER,
+                    settings.HYBRID_VECTOR_CANDIDATE_MIN,
+                )
+                rows, _fts_had_hits = retrieve_hybrid_chunks(
+                    db,
+                    tenant_id=tenant_id,
+                    user_id=user_id,
+                    q_emb=q_emb,
+                    question=req.question,
+                    k_final=k,
+                    fts_language=settings.FTS_LANGUAGE,
+                    vector_candidate_k=k_vec,
+                    fts_candidate_k=settings.HYBRID_FTS_CANDIDATE_K,
+                    rrf_k=settings.HYBRID_RRF_K,
+                )
+            else:
+                sql = text("""
+                SELECT c.content, d.name, (c.embedding <=> (:q_emb)::vector) AS distance
+                FROM chunks c
+                JOIN documents d ON d.id = c.document_id
+                WHERE c.tenant_id = :tenant_id AND c.user_id = :user_id
+                ORDER BY distance
+                LIMIT :k
+                """)
 
-    rows = db.execute(sql, {"tenant_id": tenant_id, "user_id": user_id, "q_emb": q_emb, "k": k}).fetchall()
+                rows = db.execute(
+                    sql,
+                    {"tenant_id": tenant_id, "user_id": user_id, "q_emb": q_emb, "k": k},
+                ).fetchall()
 
-    # 6) confidence gate -> KB grounded vs LLM fallback
-    threshold = settings.RAG_DISTANCE_THRESHOLD
-    try:
-        if not rows:
-            mode = "llm_fallback"
-            sources = []
-            answer = chat_without_context(req.question, agent_type=req.agent_type, history=history_text)
-        else:
-            best_distance = float(rows[0][2])
-            if best_distance > threshold:
+            if not rows:
                 mode = "llm_fallback"
                 sources = []
-                answer = chat_without_context(req.question, agent_type=req.agent_type, history=history_text)
+                answer = chat_without_context(
+                    req.question, agent_type=req.agent_type, history=history_text
+                )
+            elif use_hybrid:
+                vec_dists = [float(r[2]) for r in rows if math.isfinite(float(r[2]))]
+                best_vec = min(vec_dists) if vec_dists else None
+                if best_vec is not None and best_vec > threshold:
+                    mode = "llm_fallback"
+                    sources = []
+                    answer = chat_without_context(
+                        req.question, agent_type=req.agent_type, history=history_text
+                    )
+                else:
+                    mode = "kb_grounded"
+                    context_chunks = [r[0] for r in rows]
+                    sources = list(dict.fromkeys([r[1] for r in rows]))[:5]
+                    answer = chat_with_context(
+                        req.question,
+                        context_chunks,
+                        agent_type=req.agent_type,
+                        history=history_text,
+                    )
             else:
-                mode = "kb_grounded"
-                context_chunks = [r[0] for r in rows]
-                sources = list(dict.fromkeys([r[1] for r in rows]))[:5]
-                answer = chat_with_context(req.question, context_chunks, agent_type=req.agent_type, history=history_text)
-    except Exception:
-        raise HTTPException(
-            status_code=503,
-            detail="Chat service temporarily unavailable. Please try again.",
-        )
+                best_distance = float(rows[0][2])
+                if best_distance > threshold:
+                    mode = "llm_fallback"
+                    sources = []
+                    answer = chat_without_context(
+                        req.question, agent_type=req.agent_type, history=history_text
+                    )
+                else:
+                    mode = "kb_grounded"
+                    context_chunks = [r[0] for r in rows]
+                    sources = list(dict.fromkeys([r[1] for r in rows]))[:5]
+                    answer = chat_with_context(
+                        req.question,
+                        context_chunks,
+                        agent_type=req.agent_type,
+                        history=history_text,
+                    )
+        except Exception:
+            raise HTTPException(
+                status_code=503,
+                detail="Chat service temporarily unavailable. Please try again.",
+            )
 
     # 7) store assistant message + touch conversation
     db.add(Message(
@@ -149,9 +236,25 @@ def chat_pg(
     conv.title = conv.title if conv.title != "New chat" else req.question[:40]
     db.commit()
 
-    return {
+    out: dict = {
         "mode": mode,
         "answer": answer,
         "sources": sources,
         "images": _related_images(user_id, sources),
+        "retrieve_mode": retrieve_mode,
     }
+    if settings.CHAT_RETURN_QUERY_ROUTING:
+        out["query_routing"] = {
+            "domain": qu.domain,
+            "intent": qu.intent,
+            "complexity": qu.complexity,
+            "risk_level": qu.risk_level,
+            "needs_exact_match": qu.needs_exact_match,
+            "needs_multi_hop": qu.needs_multi_hop,
+            "needs_live_data": qu.needs_live_data,
+            "requires_citations": qu.requires_citations,
+            "hybrid_eligible": should_use_hybrid_retrieval(qu),
+            "use_hybrid": use_hybrid,
+            "skip_kb": should_skip_kb_retrieval(req.question, qu),
+        }
+    return out
