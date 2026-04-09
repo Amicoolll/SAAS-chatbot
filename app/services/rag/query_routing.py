@@ -37,13 +37,11 @@ _HYBRID_DOMAINS = frozenset(
     }
 )
 
-def should_skip_kb_retrieval(question: str, qu: QueryUnderstandingResult) -> bool:
+def should_skip_kb_retrieval(question: str) -> bool:
     """
     True when ``greetingHandler`` marks the message as non-retrieval (greeting-only
-    or configured light chit-chat). ``qu`` is kept for call-site compatibility and
-    optional future classifier fusion.
+    or configured light chit-chat).
     """
-    _ = qu
     return processIncomingMessage(question).skipRetrieval
 
 

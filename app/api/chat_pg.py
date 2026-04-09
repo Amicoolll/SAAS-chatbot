@@ -102,8 +102,16 @@ def chat_pg(
     )
     msgs = list(reversed(msgs))
 
-    # turn into a small history string
-    history_text = "\n".join([f"{m.role.upper()}: {m.content}" for m in msgs])
+    # Build history string with a character budget (~6 000 chars ≈ 1 500 tokens).
+    # Drop oldest turns first so the most recent context is always preserved.
+    _HISTORY_CHAR_LIMIT = 6_000
+    history_lines = [f"{m.role.upper()}: {m.content}" for m in msgs]
+    while history_lines:
+        candidate = "\n".join(history_lines)
+        if len(candidate) <= _HISTORY_CHAR_LIMIT:
+            break
+        history_lines.pop(0)  # drop the oldest turn
+    history_text = "\n".join(history_lines)
 
     greeting = processIncomingMessage(req.question)
     routing_question = (
@@ -262,6 +270,6 @@ def chat_pg(
             "requires_citations": qu.requires_citations,
             "hybrid_eligible": should_use_hybrid_retrieval(qu),
             "use_hybrid": use_hybrid,
-            "skip_kb": should_skip_kb_retrieval(req.question, qu),
+            "skip_kb": should_skip_kb_retrieval(req.question),
         }
     return out

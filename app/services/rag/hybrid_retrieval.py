@@ -136,7 +136,10 @@ def retrieve_hybrid_chunks(
             ).fetchall()
             fts_ran_non_empty = len(fts_rows) > 0
         except Exception:
-            logger.warning("hybrid_fts_query_failed; using vector-only", exc_info=True)
+            # logger.exception logs the full traceback so real DB errors
+            # (config, permissions, syntax) are visible in production logs.
+            # Retrieval continues with vector-only as a graceful fallback.
+            logger.exception("hybrid_fts_query_failed; falling back to vector-only")
             fts_rows = []
 
     fts_ids = [str(r[0]) for r in fts_rows]

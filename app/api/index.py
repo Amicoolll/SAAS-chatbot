@@ -175,10 +175,29 @@ def _run_index(
                 continue
 
             embeddings: list[list[float]] = []
+            bad_dim_detected = False
             for batch_start in range(0, len(chunks), batch_size):
-                embeddings.extend(
-                    embed_texts(chunks[batch_start : batch_start + batch_size])
-                )
+                batch_embs = embed_texts(chunks[batch_start : batch_start + batch_size])
+                # Fail fast: check the first embedding of the very first batch.
+                if batch_start == 0 and batch_embs:
+                    first_dim = len(batch_embs[0])
+                    if first_dim != settings.EMBED_DIM:
+                        logger.warning(
+                            "Skipping file (embedding dimension mismatch on first batch) "
+                            "path=%s got=%s expected=%s model=%s",
+                            path,
+                            first_dim,
+                            settings.EMBED_DIM,
+                            settings.OPENAI_EMBEDDING_MODEL,
+                        )
+                        bad_dim_detected = True
+                        break
+                embeddings.extend(batch_embs)
+
+            if bad_dim_detected:
+                files_skipped_error += 1
+                _finish_file_progress()
+                continue
 
             if len(embeddings) != len(chunks):
                 logger.warning(
@@ -186,21 +205,6 @@ def _run_index(
                     path,
                     len(chunks),
                     len(embeddings),
-                )
-                files_skipped_error += 1
-                _finish_file_progress()
-                continue
-            bad_dim = next(
-                (len(e) for e in embeddings if len(e) != settings.EMBED_DIM),
-                None,
-            )
-            if bad_dim is not None:
-                logger.warning(
-                    "Skipping file (embedding dimension mismatch) path=%s got=%s expected=%s model=%s",
-                    path,
-                    bad_dim,
-                    settings.EMBED_DIM,
-                    settings.OPENAI_EMBEDDING_MODEL,
                 )
                 files_skipped_error += 1
                 _finish_file_progress()
