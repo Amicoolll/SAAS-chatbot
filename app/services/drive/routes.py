@@ -1,4 +1,5 @@
 import io
+import json
 import logging
 import os
 from pathlib import Path
@@ -12,7 +13,11 @@ from googleapiclient.http import MediaIoBaseDownload
 from app.core.config import settings
 from app.core.deps import get_tenant_user, get_user_id
 from app.core.logging import log_operation
-from app.services.drive.client import build_drive_service
+from app.services.drive.client import (
+    DriveReconnectRequired,
+    build_drive_service_from_credentials,
+    refresh_and_persist_tokens,
+)
 from app.services.drive.token_store import TOKEN_STORE, ensure_tokens_loaded
 from app.services import pipeline_state
 
@@ -76,6 +81,32 @@ def _safe_file_name(name: str) -> str:
     return name.replace("/", "_").replace("\\", "_")
 
 
+def _manifest_path(user_id: str) -> str:
+    return os.path.join("data", f"user_{user_id}", ".drive_manifest.json")
+
+
+def _load_manifest(user_id: str) -> dict:
+    path = _manifest_path(user_id)
+    if not os.path.isfile(path):
+        return {}
+    try:
+        with open(path, "r", encoding="utf-8") as fp:
+            data = json.load(fp)
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        # Corrupt manifest shouldn't break sync; rebuild from scratch.
+        return {}
+
+
+def _save_manifest(user_id: str, manifest: dict) -> None:
+    path = _manifest_path(user_id)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fp:
+        json.dump(manifest, fp)
+    os.replace(tmp, path)
+
+
 GOOGLE_SHEET_EXPORT_CSV = "text/csv"
 GOOGLE_SHEET_EXPORT_XLSX = (
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -88,10 +119,11 @@ def _save_google_sheet(
     name: str,
     raw_dir: str,
     log_context: str | None = None,
-) -> None:
+) -> str:
     """
     Prefer CSV export. Some Sheets return 403 cannotExportFile for CSV (policy,
     linked sheets, or non-exportable content); try XLSX export as fallback.
+    Returns the saved filename (relative to raw_dir).
     """
     try:
         request = service.files().export_media(
@@ -100,10 +132,11 @@ def _save_google_sheet(
         content = _download_bytes(
             request, log_context=f"{log_context}:csv" if log_context else None
         ).decode("utf-8", errors="ignore")
-        file_path = os.path.join(raw_dir, f"{name}.csv")
+        filename = f"{name}.csv"
+        file_path = os.path.join(raw_dir, filename)
         with open(file_path, "w", encoding="utf-8") as f_out:
             f_out.write(content)
-        return
+        return filename
     except HttpError as e:
         body = (e.content or b"").decode("utf-8", errors="replace")
         if e.resp.status != 403 or "cannotExportFile" not in body:
@@ -119,9 +152,11 @@ def _save_google_sheet(
     content = _download_bytes(
         request, log_context=f"{log_context}:xlsx" if log_context else None
     )
-    file_path = os.path.join(raw_dir, f"{name}.xlsx")
+    filename = f"{name}.xlsx"
+    file_path = os.path.join(raw_dir, filename)
     with open(file_path, "wb") as f_out:
         f_out.write(content)
+    return filename
 
 
 def _ext_from_mime(mime: str) -> str:
@@ -174,10 +209,15 @@ def _run_drive_sync_core(tenant_id: str, user_id: str, max_files: int) -> dict:
         tenant_id, user_id, phase="listing", current=0, total=None, current_file=None
     )
 
-    service = build_drive_service(
-        tokens["access_token"],
-        tokens["refresh_token"],
-    )
+    # Force a token refresh up front so (a) every worker sees a fresh access
+    # token in DB + cache, (b) a revoked refresh_token fails fast with a clean
+    # "Reconnect" message instead of surfacing mid-sync as a vague 401.
+    try:
+        creds = refresh_and_persist_tokens(tenant_id, user_id)
+    except DriveReconnectRequired as e:
+        raise ValueError(f"Drive needs reconnect: {e}") from e
+
+    service = build_drive_service_from_credentials(creds)
 
     def _on_list_progress(n: int) -> None:
         pipeline_state.update_drive_sync_progress(
@@ -201,7 +241,10 @@ def _run_drive_sync_core(tenant_id: str, user_id: str, max_files: int) -> dict:
     raw_dir = os.path.join(base_dir, "raw")
     os.makedirs(raw_dir, exist_ok=True)
 
+    manifest = _load_manifest(user_id)
+
     processed = 0
+    skipped = 0
     failed = 0
     errors: list[str] = []
 
@@ -219,7 +262,35 @@ def _run_drive_sync_core(tenant_id: str, user_id: str, max_files: int) -> dict:
             file_id = f["id"]
             name = _safe_file_name(f["name"])
             mime = f["mimeType"]
+            modified_time = f.get("modifiedTime", "")
             dl_ctx = f"{i}/{total}:{file_id}:{name[:80]}"
+
+            # Skip unchanged files: same modifiedTime and the previously-saved
+            # local copy still exists. First-ever sync has no manifest entry
+            # so nothing is skipped until a baseline is recorded below.
+            entry = manifest.get(file_id)
+            if (
+                entry
+                and entry.get("modifiedTime") == modified_time
+                and entry.get("local_filename")
+                and os.path.isfile(os.path.join(raw_dir, entry["local_filename"]))
+            ):
+                skipped += 1
+                logger.info(
+                    "drive_sync_file_skipped_unchanged user_id=%s file_id=%s name=%s",
+                    user_id,
+                    file_id,
+                    name,
+                )
+                pipeline_state.update_drive_sync_progress(
+                    tenant_id,
+                    user_id,
+                    phase="download",
+                    current=i,
+                    total=total,
+                    current_file=name,
+                )
+                continue
 
             logger.info(
                 "drive_sync_file_begin user_id=%s i=%s/%s file_id=%s name=%s mime=%s",
@@ -231,31 +302,44 @@ def _run_drive_sync_core(tenant_id: str, user_id: str, max_files: int) -> dict:
                 mime,
             )
 
+            saved_filename: str
             if mime == GOOGLE_DOC:
                 request = service.files().export_media(fileId=file_id, mimeType="text/plain")
                 content = _download_bytes(
                     request, log_context=f"{dl_ctx}:gdoc"
                 ).decode("utf-8", errors="ignore")
-                file_path = os.path.join(raw_dir, f"{name}.txt")
+                saved_filename = f"{name}.txt"
+                file_path = os.path.join(raw_dir, saved_filename)
                 with open(file_path, "w", encoding="utf-8") as f_out:
                     f_out.write(content)
             elif mime == GOOGLE_SHEET:
-                _save_google_sheet(service, file_id, name, raw_dir, log_context=dl_ctx)
+                saved_filename = _save_google_sheet(
+                    service, file_id, name, raw_dir, log_context=dl_ctx
+                )
             elif mime == GOOGLE_SLIDES:
                 request = service.files().export_media(fileId=file_id, mimeType="text/plain")
                 content = _download_bytes(
                     request, log_context=f"{dl_ctx}:gslides"
                 ).decode("utf-8", errors="ignore")
-                file_path = os.path.join(raw_dir, f"{name}.txt")
+                saved_filename = f"{name}.txt"
+                file_path = os.path.join(raw_dir, saved_filename)
                 with open(file_path, "w", encoding="utf-8") as f_out:
                     f_out.write(content)
             else:
                 request = service.files().get_media(fileId=file_id)
                 content = _download_bytes(request, log_context=f"{dl_ctx}:binary")
                 ext = ".pdf" if mime == "application/pdf" else _ext_from_mime(mime)
-                file_path = os.path.join(raw_dir, f"{name}{ext}")
+                saved_filename = f"{name}{ext}"
+                file_path = os.path.join(raw_dir, saved_filename)
                 with open(file_path, "wb") as f_out:
                     f_out.write(content)
+
+            manifest[file_id] = {
+                "name": f.get("name", name),
+                "modifiedTime": modified_time,
+                "mimeType": mime,
+                "local_filename": saved_filename,
+            }
 
             processed += 1
             pipeline_state.update_drive_sync_progress(
@@ -281,9 +365,20 @@ def _run_drive_sync_core(tenant_id: str, user_id: str, max_files: int) -> dict:
                 current_file=f.get("name", file_id),
             )
 
-    log_operation(logger, "drive_sync", user_id=user_id, processed=processed, failed=failed)
+    # Best-effort manifest save; a failure here just means the next sync won't
+    # benefit from skip-unchanged, but files on disk are still correct.
+    try:
+        _save_manifest(user_id, manifest)
+    except Exception as e:
+        logger.warning("drive_sync_manifest_save_failed user_id=%s error=%s", user_id, e)
+
+    log_operation(
+        logger, "drive_sync", user_id=user_id,
+        processed=processed, skipped=skipped, failed=failed,
+    )
     return {
         "processed": processed,
+        "skipped": skipped,
         "failed": failed,
         "total_planned": total,
         "saved_in": raw_dir,
@@ -314,10 +409,15 @@ def drive_files(tenant_user: tuple[str, str] = Depends(get_tenant_user)):
     if not tokens:
         raise HTTPException(status_code=401, detail="Drive not connected")
 
-    service = build_drive_service(
-        tokens["access_token"],
-        tokens["refresh_token"],
-    )
+    try:
+        creds = refresh_and_persist_tokens(tenant_id, user_id)
+    except DriveReconnectRequired as e:
+        raise HTTPException(
+            status_code=401,
+            detail=f"Drive needs reconnect: {e}",
+        ) from e
+
+    service = build_drive_service_from_credentials(creds)
     files = list_all_files(service)
     filtered = [f for f in files if f["mimeType"] in SUPPORTED_TYPES]
     return {"total_files": len(filtered), "files_preview": filtered[:20]}

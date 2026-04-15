@@ -10,12 +10,34 @@ from app.core.logging import log_operation
 from app.db.session import get_db, SessionLocal
 from app.db.models import Document, Chunk
 from app.services import pipeline_state
+from app.services.drive.routes import _load_manifest as _load_drive_manifest
 from app.services.storage import list_files_recursive, read_text
 from app.services.ingest.chunker import chunk_text
 from app.services.openai_client import embed_texts
 
 router = APIRouter(tags=["Indexing (pgvector)"])
 logger = logging.getLogger(__name__)
+
+
+def _should_skip_indexed_file(
+    existing_doc: "Document | None",
+    has_chunks: bool,
+    expected_modified_time: str | None,
+) -> bool:
+    """Return True when indexing can safely reuse the previous run for this file.
+
+    Skip only when we have a manifest-recorded ``modifiedTime`` (from the Drive
+    sync step) that matches the stored ``Document.modified_time`` AND at least
+    one chunk already exists. Files without manifest coverage (e.g. manually
+    dropped into raw/) always re-index — we can't prove they're unchanged.
+    """
+    if not expected_modified_time:
+        return False
+    if existing_doc is None:
+        return False
+    if existing_doc.modified_time != expected_modified_time:
+        return False
+    return has_chunks
 
 
 def _read_indexable_text(path: str) -> str:
@@ -106,6 +128,18 @@ def _run_index(
     ][:max_files]
     total_files = len(raw_files)
 
+    # Drive-sync manifest gives us the authoritative modifiedTime per local
+    # file. Without it we can't prove a file is unchanged, so it always
+    # re-indexes (legacy behaviour).
+    drive_manifest = _load_drive_manifest(user_id)
+    modified_by_filename: dict[str, str] = {}
+    for entry in drive_manifest.values():
+        if isinstance(entry, dict):
+            local_name = entry.get("local_filename")
+            mt = entry.get("modifiedTime")
+            if local_name and mt:
+                modified_by_filename[local_name] = mt
+
     pipeline_state.update_index_progress(
         tenant_id,
         user_id,
@@ -121,6 +155,7 @@ def _run_index(
     chunk_overlap = settings.CHUNK_OVERLAP
 
     docs_indexed = 0
+    docs_skipped_unchanged = 0
     chunks_indexed = 0
     files_skipped_unreadable = 0
     files_skipped_error = 0
@@ -157,6 +192,42 @@ def _run_index(
             )
         else:
             mime_type = "application/pdf"
+
+        expected_modified_time = modified_by_filename.get(name, "")
+        drive_file_id = f"local::{user_id}::{name}"
+
+        # Skip re-indexing when the file is provably unchanged since last run.
+        # This avoids re-reading, re-chunking, and — most importantly —
+        # re-embedding (OpenAI cost + latency).
+        if expected_modified_time:
+            existing_doc = (
+                db.query(Document)
+                .filter(
+                    Document.tenant_id == tenant_id,
+                    Document.user_id == user_id,
+                    Document.drive_file_id == drive_file_id,
+                )
+                .first()
+            )
+            has_chunks = False
+            if existing_doc is not None:
+                has_chunks = (
+                    db.query(Chunk.id)
+                    .filter(Chunk.document_id == existing_doc.id)
+                    .first()
+                    is not None
+                )
+            if _should_skip_indexed_file(
+                existing_doc, has_chunks, expected_modified_time
+            ):
+                docs_skipped_unchanged += 1
+                logger.info(
+                    "index_file_skipped_unchanged path=%s modified=%s",
+                    path,
+                    expected_modified_time,
+                )
+                _finish_file_progress()
+                continue
 
         try:
             text = _read_indexable_text(path)
@@ -210,8 +281,6 @@ def _run_index(
                 _finish_file_progress()
                 continue
 
-            drive_file_id = f"local::{user_id}::{name}"
-
             doc = db.query(Document).filter(
                 Document.tenant_id == tenant_id,
                 Document.user_id == user_id,
@@ -225,13 +294,14 @@ def _run_index(
                     drive_file_id=drive_file_id,
                     name=name,
                     mime_type=mime_type,
-                    modified_time="",
+                    modified_time=expected_modified_time,
                     web_view_link="",
                 )
                 db.add(doc)
                 db.commit()
                 db.refresh(doc)
             else:
+                doc.modified_time = expected_modified_time
                 db.execute(delete(Chunk).where(Chunk.document_id == doc.id))
                 db.commit()
 
@@ -257,7 +327,9 @@ def _run_index(
 
     log_operation(
         logger, "index_run", tenant_id=tenant_id, user_id=user_id,
-        docs_indexed=docs_indexed, chunks_indexed=chunks_indexed,
+        docs_indexed=docs_indexed,
+        docs_skipped_unchanged=docs_skipped_unchanged,
+        chunks_indexed=chunks_indexed,
         files_skipped_unreadable=files_skipped_unreadable,
         files_skipped_error=files_skipped_error,
     )
@@ -265,6 +337,7 @@ def _run_index(
         "tenant_id": tenant_id,
         "user_id": user_id,
         "docs_indexed": docs_indexed,
+        "docs_skipped_unchanged": docs_skipped_unchanged,
         "chunks_indexed": chunks_indexed,
         "total_files_planned": total_files,
         "files_skipped_unreadable": files_skipped_unreadable,

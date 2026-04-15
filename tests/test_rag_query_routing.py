@@ -62,16 +62,18 @@ def test_hybrid_for_faq_general_greeting() -> None:
 
 
 def test_skip_kb_for_hi() -> None:
-    qu = analyze_query("Hi", settings=_minimal_settings())
-    assert should_skip_kb_retrieval("Hi", qu) is True
+    # analyze_query kept for parity with other tests; skip decision now delegated
+    # to the greeting handler and takes only the raw question.
+    analyze_query("Hi", settings=_minimal_settings())
+    assert should_skip_kb_retrieval("Hi") is True
 
 
 def test_skip_kb_not_for_substantive_question() -> None:
-    qu = analyze_query(
+    analyze_query(
         "What is the QE Prize application process?",
         settings=_minimal_settings(),
     )
-    assert should_skip_kb_retrieval("What is the QE Prize application process?", qu) is False
+    assert should_skip_kb_retrieval("What is the QE Prize application process?") is False
 
 
 def test_hybrid_when_requires_citations() -> None:
