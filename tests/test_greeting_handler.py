@@ -90,3 +90,183 @@ def testProcessIncomingMessage_toDictShape() -> None:
         "skipRetrieval",
     }
     assert isinstance(gp, GreetingProcessResult)
+
+
+# ---------------------------------------------------------------------------
+# Extended greeting coverage: casual openers, closers, thanks, acks.
+# These tests drive the constants in greetingHandler.py — adding entries there
+# is the expected extension point.
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "raw",
+    [
+        "sup",
+        "SUP",
+        "wassup",
+        "whatsup",
+        "what's up",
+        "whats up",
+        "howdy",
+        "Howdy",
+        "greetings",
+        "hola",
+        "namaste",
+        "yo",
+    ],
+)
+def testIsGreetingOnly_acceptsCasualGreetings(raw: str) -> None:
+    assert isGreetingOnly(raw) is True
+
+
+@pytest.mark.parametrize(
+    "raw",
+    [
+        "good night",
+        "Good Night",
+        "good day",
+    ],
+)
+def testIsGreetingOnly_acceptsExtendedTimeOfDay(raw: str) -> None:
+    gp = processIncomingMessage(raw)
+    assert gp.skipRetrieval is True
+
+
+@pytest.mark.parametrize(
+    ("raw", "expected_cleaned"),
+    [
+        ("hola, what's the weather?", "what's the weather?"),
+        ("howdy, can you help?", "can you help?"),
+        ("sup, show me the report", "show me the report"),
+        ("Greetings, what are the latest docs?", "what are the latest docs?"),
+        ("what's up, when is the release?", "when is the release?"),
+        ("yo can you open the file?", "can you open the file?"),
+    ],
+)
+def testExtractGreetingFreeQuery_stripsCasualGreetingPrefix(
+    raw: str, expected_cleaned: str
+) -> None:
+    assert extractGreetingFreeQuery(raw) == expected_cleaned
+
+
+@pytest.mark.parametrize(
+    "raw",
+    [
+        "bye",
+        "Goodbye",
+        "good bye",
+        "bye bye",
+        "see ya",
+        "see you",
+        "see you later",
+        "take care",
+        "later",
+        "ttyl",
+        "cya",
+        "cu",
+        "good night",
+        "gn",
+        "farewell",
+        "catch you later",
+    ],
+)
+def testProcessIncomingMessage_closersSkipRetrieval(raw: str) -> None:
+    gp = processIncomingMessage(raw)
+    assert gp.skipRetrieval is True
+
+
+@pytest.mark.parametrize(
+    "raw",
+    [
+        "thanks",
+        "Thanks",
+        "thank you",
+        "thankyou",
+        "thank-you",
+        "thx",
+        "ty",
+        "thanks a lot",
+        "thanks so much",
+        "thank you very much",
+        "appreciate it",
+        "much appreciated",
+        "cheers",
+    ],
+)
+def testProcessIncomingMessage_thanksSkipRetrieval(raw: str) -> None:
+    gp = processIncomingMessage(raw)
+    assert gp.skipRetrieval is True
+
+
+@pytest.mark.parametrize(
+    "raw",
+    [
+        "ok",
+        "Okay",
+        "k",
+        "kk",
+        "cool",
+        "nice",
+        "great",
+        "awesome",
+        "perfect",
+        "got it",
+        "gotcha",
+        "understood",
+        "noted",
+        "alright",
+        "all right",
+        "sure",
+        "sounds good",
+        "yes",
+        "yep",
+        "yeah",
+        "no",
+        "nope",
+        "nah",
+        "hmm",
+    ],
+)
+def testProcessIncomingMessage_acknowledgementsSkipRetrieval(raw: str) -> None:
+    gp = processIncomingMessage(raw)
+    assert gp.skipRetrieval is True
+
+
+@pytest.mark.parametrize(
+    "raw",
+    [
+        "ok.",
+        "ok!",
+        "ok?",
+        "thanks!",
+        "thanks.",
+        "great!",
+    ],
+)
+def testProcessIncomingMessage_acksToleratePunctuation(raw: str) -> None:
+    gp = processIncomingMessage(raw)
+    assert gp.skipRetrieval is True
+
+
+# --- Regression guards: colliding content queries must NOT be flagged. ---
+
+
+@pytest.mark.parametrize(
+    "raw",
+    [
+        "great wall of china",
+        "morning news headlines",
+        "yes she did file the report",
+        "no fly zone history",
+        "nice city in france",
+        "perfect square definition",
+        "later editions of the book",
+        "ok corral shootout",
+        "sure thing is the name of the song",
+    ],
+)
+def testProcessIncomingMessage_doesNotSkipContentQuestions(raw: str) -> None:
+    gp = processIncomingMessage(raw)
+    assert gp.skipRetrieval is False, raw
+    assert gp.isGreetingOnly is False, raw

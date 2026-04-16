@@ -147,6 +147,63 @@ USER MESSAGE:
         raise
 
 
+def chat_with_web_context(
+    question: str,
+    web_results: list,
+    agent_type: str = "general",
+    history: str = "",
+) -> str:
+    """Answer using web search results instead of KB documents.
+
+    ``web_results`` is a list of objects with ``.title``, ``.url``, and
+    ``.snippet`` attributes (see ``app.services.web_search.WebResult``).
+    The prompt instructs the model to cite sources by number.
+    """
+    agent = get_agent(agent_type)
+    numbered = []
+    for i, r in enumerate(web_results[:10], start=1):
+        entry = f"[{i}] {r.title}\n{r.snippet}"
+        if r.url:
+            entry += f"\nSource: {r.url}"
+        numbered.append(entry)
+    context = "\n\n---\n\n".join(numbered)
+
+    prompt = f"""
+SYSTEM:
+{agent.system_prompt}
+
+OUTPUT FORMAT:
+{agent.output_format}
+
+CHAT HISTORY:
+{history}
+
+WEB SEARCH RESULTS:
+{context}
+
+USER QUESTION:
+{question}
+
+Rules:
+- Answer the question using the web search results above.
+- Cite sources using [1], [2], etc. markers that match the numbered results.
+- If the results do not contain a good answer, say so honestly.
+""".strip()
+    try:
+        client = _get_client()
+        resp = client.responses.create(
+            model=settings.OPENAI_CHAT_MODEL,
+            input=prompt,
+        )
+        text = _extract_chat_text(resp)
+        if not text:
+            text = "[No response text returned.]"
+        return text
+    except Exception:
+        logger.exception("chat_with_web_context_failed agent_type=%s", agent_type)
+        raise
+
+
 def chat_without_context(
     question: str,
     agent_type: str = "general",

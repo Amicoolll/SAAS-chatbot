@@ -26,7 +26,81 @@ from typing import Any, Protocol, runtime_checkable
 
 _NON_RETRIEVAL_EXACT_NORMALIZED: frozenset[str] = frozenset(
     {
+        # Chit-chat asks that should never hit the KB.
         "tell me a joke",
+        # Closers — user is signing off, not asking.
+        "bye",
+        "goodbye",
+        "good bye",
+        "bye bye",
+        "byebye",
+        "see ya",
+        "see you",
+        "see you later",
+        "see ya later",
+        "take care",
+        "later",
+        "l8r",
+        "ttyl",
+        "talk to you later",
+        "catch you later",
+        "cya",
+        "cu",
+        "good night",
+        "gn",
+        "nite",
+        "night",
+        "good day",
+        "farewell",
+        # Thanks — acknowledgements, not questions.
+        "thanks",
+        "thank you",
+        "thankyou",
+        "thank-you",
+        "thx",
+        "ty",
+        "thanks a lot",
+        "thanks a ton",
+        "thanks so much",
+        "thank you so much",
+        "thank you very much",
+        "thanks very much",
+        "appreciate it",
+        "i appreciate it",
+        "much appreciated",
+        "cheers",
+        # Acknowledgements / affirmations / negations — single-turn replies.
+        "ok",
+        "okay",
+        "okey",
+        "k",
+        "kk",
+        "cool",
+        "nice",
+        "great",
+        "awesome",
+        "perfect",
+        "sweet",
+        "got it",
+        "gotcha",
+        "understood",
+        "noted",
+        "alright",
+        "all right",
+        "sure",
+        "sure thing",
+        "sounds good",
+        "works for me",
+        "yes",
+        "yep",
+        "yeah",
+        "yup",
+        "yas",
+        "no",
+        "nope",
+        "nah",
+        "hmm",
+        "hm",
     }
 )
 
@@ -54,11 +128,16 @@ _SEPARATOR_CHARS: frozenset[str] = frozenset(" \t\n\r,;")
 _MULTI_HEAD_PATTERNS: tuple[re.Pattern[str], ...] = tuple(
     re.compile(p, re.IGNORECASE)
     for p in (
-        r"^good\s+(morning|afternoon|evening)\b",
+        # Extended to include night/day: both are common in sign-off greetings
+        # ("good night") and regional usage ("good day, mate").
+        r"^good\s+(morning|afternoon|evening|night|day)\b",
         r"^h+i+\s+(there|all|team|everyone|guys|mate)\b",
         r"^he+l+o+\s+(there|all|team|everyone|guys|mate|world)\b",
         r"^he+y+\s+(there|all|team|everyone|guys|mate)\b",
         r"^he+l+o+\s+world\b",
+        # Casual multi-word openers.
+        r"^what'?s\s+up\b",
+        r"^whats\s+up\b",
     )
 )
 
@@ -69,6 +148,17 @@ _SINGLE_HEAD_PATTERNS: tuple[re.Pattern[str], ...] = tuple(
         r"^he+l+o+\b",
         r"^he+y+\b",
         r"^h{1,2}\b(?=\s|$|[,;!?.])",
+        # Additional single-word greetings. Only include words unlikely to
+        # appear as legitimate query prefixes — avoids stripping "great" from
+        # "great wall of china" etc. (Those casual acks stay exact-match only.)
+        r"^howdy\b",
+        r"^greetings\b",
+        r"^hola\b",
+        r"^namaste\b",
+        r"^sup\b",
+        r"^wassup\b",
+        r"^whatsup\b",
+        r"^yo\b",
     )
 )
 
@@ -111,6 +201,16 @@ def _collapseForExactMatch(normalized: str) -> str:
     return " ".join(normalized.strip().lower().split())
 
 
+# Trailing punctuation must not defeat an exact lookup — "ok." should behave
+# like "ok". Kept local to _normalizeForExactMatch so the greeting soft-tail
+# path (which uses _collapseForExactMatch) stays byte-for-byte identical.
+_TRAILING_PUNCT: str = ".?!,;:"
+
+
+def _normalizeForExactMatch(normalized: str) -> str:
+    return _collapseForExactMatch(normalized).rstrip(_TRAILING_PUNCT)
+
+
 def _isNoiseOnly(text: str) -> bool:
     stripped = text.strip()
     if not stripped:
@@ -119,7 +219,7 @@ def _isNoiseOnly(text: str) -> bool:
 
 
 def _nonRetrievalExact(normalized: str) -> bool:
-    return _collapseForExactMatch(normalized) in _NON_RETRIEVAL_EXACT_NORMALIZED
+    return _normalizeForExactMatch(normalized) in _NON_RETRIEVAL_EXACT_NORMALIZED
 
 
 def _isGreetingSoftTail(remainder: str) -> bool:
@@ -182,7 +282,22 @@ def _segmentIsGreetingToken(segment: str) -> bool:
     t = segment.strip().lower()
     if not t or _isNoiseOnly(t):
         return True
-    if t in {"hi", "hello", "hey", "hii", "heyy", "yo", "hiya"}:
+    if t in {
+        "hi",
+        "hello",
+        "hey",
+        "hii",
+        "heyy",
+        "yo",
+        "hiya",
+        "howdy",
+        "greetings",
+        "hola",
+        "namaste",
+        "sup",
+        "wassup",
+        "whatsup",
+    }:
         return True
     if re.fullmatch(r"h+i+", t):
         return True
@@ -192,7 +307,7 @@ def _segmentIsGreetingToken(segment: str) -> bool:
         return True
     if re.fullmatch(r"h{1,2}", t):
         return True
-    if re.match(r"^good\s+(morning|afternoon|evening)$", t):
+    if re.match(r"^good\s+(morning|afternoon|evening|night|day)$", t):
         return True
     if any(pat.match(t) for pat in _MULTI_HEAD_PATTERNS):
         return True

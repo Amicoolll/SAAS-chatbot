@@ -15,9 +15,11 @@ from app.db.models_chat import Conversation, Message
 from app.services.openai_client import (
     chat_conversational,
     chat_with_context,
+    chat_with_web_context,
     chat_without_context,
     embed_texts,
 )
+from app.services.feature_flags import is_enabled as feature_is_enabled
 from app.services.greetingHandler import processIncomingMessage
 from app.services.query_understanding import analyze_query
 from app.services.rag.hybrid_retrieval import retrieve_hybrid_chunks
@@ -25,6 +27,7 @@ from app.services.rag.query_routing import (
     should_skip_kb_retrieval,
     should_use_hybrid_retrieval,
 )
+from app.services.web_search import search_web
 
 router = APIRouter(tags=["Chat (pgvector)"])
 
@@ -56,6 +59,38 @@ def _related_images(user_id: str, sources: list[str], limit: int = 8) -> list[di
             if len(out) >= limit:
                 break
     return out
+
+
+def _fallback_answer(
+    tenant_id: str,
+    question: str,
+    agent_type: str,
+    history: str,
+) -> tuple[str, list[str], str]:
+    """Try web search (if enabled for this tenant), then plain LLM fallback.
+
+    Returns ``(answer, sources, mode)`` so the caller can assign all three
+    in one shot regardless of which path was taken.
+    """
+    if (
+        settings.WEB_SEARCH_GLOBAL_ENABLED
+        and feature_is_enabled(tenant_id, "web_search_fallback")
+    ):
+        web_results = search_web(question)
+        if web_results:
+            answer = chat_with_web_context(
+                question,
+                web_results,
+                agent_type=agent_type,
+                history=history,
+            )
+            sources = [r.url for r in web_results if r.url][:5]
+            return answer, sources, "web_grounded"
+
+    answer = chat_without_context(
+        question, agent_type=agent_type, history=history
+    )
+    return answer, [], "llm_fallback"
 
 
 @router.post("/chat_pg")
@@ -192,19 +227,15 @@ def chat_pg(
                 ).fetchall()
 
             if not rows:
-                mode = "llm_fallback"
-                sources = []
-                answer = chat_without_context(
-                    routing_question, agent_type=req.agent_type, history=history_text
+                answer, sources, mode = _fallback_answer(
+                    tenant_id, routing_question, req.agent_type, history_text
                 )
             elif use_hybrid:
                 vec_dists = [float(r[2]) for r in rows if math.isfinite(float(r[2]))]
                 best_vec = min(vec_dists) if vec_dists else None
                 if best_vec is not None and best_vec > threshold:
-                    mode = "llm_fallback"
-                    sources = []
-                    answer = chat_without_context(
-                        routing_question, agent_type=req.agent_type, history=history_text
+                    answer, sources, mode = _fallback_answer(
+                        tenant_id, routing_question, req.agent_type, history_text
                     )
                 else:
                     mode = "kb_grounded"
@@ -219,10 +250,8 @@ def chat_pg(
             else:
                 best_distance = float(rows[0][2])
                 if best_distance > threshold:
-                    mode = "llm_fallback"
-                    sources = []
-                    answer = chat_without_context(
-                        routing_question, agent_type=req.agent_type, history=history_text
+                    answer, sources, mode = _fallback_answer(
+                        tenant_id, routing_question, req.agent_type, history_text
                     )
                 else:
                     mode = "kb_grounded"

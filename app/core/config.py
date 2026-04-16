@@ -87,6 +87,17 @@ class Settings(BaseSettings):
     # shorter stall if one chunk times out.
     DRIVE_DOWNLOAD_CHUNKSIZE: int = 32 * 1024 * 1024
 
+    # Web search fallback (per-tenant, requires feature flag + this key)
+    TAVILY_API_KEY: str | None = None
+    WEB_SEARCH_MAX_RESULTS: int = 5
+    WEB_SEARCH_GLOBAL_ENABLED: bool = True
+
+    # Admin API auth
+    ADMIN_TOKEN: str | None = None
+
+    # Feature flag in-process cache TTL
+    FEATURE_FLAG_CACHE_TTL_SECONDS: int = 60
+
     # Query understanding (rule-based MVP): allowed labels from config / env JSON lists
     QUERY_UNDERSTANDING_DOMAINS: list[str] = Field(
         default_factory=lambda: list(_DEFAULT_QUERY_DOMAINS),
