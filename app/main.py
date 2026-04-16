@@ -13,8 +13,6 @@ from app.db import models  # <-- IMPORTANT
 from app.db import models_pipeline  # noqa: F401 — register pipeline_state table
 from app.services.drive.oauth import router as drive_oauth_router
 from app.services.drive.routes import router as drive_routes
-from app.api.demo import router as demo_router
-from app.api.chat import router as chat_router
 from app.api.index import router as index_router
 from app.api.chat_pg import router as chat_pg_router
 from app.api.agents import router as agents_router
@@ -24,6 +22,7 @@ from app.api.conversations import router as conversations_router
 from app.api.pipeline import router as pipeline_router
 from app.api.documents import router as documents_router
 from app.api.admin_features import router as admin_features_router
+from app.api.session import router as session_router
 
 app = FastAPI(title="Enterprise Drive Chatbot")
 
@@ -39,8 +38,6 @@ app.add_middleware(
 
 app.include_router(drive_oauth_router)
 app.include_router(drive_routes)
-app.include_router(demo_router)
-app.include_router(chat_router)
 app.include_router(index_router)
 app.include_router(chat_pg_router)
 app.include_router(agents_router)
@@ -48,6 +45,7 @@ app.include_router(conversations_router)
 app.include_router(pipeline_router)
 app.include_router(documents_router)
 app.include_router(admin_features_router)
+app.include_router(session_router)
 
 @app.on_event("startup")
 def startup():
