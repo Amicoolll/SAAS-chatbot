@@ -61,6 +61,36 @@ def _related_images(user_id: str, sources: list[str], limit: int = 8) -> list[di
     return out
 
 
+_NO_ANSWER_SIGNALS = (
+    "no information",
+    "no relevant",
+    "not available",
+    "not found in",
+    "does not contain",
+    "no data",
+    "no mention",
+    "not mentioned",
+    "no details",
+    "cannot find",
+    "couldn't find",
+    "could not find",
+    "don't have",
+    "do not have",
+    "insufficient context",
+    "no context",
+    "none available",
+)
+
+
+def _answer_admits_no_info(answer: str) -> bool:
+    """Return True when the LLM's kb_grounded answer effectively says
+    'the documents don't have this information'. This triggers a web
+    search re-attempt instead of returning an unhelpful response.
+    """
+    lower = answer.lower()
+    return any(signal in lower for signal in _NO_ANSWER_SIGNALS)
+
+
 def _fallback_answer(
     tenant_id: str,
     question: str,
@@ -72,10 +102,12 @@ def _fallback_answer(
     Returns ``(answer, sources, mode)`` so the caller can assign all three
     in one shot regardless of which path was taken.
     """
-    if (
+    web_enabled = (
         settings.WEB_SEARCH_GLOBAL_ENABLED
-        and feature_is_enabled(tenant_id, "web_search_fallback")
-    ):
+        and settings.TAVILY_API_KEY
+        and not feature_is_enabled(tenant_id, "web_search_disabled")
+    )
+    if web_enabled:
         web_results = search_web(question)
         if web_results:
             answer = chat_with_web_context(
@@ -247,6 +279,10 @@ def chat_pg(
                         agent_type=req.agent_type,
                         history=history_text,
                     )
+                    if _answer_admits_no_info(answer):
+                        answer, sources, mode = _fallback_answer(
+                            tenant_id, routing_question, req.agent_type, history_text
+                        )
             else:
                 best_distance = float(rows[0][2])
                 if best_distance > threshold:
@@ -263,6 +299,10 @@ def chat_pg(
                         agent_type=req.agent_type,
                         history=history_text,
                     )
+                    if _answer_admits_no_info(answer):
+                        answer, sources, mode = _fallback_answer(
+                            tenant_id, routing_question, req.agent_type, history_text
+                        )
         except Exception:
             raise HTTPException(
                 status_code=503,
@@ -280,13 +320,28 @@ def chat_pg(
     conv.title = conv.title if conv.title != "New chat" else req.question[:40]
     db.commit()
 
+    _SOURCE_TYPE_MAP = {
+        "kb_grounded": "documents",
+        "web_grounded": "web",
+        "llm_fallback": "llm",
+        "conversational": "none",
+    }
+    _MESSAGE_MAP = {
+        "web_grounded": "This answer is from web search, not from your documents.",
+        "llm_fallback": "This answer is AI-generated and not grounded in your documents or the web.",
+    }
+    source_type = _SOURCE_TYPE_MAP.get(mode, "none")
+
     out: dict = {
         "mode": mode,
+        "source_type": source_type,
         "answer": answer,
         "sources": sources,
         "images": _related_images(user_id, sources),
         "retrieve_mode": retrieve_mode,
     }
+    if mode in _MESSAGE_MAP:
+        out["message"] = _MESSAGE_MAP[mode]
     if settings.CHAT_RETURN_QUERY_ROUTING:
         out["query_routing"] = {
             "domain": qu.domain,
