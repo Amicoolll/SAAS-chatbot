@@ -33,8 +33,11 @@ Critical: `EMBED_DIM` (default 1536) must match `OPENAI_EMBEDDING_MODEL`. Changi
 ## Commands
 
 ```bash
-# Start dev server
+# Start dev server (dev only — --reload kills background jobs on any file save)
 uvicorn app.main:app --reload
+
+# Start for long-running syncs / indexing (no code reloading)
+uvicorn app.main:app --workers 1
 
 # Start with Docker (Postgres + backend)
 docker-compose up
@@ -78,11 +81,15 @@ Response modes: `kb_grounded` | `web_grounded` | `llm_fallback` | `conversationa
 POST /drive/sync (background task):
     list Drive files → filter supported types → download to data/user_{id}/raw/
     skip unchanged files via .drive_manifest.json (compares modifiedTime)
+    checkpoint manifest to disk every 50 files — a crash mid-sync resumes
+    from the last checkpoint on the next /drive/sync call (no new endpoint)
     token refresh at start via refresh_and_persist_tokens()
 
 POST /index/run (background task):
     read raw files (txt/csv/xlsx/pdf) → chunk_text → embed_texts (OpenAI batched)
     skip unchanged via Document.modified_time vs manifest
+    commit per-file (Document + all its chunks in one transaction) —
+    a crash mid-index leaves only completed files in DB; rerun finishes the rest
     store Document + Chunk rows in Postgres
 
 Poll GET /pipeline/status for progress (drive_sync_progress_json, index_progress_json)

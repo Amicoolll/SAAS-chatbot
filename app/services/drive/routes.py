@@ -112,6 +112,12 @@ GOOGLE_SHEET_EXPORT_XLSX = (
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 )
 
+# How often (in files) to checkpoint the manifest to disk during a long sync.
+# Without this, the manifest is saved only after the full loop finishes — a
+# crash at file 6,000 of 7,000 loses all the progress. With the checkpoint,
+# restart resumes from the last saved mark.
+_MANIFEST_SAVE_EVERY = 50
+
 
 def _save_google_sheet(
     service,
@@ -365,8 +371,21 @@ def _run_drive_sync_core(tenant_id: str, user_id: str, max_files: int) -> dict:
                 current_file=f.get("name", file_id),
             )
 
-    # Best-effort manifest save; a failure here just means the next sync won't
-    # benefit from skip-unchanged, but files on disk are still correct.
+        # Checkpoint the manifest every N files so a crash/restart during a long
+        # sync can resume from the last checkpoint instead of re-downloading
+        # everything. Runs after both success and failure paths.
+        if i % _MANIFEST_SAVE_EVERY == 0:
+            try:
+                _save_manifest(user_id, manifest)
+            except Exception as e:
+                logger.warning(
+                    "drive_sync_manifest_checkpoint_failed user_id=%s at=%s error=%s",
+                    user_id,
+                    i,
+                    e,
+                )
+
+    # Final manifest save covers the remainder since the last checkpoint.
     try:
         _save_manifest(user_id, manifest)
     except Exception as e:

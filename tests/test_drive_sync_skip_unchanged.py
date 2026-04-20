@@ -243,3 +243,104 @@ def test_download_failure_does_not_record_manifest_entry(
     # Failed files stay out of the manifest so the next sync retries them.
     manifest = routes._load_manifest("u1")
     assert "id_pdf" not in manifest
+
+
+# --------------------------- incremental checkpoint ---------------------------
+
+
+def test_manifest_saved_every_n_files_during_long_sync(
+    workdir, patch_pipeline_state, patch_drive_auth, monkeypatch
+):
+    """A long sync must checkpoint the manifest periodically so a crash
+    doesn't lose all progress. The save interval is routes._MANIFEST_SAVE_EVERY.
+    """
+    monkeypatch.setattr(routes, "_MANIFEST_SAVE_EVERY", 3)  # shorter for test
+
+    files = [
+        _make_file(f"id_{i}", f"Doc{i}", routes.GOOGLE_DOC, modified_time=f"t{i}")
+        for i in range(1, 8)
+    ]
+    monkeypatch.setattr(
+        routes, "list_all_files", lambda service, on_list_progress=None: files
+    )
+    monkeypatch.setattr(routes, "_download_bytes", lambda req, log_context=None: b"x")
+
+    save_counts: list[int] = []
+    original_save = routes._save_manifest
+
+    def _counting_save(user_id, manifest):
+        save_counts.append(len(manifest))
+        original_save(user_id, manifest)
+
+    monkeypatch.setattr(routes, "_save_manifest", _counting_save)
+
+    routes._run_drive_sync_core("t1", "u1", max_files=10)
+
+    # Expect checkpoints at i=3 and i=6 (3 files each), plus a final save
+    # at the end of the loop. So at least 3 saves total.
+    assert len(save_counts) >= 3
+    # Every checkpoint size grows monotonically as more files are recorded.
+    assert save_counts == sorted(save_counts)
+    # Final manifest has all 7 files.
+    manifest = routes._load_manifest("u1")
+    assert len(manifest) == 7
+
+
+def test_sync_resumes_from_checkpoint_after_crash(
+    workdir, patch_pipeline_state, patch_drive_auth, monkeypatch
+):
+    """If a sync process crashes mid-way, the next run must skip the files
+    that were already checkpointed and only download the remaining ones.
+    """
+    monkeypatch.setattr(routes, "_MANIFEST_SAVE_EVERY", 3)
+
+    files = [
+        _make_file(f"id_{i}", f"Doc{i}", routes.GOOGLE_DOC, modified_time=f"t{i}")
+        for i in range(1, 8)
+    ]
+    monkeypatch.setattr(
+        routes, "list_all_files", lambda service, on_list_progress=None: files
+    )
+
+    # First run: simulate a crash after the 4th download (past the first
+    # checkpoint at i=3 but before the next at i=6). Must raise OUTSIDE
+    # the per-file try/except so it bubbles up and aborts the loop.
+    call_count = {"n": 0}
+    raised = {"done": False}
+
+    def _download_then_crash(req, log_context=None):
+        call_count["n"] += 1
+        if call_count["n"] == 5 and not raised["done"]:
+            raised["done"] = True
+            # KeyboardInterrupt is not caught by the bare except in the loop.
+            raise KeyboardInterrupt("simulated process kill")
+        return b"x"
+
+    monkeypatch.setattr(routes, "_download_bytes", _download_then_crash)
+
+    with pytest.raises(KeyboardInterrupt):
+        routes._run_drive_sync_core("t1", "u1", max_files=10)
+
+    # After the crash: manifest has the first-checkpoint files (3 files).
+    manifest_after_crash = routes._load_manifest("u1")
+    assert len(manifest_after_crash) == 3
+    crashed_call_count = call_count["n"]
+
+    # Second run: normal download, no crash. Skip-unchanged must avoid
+    # re-downloading the 3 files already in the manifest.
+    call_count["n"] = 0
+
+    def _counting_download(req, log_context=None):
+        call_count["n"] += 1
+        return b"x"
+
+    monkeypatch.setattr(routes, "_download_bytes", _counting_download)
+
+    result = routes._run_drive_sync_core("t1", "u1", max_files=10)
+    assert result["skipped"] == 3  # the 3 checkpointed before crash
+    assert result["processed"] == 4  # the remaining 4 files downloaded now
+    assert call_count["n"] == 4  # exactly 4 downloads on the resume run
+    assert crashed_call_count == 5  # sanity: 5 downloads attempted before crash
+
+    manifest_final = routes._load_manifest("u1")
+    assert len(manifest_final) == 7
