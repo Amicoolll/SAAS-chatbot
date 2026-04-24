@@ -90,7 +90,9 @@ class Settings(BaseSettings):
     # Web search fallback (per-tenant, requires feature flag + this key)
     TAVILY_API_KEY: str | None = None
     WEB_SEARCH_MAX_RESULTS: int = 5
-    WEB_SEARCH_GLOBAL_ENABLED: bool = True
+    # Master kill switch. Disabled by default — re-enable by setting
+    # WEB_SEARCH_GLOBAL_ENABLED=true in .env when the feature is ready to ship.
+    WEB_SEARCH_GLOBAL_ENABLED: bool = False
 
     # Admin API auth
     ADMIN_TOKEN: str | None = None

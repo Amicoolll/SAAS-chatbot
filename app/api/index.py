@@ -367,10 +367,10 @@ def index_run(
     background_tasks: BackgroundTasks,
     tenant_user: tuple[str, str] = Depends(get_tenant_user),
     max_files: int = Query(
-        100,
+        5000,
         ge=1,
         le=5000,
-        description="Max raw .txt/.csv files to embed this run (OpenAI cost scales with chunks). Use 385+ when ready; progress total matches this batch.",
+        description="Max raw .txt/.csv/.pdf/.xlsx files to embed this run. Default is the full batch (5000). OpenAI cost scales with chunks.",
     ),
     background: bool = True,
     db: Session = Depends(get_db),

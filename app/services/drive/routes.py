@@ -447,9 +447,9 @@ def drive_sync(
     background_tasks: BackgroundTasks,
     tenant_user: tuple[str, str] = Depends(get_tenant_user),
     max_files: int = Query(
-        500,
+        5000,
         ge=1,
-        description="Max Drive files to download this run (supported types only). Will be clamped to 5000.",
+        description="Max Drive files to download this run (supported types only). Default is the full batch (5000). Clamped to 5000.",
     ),
     background: bool = True,
 ):

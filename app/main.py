@@ -47,6 +47,27 @@ app.include_router(documents_router)
 app.include_router(admin_features_router)
 app.include_router(session_router)
 
+def _ensure_vector_index() -> None:
+    """Create HNSW index on chunks.embedding so vector similarity queries
+    don't fall back to sequential scans. Idempotent — IF NOT EXISTS means
+    safe to run on every startup. Requires pgvector 0.5+.
+    """
+    stmt = (
+        "CREATE INDEX IF NOT EXISTS ix_chunks_embedding_hnsw "
+        "ON chunks USING hnsw (embedding vector_cosine_ops)"
+    )
+    try:
+        with engine.begin() as conn:
+            conn.execute(text(stmt))
+        logger.info("chunks.embedding HNSW index ensured")
+    except Exception as e:
+        logger.warning(
+            "Failed to create HNSW index on chunks.embedding (retrieval will "
+            "use sequential scan; performance degrades past ~10K chunks): %s",
+            e,
+        )
+
+
 @app.on_event("startup")
 def startup():
     if settings.CREATE_PGVECTOR_EXTENSION:
@@ -63,6 +84,7 @@ def startup():
                 e.orig if getattr(e, "orig", None) else e,
             )
     Base.metadata.create_all(bind=engine)
+    _ensure_vector_index()
 
 @app.get("/health")
 def health():
