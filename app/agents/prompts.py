@@ -20,6 +20,7 @@ AgentType = Literal[
     "document_summarizer",
     "meeting_minutes",
     "rfp_proposal",
+    "aviation",
 ]
 
 @dataclass(frozen=True)
@@ -350,6 +351,32 @@ AGENTS["rfp_proposal"] = AgentConfig(
         "2) Assumptions\n"
         "3) Risks / dependencies\n"
         "4) Questions for the client\n"
+        "5) Sources\n"
+        f"\n{_base_rules()}"
+    ),
+)
+
+
+# 18) AVIATION SUPPORT
+AGENTS["aviation"] = AgentConfig(
+    key="aviation",
+    name="Aviation Support Assistant",
+    system_prompt=(
+        "You are an aviation operations knowledge assistant. "
+        "This is a safety-critical domain: never invent procedures, speeds, "
+        "altitudes, weights, limits, fuel figures, reference numbers, or "
+        "regulatory citations. Answer strictly from the provided aviation "
+        "documents (FCOMs, QRHs, SOPs, MELs, maintenance manuals, safety "
+        "bulletins, regulatory material such as FAA/EASA/ICAO/DGCA). "
+        "If the user's question is outside aviation, politely redirect them "
+        "to aviation topics instead of answering."
+    ),
+    output_format=(
+        "Return:\n"
+        "1) Direct answer (clear, specific, safety-aware)\n"
+        "2) Reference (manual name, chapter/section, page if present)\n"
+        "3) Conditions / limits / caveats (when applicable)\n"
+        "4) Next actions (for ops / maintenance / crew)\n"
         "5) Sources\n"
         f"\n{_base_rules()}"
     ),

@@ -100,6 +100,12 @@ class Settings(BaseSettings):
     # Feature flag in-process cache TTL
     FEATURE_FLAG_CACHE_TTL_SECONDS: int = 60
 
+    # Hard domain filter (semantic similarity). Applied only when tenant has
+    # the strict_domain feature flag enabled. Below this cosine similarity
+    # to the in-domain centroid, the question is refused as off-topic.
+    # Typical values: 0.25 (lenient) ... 0.45 (strict). Default 0.35.
+    DOMAIN_GUARD_THRESHOLD: float = 0.35
+
     # Query understanding (rule-based MVP): allowed labels from config / env JSON lists
     QUERY_UNDERSTANDING_DOMAINS: list[str] = Field(
         default_factory=lambda: list(_DEFAULT_QUERY_DOMAINS),

@@ -255,6 +255,46 @@ def testProcessIncomingMessage_acksToleratePunctuation(raw: str) -> None:
 @pytest.mark.parametrize(
     "raw",
     [
+        "how do you do",
+        "how do you do?",
+        "How Do You Do",
+        "how are you",
+        "how are you?",
+        "how are you doing",
+        "how have you been",
+        "how's it going",
+        "hows it going",
+        "how r u",
+        "how u doing",
+        "how is it going",
+    ],
+)
+def testProcessIncomingMessage_pleasantryGreetingsSkipRetrieval(raw: str) -> None:
+    gp = processIncomingMessage(raw)
+    assert gp.skipRetrieval is True, raw
+
+
+@pytest.mark.parametrize(
+    "raw",
+    [
+        "how do I reset my password?",
+        "how do you calibrate the pitot tube?",
+        "how are you planning to deploy the feature?",
+        "how is the server uptime?",
+        "how do I get the latest report",
+    ],
+)
+def testProcessIncomingMessage_realHowQuestionsStillReachRag(raw: str) -> None:
+    """Regression guard: adding pleasantry exact-matches must NOT swallow
+    legitimate 'how' questions that are real queries.
+    """
+    gp = processIncomingMessage(raw)
+    assert gp.skipRetrieval is False, raw
+
+
+@pytest.mark.parametrize(
+    "raw",
+    [
         "great wall of china",
         "morning news headlines",
         "yes she did file the report",

@@ -101,6 +101,23 @@ _NON_RETRIEVAL_EXACT_NORMALIZED: frozenset[str] = frozenset(
         "nah",
         "hmm",
         "hm",
+        # Pleasantry questions — traditional English small-talk "greetings"
+        # that happen to start with "how". Kept as exact-match entries so
+        # real "how ..." questions ("how do I reset my password?") still
+        # route through RAG normally.
+        "how do you do",
+        "how are you",
+        "how are you doing",
+        "how have you been",
+        "how's it going",
+        "hows it going",
+        "how are things",
+        "how goes it",
+        "how r u",
+        "how r you",
+        "how u doing",
+        "how you doing",
+        "how is it going",
     }
 )
 
