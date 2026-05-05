@@ -26,9 +26,16 @@ def search_web(
     query: str,
     max_results: int | None = None,
     timeout: int = 15,
+    *,
+    trace_headers: dict[str, str] | None = None,
 ) -> list[WebResult]:
     """Search the web via Tavily. Returns an empty list on any failure so the
     caller can safely fall through to the plain LLM fallback.
+
+    ``trace_headers`` (optional, keyword-only) is merged into the outbound
+    HTTP request headers. Used by the Catapult adapter to propagate
+    ``X-Trace-Id``; when ``None`` (the default for in-app callers) the
+    behavior is identical to before.
     """
     api_key = settings.TAVILY_API_KEY
     if not api_key:
@@ -45,11 +52,15 @@ def search_web(
         "max_results": max_results,
     }
 
+    request_headers = {"Content-Type": "application/json"}
+    if trace_headers:
+        request_headers.update(trace_headers)
+
     try:
         req = urllib.request.Request(
             _TAVILY_SEARCH_URL,
             data=json.dumps(payload).encode("utf-8"),
-            headers={"Content-Type": "application/json"},
+            headers=request_headers,
             method="POST",
         )
         with urllib.request.urlopen(req, timeout=timeout) as resp:

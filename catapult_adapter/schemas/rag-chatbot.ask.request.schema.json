@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "schemas/rag-chatbot.ask.request.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["question", "collection_id"],
+  "properties": {
+    "question": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000,
+      "description": "The natural-language question to answer"
+    },
+    "collection_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.:-]+$",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Logical collection bucket. In v1 this maps to the user_id namespace in the underlying chunks/documents tables."
+    },
+    "agent_type": {
+      "type": "string",
+      "enum": [
+        "general",
+        "medical",
+        "logistics",
+        "hr",
+        "legal",
+        "finance",
+        "engineering",
+        "sales",
+        "support",
+        "research",
+        "education",
+        "marketing",
+        "product",
+        "operations",
+        "document_summarizer",
+        "meeting_minutes",
+        "rfp_proposal",
+        "aviation"
+      ],
+      "default": "general",
+      "description": "Domain-specific prompt to use for answer generation"
+    },
+    "conversation_history": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "content"],
+        "properties": {
+          "role": { "type": "string", "enum": ["user", "assistant"] },
+          "content": { "type": "string", "maxLength": 4000 }
+        }
+      },
+      "description": "Optional prior turns. Adapter is stateless — caller manages history."
+    },
+    "top_k": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20,
+      "default": 5,
+      "description": "Number of document chunks to retrieve"
+    },
+    "include_sources": {
+      "type": "boolean",
+      "default": true,
+      "description": "Include source document names in the response"
+    }
+  }
+}

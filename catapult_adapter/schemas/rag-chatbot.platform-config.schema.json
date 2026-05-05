@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "schemas/rag-chatbot.platform-config.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "enabled",
+    "deployment_mode",
+    "profile",
+    "data_class",
+    "max_tokens_per_request"
+  ],
+  "properties": {
+    "enabled": { "type": "boolean" },
+    "deployment_mode": {
+      "type": "string",
+      "enum": ["isolated-service"]
+    },
+    "profile": {
+      "type": "string",
+      "enum": ["small", "medium", "large"]
+    },
+    "data_class": { "type": "string" },
+    "max_tokens_per_request": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 32000
+    },
+    "max_documents_per_ingest_call": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 1000,
+      "default": 100,
+      "description": "Hard cap on documents per /ingest invocation. The request schema enforces 100; this allows admins to lower further."
+    },
+    "web_search_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Allow Tavily web fallback when KB has no answer. Disable for projects that must answer only from documents."
+    }
+  }
+}

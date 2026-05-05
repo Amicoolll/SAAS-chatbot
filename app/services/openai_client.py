@@ -47,8 +47,18 @@ def _extract_chat_text(response: object) -> str:
     return ""
 
 
-def embed_texts(texts: List[str]) -> List[List[float]]:
-    """Embed a batch of texts. Returns list of embedding vectors."""
+def embed_texts(
+    texts: List[str],
+    *,
+    trace_headers: dict[str, str] | None = None,
+) -> List[List[float]]:
+    """Embed a batch of texts. Returns list of embedding vectors.
+
+    ``trace_headers`` (optional, keyword-only) is forwarded to OpenAI as
+    ``extra_headers``. Used by the Catapult adapter to propagate
+    ``X-Trace-Id``; when ``None`` (the default for all in-app callers) the
+    behavior is identical to before.
+    """
     if not texts:
         return []
     try:
@@ -56,6 +66,7 @@ def embed_texts(texts: List[str]) -> List[List[float]]:
         resp = client.embeddings.create(
             model=settings.OPENAI_EMBEDDING_MODEL,
             input=texts,
+            extra_headers=trace_headers,
         )
         # API may return rows out of input order; index maps each row back to input.
         ordered = sorted(resp.data, key=lambda item: item.index)
@@ -72,8 +83,14 @@ def chat_with_context(
     context_chunks: list[str],
     agent_type: str = "general",
     history: str = "",
+    *,
+    trace_headers: dict[str, str] | None = None,
 ) -> str:
-    """Answer using provided context chunks and agent config."""
+    """Answer using provided context chunks and agent config.
+
+    ``trace_headers``: see ``embed_texts``. Default ``None`` preserves the
+    pre-Catapult behavior for in-app callers.
+    """
     agent = get_agent(agent_type)
     context = "\n\n---\n\n".join((context_chunks or [])[:12])
     prompt = f"""
@@ -97,6 +114,7 @@ USER QUESTION:
         resp = client.responses.create(
             model=settings.OPENAI_CHAT_MODEL,
             input=prompt,
+            extra_headers=trace_headers,
         )
         text = _extract_chat_text(resp)
         if not text:
@@ -111,12 +129,16 @@ def chat_conversational(
     question: str,
     history: str = "",
     agent_type: str = "general",
+    *,
+    trace_headers: dict[str, str] | None = None,
 ) -> str:
     """
     Greetings / light chit-chat when KB retrieval is intentionally skipped.
 
     Avoids the RAG-focused agent prompts (which assume document context and make
     the model say it has \"no context\").
+
+    ``trace_headers``: see ``embed_texts``.
     """
     agent = get_agent(agent_type)
     prompt = f"""
@@ -137,6 +159,7 @@ USER MESSAGE:
         resp = client.responses.create(
             model=settings.OPENAI_CHAT_MODEL,
             input=prompt,
+            extra_headers=trace_headers,
         )
         text = _extract_chat_text(resp)
         if not text:
@@ -152,12 +175,16 @@ def chat_with_web_context(
     web_results: list,
     agent_type: str = "general",
     history: str = "",
+    *,
+    trace_headers: dict[str, str] | None = None,
 ) -> str:
     """Answer using web search results instead of KB documents.
 
     ``web_results`` is a list of objects with ``.title``, ``.url``, and
     ``.snippet`` attributes (see ``app.services.web_search.WebResult``).
     The prompt instructs the model to cite sources by number.
+
+    ``trace_headers``: see ``embed_texts``.
     """
     agent = get_agent(agent_type)
     numbered = []
@@ -194,6 +221,7 @@ Rules:
         resp = client.responses.create(
             model=settings.OPENAI_CHAT_MODEL,
             input=prompt,
+            extra_headers=trace_headers,
         )
         text = _extract_chat_text(resp)
         if not text:
@@ -208,8 +236,13 @@ def chat_without_context(
     question: str,
     agent_type: str = "general",
     history: str = "",
+    *,
+    trace_headers: dict[str, str] | None = None,
 ) -> str:
-    """Answer without KB context (fallback when retrieval is low confidence)."""
+    """Answer without KB context (fallback when retrieval is low confidence).
+
+    ``trace_headers``: see ``embed_texts``.
+    """
     agent = get_agent(agent_type)
     prompt = f"""
 SYSTEM:
@@ -233,6 +266,7 @@ Rules:
         resp = client.responses.create(
             model=settings.OPENAI_CHAT_MODEL,
             input=prompt,
+            extra_headers=trace_headers,
         )
         text = _extract_chat_text(resp)
         if not text:

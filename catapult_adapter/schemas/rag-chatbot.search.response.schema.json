@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "schemas/rag-chatbot.search.response.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["results", "latency_ms"],
+  "properties": {
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["chunk_text", "document_name"],
+        "properties": {
+          "chunk_text": { "type": "string" },
+          "document_name": { "type": "string" },
+          "distance": {
+            "type": "number",
+            "description": "pgvector cosine distance. Lower is better. May be omitted for FTS-only matches."
+          }
+        }
+      }
+    },
+    "retrieve_mode": {
+      "type": "string",
+      "enum": ["vector", "hybrid"],
+      "description": "Which retrieval path was used"
+    },
+    "total_matches": { "type": "integer", "minimum": 0 },
+    "latency_ms": { "type": "integer", "minimum": 0 }
+  }
+}

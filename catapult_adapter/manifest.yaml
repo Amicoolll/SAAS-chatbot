@@ -1,0 +1,116 @@
+apiVersion: catapult.tools/v1
+kind: Tool
+
+metadata:
+  name: rag-chatbot
+  display_name: RAG Chatbot
+  description: Retrieval-augmented generation chatbot over ingested document collections with optional web fallback
+  version: 1.0.0
+  owner: enterprise-drive-chatbot-team
+  tags:
+    - rag
+    - chatbot
+    - search
+    - documents
+    - web-fallback
+
+spec:
+  purpose:
+    summary: >-
+      Answers natural-language questions by retrieving relevant chunks from
+      ingested document collections and generating grounded responses using
+      an LLM. Falls back to web search (Tavily) when documents do not contain
+      an answer, and to a plain LLM response when web search is unavailable
+      or returns nothing useful. Supports document ingestion and pure
+      semantic search as separate operations.
+    non_goals:
+      - Does not perform standalone document summarisation
+      - Does not support image, audio, or multimodal inputs
+      - Does not store conversation history (callers pass history per request)
+      - Does not authenticate against third-party document sources (no Drive/SharePoint OAuth)
+      - Does not perform document parsing for binary formats — accepts plain text only
+
+  risk_tier: medium
+
+  runtime_compatibility:
+    runtimes:
+      - "catapult-runtime>=1.0.0"
+    deployment_modes:
+      - isolated-service
+    profiles:
+      supported:
+        - small
+        - medium
+        - large
+      default: medium
+
+  platform_config:
+    schema_ref: schemas/rag-chatbot.platform-config.schema.json
+
+  tool_config:
+    schema_ref: schemas/rag-chatbot.tool-config.schema.json
+
+  api:
+    base_path: /tools/rag-chatbot
+    operations:
+      ask:
+        method: POST
+        path: /ask
+        request_schema_ref: schemas/rag-chatbot.ask.request.schema.json
+        response_schema_ref: schemas/rag-chatbot.ask.response.schema.json
+      search:
+        method: POST
+        path: /search
+        request_schema_ref: schemas/rag-chatbot.search.request.schema.json
+        response_schema_ref: schemas/rag-chatbot.search.response.schema.json
+      ingest:
+        method: POST
+        path: /ingest
+        request_schema_ref: schemas/rag-chatbot.ingest.request.schema.json
+        response_schema_ref: schemas/rag-chatbot.ingest.response.schema.json
+
+  health:
+    status_endpoint: /health
+    readiness_endpoint: /health/ready
+    liveness_endpoint: /health/live
+
+  telemetry_contract:
+    pii_safe: true
+    custom_dimensions:
+      - retrieval_latency_ms
+      - chunks_retrieved
+      - source_type
+      - generation_tokens
+
+  model_requirements:
+    capabilities:
+      - chat
+      - embeddings
+
+  dependencies:
+    external_providers:
+      - name: OpenAI
+        purpose: LLM inference (chat completions) and text embeddings
+      - name: Tavily
+        purpose: Web search fallback when KB has no relevant answer
+    infra:
+      - name: PostgreSQL
+        purpose: Vector store (pgvector) for chunk embeddings and document metadata
+        version: ">=15"
+    tools: []
+
+  security:
+    egress:
+      external_calls: true
+      allowed_domains:
+        - api.openai.com
+        - api.tavily.com
+    data_storage:
+      stores_data: true
+      locations:
+        - "PostgreSQL: chunk text and pgvector embeddings, document metadata (collection_id, document_id, ingestion timestamp)"
+
+  docs:
+    overview_url: ""
+    runbook_url: ""
+    api_reference_url: ""

@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "schemas/rag-chatbot.tool-config.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["service_url"],
+  "properties": {
+    "service_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Base URL of the RAG chatbot adapter service (required for isolated-service mode)."
+    },
+    "default_agent_type": {
+      "type": "string",
+      "enum": [
+        "general",
+        "medical",
+        "logistics",
+        "hr",
+        "legal",
+        "finance",
+        "engineering",
+        "sales",
+        "support",
+        "research",
+        "education",
+        "marketing",
+        "product",
+        "operations",
+        "document_summarizer",
+        "meeting_minutes",
+        "rfp_proposal",
+        "aviation"
+      ],
+      "default": "general",
+      "description": "Agent type used when an /ask request omits agent_type."
+    },
+    "default_top_k": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20,
+      "default": 5
+    },
+    "rag_distance_threshold": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 2,
+      "default": 0.45,
+      "description": "Maximum pgvector cosine distance treated as a relevant chunk. Above this, /ask falls back to web or LLM."
+    },
+    "embedding_model": {
+      "type": "string",
+      "default": "text-embedding-3-small",
+      "description": "Must match the EMBED_DIM the adapter was started with. Changing this requires a re-index."
+    },
+    "chat_model": {
+      "type": "string",
+      "default": "gpt-4o-mini"
+    },
+    "default_chunk_size": {
+      "type": "integer",
+      "minimum": 100,
+      "maximum": 4000,
+      "default": 1200
+    },
+    "default_chunk_overlap": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 500,
+      "default": 200
+    }
+  }
+}
