@@ -100,6 +100,14 @@ class Settings(BaseSettings):
     # Feature flag in-process cache TTL
     FEATURE_FLAG_CACHE_TTL_SECONDS: int = 60
 
+    # Aviation domain — partner API config (see AVIATION_PARTNER_API.md).
+    # Empty defaults are intentional: the AviationDomain plugin requires
+    # explicit configuration, and tests inject their own client.
+    AIRLINE_API_BASE_URL: str = ""
+    AIRLINE_API_TOKEN: str | None = None
+    AIRLINE_API_TIMEOUT_SEC: float = 10.0
+    AIRLINE_API_MAX_RETRIES: int = 2
+
     # Hard domain filter (semantic similarity). Applied only when tenant has
     # the strict_domain feature flag enabled. Below this cosine similarity
     # to the in-domain centroid, the question is refused as off-topic.

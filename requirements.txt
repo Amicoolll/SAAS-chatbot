@@ -12,6 +12,7 @@ google-auth
 google-auth-oauthlib
 google-auth-httplib2
 openai
+httpx
 tiktoken
 pypdf
 openpyxl
