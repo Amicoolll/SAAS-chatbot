@@ -1,0 +1,355 @@
+"""Chip-action handler for ``POST /chat_pg``.
+
+Lives next to ``chat_pg.py`` (its only caller) and is purely additive — when
+the request has no ``action`` field, this module is never imported.
+
+The flow:
+
+1. Caller (``chat_pg.chat_pg``) has already validated the conversation.
+2. We resolve a :class:`DomainPlugin` for ``req.agent_type`` and look up the
+   tool named by ``req.action``.
+3. For each required tool parameter:
+   * if present in ``action_params`` and valid → keep
+   * if present but invalid → ask the LLM to extract a clean value from
+     it (smart validation); on failure re-prompt the user with a hint
+   * if missing → return ``action_collecting`` with the param's prompt
+4. When every required field is collected, dispatch the tool. Errors map
+   to friendly messages with stable ``error_code`` values.
+
+Stateless: the frontend echoes ``action_state`` back on every turn. We
+don't persist a server-side FSM.
+"""
+
+from __future__ import annotations
+
+import logging
+from typing import TYPE_CHECKING, Any
+
+from fastapi import HTTPException
+from sqlalchemy.orm import Session
+
+from app.db.models_chat import Conversation, Message
+from app.domains.aviation.api_client import AirlineApiError, AirlineApiTransportError
+from app.domains.base import DomainPlugin, ToolSpec
+from app.domains.registry import get_domain_for_agent
+from app.services.openai_client import extract_param, matches_schema
+
+
+if TYPE_CHECKING:
+    from app.api.chat_pg import ChatRequest
+
+
+logger = logging.getLogger(__name__)
+
+
+# Per-action hint for how the frontend should render the tool result. Keep
+# this small and explicit — unknown actions default to "text".
+_RENDER_HINTS: dict[str, str] = {
+    "retrieve_booking": "booking_card",
+}
+
+
+def handle_action(
+    req: "ChatRequest",
+    tenant_id: str,
+    user_id: str,
+    conv: Conversation,
+    db: Session,
+) -> dict[str, Any]:
+    """Entry point for chip-driven calls. Returns the response dict the
+    endpoint should send back. Never returns ``None``.
+    """
+    domain = get_domain_for_agent(req.agent_type)
+    if domain is None:
+        raise HTTPException(
+            status_code=422,
+            detail=f"No domain plugin handles agent_type={req.agent_type!r}.",
+        )
+
+    if req.action not in domain.tool_names():
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                f"Unknown action {req.action!r} for domain {domain.name!r}. "
+                f"Known actions: {sorted(domain.tool_names())}"
+            ),
+        )
+
+    tool = next(t for t in domain.tools() if t.name == req.action)
+    properties: dict[str, Any] = tool.parameters_schema.get("properties", {})
+    required: list[str] = tool.parameters_schema.get("required", [])
+    collected: dict[str, Any] = dict(req.action_params or {})
+
+    # Smart validation: any required param that's present but doesn't
+    # match its schema gets one shot at LLM extraction.
+    for field in required:
+        if field not in collected:
+            continue
+        prop_schema = properties.get(field, {})
+        value = collected[field]
+        if matches_schema(value, prop_schema):
+            continue
+
+        extracted = extract_param(str(value), field, prop_schema)
+        if extracted is None:
+            return _action_collecting(
+                req=req,
+                tool=tool,
+                missing=field,
+                collected=collected,
+                hint=(
+                    f"That doesn't look like a valid {_humanize(field)}. "
+                ),
+                tenant_id=tenant_id,
+                user_id=user_id,
+                db=db,
+            )
+        collected[field] = extracted
+
+    # Walk required fields in declared order; ask for the first missing one.
+    for field in required:
+        if field not in collected:
+            return _action_collecting(
+                req=req,
+                tool=tool,
+                missing=field,
+                collected=collected,
+                hint=None,
+                tenant_id=tenant_id,
+                user_id=user_id,
+                db=db,
+            )
+
+    # All required params present and valid → dispatch.
+    return _dispatch_and_respond(
+        req=req,
+        domain=domain,
+        tool=tool,
+        collected=collected,
+        conv=conv,
+        tenant_id=tenant_id,
+        user_id=user_id,
+        db=db,
+    )
+
+
+# ---- response builders ---------------------------------------------------
+
+
+def _action_collecting(
+    *,
+    req: "ChatRequest",
+    tool: ToolSpec,
+    missing: str,
+    collected: dict[str, Any],
+    hint: str | None,
+    tenant_id: str,
+    user_id: str,
+    db: Session,
+) -> dict[str, Any]:
+    """Tell the frontend to collect ``missing`` from the user."""
+    prop_schema = tool.parameters_schema.get("properties", {}).get(missing, {})
+    prompt = prop_schema.get(
+        "prompt",
+        f"Please share the {_humanize(missing)}.",
+    )
+    answer = f"{hint}{prompt}" if hint else prompt
+
+    _save_assistant_message(
+        db, tenant_id=tenant_id, user_id=user_id,
+        conversation_id=req.conversation_id, content=answer,
+    )
+
+    return {
+        "mode": "action_collecting",
+        "source_type": "none",
+        "answer": answer,
+        "missing_param": missing,
+        "param_schema": _public_schema(prop_schema),
+        "action_state": {
+            "action": req.action,
+            "collected": collected,
+            "complete": False,
+        },
+        "sources": [],
+    }
+
+
+def _dispatch_and_respond(
+    *,
+    req: "ChatRequest",
+    domain: DomainPlugin,
+    tool: ToolSpec,
+    collected: dict[str, Any],
+    conv: Conversation,
+    tenant_id: str,
+    user_id: str,
+    db: Session,
+) -> dict[str, Any]:
+    """Run the tool. Map success / error to response shapes."""
+    try:
+        result = domain.dispatch_tool(req.action, collected)
+    except AirlineApiError as e:
+        return _tool_error(
+            req=req, error=e, tenant_id=tenant_id, user_id=user_id, db=db,
+        )
+    except AirlineApiTransportError as e:
+        logger.exception(
+            "chip_action_transport_error action=%s tenant=%s",
+            req.action, tenant_id,
+        )
+        return _tool_error(
+            req=req,
+            error=AirlineApiError(
+                status_code=503,
+                code="DEPENDENCY_UNAVAILABLE",
+                message=str(e) or "Upstream service unavailable.",
+            ),
+            tenant_id=tenant_id,
+            user_id=user_id,
+            db=db,
+        )
+    except ValueError as e:
+        # Pydantic-style validation error from inside dispatch_tool —
+        # bubble up as a 422 so the client knows it's their fault.
+        raise HTTPException(status_code=422, detail=str(e))
+    except Exception as e:
+        logger.exception(
+            "chip_action_unexpected_error action=%s tenant=%s",
+            req.action, tenant_id,
+        )
+        return _tool_error(
+            req=req,
+            error=AirlineApiError(
+                status_code=500,
+                code="INTERNAL_ERROR",
+                message=str(e) or "Internal error.",
+            ),
+            tenant_id=tenant_id,
+            user_id=user_id,
+            db=db,
+        )
+
+    summary = _summary_for(req.action, result)
+    _save_assistant_message(
+        db, tenant_id=tenant_id, user_id=user_id,
+        conversation_id=req.conversation_id, content=summary,
+    )
+    if conv.title == "New chat":
+        conv.title = _humanize(req.action).title()
+        db.commit()
+
+    return {
+        "mode": "tool_executed",
+        "source_type": "tool",
+        "answer": summary,
+        "tool_name": req.action,
+        "tool_result": result,
+        "render_as": _RENDER_HINTS.get(req.action, "text"),
+        "action_state": {
+            "action": req.action,
+            "collected": collected,
+            "complete": True,
+        },
+        "sources": [],
+    }
+
+
+def _tool_error(
+    *,
+    req: "ChatRequest",
+    error: AirlineApiError,
+    tenant_id: str,
+    user_id: str,
+    db: Session,
+) -> dict[str, Any]:
+    """Friendly error message + structured error_code for the frontend."""
+    if error.status_code == 404:
+        answer = (
+            "We couldn't find that booking. Please double-check the reference "
+            "and last name, then try again."
+        )
+    elif error.status_code == 403:
+        answer = (
+            "We couldn't verify that booking with the details provided. "
+            "Please check and try again."
+        )
+    elif error.status_code == 401:
+        answer = (
+            "We couldn't reach the booking system right now. "
+            "Please try again shortly."
+        )
+    elif error.status_code == 503 or error.code == "DEPENDENCY_UNAVAILABLE":
+        answer = "The booking system is temporarily unavailable. Please try again shortly."
+    else:
+        answer = "Sorry — something went wrong fetching that. Please try again shortly."
+
+    _save_assistant_message(
+        db, tenant_id=tenant_id, user_id=user_id,
+        conversation_id=req.conversation_id, content=answer,
+    )
+
+    return {
+        "mode": "tool_error",
+        "source_type": "none",
+        "answer": answer,
+        "error_code": error.code,
+        "error_status": error.status_code,
+        "tool_name": req.action,
+        "sources": [],
+    }
+
+
+# ---- small helpers -------------------------------------------------------
+
+
+def _save_assistant_message(
+    db: Session,
+    *,
+    tenant_id: str,
+    user_id: str,
+    conversation_id: str,
+    content: str,
+) -> None:
+    db.add(
+        Message(
+            tenant_id=tenant_id,
+            user_id=user_id,
+            conversation_id=conversation_id,
+            role="assistant",
+            content=content,
+        )
+    )
+    db.commit()
+
+
+def _humanize(field_name: str) -> str:
+    """``booking_reference`` → ``booking reference``"""
+    return field_name.replace("_", " ")
+
+
+def _public_schema(prop_schema: dict[str, Any]) -> dict[str, Any]:
+    """Strip non-public extension keys from a property schema before
+    returning it to the frontend (``prompt`` is internal copy)."""
+    return {k: v for k, v in prop_schema.items() if k != "prompt"}
+
+
+def _summary_for(action: str, result: dict[str, Any]) -> str:
+    """Short human-readable summary for the assistant message bubble.
+    Frontend renders the rich card from ``tool_result``; this string is
+    only what gets stored in conversation history.
+    """
+    if action == "retrieve_booking":
+        ref = result.get("booking_reference", "?")
+        status = result.get("status", "?")
+        passengers = result.get("passengers", []) or []
+        names = ", ".join(
+            f"{p.get('first_name','')} {p.get('last_name','')}".strip()
+            for p in passengers[:3]
+        )
+        return (
+            f"Booking {ref} — {status.lower()}"
+            + (f"; passengers: {names}" if names else "")
+            + "."
+        )
+    return f"{_humanize(action).title()} completed."

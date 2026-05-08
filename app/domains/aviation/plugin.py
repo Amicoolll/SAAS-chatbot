@@ -33,12 +33,22 @@ _TOOL_RETRIEVE_BOOKING = ToolSpec(
                 "minLength": 1,
                 "maxLength": 20,
                 "description": "PNR / booking reference, usually 6 alphanumeric characters.",
+                # `prompt` is a non-standard schema keyword used by the chip
+                # path to ask the user for this param conversationally.
+                # OpenAI function-calling ignores unknown keywords.
+                "prompt": (
+                    "Please share your booking reference (PNR). It's usually "
+                    "6 letters and numbers."
+                ),
             },
             "last_name": {
                 "type": "string",
                 "minLength": 1,
                 "maxLength": 100,
                 "description": "Lead passenger's last name as on the ticket.",
+                "prompt": (
+                    "Please share your last name as it appears on the ticket."
+                ),
             },
         },
     },

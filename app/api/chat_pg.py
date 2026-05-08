@@ -1,10 +1,11 @@
 import math
 import os
 from pathlib import Path
+from typing import Any
 from urllib.parse import quote
 
 from fastapi import APIRouter, HTTPException, Depends
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, model_validator
 from sqlalchemy.orm import Session
 from sqlalchemy import text, desc
 
@@ -12,12 +13,15 @@ from app.core.config import settings
 from app.core.deps import get_tenant_user
 from app.db.session import get_db
 from app.db.models_chat import Conversation, Message
+from app.domains.registry import get_domain_for_agent
 from app.services.openai_client import (
     chat_conversational,
     chat_with_context,
     chat_with_web_context,
     chat_without_context,
     embed_texts,
+    extract_param,
+    matches_schema,
 )
 from app.services.domain_guard import is_on_domain
 from app.services.feature_flags import is_enabled as feature_is_enabled
@@ -34,9 +38,27 @@ router = APIRouter(tags=["Chat (pgvector)"])
 
 
 class ChatRequest(BaseModel):
+    """Either ``question`` (free-form chat) or ``action`` (chip click) — never both.
+
+    The ``action`` path is the chip-driven flow: frontend sends a tool name plus
+    whatever params have been collected so far; backend asks for the next missing
+    one or dispatches the tool when complete. Free-form chat is unchanged.
+    """
+
     conversation_id: str
-    question: str
+    question: str | None = None
     agent_type: str = "general"
+    action: str | None = None
+    action_params: dict[str, Any] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def _exactly_one_input(self) -> "ChatRequest":
+        if (self.question is None) == (self.action is None):
+            raise ValueError(
+                "Provide exactly one of `question` (free-form chat) or "
+                "`action` (chip click), not both and not neither."
+            )
+        return self
 
 
 def _related_images(user_id: str, sources: list[str], limit: int = 8) -> list[dict[str, str]]:
@@ -175,7 +197,16 @@ def chat_pg(
     if not conv:
         raise HTTPException(status_code=404, detail="Conversation not found")
 
-    # 2) store user message
+    # 2) chip-action short-circuit. Skips greeting / strict_domain / RAG /
+    #    LLM entirely — frontend collects params conversationally and the
+    #    backend either prompts for the next missing one or dispatches the
+    #    matching domain tool. Free-form (`question`) requests fall through
+    #    to the existing flow unchanged.
+    if req.action is not None:
+        from app.api.chat_pg_actions import handle_action
+        return handle_action(req, tenant_id, user_id, conv, db)
+
+    # 3) store user message (free-form path only)
     db.add(Message(
         tenant_id=tenant_id,
         user_id=user_id,

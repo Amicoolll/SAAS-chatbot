@@ -1,8 +1,10 @@
 """OpenAI client: embeddings and chat. Uses app.core.config and structured logging."""
 from __future__ import annotations
 
+import json
 import logging
-from typing import List
+import re
+from typing import Any, List
 
 from openai import OpenAI
 
@@ -202,6 +204,131 @@ Rules:
     except Exception:
         logger.exception("chat_with_web_context_failed agent_type=%s", agent_type)
         raise
+
+
+def matches_schema(value: Any, prop_schema: dict[str, Any]) -> bool:
+    """Tiny JSON Schema subset validator for tool-parameter values.
+
+    Covers what the slice 1+ partner-API tool schemas actually use today:
+    string with ``minLength`` / ``maxLength`` / ``pattern`` / ``enum``,
+    integer / number with ``minimum`` / ``maximum`` / ``enum``, and
+    boolean. Unknown ``type`` values pass through (return True) so future
+    schema additions don't silently fail validation — extend this function
+    deliberately when those land.
+    """
+    expected = prop_schema.get("type")
+
+    if expected == "string":
+        if not isinstance(value, str):
+            return False
+        if "minLength" in prop_schema and len(value) < prop_schema["minLength"]:
+            return False
+        if "maxLength" in prop_schema and len(value) > prop_schema["maxLength"]:
+            return False
+        if "pattern" in prop_schema:
+            if not re.search(prop_schema["pattern"], value):
+                return False
+        if "enum" in prop_schema and value not in prop_schema["enum"]:
+            return False
+        return True
+
+    if expected in ("integer", "number"):
+        if expected == "integer" and not isinstance(value, int):
+            return False
+        if expected == "number" and not isinstance(value, (int, float)):
+            return False
+        if "minimum" in prop_schema and value < prop_schema["minimum"]:
+            return False
+        if "maximum" in prop_schema and value > prop_schema["maximum"]:
+            return False
+        if "enum" in prop_schema and value not in prop_schema["enum"]:
+            return False
+        return True
+
+    if expected == "boolean":
+        return isinstance(value, bool)
+
+    return True
+
+
+def extract_param(
+    text: str,
+    param_name: str,
+    prop_schema: dict[str, Any],
+    *,
+    trace_headers: dict[str, str] | None = None,
+) -> Any | None:
+    """Smart-validation helper: ask the LLM to extract a valid value for
+    ``param_name`` from messy user input.
+
+    Returns the extracted value (typed: str, int, float, or bool depending
+    on the schema's declared type) when it satisfies ``prop_schema``;
+    returns ``None`` if the LLM couldn't extract anything sensible. Caller
+    decides whether to re-prompt the user.
+
+    Used by the chip flow when the frontend submits a value that fails
+    strict schema validation (e.g., user typed *"my pnr is ABC123"* instead
+    of just *"ABC123"*). Cheap call (~50-150 tokens). Skipped entirely
+    when the original value already validates.
+    """
+    description = prop_schema.get("description", "").strip()
+    schema_json = json.dumps(
+        {k: v for k, v in prop_schema.items() if k != "prompt"},
+        ensure_ascii=False,
+    )
+
+    instruction = f"""
+You are extracting a single value from a user's natural-language input.
+
+Field: {param_name}
+{f"What it is: {description}" if description else ""}
+JSON Schema: {schema_json}
+
+User input: {text!r}
+
+Reply with ONLY the extracted value as a plain string. No quotes, no
+prose, no explanation. If you cannot extract a value that satisfies the
+schema, reply with the literal word: NONE
+""".strip()
+
+    try:
+        client = _get_client()
+        resp = client.responses.create(
+            model=settings.OPENAI_CHAT_MODEL,
+            input=instruction,
+            extra_headers=trace_headers,
+        )
+        raw = _extract_chat_text(resp)
+    except Exception:
+        logger.exception("extract_param_failed param=%s", param_name)
+        return None
+
+    candidate = (raw or "").strip().strip("'\"")
+    if not candidate or candidate.upper() == "NONE":
+        return None
+
+    # Coerce to the declared type when possible, then validate.
+    expected = prop_schema.get("type")
+    coerced: Any = candidate
+    try:
+        if expected == "integer":
+            coerced = int(candidate)
+        elif expected == "number":
+            coerced = float(candidate)
+        elif expected == "boolean":
+            lowered = candidate.lower()
+            if lowered in ("true", "yes"):
+                coerced = True
+            elif lowered in ("false", "no"):
+                coerced = False
+            else:
+                return None
+    except ValueError:
+        return None
+
+    if not matches_schema(coerced, prop_schema):
+        return None
+    return coerced
 
 
 def chat_without_context(
