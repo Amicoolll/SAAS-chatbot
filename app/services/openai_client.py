@@ -331,6 +331,109 @@ schema, reply with the literal word: NONE
     return coerced
 
 
+def extract_params(
+    text: str,
+    field_schemas: dict[str, dict[str, Any]],
+    *,
+    trace_headers: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    """Multi-field extraction from a single user message.
+
+    Used by the chip flow to support "any-order" input — when the user
+    types something like *"Doe ABC123"* (last name then PNR), this
+    function classifies each token to the correct field in ONE LLM call.
+
+    ``field_schemas`` is ``{field_name: prop_schema}`` for the fields the
+    caller wants extracted. Returns ``{field_name: value}`` for fields
+    where extraction succeeded AND the extracted value matches its
+    schema. Fields that couldn't be extracted are omitted from the
+    result — caller decides whether to re-prompt.
+
+    Empty input or empty ``field_schemas`` returns ``{}`` without an LLM
+    call.
+    """
+    text = (text or "").strip()
+    if not text or not field_schemas:
+        return {}
+
+    # Build the LLM instruction. Stable line-format output is more
+    # forgiving than JSON for ad-hoc parsing.
+    field_lines = []
+    for name, schema in field_schemas.items():
+        desc = (schema.get("description") or "").strip()
+        clean_schema = {
+            k: v for k, v in schema.items() if k not in ("prompt", "label")
+        }
+        field_lines.append(
+            f"- {name}: {desc or '(no description)'} | JSON Schema: "
+            f"{json.dumps(clean_schema, ensure_ascii=False)}"
+        )
+
+    instruction = (
+        "Extract structured field values from a user's natural-language input.\n\n"
+        "Fields to extract (each one is a separate field):\n"
+        + "\n".join(field_lines)
+        + f"\n\nUser input: {text!r}\n\n"
+        "Reply with one line per field in the format:\n"
+        "  field_name: value\n\n"
+        "Use the literal word NONE for any field you cannot confidently "
+        "extract from the input. Do not add quotes, prose, or explanation. "
+        "Field names must match exactly: "
+        + ", ".join(field_schemas.keys())
+        + "."
+    )
+
+    try:
+        client = _get_client()
+        resp = client.responses.create(
+            model=settings.OPENAI_CHAT_MODEL,
+            input=instruction,
+            extra_headers=trace_headers,
+        )
+        raw = _extract_chat_text(resp)
+    except Exception:
+        logger.exception(
+            "extract_params_failed fields=%s", list(field_schemas.keys())
+        )
+        return {}
+
+    out: dict[str, Any] = {}
+    for line in (raw or "").splitlines():
+        if ":" not in line:
+            continue
+        name, _, value = line.partition(":")
+        name = name.strip()
+        value = value.strip().strip("'\"")
+        if name not in field_schemas:
+            continue
+        if not value or value.upper() == "NONE":
+            continue
+
+        schema = field_schemas[name]
+        expected = schema.get("type")
+        coerced: Any = value
+        try:
+            if expected == "integer":
+                coerced = int(value)
+            elif expected == "number":
+                coerced = float(value)
+            elif expected == "boolean":
+                lowered = value.lower()
+                if lowered in ("true", "yes"):
+                    coerced = True
+                elif lowered in ("false", "no"):
+                    coerced = False
+                else:
+                    continue
+        except ValueError:
+            continue
+
+        if matches_schema(coerced, schema):
+            out[name] = coerced
+
+    return out
+
+
 def chat_without_context(
     question: str,
     agent_type: str = "general",

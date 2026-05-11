@@ -435,3 +435,212 @@ def test_only_lastname_provided_first_still_prompts_for_missing_pnr(
     assert out["missing_param"] == "booking_reference"
     # Already-collected last_name is preserved and echoed in action_state.
     assert out["action_state"]["collected"] == {"last_name": "DOE"}
+
+
+# ---- user_input + multi-field extraction (the "any-order" path) ---------
+
+
+def _request_with_input(action: str, user_input: str, **action_params) -> ChatRequest:
+    """Build a ChatRequest with raw user_input set."""
+    return ChatRequest(
+        conversation_id="conv-1",
+        agent_type="aviation",
+        action=action,
+        action_params=dict(action_params),
+        user_input=user_input,
+    )
+
+
+def test_user_input_extracts_both_fields_in_canonical_order(
+    live_aviation_domain: AviationDomain,
+    fake_db: MagicMock,
+    conv: SimpleNamespace,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """User typed both fields in one message: 'ABC123 Doe' (PNR then name).
+    Multi-field extraction fills both → dispatch.
+    """
+    def fake_extract_params(text, schemas, **_kw):
+        return {"booking_reference": "ABC123", "last_name": "DOE"}
+
+    monkeypatch.setattr(chat_pg_actions, "extract_params", fake_extract_params)
+
+    req = _request_with_input("retrieve_booking", "ABC123 Doe")
+    out = chat_pg_actions.handle_action(req, "tenant", "user", conv, fake_db)
+
+    assert out["mode"] == "tool_executed"
+    assert out["tool_result"]["booking_reference"] == "ABC123"
+
+
+def test_user_input_extracts_both_fields_in_REVERSE_order(
+    live_aviation_domain: AviationDomain,
+    fake_db: MagicMock,
+    conv: SimpleNamespace,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """User typed last name FIRST then PNR: 'Doe ABC123'. Multi-field
+    extraction classifies each token to the correct field by schema/
+    description — that's the whole point of any-order support.
+    """
+    def fake_extract_params(text, schemas, **_kw):
+        # Real LLM would classify 'Doe' (mostly alpha, short) as last_name
+        # and 'ABC123' (alphanumeric, PNR-shaped) as booking_reference.
+        # We assert the BACKEND wires the result correctly.
+        assert text == "Doe ABC123"
+        assert set(schemas.keys()) == {"booking_reference", "last_name"}
+        return {"booking_reference": "ABC123", "last_name": "DOE"}
+
+    monkeypatch.setattr(chat_pg_actions, "extract_params", fake_extract_params)
+
+    req = _request_with_input("retrieve_booking", "Doe ABC123")
+    out = chat_pg_actions.handle_action(req, "tenant", "user", conv, fake_db)
+
+    assert out["mode"] == "tool_executed", f"got {out}"
+    assert out["tool_result"]["booking_reference"] == "ABC123"
+
+
+def test_user_input_partial_extraction_acknowledges_and_asks_for_rest(
+    live_aviation_domain: AviationDomain,
+    fake_db: MagicMock,
+    conv: SimpleNamespace,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """User typed 'ABC123' (just the PNR). Multi-field extraction
+    succeeds for booking_reference but not last_name. Backend should
+    acknowledge the PNR and ask for last name.
+    """
+    def fake_extract_params(text, schemas, **_kw):
+        return {"booking_reference": "ABC123"}
+
+    monkeypatch.setattr(chat_pg_actions, "extract_params", fake_extract_params)
+
+    req = _request_with_input("retrieve_booking", "ABC123")
+    out = chat_pg_actions.handle_action(req, "tenant", "user", conv, fake_db)
+
+    assert out["mode"] == "action_collecting"
+    assert out["missing_param"] == "last_name"
+    # Acknowledgement: "Thanks! Got the PNR (ABC123). ..."
+    assert "Thanks!" in out["answer"]
+    assert "PNR" in out["answer"]
+    assert "ABC123" in out["answer"]
+    # Then the per-field prompt for what's still missing
+    assert "last name" in out["answer"].lower()
+
+
+def test_user_input_extraction_failure_falls_through_to_intro(
+    live_aviation_domain: AviationDomain,
+    fake_db: MagicMock,
+    conv: SimpleNamespace,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """Garbage input → extract_params returns {}. Backend behaves as if
+    user_input wasn't sent: still on first turn, returns the intro_prompt.
+    """
+    monkeypatch.setattr(
+        chat_pg_actions, "extract_params", lambda text, schemas, **_kw: {}
+    )
+
+    req = _request_with_input("retrieve_booking", "blah blah blah")
+    out = chat_pg_actions.handle_action(req, "tenant", "user", conv, fake_db)
+
+    assert out["mode"] == "action_collecting"
+    assert out["missing_param"] == "booking_reference"
+    # Intro_prompt fired (collected is still empty)
+    assert "share them both at once or one at a time" in out["answer"]
+
+
+def test_user_input_skipped_when_no_missing_fields(
+    live_aviation_domain: AviationDomain,
+    fake_db: MagicMock,
+    conv: SimpleNamespace,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """If action_params already has every required field, user_input is
+    ignored (no LLM call wasted). Goes straight to dispatch.
+    """
+    extract_called = {"yes": False}
+
+    def spy(text, schemas, **_kw):
+        extract_called["yes"] = True
+        return {}
+
+    monkeypatch.setattr(chat_pg_actions, "extract_params", spy)
+
+    req = _request_with_input(
+        "retrieve_booking",
+        "ignore me",
+        booking_reference="ABC123",
+        last_name="DOE",
+    )
+    out = chat_pg_actions.handle_action(req, "tenant", "user", conv, fake_db)
+
+    assert out["mode"] == "tool_executed"
+    assert extract_called["yes"] is False, "extract_params should not be called when nothing is missing"
+
+
+def test_action_params_pre_fills_take_precedence_over_extraction(
+    live_aviation_domain: AviationDomain,
+    fake_db: MagicMock,
+    conv: SimpleNamespace,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """Frontend pre-filled booking_reference via a form widget AND sent
+    user_input. Multi-field extraction only runs against the still-missing
+    fields (last_name); it doesn't try to overwrite the pre-filled PNR.
+    """
+    def fake_extract_params(text, schemas, **_kw):
+        # Backend should only ask for last_name's schema, not booking_reference's
+        assert set(schemas.keys()) == {"last_name"}, f"got {set(schemas.keys())}"
+        return {"last_name": "DOE"}
+
+    monkeypatch.setattr(chat_pg_actions, "extract_params", fake_extract_params)
+
+    req = _request_with_input(
+        "retrieve_booking",
+        "Doe",
+        booking_reference="ABC123",
+    )
+    out = chat_pg_actions.handle_action(req, "tenant", "user", conv, fake_db)
+
+    assert out["mode"] == "tool_executed"
+    assert out["tool_result"]["booking_reference"] == "ABC123"
+
+
+# ---- acknowledgement message construction --------------------------------
+
+
+def test_ack_single_field_uses_label_from_schema():
+    """_build_ack uses each property's `label` for the human-readable name."""
+    properties = {
+        "booking_reference": {"label": "PNR"},
+        "last_name": {"label": "last name"},
+    }
+    result = chat_pg_actions._build_ack(
+        {"booking_reference": "ABC123"}, properties
+    )
+    assert result == "Thanks! Got the PNR (ABC123)."
+
+
+def test_ack_two_fields_joined_with_and():
+    properties = {
+        "booking_reference": {"label": "PNR"},
+        "last_name": {"label": "last name"},
+    }
+    result = chat_pg_actions._build_ack(
+        {"booking_reference": "ABC123", "last_name": "Doe"},
+        properties,
+    )
+    # "Thanks! Got the PNR (ABC123) and last name (Doe)."
+    assert "PNR (ABC123)" in result
+    assert "last name (Doe)" in result
+    assert " and " in result
+
+
+def test_ack_falls_back_to_humanized_field_name_when_no_label():
+    """If a property doesn't define `label`, use field name humanized."""
+    properties = {"booking_reference": {}}  # no label
+    result = chat_pg_actions._build_ack(
+        {"booking_reference": "ABC123"}, properties
+    )
+    assert "booking reference" in result.lower()
+    assert "ABC123" in result

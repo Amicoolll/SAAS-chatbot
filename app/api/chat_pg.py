@@ -13,15 +13,12 @@ from app.core.config import settings
 from app.core.deps import get_tenant_user
 from app.db.session import get_db
 from app.db.models_chat import Conversation, Message
-from app.domains.registry import get_domain_for_agent
 from app.services.openai_client import (
     chat_conversational,
     chat_with_context,
     chat_with_web_context,
     chat_without_context,
     embed_texts,
-    extract_param,
-    matches_schema,
 )
 from app.services.domain_guard import is_on_domain
 from app.services.feature_flags import is_enabled as feature_is_enabled
@@ -43,6 +40,14 @@ class ChatRequest(BaseModel):
     The ``action`` path is the chip-driven flow: frontend sends a tool name plus
     whatever params have been collected so far; backend asks for the next missing
     one or dispatches the tool when complete. Free-form chat is unchanged.
+
+    ``user_input`` (chip path only) is the raw text the user just typed in the
+    chat box this turn. When present, the backend uses an LLM to extract values
+    for any still-missing required fields from it — handles "any-order" input
+    like *"Doe ABC123"* (last name then PNR) by classifying each token to the
+    right field. If the frontend instead pre-fills exact values via
+    ``action_params`` (e.g. from a date-picker widget), those win and no
+    extraction runs for them.
     """
 
     conversation_id: str
@@ -50,6 +55,7 @@ class ChatRequest(BaseModel):
     agent_type: str = "general"
     action: str | None = None
     action_params: dict[str, Any] = Field(default_factory=dict)
+    user_input: str | None = None
 
     @model_validator(mode="after")
     def _exactly_one_input(self) -> "ChatRequest":

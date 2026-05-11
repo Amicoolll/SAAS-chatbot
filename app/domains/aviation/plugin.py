@@ -49,6 +49,9 @@ _TOOL_RETRIEVE_BOOKING = ToolSpec(
                     "Please share your booking reference (PNR). It's usually "
                     "6 letters and numbers."
                 ),
+                # `label`: short human-readable name for acknowledgements,
+                # e.g. "Thanks! Got the PNR (ABC123)."
+                "label": "PNR",
             },
             "last_name": {
                 "type": "string",
@@ -58,6 +61,7 @@ _TOOL_RETRIEVE_BOOKING = ToolSpec(
                 "prompt": (
                     "Please share your last name as it appears on the ticket."
                 ),
+                "label": "last name",
             },
         },
     },

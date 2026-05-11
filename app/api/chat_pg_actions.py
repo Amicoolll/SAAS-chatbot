@@ -32,7 +32,7 @@ from app.db.models_chat import Conversation, Message
 from app.domains.aviation.api_client import AirlineApiError, AirlineApiTransportError
 from app.domains.base import DomainPlugin, ToolSpec
 from app.domains.registry import get_domain_for_agent
-from app.services.openai_client import extract_param, matches_schema
+from app.services.openai_client import extract_param, extract_params, matches_schema
 
 
 if TYPE_CHECKING:
@@ -79,9 +79,24 @@ def handle_action(
     properties: dict[str, Any] = tool.parameters_schema.get("properties", {})
     required: list[str] = tool.parameters_schema.get("required", [])
     collected: dict[str, Any] = dict(req.action_params or {})
+    just_filled: dict[str, Any] = {}
 
-    # Smart validation: any required param that's present but doesn't
-    # match its schema gets one shot at LLM extraction.
+    # 1) Multi-field extraction from user_input (the "any-order" path).
+    #    When the user types e.g. "Doe ABC123" in the chat box, the
+    #    frontend forwards that as user_input; the LLM here splits it
+    #    across the still-missing required fields. Skipped when
+    #    everything is already collected.
+    user_input = (req.user_input or "").strip()
+    missing_now = [f for f in required if f not in collected]
+    if user_input and missing_now:
+        field_schemas = {f: properties.get(f, {}) for f in missing_now}
+        extracted_multi = extract_params(user_input, field_schemas)
+        for field, value in extracted_multi.items():
+            collected[field] = value
+            just_filled[field] = value
+
+    # 2) Smart validation: any required param that's present but doesn't
+    #    match its schema gets one shot at single-field LLM extraction.
     for field in required:
         if field not in collected:
             continue
@@ -92,21 +107,26 @@ def handle_action(
 
         extracted = extract_param(str(value), field, prop_schema)
         if extracted is None:
+            # Drop the bad value so the next loop asks for it again.
+            collected.pop(field, None)
+            just_filled.pop(field, None)
             return _action_collecting(
                 req=req,
                 tool=tool,
                 missing=field,
                 collected=collected,
-                hint=(
-                    f"That doesn't look like a valid {_humanize(field)}. "
-                ),
+                just_filled=just_filled,
+                hint=f"That doesn't look like a valid {_humanize(field)}. ",
                 tenant_id=tenant_id,
                 user_id=user_id,
                 db=db,
             )
         collected[field] = extracted
+        # The smart-validated value isn't an "acknowledgeable" new fill —
+        # the user already supplied it; we just cleaned it up. Don't
+        # add to just_filled.
 
-    # Walk required fields in declared order; ask for the first missing one.
+    # 3) Walk required fields in declared order; ask for the first missing one.
     for field in required:
         if field not in collected:
             return _action_collecting(
@@ -114,13 +134,14 @@ def handle_action(
                 tool=tool,
                 missing=field,
                 collected=collected,
+                just_filled=just_filled,
                 hint=None,
                 tenant_id=tenant_id,
                 user_id=user_id,
                 db=db,
             )
 
-    # All required params present and valid → dispatch.
+    # 4) All required params present and valid → dispatch.
     return _dispatch_and_respond(
         req=req,
         domain=domain,
@@ -142,6 +163,7 @@ def _action_collecting(
     tool: ToolSpec,
     missing: str,
     collected: dict[str, Any],
+    just_filled: dict[str, Any] | None,
     hint: str | None,
     tenant_id: str,
     user_id: str,
@@ -149,22 +171,34 @@ def _action_collecting(
 ) -> dict[str, Any]:
     """Tell the frontend to collect ``missing`` from the user.
 
-    On the FIRST turn (nothing collected yet), use the tool's
-    ``intro_prompt`` if it has one — a warm combined opener that asks
-    for everything at once. Subsequent turns fall back to the
-    per-field ``prompt`` for whichever field is still missing.
-    """
-    prop_schema = tool.parameters_schema.get("properties", {}).get(missing, {})
-    intro = tool.parameters_schema.get("intro_prompt")
+    Three branches for the assistant's text:
 
-    if not collected and intro and not hint:
-        prompt = intro
+    1. First turn (nothing collected, no hint, no fields just filled) →
+       the tool's ``intro_prompt`` if it has one (warm combined opener).
+       Falls back to the per-field prompt otherwise.
+    2. ``just_filled`` is non-empty → acknowledge what was just collected
+       (e.g. *"Thanks! Got the PNR (ABC123)."*) then ask for the next
+       missing field.
+    3. ``hint`` is set (smart-validation re-prompt) → prepend the hint to
+       the per-field prompt.
+    """
+    properties = tool.parameters_schema.get("properties", {})
+    prop_schema = properties.get(missing, {})
+    intro = tool.parameters_schema.get("intro_prompt")
+    per_field_prompt = prop_schema.get(
+        "prompt",
+        f"Please share the {_humanize(missing)}.",
+    )
+
+    if just_filled:
+        ack = _build_ack(just_filled, properties)
+        answer = f"{ack} {per_field_prompt}".strip()
+    elif hint:
+        answer = f"{hint}{per_field_prompt}"
+    elif not collected and intro:
+        answer = intro
     else:
-        prompt = prop_schema.get(
-            "prompt",
-            f"Please share the {_humanize(missing)}.",
-        )
-    answer = f"{hint}{prompt}" if hint else prompt
+        answer = per_field_prompt
 
     _save_assistant_message(
         db, tenant_id=tenant_id, user_id=user_id,
@@ -337,6 +371,34 @@ def _save_assistant_message(
 def _humanize(field_name: str) -> str:
     """``booking_reference`` → ``booking reference``"""
     return field_name.replace("_", " ")
+
+
+def _build_ack(just_filled: dict[str, Any], properties: dict[str, Any]) -> str:
+    """Build a friendly acknowledgement of fields filled this turn.
+
+    Examples:
+        _build_ack({"booking_reference": "ABC123"}, props)
+            → "Thanks! Got the PNR (ABC123)."
+
+        _build_ack({"booking_reference": "ABC123", "last_name": "Doe"}, props)
+            → "Thanks! Got the PNR (ABC123) and last name (Doe)."
+
+    Uses each property's ``label`` field for the human-readable name;
+    falls back to the humanized field name.
+    """
+    parts: list[str] = []
+    for field, value in just_filled.items():
+        label = properties.get(field, {}).get("label") or _humanize(field)
+        parts.append(f"{label} ({value})")
+
+    if len(parts) == 1:
+        body = parts[0]
+    elif len(parts) == 2:
+        body = f"{parts[0]} and {parts[1]}"
+    else:
+        body = ", ".join(parts[:-1]) + f", and {parts[-1]}"
+
+    return f"Thanks! Got the {body}."
 
 
 def _public_schema(prop_schema: dict[str, Any]) -> dict[str, Any]:
