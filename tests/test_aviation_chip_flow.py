@@ -36,6 +36,7 @@ from app.domains.aviation.api_client import (
     AirlineApiTransportError,
 )
 from app.domains.aviation.plugin import AviationDomain
+from app.domains.base import ToolSpec
 from tools.aviation_mock.app import app as mock_app
 
 
@@ -123,22 +124,60 @@ def test_request_accepts_action_only():
 # ---- empty / partial / full param walks ----------------------------
 
 
-def test_empty_params_prompts_for_booking_reference(
+def test_empty_params_uses_intro_prompt_combined_opener(
     live_aviation_domain: AviationDomain,
     fake_db: MagicMock,
     conv: SimpleNamespace,
 ):
+    """First turn: backend uses the tool's intro_prompt (warm, combined
+    opener that mentions BOTH required fields) instead of asking for the
+    first field robotically. Verifies the conversational-tone change.
+    """
     req = _request("retrieve_booking")
     out = chat_pg_actions.handle_action(req, "tenant", "user", conv, fake_db)
 
     assert out["mode"] == "action_collecting"
+    # missing_param still tracks the first missing field (frontend uses it
+    # to know where to put the user's reply), but the answer text is the
+    # warm combined opener, not the per-field prompt.
     assert out["missing_param"] == "booking_reference"
     assert "PNR" in out["answer"]
+    assert "last name" in out["answer"].lower()  # combined opener mentions BOTH fields
+    assert "both at once or one at a time" in out["answer"]  # signals flexibility
     assert out["action_state"]["action"] == "retrieve_booking"
     assert out["action_state"]["collected"] == {}
     assert out["action_state"]["complete"] is False
     assert "prompt" not in out["param_schema"]  # internal key stripped
     fake_db.add.assert_called_once()  # the assistant prompt is persisted
+
+
+def test_empty_params_falls_back_to_per_field_prompt_when_no_intro(
+    live_aviation_domain: AviationDomain,
+    fake_db: MagicMock,
+    conv: SimpleNamespace,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """If a tool doesn't define intro_prompt, the first turn falls back to
+    asking for the first missing field individually — preserves the
+    pre-intro_prompt behaviour for tools that don't opt in.
+    """
+    # Strip intro_prompt off retrieve_booking for this test only.
+    [tool] = [t for t in live_aviation_domain.tools() if t.name == "retrieve_booking"]
+    schema_no_intro = {k: v for k, v in tool.parameters_schema.items() if k != "intro_prompt"}
+    patched_tool = ToolSpec(
+        name=tool.name,
+        description=tool.description,
+        parameters_schema=schema_no_intro,
+    )
+    monkeypatch.setattr(live_aviation_domain, "tools", lambda: [patched_tool])
+
+    req = _request("retrieve_booking")
+    out = chat_pg_actions.handle_action(req, "tenant", "user", conv, fake_db)
+
+    assert out["mode"] == "action_collecting"
+    # Should be the per-field prompt for booking_reference, not the combined opener.
+    assert out["answer"].startswith("Please share your booking reference")
+    assert "last name" not in out["answer"].lower()
 
 
 def test_pnr_present_prompts_for_last_name(
@@ -330,3 +369,69 @@ def test_tool_executed_persists_summary_message(
     msg = fake_db.add.call_args[0][0]
     assert msg.role == "assistant"
     assert "ABC123" in msg.content
+
+
+# ---- order edge cases (current behaviour — documents what happens
+# when the user sends fields in an order that doesn't match what the
+# backend asked for. Honest tests, not a feature spec — the system
+# handles these gracefully but the UX is sub-optimal until any-order
+# parsing is added in a follow-up commit.) ----------------------------
+
+
+def test_pnr_then_lastname_is_the_happy_path(
+    live_aviation_domain: AviationDomain,
+    fake_db: MagicMock,
+    conv: SimpleNamespace,
+):
+    """The expected order: backend asks for PNR first, user gives PNR,
+    backend asks for last name, user gives last name → tool_executed.
+    Same as test_all_params_valid_dispatches_and_returns_tool_executed
+    but explicit about WHICH order is the happy path today.
+    """
+    req = _request("retrieve_booking", booking_reference="ABC123", last_name="DOE")
+    out = chat_pg_actions.handle_action(req, "tenant", "user", conv, fake_db)
+    assert out["mode"] == "tool_executed"
+    assert out["tool_result"]["booking_reference"] == "ABC123"
+
+
+def test_lastname_typed_into_pnr_slot_falsely_validates_and_404s(
+    live_aviation_domain: AviationDomain,
+    fake_db: MagicMock,
+    conv: SimpleNamespace,
+):
+    """Documents the current limitation: if the user types their last name
+    when the backend asked for the PNR (frontend puts the value into
+    booking_reference), the value passes JSON-Schema validation (it's a
+    string of valid length) and the flow proceeds — but the airline mock
+    returns 404 because there's no booking named "DOE".
+
+    This is sub-optimal UX. The any-order parsing follow-up commit will
+    smart-detect the mix-up and re-route the values to the right fields.
+    """
+    # Frontend put "DOE" (last name) into the PNR slot, then "ABC123" (PNR)
+    # into the last name slot — exactly what happens if the user types the
+    # values in the wrong order without realising.
+    req = _request("retrieve_booking", booking_reference="DOE", last_name="ABC123")
+    out = chat_pg_actions.handle_action(req, "tenant", "user", conv, fake_db)
+
+    # Today's behaviour: dispatch happens, mock returns 404, friendly error.
+    assert out["mode"] == "tool_error"
+    assert out["error_status"] == 404
+    assert out["error_code"] == "BOOKING_NOT_FOUND"
+
+
+def test_only_lastname_provided_first_still_prompts_for_missing_pnr(
+    live_aviation_domain: AviationDomain,
+    fake_db: MagicMock,
+    conv: SimpleNamespace,
+):
+    """If the frontend has only the last_name field filled (e.g. the user
+    typed it in response to a custom flow), the backend still asks for
+    the missing booking_reference — order-independent for KNOWN fields.
+    """
+    req = _request("retrieve_booking", last_name="DOE")
+    out = chat_pg_actions.handle_action(req, "tenant", "user", conv, fake_db)
+    assert out["mode"] == "action_collecting"
+    assert out["missing_param"] == "booking_reference"
+    # Already-collected last_name is preserved and echoed in action_state.
+    assert out["action_state"]["collected"] == {"last_name": "DOE"}

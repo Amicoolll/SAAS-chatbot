@@ -147,12 +147,23 @@ def _action_collecting(
     user_id: str,
     db: Session,
 ) -> dict[str, Any]:
-    """Tell the frontend to collect ``missing`` from the user."""
+    """Tell the frontend to collect ``missing`` from the user.
+
+    On the FIRST turn (nothing collected yet), use the tool's
+    ``intro_prompt`` if it has one — a warm combined opener that asks
+    for everything at once. Subsequent turns fall back to the
+    per-field ``prompt`` for whichever field is still missing.
+    """
     prop_schema = tool.parameters_schema.get("properties", {}).get(missing, {})
-    prompt = prop_schema.get(
-        "prompt",
-        f"Please share the {_humanize(missing)}.",
-    )
+    intro = tool.parameters_schema.get("intro_prompt")
+
+    if not collected and intro and not hint:
+        prompt = intro
+    else:
+        prompt = prop_schema.get(
+            "prompt",
+            f"Please share the {_humanize(missing)}.",
+        )
     answer = f"{hint}{prompt}" if hint else prompt
 
     _save_assistant_message(

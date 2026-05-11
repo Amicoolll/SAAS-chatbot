@@ -27,15 +27,24 @@ _TOOL_RETRIEVE_BOOKING = ToolSpec(
         "type": "object",
         "additionalProperties": False,
         "required": ["booking_reference", "last_name"],
+        # Conversational opener used on the first turn of the chip flow,
+        # asking warmly for ALL required fields at once. Hand-written
+        # per tool — predictable, brand-consistent, no LLM cost on the
+        # critical first turn. Non-standard JSON Schema keyword;
+        # OpenAI function-calling ignores it.
+        "intro_prompt": (
+            "Sure — to retrieve your booking, I'll need your booking "
+            "reference (PNR) and the last name on the ticket. You can "
+            "share them both at once or one at a time."
+        ),
         "properties": {
             "booking_reference": {
                 "type": "string",
                 "minLength": 1,
                 "maxLength": 20,
                 "description": "PNR / booking reference, usually 6 alphanumeric characters.",
-                # `prompt` is a non-standard schema keyword used by the chip
-                # path to ask the user for this param conversationally.
-                # OpenAI function-calling ignores unknown keywords.
+                # `prompt`: per-field re-prompt used when only this one
+                # field is still missing.
                 "prompt": (
                     "Please share your booking reference (PNR). It's usually "
                     "6 letters and numbers."
