@@ -59,6 +59,14 @@ class ChatRequest(BaseModel):
 
     @model_validator(mode="after")
     def _exactly_one_input(self) -> "ChatRequest":
+        # Normalize empty/whitespace strings to None — Swagger's default
+        # examples populate empty strings even when the user means
+        # "field not provided", and clients sometimes send "" for the same
+        # reason. Treat them as absent.
+        if self.question is not None and not self.question.strip():
+            self.question = None
+        if self.action is not None and not self.action.strip():
+            self.action = None
         if (self.question is None) == (self.action is None):
             raise ValueError(
                 "Provide exactly one of `question` (free-form chat) or "
