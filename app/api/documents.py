@@ -11,6 +11,7 @@ from app.core.deps import get_tenant_user
 from app.db.models import Document, Chunk
 from app.db.session import get_db
 from app.api.index import _index_background_task, _run_index
+from app.services import pipeline_state
 
 router = APIRouter(tags=["Documents"])
 logger = logging.getLogger(__name__)
@@ -180,7 +181,21 @@ def upload_and_index_documents(
             "upload": upload_result,
         }
 
-    index_result = _run_index(db, tenant_id, user_id, max_files)
+    # Mirror /index/run's sync path: keep pipeline_state in sync so
+    # /pipeline/status reflects what actually happened, and update_index_progress
+    # calls during the run have a row to write to (otherwise they spam
+    # "no_row" warnings and the frontend's progress poll sees nothing).
+    pipeline_state.mark_index_running(tenant_id, user_id)
+    try:
+        index_result = _run_index(db, tenant_id, user_id, max_files)
+    except HTTPException as e:
+        detail = e.detail if isinstance(e.detail, str) else str(e.detail)
+        pipeline_state.mark_index_error(tenant_id, user_id, detail)
+        raise
+    except Exception as e:
+        pipeline_state.mark_index_error(tenant_id, user_id, str(e))
+        raise
+    pipeline_state.mark_index_success(tenant_id, user_id, index_result)
     return {
         "status": "ok",
         "message": "Upload and indexing completed.",
