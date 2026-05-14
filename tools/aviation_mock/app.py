@@ -25,7 +25,7 @@ from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.responses import JSONResponse
 
 from app.domains.aviation.models import BookingLookupRequest
-from tools.aviation_mock.seed_data import lookup_booking
+from tools.aviation_mock.seed_data import lookup_booking, lookup_flight_status
 
 
 logger = logging.getLogger("aviation_mock")
@@ -52,11 +52,14 @@ async def _structured_http_exception(_: Request, exc: HTTPException) -> JSONResp
     if isinstance(exc.detail, dict) and "error" in exc.detail:
         return JSONResponse(status_code=exc.status_code, content=exc.detail)
 
+    # Default code-per-status mapping. Endpoint handlers can override by
+    # raising HTTPException with a pre-built {"error": {...}} dict for
+    # endpoint-specific codes (e.g. FLIGHT_NOT_FOUND vs BOOKING_NOT_FOUND).
     code_map = {
         400: "INVALID_REQUEST",
         401: "INVALID_CREDENTIALS",
         403: "BOOKING_VERIFICATION_FAILED",
-        404: "BOOKING_NOT_FOUND",
+        404: "NOT_FOUND",
         409: "OPERATION_NOT_ALLOWED",
         429: "RATE_LIMITED",
     }
@@ -95,6 +98,28 @@ def post_bookings_lookup(
     logger.info(
         "lookup_booking ok pnr=%s request_id=%s",
         body.booking_reference,
+        x_request_id or "-",
+    )
+    return payload
+
+
+@app.get("/v1/flights/status")
+def get_flights_status(
+    flight_number: str,
+    date: str,
+    authorization: str | None = Header(default=None),
+    x_request_id: str | None = Header(default=None, alias="X-Request-Id"),
+):
+    _require_bearer(authorization)
+
+    status_code, payload = lookup_flight_status(flight_number, date)
+    if status_code != 200:
+        raise HTTPException(status_code=status_code, detail=payload)
+
+    logger.info(
+        "flight_status ok flight=%s date=%s request_id=%s",
+        flight_number,
+        date,
         x_request_id or "-",
     )
     return payload

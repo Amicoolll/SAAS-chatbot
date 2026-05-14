@@ -46,6 +46,7 @@ logger = logging.getLogger(__name__)
 # this small and explicit — unknown actions default to "text".
 _RENDER_HINTS: dict[str, str] = {
     "retrieve_booking": "booking_card",
+    "flight_status": "flight_status_card",
 }
 
 
@@ -300,6 +301,33 @@ def _dispatch_and_respond(
     }
 
 
+# Per-action error copy. Indexed by (action_name, status_code). Falls back
+# to action-agnostic generic copy below for any (action, status) not in
+# this table — keeps adding new tools cheap (no error copy required to
+# ship a new slice; the generic phrasing is acceptable).
+_ERROR_MESSAGES: dict[tuple[str, int], str] = {
+    ("retrieve_booking", 404): (
+        "We couldn't find that booking. Please double-check the reference "
+        "and last name, then try again."
+    ),
+    ("retrieve_booking", 403): (
+        "We couldn't verify that booking with the details provided. "
+        "Please check and try again."
+    ),
+    ("flight_status", 404): (
+        "We couldn't find that flight on the date you specified. "
+        "Please double-check the flight number and date and try again."
+    ),
+}
+
+_GENERIC_ERROR_MESSAGES: dict[int, str] = {
+    404: "We couldn't find what you asked about. Please double-check the details and try again.",
+    403: "We couldn't verify the details you provided. Please check and try again.",
+    401: "We couldn't reach the upstream system right now. Please try again shortly.",
+    503: "The upstream system is temporarily unavailable. Please try again shortly.",
+}
+
+
 def _tool_error(
     *,
     req: "ChatRequest",
@@ -308,26 +336,23 @@ def _tool_error(
     user_id: str,
     db: Session,
 ) -> dict[str, Any]:
-    """Friendly error message + structured error_code for the frontend."""
-    if error.status_code == 404:
-        answer = (
-            "We couldn't find that booking. Please double-check the reference "
-            "and last name, then try again."
-        )
-    elif error.status_code == 403:
-        answer = (
-            "We couldn't verify that booking with the details provided. "
-            "Please check and try again."
-        )
-    elif error.status_code == 401:
-        answer = (
-            "We couldn't reach the booking system right now. "
-            "Please try again shortly."
-        )
-    elif error.status_code == 503 or error.code == "DEPENDENCY_UNAVAILABLE":
-        answer = "The booking system is temporarily unavailable. Please try again shortly."
+    """Friendly error message + structured error_code for the frontend.
+
+    Tries action-specific copy first (``_ERROR_MESSAGES``), then a generic
+    fallback by status code, then a last-ditch one-liner. Either way the
+    raw ``error_code`` / ``error_status`` are returned for telemetry.
+    """
+    action_status = (req.action or "", error.status_code)
+    if action_status in _ERROR_MESSAGES:
+        answer = _ERROR_MESSAGES[action_status]
+    elif (
+        error.status_code == 503 or error.code == "DEPENDENCY_UNAVAILABLE"
+    ):
+        answer = _GENERIC_ERROR_MESSAGES[503]
+    elif error.status_code in _GENERIC_ERROR_MESSAGES:
+        answer = _GENERIC_ERROR_MESSAGES[error.status_code]
     else:
-        answer = "Sorry — something went wrong fetching that. Please try again shortly."
+        answer = "Sorry — something went wrong. Please try again shortly."
 
     _save_assistant_message(
         db, tenant_id=tenant_id, user_id=user_id,
@@ -425,4 +450,12 @@ def _summary_for(action: str, result: dict[str, Any]) -> str:
             + (f"; passengers: {names}" if names else "")
             + "."
         )
+    if action == "flight_status":
+        fn = result.get("flight_number", "?")
+        st = (result.get("status") or "?").replace("_", " ").lower()
+        delay = result.get("delay_minutes") or 0
+        delay_text = f" by {delay} min" if delay else ""
+        gate = result.get("gate")
+        gate_text = f", gate {gate}" if gate else ""
+        return f"Flight {fn} — {st}{delay_text}{gate_text}."
     return f"{_humanize(action).title()} completed."

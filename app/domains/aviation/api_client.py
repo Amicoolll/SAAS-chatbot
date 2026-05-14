@@ -34,6 +34,8 @@ import httpx
 from app.domains.aviation.models import (
     BookingLookupRequest,
     BookingLookupResponse,
+    FlightStatusRequest,
+    FlightStatusResponse,
 )
 
 
@@ -131,6 +133,31 @@ class AirlineApiClient:
         )
         return BookingLookupResponse.model_validate(body)
 
+    def get_flight_status(
+        self,
+        request: FlightStatusRequest,
+        *,
+        request_id: str | None = None,
+        trace_id: str | None = None,
+    ) -> FlightStatusResponse:
+        """GET /v1/flights/status.
+
+        Same error semantics as :meth:`lookup_booking`. The 60-second
+        cache the partner contract recommends is intentionally NOT
+        implemented in v1 — the mock has no rate limit and a real
+        airline integration can layer caching above this method.
+        """
+        body = self._get(
+            "/v1/flights/status",
+            params={
+                "flight_number": request.flight_number,
+                "date": request.date,
+            },
+            request_id=request_id,
+            trace_id=trace_id,
+        )
+        return FlightStatusResponse.model_validate(body)
+
     # ---- shared HTTP plumbing (will grow as more methods land) -------
 
     def _build_headers(
@@ -168,6 +195,20 @@ class AirlineApiClient:
             idempotency_key=idempotency_key,
         )
         return self._request_with_retry("POST", path, headers=headers, json=json_body)
+
+    def _get(
+        self,
+        path: str,
+        *,
+        params: dict[str, Any],
+        request_id: str | None,
+        trace_id: str | None,
+    ) -> dict[str, Any]:
+        headers = self._build_headers(
+            request_id=request_id,
+            trace_id=trace_id,
+        )
+        return self._request_with_retry("GET", path, headers=headers, params=params)
 
     def _request_with_retry(
         self,

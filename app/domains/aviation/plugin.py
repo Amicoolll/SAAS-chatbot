@@ -11,7 +11,7 @@ from typing import Any, ClassVar
 
 from app.core.config import settings
 from app.domains.aviation.api_client import AirlineApiClient
-from app.domains.aviation.models import BookingLookupRequest
+from app.domains.aviation.models import BookingLookupRequest, FlightStatusRequest
 from app.domains.base import DomainPlugin, ToolSpec
 
 
@@ -68,6 +68,47 @@ _TOOL_RETRIEVE_BOOKING = ToolSpec(
 )
 
 
+_TOOL_FLIGHT_STATUS = ToolSpec(
+    name="flight_status",
+    description=(
+        "Look up the live status of a specific flight by its flight number "
+        "and departure date — on-time / delayed / boarding / departed / "
+        "arrived / cancelled, plus estimated times, gate, and terminal. "
+        "Use when the user asks about a flight's current status."
+    ),
+    parameters_schema={
+        "type": "object",
+        "additionalProperties": False,
+        "required": ["flight_number", "date"],
+        "intro_prompt": (
+            "Sure — to check a flight's status, I'll need the flight "
+            "number (e.g. AI101) and the departure date (YYYY-MM-DD). "
+            "You can share them both at once or one at a time."
+        ),
+        "properties": {
+            "flight_number": {
+                "type": "string",
+                "minLength": 2,
+                "maxLength": 10,
+                "pattern": "^[A-Z0-9]+$",
+                "description": "IATA flight designator, e.g. AI101.",
+                "prompt": "What's the flight number? (e.g. AI101)",
+                "label": "flight number",
+            },
+            "date": {
+                "type": "string",
+                "pattern": r"^\d{4}-\d{2}-\d{2}$",
+                "description": "Departure date in YYYY-MM-DD.",
+                "prompt": (
+                    "What's the departure date? (YYYY-MM-DD, e.g. 2026-06-01)"
+                ),
+                "label": "date",
+            },
+        },
+    },
+)
+
+
 class AviationDomain(DomainPlugin):
     """Aviation chatbot domain. Talks to any airline backend that
     implements the v1 partner API contract.
@@ -97,7 +138,7 @@ class AviationDomain(DomainPlugin):
         )
 
     def tools(self) -> list[ToolSpec]:
-        return [_TOOL_RETRIEVE_BOOKING]
+        return [_TOOL_RETRIEVE_BOOKING, _TOOL_FLIGHT_STATUS]
 
     def dispatch_tool(
         self, tool_name: str, args: dict[str, Any]
@@ -105,5 +146,9 @@ class AviationDomain(DomainPlugin):
         if tool_name == _TOOL_RETRIEVE_BOOKING.name:
             req = BookingLookupRequest(**args)
             resp = self.api_client.lookup_booking(req)
+            return resp.model_dump(mode="json")
+        if tool_name == _TOOL_FLIGHT_STATUS.name:
+            req = FlightStatusRequest(**args)
+            resp = self.api_client.get_flight_status(req)
             return resp.model_dump(mode="json")
         raise ValueError(f"Unknown aviation tool: {tool_name!r}")

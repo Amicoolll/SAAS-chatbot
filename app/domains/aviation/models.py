@@ -87,6 +87,56 @@ class BookingLookupResponse(BaseModel):
     balance_due: Money | None = None
 
 
+# ---- GET /v1/flights/status ------------------------------------------
+
+
+FlightLiveStatus = Literal[
+    "SCHEDULED",
+    "ON_TIME",
+    "DELAYED",
+    "BOARDING",
+    "DEPARTED",
+    "ARRIVED",
+    "CANCELLED",
+    "DIVERTED",
+]
+
+
+class FlightStatusRequest(BaseModel):
+    """Query params for ``GET /v1/flights/status``."""
+
+    flight_number: str = Field(
+        min_length=2,
+        max_length=10,
+        pattern=r"^[A-Z0-9]+$",
+        description="IATA flight designator, e.g. AI101.",
+    )
+    date: str = Field(
+        pattern=r"^\d{4}-\d{2}-\d{2}$",
+        description="Departure date (origin local), YYYY-MM-DD.",
+    )
+
+
+class FlightStatusResponse(BaseModel):
+    """Response body for ``GET /v1/flights/status`` (HTTP 200)."""
+
+    flight_number: str
+    date: str
+    origin: str = Field(min_length=3, max_length=3, description="IATA airport code")
+    destination: str = Field(min_length=3, max_length=3, description="IATA airport code")
+    scheduled_departure: datetime
+    scheduled_arrival: datetime
+    estimated_departure: datetime | None = None
+    estimated_arrival: datetime | None = None
+    actual_departure: datetime | None = None
+    actual_arrival: datetime | None = None
+    status: FlightLiveStatus
+    delay_minutes: int = Field(default=0, ge=0)
+    gate: str | None = None
+    terminal: str | None = None
+    aircraft_type: str | None = None
+
+
 # ---- standard error envelope (used across all endpoints) -------------
 
 
