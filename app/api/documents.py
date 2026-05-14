@@ -3,6 +3,7 @@ import os
 from typing import List
 
 from fastapi import APIRouter, BackgroundTasks, Depends, File, HTTPException, Query, UploadFile
+from sqlalchemy import delete as sa_delete
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
@@ -187,4 +188,69 @@ def upload_and_index_documents(
         "index": index_result,
     }
 
+
+@router.delete("/documents/{document_id}")
+def delete_document(
+    document_id: str,
+    tenant_user: tuple[str, str] = Depends(get_tenant_user),
+    db: Session = Depends(get_db),
+    delete_raw_file: bool = Query(
+        True,
+        description=(
+            "Also remove the file from the user's raw folder on disk. "
+            "Defaults to True so a subsequent /index/run won't pick the file "
+            "back up and recreate the document."
+        ),
+    ),
+):
+    """Delete an indexed document and all its chunks.
+
+    Tenant-scoped: a tenant can only delete its own documents (returns 404
+    for documents owned by another tenant — same shape as 'not found' to
+    avoid leaking existence). Drive-synced documents can be deleted too;
+    however, the next ``/drive/sync`` call may re-pull them from the
+    user's Drive — operator should remove from Drive separately if a
+    permanent delete is intended.
+    """
+    tenant_id, user_id = tenant_user
+    doc = (
+        db.query(Document)
+        .filter(
+            Document.id == document_id,
+            Document.tenant_id == tenant_id,
+            Document.user_id == user_id,
+        )
+        .first()
+    )
+    if doc is None:
+        raise HTTPException(status_code=404, detail="Document not found.")
+
+    chunks_deleted = (
+        db.execute(sa_delete(Chunk).where(Chunk.document_id == doc.id)).rowcount or 0
+    )
+    db.delete(doc)
+    db.commit()
+
+    raw_file_removed = False
+    if delete_raw_file and doc.name:
+        raw_path = os.path.join("data", f"user_{user_id}", "raw", doc.name)
+        try:
+            if os.path.isfile(raw_path):
+                os.remove(raw_path)
+                raw_file_removed = True
+        except OSError as e:
+            # Don't fail the whole delete if the file is locked / gone /
+            # permission-denied — the DB cleanup is already done.
+            logger.warning(
+                "Failed to remove raw file for deleted document %s: %s",
+                doc.id, e,
+            )
+
+    return {
+        "status": "ok",
+        "deleted_document_id": doc.id,
+        "deleted_document_name": doc.name,
+        "chunks_deleted": chunks_deleted,
+        "raw_file_removed": raw_file_removed,
+    }
 
