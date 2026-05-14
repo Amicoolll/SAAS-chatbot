@@ -11,7 +11,11 @@ from typing import Any, ClassVar
 
 from app.core.config import settings
 from app.domains.aviation.api_client import AirlineApiClient
-from app.domains.aviation.models import BookingLookupRequest, FlightStatusRequest
+from app.domains.aviation.models import (
+    BookingLookupRequest,
+    FlightSearchRequest,
+    FlightStatusRequest,
+)
 from app.domains.base import DomainPlugin, ToolSpec
 
 
@@ -109,6 +113,84 @@ _TOOL_FLIGHT_STATUS = ToolSpec(
 )
 
 
+_TOOL_FLIGHT_SEARCH = ToolSpec(
+    name="flight_search",
+    description=(
+        "Search live flights between two cities on a given date. Supports "
+        "one-way (just departure_date) and round-trip (also return_date). "
+        "Returns one or more bookable itineraries with fares, durations, "
+        "and baggage allowances. Use when the user wants to find flights "
+        "to book — origin, destination, and date(s) are the inputs."
+    ),
+    parameters_schema={
+        "type": "object",
+        "additionalProperties": False,
+        "required": ["origin", "destination", "departure_date"],
+        "intro_prompt": (
+            "Sure — to find flights, I'll need the origin city, destination "
+            "city, and the departure date (YYYY-MM-DD). For a round trip, "
+            "also share the return date. You can give them in one message "
+            "or one at a time."
+        ),
+        "properties": {
+            "origin": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 3,
+                "pattern": "^[A-Z]{3}$",
+                "description": (
+                    "Origin airport — IATA 3-letter code, e.g. DEL for Delhi, "
+                    "BOM for Mumbai."
+                ),
+                "prompt": (
+                    "Where are you flying from? (Airport code or city name "
+                    "like DEL or Delhi)"
+                ),
+                "label": "origin",
+            },
+            "destination": {
+                "type": "string",
+                "minLength": 3,
+                "maxLength": 3,
+                "pattern": "^[A-Z]{3}$",
+                "description": (
+                    "Destination airport — IATA 3-letter code, e.g. BOM for "
+                    "Mumbai, BLR for Bangalore."
+                ),
+                "prompt": (
+                    "Where are you flying to? (Airport code or city name "
+                    "like BOM or Mumbai)"
+                ),
+                "label": "destination",
+            },
+            "departure_date": {
+                "type": "string",
+                "pattern": r"^\d{4}-\d{2}-\d{2}$",
+                "description": "Outbound date, YYYY-MM-DD (e.g. 2026-06-15).",
+                "prompt": "What's the departure date? (YYYY-MM-DD)",
+                "label": "departure date",
+            },
+            # Optional — required-only rule means we DON'T ask for these.
+            # Multi-field extraction picks them up if user volunteers.
+            "return_date": {
+                "type": "string",
+                "pattern": r"^\d{4}-\d{2}-\d{2}$",
+                "description": (
+                    "OPTIONAL. Return date for round-trip, YYYY-MM-DD. "
+                    "Omit for one-way."
+                ),
+                "label": "return date",
+            },
+            "cabin_class": {
+                "type": "string",
+                "enum": ["ECONOMY", "PREMIUM_ECONOMY", "BUSINESS", "FIRST"],
+                "description": "OPTIONAL. Defaults to ECONOMY.",
+            },
+        },
+    },
+)
+
+
 class AviationDomain(DomainPlugin):
     """Aviation chatbot domain. Talks to any airline backend that
     implements the v1 partner API contract.
@@ -138,7 +220,7 @@ class AviationDomain(DomainPlugin):
         )
 
     def tools(self) -> list[ToolSpec]:
-        return [_TOOL_RETRIEVE_BOOKING, _TOOL_FLIGHT_STATUS]
+        return [_TOOL_RETRIEVE_BOOKING, _TOOL_FLIGHT_STATUS, _TOOL_FLIGHT_SEARCH]
 
     def dispatch_tool(
         self, tool_name: str, args: dict[str, Any]
@@ -150,5 +232,9 @@ class AviationDomain(DomainPlugin):
         if tool_name == _TOOL_FLIGHT_STATUS.name:
             req = FlightStatusRequest(**args)
             resp = self.api_client.get_flight_status(req)
+            return resp.model_dump(mode="json")
+        if tool_name == _TOOL_FLIGHT_SEARCH.name:
+            req = FlightSearchRequest(**args)
+            resp = self.api_client.search_flights(req)
             return resp.model_dump(mode="json")
         raise ValueError(f"Unknown aviation tool: {tool_name!r}")

@@ -24,8 +24,12 @@ import logging
 from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.responses import JSONResponse
 
-from app.domains.aviation.models import BookingLookupRequest
-from tools.aviation_mock.seed_data import lookup_booking, lookup_flight_status
+from app.domains.aviation.models import BookingLookupRequest, FlightSearchRequest
+from tools.aviation_mock.seed_data import (
+    lookup_booking,
+    lookup_flight_status,
+    search_flights_mock,
+)
 
 
 logger = logging.getLogger("aviation_mock")
@@ -120,6 +124,27 @@ def get_flights_status(
         "flight_status ok flight=%s date=%s request_id=%s",
         flight_number,
         date,
+        x_request_id or "-",
+    )
+    return payload
+
+
+@app.post("/v1/flights/search")
+def post_flights_search(
+    body: FlightSearchRequest,
+    authorization: str | None = Header(default=None),
+    x_request_id: str | None = Header(default=None, alias="X-Request-Id"),
+):
+    _require_bearer(authorization)
+
+    status_code, payload = search_flights_mock(body.model_dump())
+    if status_code != 200:
+        raise HTTPException(status_code=status_code, detail=payload)
+
+    logger.info(
+        "flight_search ok %s->%s dep=%s ret=%s n=%d request_id=%s",
+        body.origin, body.destination, body.departure_date,
+        body.return_date or "-", len(payload.get("results", [])),
         x_request_id or "-",
     )
     return payload

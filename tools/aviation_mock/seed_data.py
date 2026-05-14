@@ -165,6 +165,207 @@ def lookup_flight_status(
     return 200, flight
 
 
+# ---- POST /v1/flights/search mock --------------------------------
+
+# Seed entries are keyed by (origin, destination, date). Each entry is a
+# list of flight options for that O&D + date. Round-trip queries (with
+# a return_date) look up BOTH legs and the helper combines them as
+# outbound × return.
+#
+# To keep round-trip combinations sensible, we also seed the reverse
+# direction for at least one date so e.g. DEL→BOM 2026-06-01 + return
+# BOM→DEL 2026-06-08 produces results.
+SEED_SEARCH_RESULTS: dict[tuple[str, str, str], list[dict[str, Any]]] = {
+    ("DEL", "BOM", "2026-06-01"): [
+        {
+            "result_id": "del-bom-0601-A320-0800",
+            "flight_number": "AI101",
+            "departure_time": "2026-06-01T08:00:00+05:30",
+            "arrival_time": "2026-06-01T10:15:00+05:30",
+            "duration_minutes": 135,
+            "stops": 0,
+            "aircraft_type": "A320",
+            "cabin_class": "ECONOMY",
+            "fare_basis": "Y",
+            "fare": {
+                "base_amount": 4200, "taxes_amount": 800, "total_amount": 5000,
+                "currency": "INR", "fare_type": "SAVER",
+                "refundable": False, "changes_allowed": True,
+            },
+            "baggage_allowance": {"cabin_kg": 7, "checked_kg": 15},
+            "seats_remaining": 12,
+        },
+        {
+            "result_id": "del-bom-0601-A321-1430",
+            "flight_number": "AI203",
+            "departure_time": "2026-06-01T14:30:00+05:30",
+            "arrival_time": "2026-06-01T16:30:00+05:30",
+            "duration_minutes": 120,
+            "stops": 0,
+            "aircraft_type": "A321",
+            "cabin_class": "ECONOMY",
+            "fare_basis": "M",
+            "fare": {
+                "base_amount": 6500, "taxes_amount": 950, "total_amount": 7450,
+                "currency": "INR", "fare_type": "FLEXI",
+                "refundable": True, "changes_allowed": True,
+            },
+            "baggage_allowance": {"cabin_kg": 7, "checked_kg": 25},
+            "seats_remaining": 4,
+        },
+    ],
+    ("BOM", "DEL", "2026-06-08"): [
+        {
+            "result_id": "bom-del-0608-A320-1900",
+            "flight_number": "AI104",
+            "departure_time": "2026-06-08T19:00:00+05:30",
+            "arrival_time": "2026-06-08T21:15:00+05:30",
+            "duration_minutes": 135,
+            "stops": 0,
+            "aircraft_type": "A320",
+            "cabin_class": "ECONOMY",
+            "fare_basis": "Y",
+            "fare": {
+                "base_amount": 4500, "taxes_amount": 850, "total_amount": 5350,
+                "currency": "INR", "fare_type": "SAVER",
+                "refundable": False, "changes_allowed": True,
+            },
+            "baggage_allowance": {"cabin_kg": 7, "checked_kg": 15},
+            "seats_remaining": 18,
+        },
+    ],
+    ("BOM", "BLR", "2026-06-15"): [
+        {
+            "result_id": "bom-blr-0615-A321-1400",
+            "flight_number": "AI202",
+            "departure_time": "2026-06-15T14:00:00+05:30",
+            "arrival_time": "2026-06-15T15:30:00+05:30",
+            "duration_minutes": 90,
+            "stops": 0,
+            "aircraft_type": "A321",
+            "cabin_class": "BUSINESS",
+            "fare_basis": "J",
+            "fare": {
+                "base_amount": 14000, "taxes_amount": 1500, "total_amount": 15500,
+                "currency": "INR", "fare_type": "BUSINESS_FLEXI",
+                "refundable": True, "changes_allowed": True,
+            },
+            "baggage_allowance": {"cabin_kg": 14, "checked_kg": 35},
+            "seats_remaining": 6,
+        },
+    ],
+}
+
+
+def _to_segment(option: dict[str, Any], origin: str, destination: str) -> dict[str, Any]:
+    """Project a seed option into the FlightSegment shape the contract returns."""
+    return {
+        "flight_number": option["flight_number"],
+        "origin": origin,
+        "destination": destination,
+        "departure_time": option["departure_time"],
+        "arrival_time": option["arrival_time"],
+        "duration_minutes": option["duration_minutes"],
+        "stops": option["stops"],
+        "aircraft_type": option["aircraft_type"],
+        "cabin_class": option["cabin_class"],
+        "fare_basis": option["fare_basis"],
+    }
+
+
+def search_flights_mock(req: dict[str, Any]) -> tuple[int, dict[str, Any]]:
+    """Mock flight search.
+
+    For one-way (no return_date): returns one result per outbound option.
+    For round-trip: returns the cartesian product (outbound × return) with
+    a combined fare (sum of both legs' total_amount, same currency).
+
+    404 NO_FLIGHTS_FOUND when the outbound leg has no seeds. If the
+    outbound exists but the return doesn't, falls back to one-way (with
+    a warning-style hint encoded in the response — keeps the demo useful
+    rather than failing the whole search).
+    """
+    origin = req["origin"].upper()
+    destination = req["destination"].upper()
+    departure_date = req["departure_date"]
+    return_date = req.get("return_date")
+    currency = req.get("currency") or "INR"
+
+    outbound = SEED_SEARCH_RESULTS.get((origin, destination, departure_date))
+    if not outbound:
+        return 404, {
+            "error": {
+                "code": "NO_FLIGHTS_FOUND",
+                "message": (
+                    f"No flights from {origin} to {destination} on {departure_date}."
+                ),
+                "details": {
+                    "origin": origin,
+                    "destination": destination,
+                    "departure_date": departure_date,
+                },
+            }
+        }
+
+    return_options: list[dict[str, Any]] = []
+    if return_date:
+        return_options = SEED_SEARCH_RESULTS.get(
+            (destination, origin, return_date), []
+        )
+
+    results: list[dict[str, Any]] = []
+    if return_date and return_options:
+        for ob in outbound:
+            ob_seg = _to_segment(ob, origin, destination)
+            for rb in return_options:
+                rb_seg = _to_segment(rb, destination, origin)
+                combined_total = round(
+                    ob["fare"]["total_amount"] + rb["fare"]["total_amount"], 2
+                )
+                combined_base = round(
+                    ob["fare"]["base_amount"] + rb["fare"]["base_amount"], 2
+                )
+                combined_tax = round(combined_total - combined_base, 2)
+                results.append({
+                    "result_id": f"{ob['result_id']}__{rb['result_id']}",
+                    "outbound_segments": [ob_seg],
+                    "return_segments": [rb_seg],
+                    "fare": {
+                        **ob["fare"],
+                        "base_amount": combined_base,
+                        "taxes_amount": combined_tax,
+                        "total_amount": combined_total,
+                        "currency": currency,
+                    },
+                    "baggage_allowance": ob["baggage_allowance"],
+                    "seats_remaining": min(
+                        ob.get("seats_remaining") or 0,
+                        rb.get("seats_remaining") or 0,
+                    ),
+                })
+    else:
+        # One-way (or round-trip with no return seeds → silently degrade
+        # to one-way; a real airline API would return a different code,
+        # but for demo purposes keeping the user moving is fine).
+        for ob in outbound:
+            ob_seg = _to_segment(ob, origin, destination)
+            results.append({
+                "result_id": ob["result_id"],
+                "outbound_segments": [ob_seg],
+                "return_segments": [],
+                "fare": {**ob["fare"], "currency": currency},
+                "baggage_allowance": ob["baggage_allowance"],
+                "seats_remaining": ob.get("seats_remaining"),
+            })
+
+    return 200, {
+        "currency": currency,
+        "results": results,
+        "total_results": len(results),
+        "next_cursor": None,
+    }
+
+
 def lookup_booking(
     booking_reference: str, last_name: str
 ) -> tuple[int, dict[str, Any]]:

@@ -34,6 +34,8 @@ import httpx
 from app.domains.aviation.models import (
     BookingLookupRequest,
     BookingLookupResponse,
+    FlightSearchRequest,
+    FlightSearchResponse,
     FlightStatusRequest,
     FlightStatusResponse,
 )
@@ -132,6 +134,26 @@ class AirlineApiClient:
             trace_id=trace_id,
         )
         return BookingLookupResponse.model_validate(body)
+
+    def search_flights(
+        self,
+        request: FlightSearchRequest,
+        *,
+        request_id: str | None = None,
+        trace_id: str | None = None,
+    ) -> FlightSearchResponse:
+        """POST /v1/flights/search.
+
+        ``request.return_date`` controls one-way vs round-trip — when set,
+        ``response.results[*].return_segments`` is populated.
+        """
+        body = self._post(
+            "/v1/flights/search",
+            json_body=request.model_dump(),
+            request_id=request_id,
+            trace_id=trace_id,
+        )
+        return FlightSearchResponse.model_validate(body)
 
     def get_flight_status(
         self,

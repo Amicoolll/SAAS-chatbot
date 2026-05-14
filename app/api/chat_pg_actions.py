@@ -47,6 +47,7 @@ logger = logging.getLogger(__name__)
 _RENDER_HINTS: dict[str, str] = {
     "retrieve_booking": "booking_card",
     "flight_status": "flight_status_card",
+    "flight_search": "flight_results_card",
 }
 
 
@@ -85,16 +86,24 @@ def handle_action(
     # 1) Multi-field extraction from user_input (the "any-order" path).
     #    When the user types e.g. "Doe ABC123" in the chat box, the
     #    frontend forwards that as user_input; the LLM here splits it
-    #    across the still-missing required fields. Skipped when
-    #    everything is already collected.
+    #    across all known fields (required + optional). Optional fields
+    #    are NEVER asked for, but if the user volunteers them — e.g.
+    #    *"DEL BOM 2026-06-01 returning 2026-06-08"* — we extract them
+    #    so the search can run as round-trip.
+    #
+    #    Skipped when nothing is missing (no LLM waste).
     user_input = (req.user_input or "").strip()
-    missing_now = [f for f in required if f not in collected]
-    if user_input and missing_now:
-        field_schemas = {f: properties.get(f, {}) for f in missing_now}
+    extractable = [f for f in properties.keys() if f not in collected]
+    if user_input and extractable:
+        field_schemas = {f: properties.get(f, {}) for f in extractable}
         extracted_multi = extract_params(user_input, field_schemas)
         for field, value in extracted_multi.items():
             collected[field] = value
-            just_filled[field] = value
+            # Only acknowledge required fields by name in the next prompt;
+            # optional fields are silent ("by the way I noted return_date")
+            # would feel chatty.
+            if field in required:
+                just_filled[field] = value
 
     # 2) Smart validation: any required param that's present but doesn't
     #    match its schema gets one shot at single-field LLM extraction.
@@ -318,6 +327,10 @@ _ERROR_MESSAGES: dict[tuple[str, int], str] = {
         "We couldn't find that flight on the date you specified. "
         "Please double-check the flight number and date and try again."
     ),
+    ("flight_search", 404): (
+        "We couldn't find any flights for that route on that date. "
+        "Try a different date or check the airport codes."
+    ),
 }
 
 _GENERIC_ERROR_MESSAGES: dict[int, str] = {
@@ -458,4 +471,26 @@ def _summary_for(action: str, result: dict[str, Any]) -> str:
         gate = result.get("gate")
         gate_text = f", gate {gate}" if gate else ""
         return f"Flight {fn} — {st}{delay_text}{gate_text}."
+    if action == "flight_search":
+        results = result.get("results") or []
+        n = len(results)
+        if n == 0:
+            return "No flights found for that route and date."
+        first = results[0]
+        ob = first.get("outbound_segments") or [{}]
+        rb = first.get("return_segments") or []
+        origin = ob[0].get("origin", "?")
+        dest = ob[-1].get("destination", "?")
+        trip_type = "round trip" if rb else "one-way"
+        arrow = "↔" if rb else "→"
+        fare = first.get("fare") or {}
+        cheapest = min(
+            (r.get("fare", {}).get("total_amount", 0) for r in results),
+            default=0,
+        )
+        currency = fare.get("currency", "")
+        return (
+            f"Found {n} {trip_type} option{'s' if n != 1 else ''} "
+            f"{origin} {arrow} {dest}. Cheapest: {currency} {cheapest:g}."
+        )
     return f"{_humanize(action).title()} completed."

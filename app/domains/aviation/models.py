@@ -137,6 +137,98 @@ class FlightStatusResponse(BaseModel):
     aircraft_type: str | None = None
 
 
+# ---- POST /v1/flights/search -----------------------------------------
+
+
+FareType = Literal["SAVER", "FLEXI", "PREMIUM", "BUSINESS_SAVER", "BUSINESS_FLEXI"]
+
+
+class Passengers(BaseModel):
+    adults: int = Field(default=1, ge=1, le=9)
+    children: int = Field(default=0, ge=0, le=9)
+    infants: int = Field(default=0, ge=0, le=9)
+
+
+class FlightSearchRequest(BaseModel):
+    """Request body for ``POST /v1/flights/search``."""
+
+    origin: str = Field(
+        min_length=3, max_length=3, pattern=r"^[A-Z]{3}$",
+        description="IATA airport code (uppercase, 3 letters)",
+    )
+    destination: str = Field(
+        min_length=3, max_length=3, pattern=r"^[A-Z]{3}$",
+        description="IATA airport code (uppercase, 3 letters)",
+    )
+    departure_date: str = Field(
+        pattern=r"^\d{4}-\d{2}-\d{2}$",
+        description="Outbound date, YYYY-MM-DD.",
+    )
+    return_date: str | None = Field(
+        default=None,
+        pattern=r"^\d{4}-\d{2}-\d{2}$",
+        description=(
+            "Return date for round-trip, YYYY-MM-DD. Omit for one-way. When "
+            "set, response results pair each outbound option with each "
+            "return option (response.results[*].return_segments populated)."
+        ),
+    )
+    passengers: Passengers = Field(default_factory=Passengers)
+    cabin_class: CabinClass = "ECONOMY"
+    max_stops: int | None = Field(default=None, ge=0, le=3)
+    currency: str = Field(default="INR", min_length=3, max_length=3)
+
+
+class FlightFare(BaseModel):
+    base_amount: float = Field(ge=0)
+    taxes_amount: float = Field(ge=0)
+    total_amount: float = Field(ge=0)
+    currency: str = Field(min_length=3, max_length=3)
+    fare_type: FareType
+    refundable: bool
+    changes_allowed: bool
+
+
+class BaggageAllowance(BaseModel):
+    cabin_kg: int = Field(ge=0)
+    checked_kg: int = Field(ge=0)
+
+
+class FlightSegment(BaseModel):
+    flight_number: str
+    origin: str = Field(min_length=3, max_length=3)
+    destination: str = Field(min_length=3, max_length=3)
+    departure_time: datetime
+    arrival_time: datetime
+    duration_minutes: int = Field(ge=0)
+    stops: int = Field(default=0, ge=0)
+    aircraft_type: str | None = None
+    cabin_class: CabinClass
+    fare_basis: str
+
+
+class FlightResult(BaseModel):
+    """A single bookable itinerary returned by /v1/flights/search.
+
+    For one-way searches, ``return_segments`` is empty.
+    For round-trip, both lists are populated.
+    """
+
+    result_id: str
+    outbound_segments: list[FlightSegment]
+    return_segments: list[FlightSegment] = Field(default_factory=list)
+    fare: FlightFare
+    baggage_allowance: BaggageAllowance
+    seats_remaining: int | None = Field(default=None, ge=0)
+
+
+class FlightSearchResponse(BaseModel):
+    currency: str = Field(min_length=3, max_length=3)
+    results: list[FlightResult]
+    total_results: int = Field(ge=0)
+    next_cursor: str | None = None
+
+
 # ---- standard error envelope (used across all endpoints) -------------
 
 
