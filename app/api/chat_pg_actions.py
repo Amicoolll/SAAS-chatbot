@@ -48,6 +48,7 @@ _RENDER_HINTS: dict[str, str] = {
     "retrieve_booking": "booking_card",
     "flight_status": "flight_status_card",
     "flight_search": "flight_results_card",
+    "web_checkin": "checkin_card",
 }
 
 
@@ -331,6 +332,22 @@ _ERROR_MESSAGES: dict[tuple[str, int], str] = {
         "We couldn't find any flights for that route on that date. "
         "Try a different date or check the airport codes."
     ),
+    ("web_checkin", 409): (
+        "Check-in isn't available right now — see details below. "
+        "It usually opens 48 hours before departure."
+    ),
+    ("web_checkin", 422): (
+        "We couldn't process the check-in with the details provided. "
+        "Please double-check and try again."
+    ),
+    ("web_checkin", 404): (
+        "We couldn't find that booking to check in. Please double-check "
+        "the reference and last name, then try again."
+    ),
+    ("web_checkin", 403): (
+        "We couldn't verify that booking with the details provided. "
+        "Please check and try again."
+    ),
 }
 
 _GENERIC_ERROR_MESSAGES: dict[int, str] = {
@@ -471,6 +488,17 @@ def _summary_for(action: str, result: dict[str, Any]) -> str:
         gate = result.get("gate")
         gate_text = f", gate {gate}" if gate else ""
         return f"Flight {fn} — {st}{delay_text}{gate_text}."
+    if action == "web_checkin":
+        checked = result.get("checked_in") or []
+        n = len(checked)
+        seats = ", ".join(c.get("seat", "?") for c in checked[:4])
+        more = "" if n <= 4 else f" (+{n - 4} more)"
+        if n == 0:
+            return "Check-in completed."
+        return (
+            f"Checked in {n} passenger{'s' if n != 1 else ''} — "
+            f"seat{'s' if n != 1 else ''} {seats}{more}."
+        )
     if action == "flight_search":
         results = result.get("results") or []
         n = len(results)

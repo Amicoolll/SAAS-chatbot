@@ -24,8 +24,13 @@ import logging
 from fastapi import FastAPI, Header, HTTPException, Request
 from fastapi.responses import JSONResponse
 
-from app.domains.aviation.models import BookingLookupRequest, FlightSearchRequest
+from app.domains.aviation.models import (
+    BookingLookupRequest,
+    CheckinRequest,
+    FlightSearchRequest,
+)
 from tools.aviation_mock.seed_data import (
+    checkin_mock,
     lookup_booking,
     lookup_flight_status,
     search_flights_mock,
@@ -125,6 +130,27 @@ def get_flights_status(
         flight_number,
         date,
         x_request_id or "-",
+    )
+    return payload
+
+
+@app.post("/v1/checkin")
+def post_checkin(
+    body: CheckinRequest,
+    authorization: str | None = Header(default=None),
+    idempotency_key: str | None = Header(default=None, alias="Idempotency-Key"),
+    x_request_id: str | None = Header(default=None, alias="X-Request-Id"),
+):
+    _require_bearer(authorization)
+
+    status_code, payload = checkin_mock(body.model_dump(), idempotency_key)
+    if status_code != 200:
+        raise HTTPException(status_code=status_code, detail=payload)
+
+    logger.info(
+        "checkin ok pnr=%s pax=%d seg=%d idem=%s request_id=%s",
+        body.booking_reference, len(body.passenger_ids), len(body.segment_ids),
+        (idempotency_key or "-")[:8], x_request_id or "-",
     )
     return payload
 

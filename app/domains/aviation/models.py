@@ -229,6 +229,87 @@ class FlightSearchResponse(BaseModel):
     next_cursor: str | None = None
 
 
+# ---- POST /v1/checkin -------------------------------------------------
+
+
+SegmentStatusAfterCheckin = Literal["CHECKED_IN", "PARTIALLY_CHECKED_IN"]
+
+
+class MealPreference(BaseModel):
+    passenger_id: str
+    meal_code: str = Field(min_length=4, max_length=4, description="IATA meal code, e.g. VGML, KSML")
+
+
+class CheckinPreferences(BaseModel):
+    """Optional per-checkin preferences. Frontend usually omits or
+    submits a small subset (e.g. wheelchair SSR if the user requested it).
+    """
+
+    ssr: list[str] = Field(
+        default_factory=list,
+        description="IATA Special Service Request codes, e.g. WCHR for wheelchair.",
+    )
+    meals: list[MealPreference] = Field(default_factory=list)
+
+
+class CheckinRequest(BaseModel):
+    """Body of ``POST /v1/checkin``. The Idempotency-Key is sent as an
+    HTTP header, NOT in this body — see ``AirlineApiClient.checkin``.
+    """
+
+    booking_reference: str = Field(min_length=1, max_length=20)
+    last_name: str = Field(min_length=1, max_length=100)
+    passenger_ids: list[str] = Field(
+        min_length=1,
+        description="Subset of passengers to check in (from the booking).",
+    )
+    segment_ids: list[str] = Field(
+        min_length=1,
+        description="Subset of segments to check in for.",
+    )
+    accept_terms: bool = Field(
+        description=(
+            "Must be True; the airline returns 422 ACCEPT_TERMS_REQUIRED otherwise."
+        ),
+    )
+    preferences: CheckinPreferences | None = None
+
+
+class BoardingPassInfo(BaseModel):
+    """Embedded boarding-pass data returned with each checked-in
+    passenger. ``barcode_data`` follows the IATA BCBP standard so the
+    frontend can encode it as a real PDF417 barcode.
+    """
+
+    barcode: str = Field(description="Raw IATA BCBP string for barcode rendering.")
+    seat: str
+    boarding_group: str
+    boarding_time: datetime
+    gate: str | None = None
+
+
+class CheckedInPassenger(BaseModel):
+    passenger_id: str
+    segment_id: str
+    seat: str
+    boarding_pass_url: str = Field(
+        description="URL the frontend can later fetch (or hand to the user)."
+    )
+    boarding_pass: BoardingPassInfo | None = None
+
+
+class CheckinWarning(BaseModel):
+    code: str
+    message: str
+
+
+class CheckinResponse(BaseModel):
+    checkin_id: str
+    checked_in: list[CheckedInPassenger]
+    segment_status: SegmentStatusAfterCheckin
+    warnings: list[CheckinWarning] = Field(default_factory=list)
+
+
 # ---- standard error envelope (used across all endpoints) -------------
 
 

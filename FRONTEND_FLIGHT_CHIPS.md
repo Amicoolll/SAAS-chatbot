@@ -1,13 +1,16 @@
-# Frontend Integration — Flight Status & Flight Search Chips
+# Frontend Integration — Flight Status, Flight Search & Web Check-in Chips
 
-For the frontend team. Covers the **3 chips** powered by today's backend:
+For the frontend team. Covers the **4 chips** powered by today's backend:
 
 - **Flight status** — *"What's the live status of flight X on date Y?"*
 - **Flights from city** — *"Show me flights leaving X"*
 - **Flights to city** — *"Show me flights arriving at Y"*
+- **Web check-in** — *"Check me in for my flight"* (write op + barcode)
 
-The latter two share the same backend tool (`flight_search`); the
-frontend disambiguates by which slot it pre-fills.
+The middle two share the same backend tool (`flight_search`); the
+frontend disambiguates by which slot it pre-fills. Web check-in is the
+first **write workflow** — it's a two-step pattern: retrieve the booking
+first, then dispatch with the user's selections from a check-in widget.
 
 ---
 
@@ -351,6 +354,298 @@ For one-way, hide the second segment block.
 
 ---
 
+## 3A. Chip C — Web Check-in (write workflow)
+
+| | |
+|---|---|
+| **Chip label** | "Web check-in" |
+| **Backend `action`** | `"web_checkin"` |
+| **Pattern** | **Two-step: retrieve_booking → web_checkin** |
+| **Render card** | `render_as: "checkin_card"` |
+| **Type** | **Write operation — requires Idempotency-Key** |
+
+This chip is structurally different from chips A and B. The user can't pick passengers/segments without seeing them first, so the frontend chains two backend calls and renders a check-in widget in between.
+
+### 3A.1. The two-step flow (UI sequence)
+
+```
+1. User clicks "Web check-in" chip
+       ↓
+2. Frontend triggers retrieve_booking via the existing chip-A pattern:
+   asks the user for PNR + last name conversationally
+       ↓
+3. Backend returns mode: "tool_executed", render_as: "booking_card"
+   with the full booking JSON (passengers, segments)
+       ↓
+4. Frontend renders booking_card PLUS a check-in widget:
+     ☑ John Doe (p1)
+     ☑ Jane Doe (p2)
+     ▾ Flight: AI101 DEL→BOM (s1)
+     ☑ I accept the airline's terms of service
+     [ Check in ]
+       ↓
+5. User picks + clicks Check in
+       ↓
+6. Frontend generates idempotency_key (UUID v4) and POSTs:
+     action: "web_checkin",
+     action_params: {
+       booking_reference, last_name,                    ← from step 2
+       passenger_ids, segment_ids,                       ← from widget
+       accept_terms,                                     ← widget checkbox
+       idempotency_key                                   ← frontend-generated UUID
+     }
+       ↓
+7. Backend dispatches POST /v1/checkin with Idempotency-Key header
+       ↓
+8. Frontend renders checkin_card with seats + boarding-pass barcodes
+```
+
+### 3A.2. Request body (the dispatch step)
+
+```json
+POST /chat_pg
+{
+  "conversation_id": "<uuid>",
+  "agent_type": "aviation",
+  "action": "web_checkin",
+  "action_params": {
+    "booking_reference": "ABC123",
+    "last_name": "DOE",
+    "passenger_ids": ["p1", "p2"],
+    "segment_ids": ["s1"],
+    "accept_terms": true,
+    "idempotency_key": "550e8400-e29b-41d4-a716-446655440000"
+  }
+}
+```
+
+**All six fields are REQUIRED.** Backend won't ask for any conversationally
+in production — they're all pre-filled by the frontend widget. If the
+frontend forgets a field, the backend will helpfully prompt for it (the
+`idempotency_key` and `passenger_ids` prompts contain the literal text
+*"[Frontend bug...]"* so a developer notices on the first manual test).
+
+### 3A.3. Idempotency-key generation (critical)
+
+The frontend MUST generate a fresh UUID v4 per check-in attempt:
+
+```ts
+import { v4 as uuidv4 } from "uuid";
+
+function startCheckin(booking) {
+  const idempotencyKey = uuidv4();          // ← per attempt, store in component state
+  // ... show widget, collect selections ...
+}
+
+async function submitCheckin(booking, selections, idempotencyKey) {
+  const body = {
+    conversation_id: convId,
+    agent_type: "aviation",
+    action: "web_checkin",
+    action_params: {
+      booking_reference: booking.booking_reference,
+      last_name: lastNameFromCheckinFlow,    // remember from retrieve_booking
+      passenger_ids: selections.passengers,
+      segment_ids: selections.segments,
+      accept_terms: selections.accepted,
+      idempotency_key: idempotencyKey,       // SAME key on retry
+    },
+  };
+  return fetch("/chat_pg", { method: "POST", body: JSON.stringify(body), headers });
+}
+```
+
+**Why this matters:** if the user's network drops mid-request, retrying with the SAME key returns the cached response (no double check-in). Generating a fresh key on retry would create two check-ins.
+
+Rule of thumb: **one UUID per Submit click**. Cache it in component state until the response arrives or the user explicitly cancels.
+
+### 3A.4. `tool_result` shape — checkin_card
+
+```ts
+type CheckinCard = {
+  checkin_id: string;                       // "ci_abc123_2"
+  segment_status: "CHECKED_IN" | "PARTIALLY_CHECKED_IN";
+  checked_in: CheckedInPassenger[];
+  warnings: { code: string; message: string }[];  // e.g. meal not available
+};
+
+type CheckedInPassenger = {
+  passenger_id: string;                     // "p1" — match against booking.passengers
+  segment_id: string;                       // "s1"
+  seat: string;                             // "12A"
+  boarding_pass_url: string;                // hand to user OR fetch via slice 7 endpoint
+  boarding_pass: BoardingPassInfo | null;
+};
+
+type BoardingPassInfo = {
+  barcode: string;                          // IATA BCBP M1 format string
+  seat: string;
+  boarding_group: string;                   // "1"
+  boarding_time: string;                    // ISO 8601 with offset
+  gate: string | null;
+};
+```
+
+### 3A.5. Suggested card layout
+
+```
+┌──────────────────────────────────────────────────┐
+│  ✓ Checked in — 2 passengers on AI101            │
+│  ──────────────────────────────────────────────  │
+│  ┌────────────────────────────────────────────┐  │
+│  │  JOHN DOE                       Seat 12A   │  │
+│  │  AI101  DEL → BOM  ·  Group 1  ·  Gate B12 │  │
+│  │  ┌──────────────────┐                      │  │
+│  │  │ ▮▮▮▮ ▮ ▮ ▮▮ ▮▮▮ │  Boarding 07:30      │  │
+│  │  └──────────────────┘                      │  │
+│  └────────────────────────────────────────────┘  │
+│  ┌────────────────────────────────────────────┐  │
+│  │  JANE DOE                       Seat 12B   │  │
+│  │  ...                                       │  │
+│  └────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────┘
+```
+
+### 3A.6. Rendering the IATA barcode
+
+`boarding_pass.barcode` is a raw [IATA BCBP M1](https://www.iata.org/contentassets/1dccc9ed041b4f3bbdcf8ee8682e75c4/2021_03_02-bcbp-implementation-guide-version-7-.pdf) string. To render as an actual scannable barcode, encode it as **PDF417**:
+
+```bash
+npm install bwip-js                              # any PDF417 lib will do
+```
+
+```ts
+import bwipjs from "bwip-js";
+
+function renderBoardingBarcode(canvas: HTMLCanvasElement, barcodeData: string) {
+  bwipjs.toCanvas(canvas, {
+    bcid: "pdf417",
+    text: barcodeData,
+    scale: 3,
+    height: 10,
+    includetext: false,
+  });
+}
+```
+
+If you don't need a scannable barcode for the demo, just show the raw string in a monospace block — gate agents can read M1 strings.
+
+### 3A.7. Error paths — friendly copy + structured codes
+
+The backend always returns a friendly `answer` string AND a stable `error_code`. Use the answer for display, the code for telemetry / branching.
+
+| `error_code` | `error_status` | When | Suggested UX |
+|---|---|---|---|
+| `BOOKING_NOT_FOUND` | 404 | Wrong PNR | Reset to retrieve_booking step |
+| `BOOKING_VERIFICATION_FAILED` | 403 | Wrong last name | Reset to retrieve_booking step |
+| `CHECKIN_NOT_OPEN` | 409 | Too far before departure (open at -48h) | Show `details.opens_at` countdown if present |
+| `CHECKIN_CLOSED` | 409 | Too close to departure | Tell user to go to airport |
+| `ALREADY_CHECKED_IN` | 409 | Selected passengers already checked in | Show a "View boarding pass" button instead of retry |
+| `ACCEPT_TERMS_REQUIRED` | 422 | accept_terms was false (frontend bug — checkbox wasn't enforced) | Re-show widget with checkbox forced |
+| `IDEMPOTENCY_KEY_REQUIRED` | 422 | Frontend forgot to send the key (frontend bug) | Send a fresh UUID and retry |
+| `PASSPORT_REQUIRED` | 422 | International flight, no APIS data on file | Surface APIS-collection flow (slice TBD) |
+| `DEPENDENCY_UNAVAILABLE` | 503 | Airline backend unreachable | Show "try again shortly" toast |
+
+Sample 409 response:
+
+```json
+{
+  "mode": "tool_error",
+  "error_code": "CHECKIN_NOT_OPEN",
+  "error_status": 409,
+  "answer": "Check-in isn't available right now — see details below. It usually opens 48 hours before departure.",
+  "tool_name": "web_checkin"
+}
+```
+
+### 3A.8. The check-in widget — frontend skeleton
+
+Plain React-ish pseudocode for the widget that sits between
+`retrieve_booking` and `web_checkin`:
+
+```tsx
+function CheckinWidget({ booking, onSubmit }: {
+  booking: BookingCard;
+  onSubmit: (sel: CheckinSelections) => void;
+}) {
+  const [passengers, setPassengers] = useState(
+    new Set(booking.passengers.map(p => p.passenger_id)),  // default: all selected
+  );
+  const [segmentId, setSegmentId] = useState(booking.segments[0].segment_id);
+  const [accepted, setAccepted] = useState(false);
+  const [idempotencyKey] = useState(() => uuidv4());        // frozen for this widget instance
+
+  return (
+    <div className="checkin-widget">
+      <h4>Who's checking in?</h4>
+      {booking.passengers.map(p => (
+        <label key={p.passenger_id}>
+          <input
+            type="checkbox"
+            checked={passengers.has(p.passenger_id)}
+            onChange={() => togglePassenger(p.passenger_id)}
+          />
+          {p.first_name} {p.last_name}
+        </label>
+      ))}
+
+      {booking.segments.length > 1 && (
+        <>
+          <h4>Which flight?</h4>
+          <select value={segmentId} onChange={e => setSegmentId(e.target.value)}>
+            {booking.segments.map(s => (
+              <option key={s.segment_id} value={s.segment_id}>
+                {s.flight_number} {s.origin}→{s.destination}
+              </option>
+            ))}
+          </select>
+        </>
+      )}
+
+      <label>
+        <input
+          type="checkbox"
+          checked={accepted}
+          onChange={e => setAccepted(e.target.checked)}
+        />
+        I accept the airline's terms of service
+      </label>
+
+      <button
+        disabled={!accepted || passengers.size === 0}
+        onClick={() =>
+          onSubmit({
+            booking_reference: booking.booking_reference,
+            last_name: lastNameFromContext,
+            passenger_ids: Array.from(passengers),
+            segment_ids: [segmentId],
+            accept_terms: accepted,
+            idempotency_key: idempotencyKey,
+          })
+        }
+      >
+        Check in
+      </button>
+    </div>
+  );
+}
+```
+
+`onSubmit` calls `/chat_pg` with `action: "web_checkin"` and the
+collected `action_params`.
+
+### 3A.9. Things to remember
+
+| | |
+|---|---|
+| **`last_name` carries forward** | Frontend remembers it from the retrieve_booking step. Don't ask the user twice. |
+| **`idempotency_key` is per-attempt** | Frozen for the lifetime of one widget instance. New widget = new UUID. |
+| **`passenger_ids` are opaque IDs** | Don't construct them client-side. Always use the IDs from `booking.passengers[*].passenger_id`. |
+| **Multi-segment is per-checkin-call** | If the booking has 2 segments, the user check-ins twice (once per segment). v1 doesn't support both-in-one. |
+| **Boarding pass URL is for slice 7** | `boarding_pass_url` points at `/v1/bookings/{ref}/boarding-pass`. That endpoint isn't shipped yet — show as a "Boarding pass" button that's disabled until slice 7 lands. |
+
+---
+
 ## 4. Code samples
 
 ### 4.1. TypeScript: chip click handler
@@ -558,6 +853,10 @@ Render normally. The user sees the hint and tries again.
 | Relative dates ("tomorrow", "next Monday") | User must type ISO format (`2026-06-01`). Backend can be extended to know `today` in a follow-up commit. |
 | Only domestic Indian airports seeded | Mock has DEL, BOM, BLR. Real airline integration will return whatever its inventory has. |
 | Flight status caching (60s recommended by spec) | Not implemented yet. If users spam the chip, every click hits the airline API. |
+| Web check-in: APIS data collection (international flights) | Backend will return `PASSPORT_REQUIRED` (422). Frontend should surface a passport-collection sub-flow — currently TBD. |
+| Web check-in: multi-segment in one call | One segment per check-in. Round-trip travelers check in twice. |
+| Web check-in: boarding pass retrieval | `boarding_pass_url` points at slice 7's endpoint which isn't shipped yet. Show a disabled "Boarding pass" button or fetch the in-line `boarding_pass.barcode` from the check-in response and render that directly. |
+| Web check-in: special meals / wheelchair (SSR) | `preferences.ssr` and `preferences.meals` exist in the API but no widget yet. Frontend can pass them through `action_params.preferences` once added. |
 
 ---
 
@@ -570,6 +869,7 @@ Print this on a sticky note:
 | Show flight status flow | `action: "flight_status", action_params: {}` |
 | Show "flights from X" flow | `action: "flight_search", action_params: { origin: "<X>" }` |
 | Show "flights to Y" flow | `action: "flight_search", action_params: { destination: "<Y>" }` |
+| Submit web check-in (after retrieve_booking) | `action: "web_checkin", action_params: { ...all 6 fields incl idempotency_key }` |
 | Continue collecting (any chip) | `action_params: state.collected, user_input: <text>` |
 | Form widget pre-fill | `action_params: { field1: val1, field2: val2 }, no user_input` |
 

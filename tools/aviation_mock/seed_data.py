@@ -366,6 +366,169 @@ def search_flights_mock(req: dict[str, Any]) -> tuple[int, dict[str, Any]]:
     }
 
 
+# ---- POST /v1/checkin mock --------------------------------------
+
+# Idempotency cache. Keyed by Idempotency-Key header. Repeating the same
+# key returns the cached response without re-executing — implements the
+# v1 partner-API idempotency contract for write endpoints. Process-local
+# (resets on mock restart, which is fine for demo / tests).
+_CHECKIN_IDEMPOTENCY_CACHE: dict[str, tuple[int, dict[str, Any]]] = {}
+
+
+def _reset_checkin_idempotency_cache() -> None:
+    """Test-only: clear the cache between test cases."""
+    _CHECKIN_IDEMPOTENCY_CACHE.clear()
+
+
+# Per-PNR canned check-in behaviour. The same booking+last-name verifier
+# the lookup helper uses gates entry; this map then decides the
+# success/failure shape so we can demo every state.
+_CHECKIN_BEHAVIOUR: dict[str, str] = {
+    "ABC123": "ok",                       # success — both passengers, seats 12A/12B
+    "XYZ789": "checkin_not_open",         # 409 — too far in the future
+    # add more here as we test more error paths
+}
+
+
+def _build_checkin_success(req: dict[str, Any]) -> dict[str, Any]:
+    """Compose a canned success response from the request shape.
+
+    Real airline would assign seats from inventory; the mock just gives
+    the first passenger 12A and the next 12B etc. Boarding passes carry
+    a fake-but-shape-correct BCBP barcode.
+    """
+    seats = ["12A", "12B", "12C", "12D", "12E", "12F"]
+    booking = SEED_BOOKINGS.get(req["booking_reference"].upper(), {})
+    passengers_by_id = {
+        p["passenger_id"]: p for p in (booking.get("passengers") or [])
+    }
+
+    checked_in: list[dict[str, Any]] = []
+    for i, (pid, sid) in enumerate(
+        # Cartesian — every requested passenger across every requested
+        # segment. For a single-segment booking the result is one entry
+        # per passenger.
+        ((p, s) for p in req["passenger_ids"] for s in req["segment_ids"])
+    ):
+        seat = seats[i % len(seats)]
+        first_name = passengers_by_id.get(pid, {}).get("first_name", "PAX")
+        last_name = passengers_by_id.get(pid, {}).get("last_name", req["last_name"])
+        # IATA BCBP M1 format (simplified for the mock — real grammar is denser).
+        barcode = (
+            f"M1{last_name}/{first_name:<18}"
+            f"E{req['booking_reference']:<7}"
+            f"DELBOMAI 0101 152Y{seat:<4}{i:04d} 100"
+        )
+        checked_in.append({
+            "passenger_id": pid,
+            "segment_id": sid,
+            "seat": seat,
+            "boarding_pass_url": (
+                f"/v1/bookings/{req['booking_reference']}/boarding-pass"
+                f"?passenger_id={pid}&segment_id={sid}"
+            ),
+            "boarding_pass": {
+                "barcode": barcode,
+                "seat": seat,
+                "boarding_group": "1",
+                "boarding_time": "2026-06-01T07:30:00+05:30",
+                "gate": "B12",
+            },
+        })
+
+    return {
+        "checkin_id": f"ci_{req['booking_reference'].lower()}_{len(checked_in)}",
+        "checked_in": checked_in,
+        "segment_status": "CHECKED_IN",
+        "warnings": [],
+    }
+
+
+def checkin_mock(
+    req: dict[str, Any], idempotency_key: str | None
+) -> tuple[int, dict[str, Any]]:
+    """Mock check-in. Returns ``(status_code, body)``.
+
+    Behaviour:
+      - 401 INVALID_CREDENTIALS handled at the endpoint layer (bearer)
+      - 422 ACCEPT_TERMS_REQUIRED if accept_terms is false
+      - 422 IDEMPOTENCY_KEY_REQUIRED if missing
+      - Idempotency replay: same key → cached response (200 success or
+        whatever was cached, no re-execution)
+      - 404 BOOKING_NOT_FOUND if booking doesn't exist
+      - 403 BOOKING_VERIFICATION_FAILED if last_name doesn't match
+      - 409 CHECKIN_NOT_OPEN for bookings whose departure is too far away
+        (XYZ789 in seeds)
+      - 200 with full check-in body otherwise
+    """
+    if not idempotency_key:
+        return 422, {
+            "error": {
+                "code": "IDEMPOTENCY_KEY_REQUIRED",
+                "message": "Idempotency-Key header is required for /v1/checkin.",
+                "details": {},
+            }
+        }
+
+    # Idempotency replay — return cached response without re-validating.
+    cached = _CHECKIN_IDEMPOTENCY_CACHE.get(idempotency_key)
+    if cached is not None:
+        return cached
+
+    if not req.get("accept_terms"):
+        return 422, {
+            "error": {
+                "code": "ACCEPT_TERMS_REQUIRED",
+                "message": "Caller must set accept_terms=true to confirm.",
+                "details": {},
+            }
+        }
+
+    pnr = req["booking_reference"].upper()
+    booking = SEED_BOOKINGS.get(pnr)
+    if not booking:
+        return 404, {
+            "error": {
+                "code": "BOOKING_NOT_FOUND",
+                "message": "No booking matches the supplied reference and last name.",
+                "details": {"booking_reference": pnr},
+            }
+        }
+
+    surnames = {p["last_name"].upper() for p in booking["passengers"]}
+    if req["last_name"].upper() not in surnames:
+        return 403, {
+            "error": {
+                "code": "BOOKING_VERIFICATION_FAILED",
+                "message": "No booking matches the supplied reference and last name.",
+                "details": {"booking_reference": pnr},
+            }
+        }
+
+    behaviour = _CHECKIN_BEHAVIOUR.get(pnr, "ok")
+    if behaviour == "checkin_not_open":
+        result = (409, {
+            "error": {
+                "code": "CHECKIN_NOT_OPEN",
+                "message": (
+                    "Check-in opens 48 hours before departure. Please try again closer to your flight."
+                ),
+                "details": {
+                    "booking_reference": pnr,
+                    "opens_at": "2026-06-13T14:00:00+05:30",
+                },
+            }
+        })
+    else:
+        result = (200, _build_checkin_success(req))
+
+    # Cache the outcome (success OR error) under this idempotency key
+    # so a replay returns the same body. Real APIs differ on whether
+    # error responses are cached; for demo simplicity we cache both.
+    _CHECKIN_IDEMPOTENCY_CACHE[idempotency_key] = result
+    return result
+
+
 def lookup_booking(
     booking_reference: str, last_name: str
 ) -> tuple[int, dict[str, Any]]:

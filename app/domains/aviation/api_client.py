@@ -34,6 +34,8 @@ import httpx
 from app.domains.aviation.models import (
     BookingLookupRequest,
     BookingLookupResponse,
+    CheckinRequest,
+    CheckinResponse,
     FlightSearchRequest,
     FlightSearchResponse,
     FlightStatusRequest,
@@ -154,6 +156,36 @@ class AirlineApiClient:
             trace_id=trace_id,
         )
         return FlightSearchResponse.model_validate(body)
+
+    def checkin(
+        self,
+        request: CheckinRequest,
+        *,
+        idempotency_key: str,
+        request_id: str | None = None,
+        trace_id: str | None = None,
+    ) -> CheckinResponse:
+        """POST /v1/checkin.
+
+        ``idempotency_key`` is REQUIRED for write operations per the
+        partner contract. Repeating the same key returns the cached
+        response without re-executing — protects against duplicate
+        check-ins on retry / spam-click.
+
+        ``Idempotency-Key`` header is plumbed via ``_post`` →
+        ``_build_headers`` (added speculatively in slice 1; first
+        actual user is here in slice 6).
+        """
+        if not idempotency_key:
+            raise ValueError("idempotency_key is required for checkin()")
+        body = self._post(
+            "/v1/checkin",
+            json_body=request.model_dump(),
+            request_id=request_id,
+            trace_id=trace_id,
+            idempotency_key=idempotency_key,
+        )
+        return CheckinResponse.model_validate(body)
 
     def get_flight_status(
         self,
