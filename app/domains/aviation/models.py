@@ -310,6 +310,56 @@ class CheckinResponse(BaseModel):
     warnings: list[CheckinWarning] = Field(default_factory=list)
 
 
+# ---- GET /v1/bookings/{ref}/boarding-pass ----------------------------
+
+
+BoardingPassFormat = Literal["json", "pdf", "wallet_apple", "wallet_google"]
+BarcodeFormat = Literal["PDF417", "QR", "AZTEC"]
+
+
+class BoardingPassRequest(BaseModel):
+    """Inputs for ``GET /v1/bookings/{booking_reference}/boarding-pass``.
+
+    The ``last_name`` is sent as the ``X-Booking-Verifier-LastName``
+    header (per the partner contract; this isn't a POST body so the
+    verifier can't be in the body).
+    """
+
+    booking_reference: str = Field(min_length=1, max_length=20)
+    last_name: str = Field(min_length=1, max_length=100)
+    passenger_id: str = Field(min_length=1)
+    segment_id: str = Field(min_length=1)
+    format: BoardingPassFormat = "json"
+
+
+class BoardingPassPassenger(BaseModel):
+    first_name: str
+    last_name: str
+
+
+class BoardingPassResponse(BaseModel):
+    """Response shape for ``format=json`` (the only format implemented in v1).
+
+    Binary formats (pdf, wallet_apple, wallet_google) are deferred —
+    frontend can render the IATA BCBP ``barcode_data`` as a real PDF417
+    barcode using a client-side library.
+    """
+
+    passenger: BoardingPassPassenger
+    flight_number: str
+    origin: str = Field(min_length=3, max_length=3)
+    destination: str = Field(min_length=3, max_length=3)
+    scheduled_departure: datetime
+    boarding_time: datetime
+    seat: str
+    boarding_group: str
+    sequence_number: int = Field(ge=0)
+    gate: str | None = None
+    terminal: str | None = None
+    barcode_format: BarcodeFormat = "PDF417"
+    barcode_data: str = Field(description="IATA BCBP M1 string, encode as PDF417 client-side.")
+
+
 # ---- standard error envelope (used across all endpoints) -------------
 
 

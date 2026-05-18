@@ -32,6 +32,8 @@ from typing import Any
 import httpx
 
 from app.domains.aviation.models import (
+    BoardingPassRequest,
+    BoardingPassResponse,
     BookingLookupRequest,
     BookingLookupResponse,
     CheckinRequest,
@@ -187,6 +189,34 @@ class AirlineApiClient:
         )
         return CheckinResponse.model_validate(body)
 
+    def get_boarding_pass(
+        self,
+        request: BoardingPassRequest,
+        *,
+        request_id: str | None = None,
+        trace_id: str | None = None,
+    ) -> BoardingPassResponse:
+        """GET /v1/bookings/{booking_reference}/boarding-pass.
+
+        v1 supports ``format=json`` only; binary formats (pdf, wallet)
+        return 501 from the mock and would raise AirlineApiError.
+        ``last_name`` is sent as the X-Booking-Verifier-LastName header
+        (per partner contract — it's not a body since this is GET).
+        """
+        path = f"/v1/bookings/{request.booking_reference}/boarding-pass"
+        body = self._get(
+            path,
+            params={
+                "passenger_id": request.passenger_id,
+                "segment_id": request.segment_id,
+                "format": request.format,
+            },
+            request_id=request_id,
+            trace_id=trace_id,
+            extra_headers={"X-Booking-Verifier-LastName": request.last_name},
+        )
+        return BoardingPassResponse.model_validate(body)
+
     def get_flight_status(
         self,
         request: FlightStatusRequest,
@@ -220,6 +250,7 @@ class AirlineApiClient:
         request_id: str | None,
         trace_id: str | None,
         idempotency_key: str | None = None,
+        extra_headers: dict[str, str] | None = None,
     ) -> dict[str, str]:
         headers: dict[str, str] = {
             "Content-Type": "application/json",
@@ -232,6 +263,8 @@ class AirlineApiClient:
             headers["X-Trace-Id"] = trace_id
         if idempotency_key:
             headers["Idempotency-Key"] = idempotency_key
+        if extra_headers:
+            headers.update(extra_headers)
         return headers
 
     def _post(
@@ -257,10 +290,12 @@ class AirlineApiClient:
         params: dict[str, Any],
         request_id: str | None,
         trace_id: str | None,
+        extra_headers: dict[str, str] | None = None,
     ) -> dict[str, Any]:
         headers = self._build_headers(
             request_id=request_id,
             trace_id=trace_id,
+            extra_headers=extra_headers,
         )
         return self._request_with_retry("GET", path, headers=headers, params=params)
 

@@ -49,6 +49,7 @@ _RENDER_HINTS: dict[str, str] = {
     "flight_status": "flight_status_card",
     "flight_search": "flight_results_card",
     "web_checkin": "checkin_card",
+    "boarding_pass": "boarding_pass_card",
 }
 
 
@@ -348,6 +349,22 @@ _ERROR_MESSAGES: dict[tuple[str, int], str] = {
         "We couldn't verify that booking with the details provided. "
         "Please check and try again."
     ),
+    ("boarding_pass", 409): (
+        "That passenger isn't checked in yet for that flight. "
+        "Complete web check-in first, then try again."
+    ),
+    ("boarding_pass", 404): (
+        "We couldn't find that booking to fetch a boarding pass. "
+        "Please double-check the reference and last name."
+    ),
+    ("boarding_pass", 403): (
+        "We couldn't verify that booking with the details provided. "
+        "Please check and try again."
+    ),
+    ("boarding_pass", 501): (
+        "That boarding-pass format isn't available yet. "
+        "Use the standard view (json) for now."
+    ),
 }
 
 _GENERIC_ERROR_MESSAGES: dict[int, str] = {
@@ -488,6 +505,16 @@ def _summary_for(action: str, result: dict[str, Any]) -> str:
         gate = result.get("gate")
         gate_text = f", gate {gate}" if gate else ""
         return f"Flight {fn} — {st}{delay_text}{gate_text}."
+    if action == "boarding_pass":
+        pax = result.get("passenger") or {}
+        first = pax.get("first_name", "")
+        last = pax.get("last_name", "")
+        name = f"{first} {last}".strip() or "passenger"
+        flight = result.get("flight_number", "?")
+        seat = result.get("seat", "?")
+        gate = result.get("gate")
+        gate_text = f", gate {gate}" if gate else ""
+        return f"Boarding pass for {name} on {flight} — seat {seat}{gate_text}."
     if action == "web_checkin":
         checked = result.get("checked_in") or []
         n = len(checked)

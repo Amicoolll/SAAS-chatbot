@@ -366,6 +366,171 @@ def search_flights_mock(req: dict[str, Any]) -> tuple[int, dict[str, Any]]:
     }
 
 
+# ---- GET /v1/bookings/{ref}/boarding-pass mock ---------------------
+
+# Pre-seeded boarding passes — represent passengers already checked in
+# via some other flow (so the boarding_pass chip works in a fresh demo
+# without first running web_checkin). The web_checkin handler appends
+# to this dict on success, so a freshly-checked-in passenger can
+# immediately retrieve their boarding pass.
+#
+# Keyed by (booking_reference, passenger_id, segment_id). Value is the
+# full BoardingPassResponse payload shape.
+_DEFAULT_BOARDING_PASSES: dict[tuple[str, str, str], dict[str, Any]] = {
+    ("ABC123", "p1", "s1"): {
+        "passenger": {"first_name": "JOHN", "last_name": "DOE"},
+        "flight_number": "AI101",
+        "origin": "DEL",
+        "destination": "BOM",
+        "scheduled_departure": "2026-06-01T08:00:00+05:30",
+        "boarding_time": "2026-06-01T07:30:00+05:30",
+        "seat": "12A",
+        "boarding_group": "1",
+        "sequence_number": 42,
+        "gate": "B12",
+        "terminal": "T3",
+        "barcode_format": "PDF417",
+        "barcode_data": "M1DOE/JOHN              EABC123 DELBOMAI 0101 152Y012A0042 100",
+    },
+    ("ABC123", "p2", "s1"): {
+        "passenger": {"first_name": "JANE", "last_name": "DOE"},
+        "flight_number": "AI101",
+        "origin": "DEL",
+        "destination": "BOM",
+        "scheduled_departure": "2026-06-01T08:00:00+05:30",
+        "boarding_time": "2026-06-01T07:30:00+05:30",
+        "seat": "12B",
+        "boarding_group": "1",
+        "sequence_number": 43,
+        "gate": "B12",
+        "terminal": "T3",
+        "barcode_format": "PDF417",
+        "barcode_data": "M1DOE/JANE              EABC123 DELBOMAI 0101 152Y012B0043 100",
+    },
+}
+
+_BOARDING_PASSES: dict[tuple[str, str, str], dict[str, Any]] = dict(
+    _DEFAULT_BOARDING_PASSES
+)
+
+
+def _reset_boarding_passes() -> None:
+    """Test-only: restore the boarding-pass cache to its default seed."""
+    global _BOARDING_PASSES
+    _BOARDING_PASSES = dict(_DEFAULT_BOARDING_PASSES)
+
+
+def boarding_pass_mock(
+    booking_reference: str,
+    passenger_id: str,
+    segment_id: str,
+    last_name: str | None,
+    fmt: str,
+) -> tuple[int, dict[str, Any]]:
+    """Mock boarding-pass retrieval.
+
+    Returns (status_code, body). Body is the JSON shape for ``format=json``
+    or a 501 NOT_IMPLEMENTED envelope for binary formats (deferred in v1).
+    """
+    pnr = booking_reference.upper()
+
+    booking = SEED_BOOKINGS.get(pnr)
+    if not booking:
+        return 404, {
+            "error": {
+                "code": "BOOKING_NOT_FOUND",
+                "message": "No booking matches that reference.",
+                "details": {"booking_reference": pnr},
+            }
+        }
+
+    if last_name:
+        surnames = {p["last_name"].upper() for p in booking["passengers"]}
+        if last_name.upper() not in surnames:
+            return 403, {
+                "error": {
+                    "code": "BOOKING_VERIFICATION_FAILED",
+                    "message": "No booking matches the supplied reference and last name.",
+                    "details": {"booking_reference": pnr},
+                }
+            }
+
+    if fmt != "json":
+        return 501, {
+            "error": {
+                "code": "FORMAT_NOT_IMPLEMENTED",
+                "message": (
+                    f"Format {fmt!r} is not yet implemented in the reference mock. "
+                    "Use format=json and render the barcode client-side."
+                ),
+                "details": {"format": fmt, "supported": ["json"]},
+            }
+        }
+
+    bp = _BOARDING_PASSES.get((pnr, passenger_id, segment_id))
+    if not bp:
+        return 409, {
+            "error": {
+                "code": "NOT_CHECKED_IN",
+                "message": (
+                    "This passenger isn't checked in yet for that segment. "
+                    "Complete web check-in first."
+                ),
+                "details": {
+                    "booking_reference": pnr,
+                    "passenger_id": passenger_id,
+                    "segment_id": segment_id,
+                },
+            }
+        }
+
+    return 200, bp
+
+
+def _store_boarding_passes_from_checkin(
+    booking_reference: str, checkin_response: dict[str, Any]
+) -> None:
+    """After a successful checkin_mock, project each checked-in
+    passenger into _BOARDING_PASSES so the boarding_pass endpoint can
+    serve the freshly-issued barcode.
+    """
+    pnr = booking_reference.upper()
+    booking = SEED_BOOKINGS.get(pnr) or {}
+    passengers_by_id = {
+        p["passenger_id"]: p for p in (booking.get("passengers") or [])
+    }
+    segments_by_id = {
+        s["segment_id"]: s for s in (booking.get("segments") or [])
+    }
+
+    for entry in checkin_response.get("checked_in") or []:
+        pid = entry["passenger_id"]
+        sid = entry["segment_id"]
+        bp = entry.get("boarding_pass") or {}
+        pax = passengers_by_id.get(pid, {})
+        seg = segments_by_id.get(sid, {})
+        _BOARDING_PASSES[(pnr, pid, sid)] = {
+            "passenger": {
+                "first_name": pax.get("first_name", "PAX"),
+                "last_name": pax.get("last_name", ""),
+            },
+            "flight_number": seg.get("flight_number", "??000"),
+            "origin": seg.get("origin", "???"),
+            "destination": seg.get("destination", "???"),
+            "scheduled_departure": seg.get(
+                "scheduled_departure", "2026-06-01T08:00:00+05:30"
+            ),
+            "boarding_time": bp.get("boarding_time", "2026-06-01T07:30:00+05:30"),
+            "seat": entry.get("seat") or bp.get("seat", "??"),
+            "boarding_group": bp.get("boarding_group", "1"),
+            "sequence_number": 100,  # mock: real airline assigns from inventory
+            "gate": bp.get("gate"),
+            "terminal": seg.get("terminal", "T3"),  # cheat: re-use seg.terminal if present
+            "barcode_format": "PDF417",
+            "barcode_data": bp.get("barcode", ""),
+        }
+
+
 # ---- POST /v1/checkin mock --------------------------------------
 
 # Idempotency cache. Keyed by Idempotency-Key header. Repeating the same
@@ -520,7 +685,12 @@ def checkin_mock(
             }
         })
     else:
-        result = (200, _build_checkin_success(req))
+        success_body = _build_checkin_success(req)
+        result = (200, success_body)
+        # Project the freshly-issued boarding passes into the
+        # /v1/bookings/{ref}/boarding-pass cache so a follow-up GET
+        # returns the same barcode without requiring a re-check-in.
+        _store_boarding_passes_from_checkin(pnr, success_body)
 
     # Cache the outcome (success OR error) under this idempotency key
     # so a replay returns the same body. Real APIs differ on whether

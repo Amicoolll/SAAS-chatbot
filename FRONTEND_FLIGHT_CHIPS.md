@@ -1,16 +1,18 @@
-# Frontend Integration — Flight Status, Flight Search & Web Check-in Chips
+# Frontend Integration — Aviation Chips
 
-For the frontend team. Covers the **4 chips** powered by today's backend:
+For the frontend team. Covers the **5 chips** powered by today's backend:
 
 - **Flight status** — *"What's the live status of flight X on date Y?"*
 - **Flights from city** — *"Show me flights leaving X"*
 - **Flights to city** — *"Show me flights arriving at Y"*
 - **Web check-in** — *"Check me in for my flight"* (write op + barcode)
+- **Boarding pass** — *"Show me my boarding pass"* (read after check-in)
 
-The middle two share the same backend tool (`flight_search`); the
-frontend disambiguates by which slot it pre-fills. Web check-in is the
-first **write workflow** — it's a two-step pattern: retrieve the booking
-first, then dispatch with the user's selections from a check-in widget.
+The Flight-from / Flight-to chips share the same backend tool
+(`flight_search`); the frontend disambiguates by which slot it
+pre-fills. Web check-in and Boarding pass both use the **two-step
+pattern** — retrieve the booking first, then dispatch with the user's
+selections from a widget.
 
 ---
 
@@ -642,7 +644,169 @@ collected `action_params`.
 | **`idempotency_key` is per-attempt** | Frozen for the lifetime of one widget instance. New widget = new UUID. |
 | **`passenger_ids` are opaque IDs** | Don't construct them client-side. Always use the IDs from `booking.passengers[*].passenger_id`. |
 | **Multi-segment is per-checkin-call** | If the booking has 2 segments, the user check-ins twice (once per segment). v1 doesn't support both-in-one. |
-| **Boarding pass URL is for slice 7** | `boarding_pass_url` points at `/v1/bookings/{ref}/boarding-pass`. That endpoint isn't shipped yet — show as a "Boarding pass" button that's disabled until slice 7 lands. |
+| **Boarding pass URL points at the boarding-pass tool** | `boarding_pass_url` is the airline's URL for that pass. It's served by chip D (boarding pass) below. Cleanest pattern: show a "View boarding pass" button that dispatches `action: "boarding_pass"` with the same identifiers. |
+
+---
+
+## 3B. Chip D — Boarding pass
+
+| | |
+|---|---|
+| **Chip label** | "Boarding pass" |
+| **Backend `action`** | `"boarding_pass"` |
+| **Required fields** | `booking_reference`, `last_name`, `passenger_id`, `segment_id` |
+| **Optional fields** | `format` (defaults to `"json"`; `pdf`/`wallet_apple`/`wallet_google` deferred — return 501) |
+| **Render card** | `render_as: "boarding_pass_card"` |
+| **Type** | Read operation; **pre-condition**: passenger must be checked in |
+
+### 3B.1. When this chip fires vs the inline pass from check-in
+
+There are TWO ways the user gets a boarding pass:
+
+| Path | UX |
+|---|---|
+| Just finished web_checkin | The check-in response already contains `tool_result.checked_in[*].boarding_pass` — render it inline on the checkin_card. **No extra fetch needed.** |
+| Returning later (closed chat, came back) | Use this chip — fetches a fresh copy from the airline backend |
+
+So `boarding_pass` is for the *"I want my boarding pass again"* use case, not the immediately-after-check-in case.
+
+### 3B.2. The two-step flow
+
+Mirrors the web_checkin pattern:
+
+```
+1. User clicks "Boarding pass" chip
+       ↓
+2. Frontend triggers retrieve_booking (asks for PNR + last name)
+       ↓
+3. tool_executed returns booking_card with passengers + segments
+       ↓
+4. Frontend renders booking_card PLUS a passenger/segment picker:
+     ▾ Passenger: [ John Doe ] [ Jane Doe ]
+     ▾ Flight: AI101 DEL→BOM (s1)
+     [ Get boarding pass ]
+       ↓
+5. User picks + clicks Get boarding pass
+       ↓
+6. Frontend POSTs:
+     action: "boarding_pass",
+     action_params: {
+       booking_reference, last_name,           ← from step 2
+       passenger_id, segment_id                ← from picker
+     }
+       ↓
+7. Backend dispatches GET /v1/bookings/{ref}/boarding-pass
+       ↓
+8. Frontend renders boarding_pass_card with full barcode
+```
+
+Skip the picker if there's only one passenger AND one segment — just dispatch with those auto-selected.
+
+### 3B.3. Request body
+
+```json
+POST /chat_pg
+{
+  "conversation_id": "<uuid>",
+  "agent_type": "aviation",
+  "action": "boarding_pass",
+  "action_params": {
+    "booking_reference": "ABC123",
+    "last_name": "DOE",
+    "passenger_id": "p1",
+    "segment_id": "s1"
+  }
+}
+```
+
+**No idempotency key** (this is a read, idempotent by nature).
+
+### 3B.4. `tool_result` shape — boarding_pass_card
+
+Same shape as the inline `boarding_pass` field on the checkin_card (§3A.4),
+but with extra fields the airline knows post-issuance:
+
+```ts
+type BoardingPassCard = {
+  passenger: { first_name: string; last_name: string };
+  flight_number: string;            // "AI101"
+  origin: string;                   // "DEL"
+  destination: string;              // "BOM"
+  scheduled_departure: string;      // ISO 8601 with offset
+  boarding_time: string;            // ISO 8601 with offset
+  seat: string;                     // "12A"
+  boarding_group: string;           // "1"
+  sequence_number: number;          // check-in sequence (e.g. 42)
+  gate: string | null;              // may not be assigned yet
+  terminal: string | null;
+  barcode_format: "PDF417" | "QR" | "AZTEC";
+  barcode_data: string;             // IATA BCBP M1 string
+};
+```
+
+### 3B.5. Suggested card layout
+
+```
+┌──────────────────────────────────────────────────┐
+│  BOARDING PASS                                   │
+│  ──────────────────────────────────────────────  │
+│  JOHN DOE                              Seq #42   │
+│  AI101  ·  DEL → BOM                             │
+│  Departure 08:00  ·  Boarding 07:30              │
+│  ──────────────────────────────────────────────  │
+│  Seat 12A   Group 1   Gate B12   Terminal T3     │
+│  ──────────────────────────────────────────────  │
+│  ┌──────────────────────────┐                    │
+│  │  ▮▮▮ ▮ ▮▮▮ ▮ ▮▮ ▮▮▮ ▮▮  │  PDF417            │
+│  │  ▮ ▮▮ ▮▮▮ ▮ ▮▮ ▮ ▮▮▮ ▮  │                    │
+│  └──────────────────────────┘                    │
+│  [ Save to Wallet ]   [ Download PDF ]           │
+└──────────────────────────────────────────────────┘
+```
+
+Render `barcode_data` as PDF417 client-side using `bwip-js` (see §3A.6).
+"Save to Wallet" / "Download PDF" buttons are **disabled in v1** —
+they'd hit the boarding_pass tool with `format: "wallet_apple"` /
+`format: "pdf"`, which currently return 501. Surface a "Coming soon"
+tooltip.
+
+### 3B.6. Error path — passenger not checked in
+
+The most common error path. Backend returns:
+
+```json
+{
+  "mode": "tool_error",
+  "error_code": "NOT_CHECKED_IN",
+  "error_status": 409,
+  "answer": "That passenger isn't checked in yet for that flight. Complete web check-in first, then try again.",
+  "tool_name": "boarding_pass"
+}
+```
+
+**Suggested UX:** show a "Complete check-in" call-to-action that
+flips back to the web_checkin chip with the same booking + last_name
+pre-filled. Avoids dead-ending the user.
+
+### 3B.7. Other error codes
+
+| `error_code` | `error_status` | When | Suggested UX |
+|---|---|---|---|
+| `NOT_CHECKED_IN` | 409 | Passenger isn't checked in for that segment | Offer "Complete check-in" button |
+| `BOOKING_NOT_FOUND` | 404 | Wrong PNR | Reset to retrieve_booking |
+| `BOOKING_VERIFICATION_FAILED` | 403 | Wrong last name | Reset to retrieve_booking |
+| `FORMAT_NOT_IMPLEMENTED` | 501 | `format` ≠ `json` (pdf / wallet_* deferred in v1) | Disable the corresponding button |
+| `DEPENDENCY_UNAVAILABLE` | 503 | Airline backend down | "Try again shortly" toast |
+
+### 3B.8. Things to remember
+
+| | |
+|---|---|
+| **Pre-condition is "checked in"** | If the user clicks Boarding pass before web check-in, you'll see a 409. UX should detect this and route them through check-in first. |
+| **Inline barcode on check-in is canonical for "just-checked-in" UX** | Don't always re-fetch — the check-in response already has the data. Only call `boarding_pass` when the user explicitly asks for it again. |
+| **Format=json only in v1** | Binary formats (PDF, Apple Wallet, Google Wallet) all return 501. Hide / disable those buttons until backend implements them. |
+| **Sequence number** | The airline's check-in queue position. Useful for boarding-group prioritisation. Can be 0 for some carriers. |
+| **`gate` may be null** | Gates are assigned 30-90 min before boarding. Show "Gate TBA" in the UI when null. |
 
 ---
 
@@ -855,7 +1019,7 @@ Render normally. The user sees the hint and tries again.
 | Flight status caching (60s recommended by spec) | Not implemented yet. If users spam the chip, every click hits the airline API. |
 | Web check-in: APIS data collection (international flights) | Backend will return `PASSPORT_REQUIRED` (422). Frontend should surface a passport-collection sub-flow — currently TBD. |
 | Web check-in: multi-segment in one call | One segment per check-in. Round-trip travelers check in twice. |
-| Web check-in: boarding pass retrieval | `boarding_pass_url` points at slice 7's endpoint which isn't shipped yet. Show a disabled "Boarding pass" button or fetch the in-line `boarding_pass.barcode` from the check-in response and render that directly. |
+| Boarding pass: PDF / Apple Wallet / Google Wallet formats | All three return 501 from the backend in v1. Frontend should render the PDF417 barcode client-side from `barcode_data` and disable those buttons. |
 | Web check-in: special meals / wheelchair (SSR) | `preferences.ssr` and `preferences.meals` exist in the API but no widget yet. Frontend can pass them through `action_params.preferences` once added. |
 
 ---
@@ -870,6 +1034,7 @@ Print this on a sticky note:
 | Show "flights from X" flow | `action: "flight_search", action_params: { origin: "<X>" }` |
 | Show "flights to Y" flow | `action: "flight_search", action_params: { destination: "<Y>" }` |
 | Submit web check-in (after retrieve_booking) | `action: "web_checkin", action_params: { ...all 6 fields incl idempotency_key }` |
+| Fetch boarding pass (after retrieve_booking) | `action: "boarding_pass", action_params: { booking_reference, last_name, passenger_id, segment_id }` |
 | Continue collecting (any chip) | `action_params: state.collected, user_input: <text>` |
 | Form widget pre-fill | `action_params: { field1: val1, field2: val2 }, no user_input` |
 
@@ -890,3 +1055,4 @@ Mode you got back → what to render:
 - All Pydantic shapes used here live in
   [`app/domains/aviation/models.py`](app/domains/aviation/models.py) — that's the
   source of truth if anything in this doc looks wrong.
+

@@ -12,6 +12,7 @@ from typing import Any, ClassVar
 from app.core.config import settings
 from app.domains.aviation.api_client import AirlineApiClient
 from app.domains.aviation.models import (
+    BoardingPassRequest,
     BookingLookupRequest,
     CheckinRequest,
     FlightSearchRequest,
@@ -279,6 +280,74 @@ _TOOL_WEB_CHECKIN = ToolSpec(
 )
 
 
+_TOOL_BOARDING_PASS = ToolSpec(
+    name="boarding_pass",
+    description=(
+        "Retrieve a boarding pass for one passenger on one segment of an "
+        "existing booking. Pre-condition: the passenger must already be "
+        "checked in (via web_checkin or otherwise). Returns the seat, "
+        "boarding group, gate, and IATA BCBP barcode (PDF417) the "
+        "frontend can render. Use when the user wants to view or save "
+        "their boarding pass — separately from the check-in flow."
+    ),
+    parameters_schema={
+        "type": "object",
+        "additionalProperties": False,
+        "required": [
+            "booking_reference", "last_name", "passenger_id", "segment_id",
+        ],
+        # No intro_prompt — like web_checkin, this tool is normally
+        # dispatched in one shot by the frontend (after retrieve_booking
+        # surfaces the passenger/segment IDs). Per-field prompts are a
+        # developer-detectable fallback if the frontend forgets a slot.
+        "properties": {
+            "booking_reference": {
+                "type": "string", "minLength": 1, "maxLength": 20,
+                "description": "PNR for the booking.",
+                "prompt": "What's the booking reference (PNR)?",
+                "label": "PNR",
+            },
+            "last_name": {
+                "type": "string", "minLength": 1, "maxLength": 100,
+                "description": "Verifier last name on the booking.",
+                "prompt": "What's the last name on the booking?",
+                "label": "last name",
+            },
+            "passenger_id": {
+                "type": "string", "minLength": 1,
+                "description": (
+                    "ID of the passenger whose boarding pass is being "
+                    "fetched (from booking.passengers[*].passenger_id)."
+                ),
+                "prompt": (
+                    "[Frontend bug — passenger_id should be pre-filled from "
+                    "the booking.passengers list.] Which passenger?"
+                ),
+                "label": "passenger",
+            },
+            "segment_id": {
+                "type": "string", "minLength": 1,
+                "description": "ID of the flight segment for the boarding pass.",
+                "prompt": (
+                    "[Frontend bug — segment_id should be pre-filled.] "
+                    "Which segment?"
+                ),
+                "label": "segment",
+            },
+            "format": {
+                "type": "string",
+                "enum": ["json", "pdf", "wallet_apple", "wallet_google"],
+                "description": (
+                    "OPTIONAL. Defaults to 'json'. Binary formats not "
+                    "implemented in v1 — frontend renders the BCBP "
+                    "barcode_data field client-side."
+                ),
+            },
+        },
+    },
+)
+
+
 class AviationDomain(DomainPlugin):
     """Aviation chatbot domain. Talks to any airline backend that
     implements the v1 partner API contract.
@@ -313,6 +382,7 @@ class AviationDomain(DomainPlugin):
             _TOOL_FLIGHT_STATUS,
             _TOOL_FLIGHT_SEARCH,
             _TOOL_WEB_CHECKIN,
+            _TOOL_BOARDING_PASS,
         ]
 
     def dispatch_tool(
@@ -339,5 +409,9 @@ class AviationDomain(DomainPlugin):
                 raise ValueError("idempotency_key is required for web_checkin")
             req = CheckinRequest(**args)
             resp = self.api_client.checkin(req, idempotency_key=idempotency_key)
+            return resp.model_dump(mode="json")
+        if tool_name == _TOOL_BOARDING_PASS.name:
+            req = BoardingPassRequest(**args)
+            resp = self.api_client.get_boarding_pass(req)
             return resp.model_dump(mode="json")
         raise ValueError(f"Unknown aviation tool: {tool_name!r}")

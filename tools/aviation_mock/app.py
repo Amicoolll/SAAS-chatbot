@@ -30,6 +30,7 @@ from app.domains.aviation.models import (
     FlightSearchRequest,
 )
 from tools.aviation_mock.seed_data import (
+    boarding_pass_mock,
     checkin_mock,
     lookup_booking,
     lookup_flight_status,
@@ -129,6 +130,38 @@ def get_flights_status(
         "flight_status ok flight=%s date=%s request_id=%s",
         flight_number,
         date,
+        x_request_id or "-",
+    )
+    return payload
+
+
+@app.get("/v1/bookings/{booking_reference}/boarding-pass")
+def get_boarding_pass(
+    booking_reference: str,
+    passenger_id: str,
+    segment_id: str,
+    format: str = "json",
+    authorization: str | None = Header(default=None),
+    x_booking_verifier_lastname: str | None = Header(
+        default=None, alias="X-Booking-Verifier-LastName"
+    ),
+    x_request_id: str | None = Header(default=None, alias="X-Request-Id"),
+):
+    _require_bearer(authorization)
+
+    status_code, payload = boarding_pass_mock(
+        booking_reference=booking_reference,
+        passenger_id=passenger_id,
+        segment_id=segment_id,
+        last_name=x_booking_verifier_lastname,
+        fmt=format,
+    )
+    if status_code != 200:
+        raise HTTPException(status_code=status_code, detail=payload)
+
+    logger.info(
+        "boarding_pass ok pnr=%s pax=%s seg=%s fmt=%s request_id=%s",
+        booking_reference, passenger_id, segment_id, format,
         x_request_id or "-",
     )
     return payload
